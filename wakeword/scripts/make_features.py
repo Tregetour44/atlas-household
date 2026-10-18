@@ -103,6 +103,8 @@ def main():
     ap.add_argument("--stream-eval", action="store_true",
                     help="evaluation-only features: 0.6-1.0 s of audio after the phrase")
     ap.add_argument("--kind-name", default=None, help="mmap name prefix (default: --kind)")
+    ap.add_argument("--max-rows", type=int, default=None,
+                    help="use only the first N clips of each split (a fixed sample)")
     args = ap.parse_args()
 
     rows, root_of = [], {}
@@ -121,7 +123,10 @@ def main():
     shard_i, shard_n = (int(v) for v in args.shard.split("/"))
     split_seed = {"train": 0, "validation": 1, "test": 2}
     for split in args.splits.split(","):
-        split_rows = [r for r in rows if r["split"] == split][shard_i::shard_n]
+        split_rows = [r for r in rows if r["split"] == split]
+        if args.max_rows:
+            split_rows = split_rows[: args.max_rows]
+        split_rows = split_rows[shard_i::shard_n]
         if not split_rows:
             continue
         augmenter = make_augmenter(args.kind, split, args.aug, args.duration, args.stream_eval)
@@ -129,7 +134,7 @@ def main():
         # train/validation spectrogram. Here each is stored once and the trainer's
         # "fixed_right_cutoff" truncation (cutoffs 0-9) does the same shifting,
         # at a tenth of the disk.
-        repeat = args.train_repeat if split == "train" else 1
+        repeat = args.train_repeat if split == "train" and not args.stream_eval else 1
         slide = 1
         name = args.kind_name or args.kind
         out_dir = os.path.join(args.out, SPLITS[split], f"{name}_{shard_i}_mmap")
