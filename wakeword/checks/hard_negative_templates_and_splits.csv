@@ -1,0 +1,453 @@
+template_id,split,group,family,text,phonemes,voice
+neg000,validation,atlas,atlas,Atlas,ˈætləs,en-us
+neg001,validation,atlas,atlas,Atlas,ˈatləs,en
+neg002,validation,atlas,atlas,Atlas,ˈætləs,en-gb-x-rp
+neg003,validation,atlas,atlas,Atlas,ˈatləs,en-029
+neg004,train,atlas,atlas,Atlas.,ˈætləs.,en-us
+neg005,train,atlas,atlas,Atlas.,ˈatləs.,en
+neg006,train,atlas,atlas,Atlas.,ˈætləs.,en-gb-x-rp
+neg007,train,atlas,atlas,Atlas.,ˈatləs.,en-029
+neg008,train,atlas,atlas,Atlas?,ˈætləs?,en-us
+neg009,train,atlas,atlas,Atlas?,ˈatləs?,en
+neg010,train,atlas,atlas,Atlas?,ˈætləs?,en-gb-x-rp
+neg011,train,atlas,atlas,Atlas?,ˈatləs?,en-029
+neg012,train,atlas,atlas,an atlas,ɐn ˈætləs,en-us
+neg013,train,atlas,atlas,an atlas,ɐn ˈatləs,en
+neg014,train,atlas,atlas,an atlas,ɐn ˈætləs,en-gb-x-rp
+neg015,train,atlas,atlas,an atlas,an ˈatləs,en-029
+neg016,train,atlas,atlas,the atlas,ðɪʲ ˈætləs,en-us
+neg017,train,atlas,atlas,the atlas,ðɪʲ ˈatləs,en
+neg018,train,atlas,atlas,the atlas,ðɪʲ ˈætləs,en-gb-x-rp
+neg019,train,atlas,atlas,the atlas,dɪʲ ˈatləs,en-029
+neg020,train,atlas,atlas,my atlas,maɪ ˈætləs,en-us
+neg021,train,atlas,atlas,my atlas,maɪʲ ˈatləs,en
+neg022,train,atlas,atlas,my atlas,maɪʲ ˈætləs,en-gb-x-rp
+neg023,train,atlas,atlas,my atlas,maɪ ˈatləs,en-029
+neg024,train,atlas,atlas,a road atlas,ɐ ɹˈoʊd ˈætləs,en-us
+neg025,train,atlas,atlas,a road atlas,ɐ ɹˈəʊd ˈatləs,en
+neg026,train,atlas,atlas,a road atlas,ɐ ɹˈəʊd ˈætləs,en-gb-x-rp
+neg027,train,atlas,atlas,a road atlas,a ɹˈoʊd ˈatləs,en-029
+neg028,train,atlas,atlas,the world atlas,ðə wˈɜːld ˈætləs,en-us
+neg029,train,atlas,atlas,the world atlas,ðə wˈɜːld ˈatləs,en
+neg030,train,atlas,atlas,the world atlas,ðə wˈɜːld ˈætləs,en-gb-x-rp
+neg031,train,atlas,atlas,the world atlas,də wˈɜːld ˈatləs,en-029
+neg032,train,atlas,atlas,open the atlas,ˈoʊpən ðɪʲ ˈætləs,en-us
+neg033,train,atlas,atlas,open the atlas,ˈəʊpən ðɪʲ ˈatləs,en
+neg034,train,atlas,atlas,open the atlas,ˈəʊpən ðɪʲ ˈætləs,en-gb-x-rp
+neg035,train,atlas,atlas,open the atlas,ˈoʊpən dɪʲ ˈatləs,en-029
+neg036,train,atlas,atlas,where's the atlas,wˌɛɹz ðɪʲ ˈætləs,en-us
+neg037,train,atlas,atlas,where's the atlas,wˌeəz ðɪʲ ˈatləs,en
+neg038,train,atlas,atlas,where's the atlas,wˌeəz ðɪʲ ˈætləs,en-gb-x-rp
+neg039,train,atlas,atlas,where's the atlas,wˌeəz dɪʲ ˈatləs,en-029
+neg040,train,atlas,atlas,I bought an atlas,aɪ bˈɔːt ɐn ˈætləs,en-us
+neg041,train,atlas,atlas,I bought an atlas,aɪ bˈɔːt ɐn ˈatləs,en
+neg042,train,atlas,atlas,I bought an atlas,aɪ bˈɔːt ɐn ˈætləs,en-gb-x-rp
+neg043,train,atlas,atlas,I bought an atlas,aɪ bˈɔːt an ˈatləs,en-029
+neg044,train,atlas,atlas,check the atlas,tʃˈɛk ðɪʲ ˈætləs,en-us
+neg045,train,atlas,atlas,check the atlas,tʃˈɛk ðɪʲ ˈatləs,en
+neg046,train,atlas,atlas,check the atlas,tʃˈɛk ðɪʲ ˈætləs,en-gb-x-rp
+neg047,train,atlas,atlas,check the atlas,tʃˈɛk dɪʲ ˈatləs,en-029
+neg048,train,atlas,atlas,Atlas was a titan,ˈætləs wʌzɐ tˈaɪtən,en-us
+neg049,train,atlas,atlas,Atlas was a titan,ˈatləs wʌzɐ tˈaɪtən,en
+neg050,train,atlas,atlas,Atlas was a titan,ˈætləs wʌzɐ tˈaɪtən,en-gb-x-rp
+neg051,train,atlas,atlas,Atlas was a titan,ˈatləs wʌza tˈaɪtan,en-029
+neg052,test,atlas,atlas,the atlas is on the shelf,ðɪʲ ˈætləs ɪz ɔnðə ʃˈɛlf,en-us
+neg053,test,atlas,atlas,the atlas is on the shelf,ðɪʲ ˈatləs ɪz ɒnðə ʃˈɛlf,en
+neg054,test,atlas,atlas,the atlas is on the shelf,ðɪʲ ˈætləs ɪz ɒnðə ʃˈɛlf,en-gb-x-rp
+neg055,test,atlas,atlas,the atlas is on the shelf,dɪʲ ˈatləs ɪz ɒndə ʃˈɛlf,en-029
+neg056,train,atlas,atlas,pass me that atlas,pˈæs mˌiː ðæt ˈætləs,en-us
+neg057,train,atlas,atlas,pass me that atlas,pˈas mˌiː ðat ˈatləs,en
+neg058,train,atlas,atlas,pass me that atlas,pˈɑːs mˌiː ðæt ˈætləs,en-gb-x-rp
+neg059,train,atlas,atlas,pass me that atlas,pˈaas mˌiː dat ˈatləs,en-029
+neg060,test,atlas,atlas,an old atlas of Europe,ɐn ˈoʊld ˈætləs ʌv jˈʊɹɹəp,en-us
+neg061,test,atlas,atlas,an old atlas of Europe,ɐn ˈəʊld ˈatləs ɒv jˈʊəɹəp,en
+neg062,test,atlas,atlas,an old atlas of Europe,ɐn ˈəʊld ˈætləs ɒv jˈɔːɹəp,en-gb-x-rp
+neg063,test,atlas,atlas,an old atlas of Europe,an ˈoʊld ˈatləs ɒv jˈoəɹəp,en-029
+neg064,train,atlas,atlas,the Atlas Mountains,ðɪʲ ˈætləs mˈaʊntɪnz,en-us
+neg065,train,atlas,atlas,the Atlas Mountains,ðɪʲ ˈatləs mˈaʊntɪnz,en
+neg066,train,atlas,atlas,the Atlas Mountains,ðɪʲ ˈætləs mˈaʊntɪnz,en-gb-x-rp
+neg067,train,atlas,atlas,the Atlas Mountains,dɪʲ ˈatləs mˈaʊntɪnz,en-029
+neg068,train,atlas,atlas,okay Atlas,oʊkˈeɪ ˈætləs,en-us
+neg069,train,atlas,atlas,okay Atlas,əʊkˈeɪ ˈatləs,en
+neg070,train,atlas,atlas,okay Atlas,əʊkˈeɪ ˈætləs,en-gb-x-rp
+neg071,train,atlas,atlas,okay Atlas,oʊkˈeɪ ˈatləs,en-029
+neg072,validation,atlas,atlas,say Atlas,sˈeɪ ˈætləs,en-us
+neg073,validation,atlas,atlas,say Atlas,sˈeɪ ˈatləs,en
+neg074,validation,atlas,atlas,say Atlas,sˈeɪ ˈætləs,en-gb-x-rp
+neg075,validation,atlas,atlas,say Atlas,sˈeɪ ˈatləs,en-029
+neg076,train,atlas,atlas,they atlas,ðeɪ ˈætləs,en-us
+neg077,train,atlas,atlas,they atlas,ðeɪ ˈatləs,en
+neg078,train,atlas,atlas,they atlas,ðeɪ ˈætləs,en-gb-x-rp
+neg079,train,atlas,atlas,they atlas,deɪ ˈatləs,en-029
+neg080,train,ask_atlas,ask_atlas,ask Atlas tomorrow,ˈæsk ˈætləs təmˈɑːɹoʊ,en-us
+neg081,train,ask_atlas,ask_atlas,ask Atlas tomorrow,ˈask ˈatləs təmˈɒɹəʊ,en
+neg082,train,ask_atlas,ask_atlas,ask Atlas tomorrow,ˈɑːsk ˈætləs təmˈɒɹəʊ,en-gb-x-rp
+neg083,train,ask_atlas,ask_atlas,ask Atlas tomorrow,ˈaask ˈatləs təmˈɒɹoʊ,en-029
+neg084,train,ask_atlas,ask_atlas,ask Atlas,ˈæsk ˈætləs,en-us
+neg085,train,ask_atlas,ask_atlas,ask Atlas,ˈask ˈatləs,en
+neg086,train,ask_atlas,ask_atlas,ask Atlas,ˈɑːsk ˈætləs,en-gb-x-rp
+neg087,train,ask_atlas,ask_atlas,ask Atlas,ˈaask ˈatləs,en-029
+neg088,test,ask_atlas,ask_atlas,tell Atlas,tˈɛl ˈætləs,en-us
+neg089,test,ask_atlas,ask_atlas,tell Atlas,tˈɛl ˈatləs,en
+neg090,test,ask_atlas,ask_atlas,tell Atlas,tˈɛl ˈætləs,en-gb-x-rp
+neg091,test,ask_atlas,ask_atlas,tell Atlas,tˈɛl ˈatləs,en-029
+neg092,train,ask_atlas,ask_atlas,I'll ask Atlas tomorrow,aɪl ˈæsk ˈætləs təmˈɑːɹoʊ,en-us
+neg093,train,ask_atlas,ask_atlas,I'll ask Atlas tomorrow,aɪl ˈask ˈatləs təmˈɒɹəʊ,en
+neg094,train,ask_atlas,ask_atlas,I'll ask Atlas tomorrow,aɪl ˈɑːsk ˈætləs təmˈɒɹəʊ,en-gb-x-rp
+neg095,train,ask_atlas,ask_atlas,I'll ask Atlas tomorrow,aɪl ˈaask ˈatləs təmˈɒɹoʊ,en-029
+neg096,train,ask_atlas,ask_atlas,we can ask Atlas later,wiː kæn ˈæsk ˈætləs lˈeɪɾɚ,en-us
+neg097,train,ask_atlas,ask_atlas,we can ask Atlas later,wiː kan ˈask ˈatləs lˈeɪtə,en
+neg098,train,ask_atlas,ask_atlas,we can ask Atlas later,wiː kæn ˈɑːsk ˈætləs lˈeɪtɐ,en-gb-x-rp
+neg099,train,ask_atlas,ask_atlas,we can ask Atlas later,wiː kan ˈaask ˈatləs lˈeɪta,en-029
+neg100,validation,ask_atlas,ask_atlas,ask Atlas about it,ˈæsk ˈætləs ɐbˈaʊt ɪt,en-us
+neg101,validation,ask_atlas,ask_atlas,ask Atlas about it,ˈask ˈatləs ɐbˈaʊt ɪt,en
+neg102,validation,ask_atlas,ask_atlas,ask Atlas about it,ˈɑːsk ˈætləs ɐbˈaʊt ɪt,en-gb-x-rp
+neg103,validation,ask_atlas,ask_atlas,ask Atlas about it,ˈaask ˈatləs abˈaʊt ɪt,en-029
+neg104,test,rocket,rocket,the Atlas rocket,ðɪʲ ˈætləs ɹˈɑːkɪt,en-us
+neg105,test,rocket,rocket,the Atlas rocket,ðɪʲ ˈatləs ɹˈɒkɪt,en
+neg106,test,rocket,rocket,the Atlas rocket,ðɪʲ ˈætləs ɹˈɒkɪt,en-gb-x-rp
+neg107,test,rocket,rocket,the Atlas rocket,dɪʲ ˈatləs ɹˈɒkɪt,en-029
+neg108,train,rocket,rocket,an Atlas rocket launch,ɐn ˈætləs ɹˈɑːkɪt lˈɑːntʃ,en-us
+neg109,train,rocket,rocket,an Atlas rocket launch,ɐn ˈatləs ɹˈɒkɪt lˈɔːntʃ,en
+neg110,train,rocket,rocket,an Atlas rocket launch,ɐn ˈætləs ɹˈɒkɪt lˈɔːntʃ,en-gb-x-rp
+neg111,train,rocket,rocket,an Atlas rocket launch,an ˈatləs ɹˈɒkɪt lˈɔːntʃ,en-029
+neg112,validation,rocket,rocket,the Atlas five rocket,ðɪʲ ˈætləs fˈaɪv ɹˈɑːkɪt,en-us
+neg113,validation,rocket,rocket,the Atlas five rocket,ðɪʲ ˈatləs fˈaɪv ɹˈɒkɪt,en
+neg114,validation,rocket,rocket,the Atlas five rocket,ðɪʲ ˈætləs fˈaɪv ɹˈɒkɪt,en-gb-x-rp
+neg115,validation,rocket,rocket,the Atlas five rocket,dɪʲ ˈatləs fˈaɪv ɹˈɒkɪt,en-029
+neg116,train,rocket,rocket,Atlas V lifted off,ˈætləs vˈiː lˈɪftᵻd ˈɔf,en-us
+neg117,train,rocket,rocket,Atlas V lifted off,ˈatləs vˈiː lˈɪftɪd ˈɒf,en
+neg118,train,rocket,rocket,Atlas V lifted off,ˈætləs vˈiː lˈɪftɪd ˈɒf,en-gb-x-rp
+neg119,train,rocket,rocket,Atlas V lifted off,ˈatləs vˈiː lˈɪftɛd ˈɒf,en-029
+neg120,train,rocket,rocket,watch the Atlas rocket,wˈɑːtʃ ðɪʲ ˈætləs ɹˈɑːkɪt,en-us
+neg121,train,rocket,rocket,watch the Atlas rocket,wˈɒtʃ ðɪʲ ˈatləs ɹˈɒkɪt,en
+neg122,train,rocket,rocket,watch the Atlas rocket,wˈɒtʃ ðɪʲ ˈætləs ɹˈɒkɪt,en-gb-x-rp
+neg123,train,rocket,rocket,watch the Atlas rocket,wˈɒtʃ dɪʲ ˈatləs ɹˈɒkɪt,en-029
+neg124,train,rocket,rocket,the Atlas rocket is ready,ðɪʲ ˈætləs ɹˈɑːkɪt ɪz ɹˈɛdi,en-us
+neg125,train,rocket,rocket,the Atlas rocket is ready,ðɪʲ ˈatləs ɹˈɒkɪt ɪz ɹˈɛdi,en
+neg126,train,rocket,rocket,the Atlas rocket is ready,ðɪʲ ˈætləs ɹˈɒkɪt ɪz ɹˈɛdɪ,en-gb-x-rp
+neg127,train,rocket,rocket,the Atlas rocket is ready,dɪʲ ˈatləs ɹˈɒkɪt ɪz ɹˈɛdi,en-029
+neg128,train,at_last,at_last,at last,æt lˈæst,en-us
+neg129,train,at_last,at_last,at last,at lˈast,en
+neg130,train,at_last,at_last,at last,æt lˈɑːst,en-gb-x-rp
+neg131,train,at_last,at_last,at last,at lˈaast,en-029
+neg132,train,at_last,at_last,at last!,æt lˈæst!,en-us
+neg133,train,at_last,at_last,at last!,at lˈast!,en
+neg134,train,at_last,at_last,at last!,æt lˈɑːst!,en-gb-x-rp
+neg135,train,at_last,at_last,at last!,at lˈaast!,en-029
+neg136,test,at_last,at_last,free at last,fɹˈiːʲ æt lˈæst,en-us
+neg137,test,at_last,at_last,free at last,fɹˈiːʲ at lˈast,en
+neg138,test,at_last,at_last,free at last,fɹˈiːʲ æt lˈɑːst,en-gb-x-rp
+neg139,test,at_last,at_last,free at last,fɹˈiːʲ at lˈaast,en-029
+neg140,validation,at_last,at_last,home at last,hˈoʊm æt lˈæst,en-us
+neg141,validation,at_last,at_last,home at last,hˈəʊm at lˈast,en
+neg142,validation,at_last,at_last,home at last,hˈəʊm æt lˈɑːst,en-gb-x-rp
+neg143,validation,at_last,at_last,home at last,hˈoʊm at lˈaast,en-029
+neg144,train,at_last,at_last,at last we're done,æt lˈæst wɪɹ dˈʌn,en-us
+neg145,train,at_last,at_last,at last we're done,at lˈast wiə dˈʌn,en
+neg146,train,at_last,at_last,at last we're done,æt lˈɑːst wiə dˈʌn,en-gb-x-rp
+neg147,train,at_last,at_last,at last we're done,at lˈaast wiə dˈʌn,en-029
+neg148,train,at_last,at_last,at long last,æt lˈɔŋ lˈæst,en-us
+neg149,train,at_last,at_last,at long last,at lˈɒŋ lˈast,en
+neg150,train,at_last,at_last,at long last,æt lˈɒŋ lˈɑːst,en-gb-x-rp
+neg151,train,at_last,at_last,at long last,at lˈɒŋ lˈaast,en-029
+neg152,train,at_last,at_last,at last it's here,æt lˈæst ɪts hˈɪɹ,en-us
+neg153,train,at_last,at_last,at last it's here,at lˈast ɪts hˈiə,en
+neg154,train,at_last,at_last,at last it's here,æt lˈɑːst ɪts hˈiə,en-gb-x-rp
+neg155,train,at_last,at_last,at last it's here,at lˈaast ɪts hˈiə,en-029
+neg156,train,at_last,at_last,and at last,ænd æt lˈæst,en-us
+neg157,train,at_last,at_last,and at last,and at lˈast,en
+neg158,train,at_last,at_last,and at last,ænd æt lˈɑːst,en-gb-x-rp
+neg159,train,at_last,at_last,and at last,and at lˈaast,en-029
+neg160,train,at_last,at_last,that last,ðæt lˈæst,en-us
+neg161,train,at_last,at_last,that last,ðat lˈast,en
+neg162,train,at_last,at_last,that last,ðæt lˈɑːst,en-gb-x-rp
+neg163,train,at_last,at_last,that last,dat lˈaast,en-029
+neg164,train,at_last,at_last,add less,ˈæd lˈɛs,en-us
+neg165,train,at_last,at_last,add less,ˈad lˈɛs,en
+neg166,train,at_last,at_last,add less,ˈæd lˈɛs,en-gb-x-rp
+neg167,train,at_last,at_last,add less,ˈad lˈɛs,en-029
+neg168,validation,hey_name,hey_name,hey Alice,hˈeɪ ˈælɪs,en-us
+neg169,validation,hey_name,hey_name,hey Alice,hˈeɪ ˈalɪs,en
+neg170,validation,hey_name,hey_name,hey Alice,hˈeɪ ˈælɪs,en-gb-x-rp
+neg171,validation,hey_name,hey_name,hey Alice,hˈeɪ ˈalɪs,en-029
+neg172,train,hey_name,hey_name,hey Alice!,hˈeɪ ˈælɪs!,en-us
+neg173,train,hey_name,hey_name,hey Alice!,hˈeɪ ˈalɪs!,en
+neg174,train,hey_name,hey_name,hey Alice!,hˈeɪ ˈælɪs!,en-gb-x-rp
+neg175,train,hey_name,hey_name,hey Alice!,hˈeɪ ˈalɪs!,en-029
+neg176,train,hey_name,hey_name,"hey, Alice","hˈeɪ, ˈælɪs",en-us
+neg177,train,hey_name,hey_name,"hey, Alice","hˈeɪ, ˈalɪs",en
+neg178,train,hey_name,hey_name,"hey, Alice","hˈeɪ, ˈælɪs",en-gb-x-rp
+neg179,train,hey_name,hey_name,"hey, Alice","hˈeɪ, ˈalɪs",en-029
+neg180,train,hey_name,hey_name,hey Alex,hˈeɪ ˈælɪks,en-us
+neg181,train,hey_name,hey_name,hey Alex,hˈeɪ ˈalɪks,en
+neg182,train,hey_name,hey_name,hey Alex,hˈeɪ ˈælɪks,en-gb-x-rp
+neg183,train,hey_name,hey_name,hey Alex,hˈeɪ ˈalɪks,en-029
+neg184,train,hey_name,hey_name,hey Alex!,hˈeɪ ˈælɪks!,en-us
+neg185,train,hey_name,hey_name,hey Alex!,hˈeɪ ˈalɪks!,en
+neg186,train,hey_name,hey_name,hey Alex!,hˈeɪ ˈælɪks!,en-gb-x-rp
+neg187,train,hey_name,hey_name,hey Alex!,hˈeɪ ˈalɪks!,en-029
+neg188,test,hey_name,hey_name,"hey, Alex","hˈeɪ, ˈælɪks",en-us
+neg189,test,hey_name,hey_name,"hey, Alex","hˈeɪ, ˈalɪks",en
+neg190,test,hey_name,hey_name,"hey, Alex","hˈeɪ, ˈælɪks",en-gb-x-rp
+neg191,test,hey_name,hey_name,"hey, Alex","hˈeɪ, ˈalɪks",en-029
+neg192,train,hey_name,hey_name,hey Alexa,hˈeɪ ɐlˈɛksə,en-us
+neg193,train,hey_name,hey_name,hey Alexa,hˈeɪ ɐlˈɛksə,en
+neg194,train,hey_name,hey_name,hey Alexa,hˈeɪ ɐlˈɛksɐ,en-gb-x-rp
+neg195,train,hey_name,hey_name,hey Alexa,hˈeɪ alˈɛksa,en-029
+neg196,train,hey_name,hey_name,hey Alexa!,hˈeɪ ɐlˈɛksə!,en-us
+neg197,train,hey_name,hey_name,hey Alexa!,hˈeɪ ɐlˈɛksə!,en
+neg198,train,hey_name,hey_name,hey Alexa!,hˈeɪ ɐlˈɛksɐ!,en-gb-x-rp
+neg199,train,hey_name,hey_name,hey Alexa!,hˈeɪ alˈɛksa!,en-029
+neg200,train,hey_name,hey_name,"hey, Alexa","hˈeɪ, ɐlˈɛksə",en-us
+neg201,train,hey_name,hey_name,"hey, Alexa","hˈeɪ, ɐlˈɛksə",en
+neg202,train,hey_name,hey_name,"hey, Alexa","hˈeɪ, ɐlˈɛksɐ",en-gb-x-rp
+neg203,train,hey_name,hey_name,"hey, Alexa","hˈeɪ, alˈɛksa",en-029
+neg204,validation,hey_name,hey_name,hey Jarvis,hˈeɪ dʒˈɑːɹvɪs,en-us
+neg205,validation,hey_name,hey_name,hey Jarvis,hˈeɪ dʒˈɑːvɪs,en
+neg206,validation,hey_name,hey_name,hey Jarvis,hˈeɪ dʒˈɑːvɪs,en-gb-x-rp
+neg207,validation,hey_name,hey_name,hey Jarvis,hˈeɪ dʒˈɑəvɪs,en-029
+neg208,train,hey_name,hey_name,hey Jarvis!,hˈeɪ dʒˈɑːɹvɪs!,en-us
+neg209,train,hey_name,hey_name,hey Jarvis!,hˈeɪ dʒˈɑːvɪs!,en
+neg210,train,hey_name,hey_name,hey Jarvis!,hˈeɪ dʒˈɑːvɪs!,en-gb-x-rp
+neg211,train,hey_name,hey_name,hey Jarvis!,hˈeɪ dʒˈɑəvɪs!,en-029
+neg212,train,hey_name,hey_name,"hey, Jarvis","hˈeɪ, dʒˈɑːɹvɪs",en-us
+neg213,train,hey_name,hey_name,"hey, Jarvis","hˈeɪ, dʒˈɑːvɪs",en
+neg214,train,hey_name,hey_name,"hey, Jarvis","hˈeɪ, dʒˈɑːvɪs",en-gb-x-rp
+neg215,train,hey_name,hey_name,"hey, Jarvis","hˈeɪ, dʒˈɑəvɪs",en-029
+neg216,train,hey_name,hey_name,"hey Alexa, turn on the lights","hˈeɪ ɐlˈɛksə, tˈɜːn ɔnðə lˈaɪts",en-us
+neg217,train,hey_name,hey_name,"hey Alexa, turn on the lights","hˈeɪ ɐlˈɛksə, tˈɜːn ɒnðə lˈaɪts",en
+neg218,train,hey_name,hey_name,"hey Alexa, turn on the lights","hˈeɪ ɐlˈɛksɐ, tˈɜːn ɒnðə lˈaɪts",en-gb-x-rp
+neg219,train,hey_name,hey_name,"hey Alexa, turn on the lights","hˈeɪ alˈɛksa, tˈɜːn ɒndə lˈaɪts",en-029
+neg220,train,hey_name,hey_name,"hey Alice, come here","hˈeɪ ˈælɪs, kˈʌm hˈɪɹ",en-us
+neg221,train,hey_name,hey_name,"hey Alice, come here","hˈeɪ ˈalɪs, kˈʌm hˈiə",en
+neg222,train,hey_name,hey_name,"hey Alice, come here","hˈeɪ ˈælɪs, kˈʌm hˈiə",en-gb-x-rp
+neg223,train,hey_name,hey_name,"hey Alice, come here","hˈeɪ ˈalɪs, kˈʌm hˈiə",en-029
+neg224,train,hey_name,hey_name,"hey Alex, what's up","hˈeɪ ˈælɪks, wˌʌts ˈʌp",en-us
+neg225,train,hey_name,hey_name,"hey Alex, what's up","hˈeɪ ˈalɪks, wˌɒts ˈʌp",en
+neg226,train,hey_name,hey_name,"hey Alex, what's up","hˈeɪ ˈælɪks, wˌɒts ˈʌp",en-gb-x-rp
+neg227,train,hey_name,hey_name,"hey Alex, what's up","hˈeɪ ˈalɪks, wˌɒts ˈʌp",en-029
+neg228,train,hey_name,hey_name,"hey Jarvis, what's the time","hˈeɪ dʒˈɑːɹvɪs, wˌʌts ðə tˈaɪm",en-us
+neg229,train,hey_name,hey_name,"hey Jarvis, what's the time","hˈeɪ dʒˈɑːvɪs, wˌɒts ðə tˈaɪm",en
+neg230,train,hey_name,hey_name,"hey Jarvis, what's the time","hˈeɪ dʒˈɑːvɪs, wˌɒts ðə tˈaɪm",en-gb-x-rp
+neg231,train,hey_name,hey_name,"hey Jarvis, what's the time","hˈeɪ dʒˈɑəvɪs, wˌɒts də tˈaɪm",en-029
+neg232,test,hey_name,hey_name,hey Alan,hˈeɪ ˈælən,en-us
+neg233,test,hey_name,hey_name,hey Alan,hˈeɪ ˈalən,en
+neg234,test,hey_name,hey_name,hey Alan,hˈeɪ ˈælən,en-gb-x-rp
+neg235,test,hey_name,hey_name,hey Alan,hˈeɪ ˈalən,en-029
+neg236,train,hey_name,hey_name,hey Ellis,hˈeɪ ˈɛlɪs,en-us
+neg237,train,hey_name,hey_name,hey Ellis,hˈeɪ ˈɛlɪs,en
+neg238,train,hey_name,hey_name,hey Ellis,hˈeɪ ˈɛlɪs,en-gb-x-rp
+neg239,train,hey_name,hey_name,hey Ellis,hˈeɪ ˈɛlɪs,en-029
+neg240,train,hey_name,hey_name,hey Alison,hˈeɪ ˈælɪsən,en-us
+neg241,train,hey_name,hey_name,hey Alison,hˈeɪ ˈalɪsən,en
+neg242,train,hey_name,hey_name,hey Alison,hˈeɪ ˈælɪsən,en-gb-x-rp
+neg243,train,hey_name,hey_name,hey Alison,hˈeɪ ˈalɪsən,en-029
+neg244,train,hey_name,hey_name,hey Atlanta,hˈeɪ ɐtlˈæntə,en-us
+neg245,train,hey_name,hey_name,hey Atlanta,hˈeɪ ɐtlˈantə,en
+neg246,train,hey_name,hey_name,hey Atlanta,hˈeɪ ɐtlˈæntɐ,en-gb-x-rp
+neg247,train,hey_name,hey_name,hey Atlanta,hˈeɪ atlˈanta,en-029
+neg248,train,hey_name,hey_name,hey Atlantis,hˈeɪ ætlˈæntɪs,en-us
+neg249,train,hey_name,hey_name,hey Atlantis,hˈeɪ atlˈantɪs,en
+neg250,train,hey_name,hey_name,hey Atlantis,hˈeɪ ætlˈæntɪs,en-gb-x-rp
+neg251,train,hey_name,hey_name,hey Atlantis,hˈeɪ atlˈantɪs,en-029
+neg252,test,hey_name,hey_name,hey Athena,hˈeɪ æθˈiːnə,en-us
+neg253,test,hey_name,hey_name,hey Athena,hˈeɪ aθˈiːnə,en
+neg254,test,hey_name,hey_name,hey Athena,hˈeɪ æθˈiːnɐ,en-gb-x-rp
+neg255,test,hey_name,hey_name,hey Athena,hˈeɪ at̪ˈiːna,en-029
+neg256,train,hey_name,hey_name,hey Atticus,hˈeɪ ˈæɾɪkəs,en-us
+neg257,train,hey_name,hey_name,hey Atticus,hˈeɪ ˈatɪkəs,en
+neg258,train,hey_name,hey_name,hey Atticus,hˈeɪ ˈætɪkəs,en-gb-x-rp
+neg259,train,hey_name,hey_name,hey Atticus,hˈeɪ ˈatɪkəs,en-029
+neg260,train,hey_name,hey_name,hey Adam,hˈeɪ ˈædəm,en-us
+neg261,train,hey_name,hey_name,hey Adam,hˈeɪ ˈadəm,en
+neg262,train,hey_name,hey_name,hey Adam,hˈeɪ ˈædəm,en-gb-x-rp
+neg263,train,hey_name,hey_name,hey Adam,hˈeɪ ˈadəm,en-029
+neg264,train,hey_name,hey_name,hey Alfie,hˈeɪ ˈælfi,en-us
+neg265,train,hey_name,hey_name,hey Alfie,hˈeɪ ˈalfi,en
+neg266,train,hey_name,hey_name,hey Alfie,hˈeɪ ˈælfɪ,en-gb-x-rp
+neg267,train,hey_name,hey_name,hey Alfie,hˈeɪ ˈalfi,en-029
+neg268,train,hey_name,hey_name,hey Annabel,hˈeɪ ˈænəbəl,en-us
+neg269,train,hey_name,hey_name,hey Annabel,hˈeɪ ˈanəbəl,en
+neg270,train,hey_name,hey_name,hey Annabel,hˈeɪ ˈænəbəl,en-gb-x-rp
+neg271,train,hey_name,hey_name,hey Annabel,hˈeɪ ˈanəbˌɛl,en-029
+neg272,train,hey_name,hey_name,hey Alessa,hˈeɪ ɐlˈɛsə,en-us
+neg273,train,hey_name,hey_name,hey Alessa,hˈeɪ ɐlˈɛsə,en
+neg274,train,hey_name,hey_name,hey Alessa,hˈeɪ ɐlˈɛsɐ,en-gb-x-rp
+neg275,train,hey_name,hey_name,hey Alessa,hˈeɪ alˈɛsa,en-029
+neg276,train,hey_name,hey_name,hey Matilda,hˈeɪ mɐtˈɪldə,en-us
+neg277,train,hey_name,hey_name,hey Matilda,hˈeɪ mɐtˈɪldə,en
+neg278,train,hey_name,hey_name,hey Matilda,hˈeɪ mɐtˈɪldɐ,en-gb-x-rp
+neg279,train,hey_name,hey_name,hey Matilda,hˈeɪ matˈɪlda,en-029
+neg280,train,hey_name,hey_name,hey Siri,hˈeɪ sˈiəɹi,en-us
+neg281,train,hey_name,hey_name,hey Siri,hˈeɪ sˈiəɹi,en
+neg282,train,hey_name,hey_name,hey Siri,hˈeɪ sˈiəɹɪ,en-gb-x-rp
+neg283,train,hey_name,hey_name,hey Siri,hˈeɪ sˈiəɹi,en-029
+neg284,train,hey_name,hey_name,hey Google,hˈeɪ ɡˈuːɡəl,en-us
+neg285,train,hey_name,hey_name,hey Google,hˈeɪ ɡˈuːɡəl,en
+neg286,train,hey_name,hey_name,hey Google,hˈeɪ ɡˈuːɡəl,en-gb-x-rp
+neg287,train,hey_name,hey_name,hey Google,hˈeɪ ɡˈuːɡɛl,en-029
+neg288,train,hey_name,hey_name,hey Mycroft,hˈeɪ mˈɪkɹɔft,en-us
+neg289,train,hey_name,hey_name,hey Mycroft,hˈeɪ mˈɪkɹɒft,en
+neg290,train,hey_name,hey_name,hey Mycroft,hˈeɪ mˈɪkɹɒft,en-gb-x-rp
+neg291,train,hey_name,hey_name,hey Mycroft,hˈeɪ mˈɪkɹɒft,en-029
+neg292,validation,hey_name,hey_name,hey Callum,hˈeɪ kˈæləm,en-us
+neg293,validation,hey_name,hey_name,hey Callum,hˈeɪ kˈaləm,en
+neg294,validation,hey_name,hey_name,hey Callum,hˈeɪ kˈæləm,en-gb-x-rp
+neg295,validation,hey_name,hey_name,hey Callum,hˈeɪ kˈaləm,en-029
+neg296,train,hey_name,hey_name,hey Dallas,hˈeɪ dˈæləs,en-us
+neg297,train,hey_name,hey_name,hey Dallas,hˈeɪ dˈaləs,en
+neg298,train,hey_name,hey_name,hey Dallas,hˈeɪ dˈæləs,en-gb-x-rp
+neg299,train,hey_name,hey_name,hey Dallas,hˈeɪ dˈaləs,en-029
+neg300,train,hey_name,hey_name,hey Talia,hˈeɪ tˈeɪliʲə,en-us
+neg301,train,hey_name,hey_name,hey Talia,hˈeɪ tˈeɪliʲə,en
+neg302,train,hey_name,hey_name,hey Talia,hˈeɪ tˈeɪlɪʲɐ,en-gb-x-rp
+neg303,train,hey_name,hey_name,hey Talia,hˈeɪ tˈeɪliʲa,en-029
+neg304,train,okay_nabu,okay_nabu,okay Nabu,oʊkˈeɪ nˈɑːbuː,en-us
+neg305,train,okay_nabu,okay_nabu,okay Nabu,əʊkˈeɪ nˈɑːbuː,en
+neg306,train,okay_nabu,okay_nabu,okay Nabu,əʊkˈeɪ nˈɑːbuː,en-gb-x-rp
+neg307,train,okay_nabu,okay_nabu,okay Nabu,oʊkˈeɪ nˈɑːbuː,en-029
+neg308,validation,okay_nabu,okay_nabu,okay Nabu!,oʊkˈeɪ nˈɑːbuː!,en-us
+neg309,validation,okay_nabu,okay_nabu,okay Nabu!,əʊkˈeɪ nˈɑːbuː!,en
+neg310,validation,okay_nabu,okay_nabu,okay Nabu!,əʊkˈeɪ nˈɑːbuː!,en-gb-x-rp
+neg311,validation,okay_nabu,okay_nabu,okay Nabu!,oʊkˈeɪ nˈɑːbuː!,en-029
+neg312,train,okay_nabu,okay_nabu,"okay, Nabu","oʊkˈeɪ, nˈɑːbuː",en-us
+neg313,train,okay_nabu,okay_nabu,"okay, Nabu","əʊkˈeɪ, nˈɑːbuː",en
+neg314,train,okay_nabu,okay_nabu,"okay, Nabu","əʊkˈeɪ, nˈɑːbuː",en-gb-x-rp
+neg315,train,okay_nabu,okay_nabu,"okay, Nabu","oʊkˈeɪ, nˈɑːbuː",en-029
+neg316,train,okay_nabu,okay_nabu,"okay Nabu, turn off the kitchen lights","oʊkˈeɪ nˈɑːbuː, tˈɜːn ˈɔf ðə kˈɪtʃən lˈaɪts",en-us
+neg317,train,okay_nabu,okay_nabu,"okay Nabu, turn off the kitchen lights","əʊkˈeɪ nˈɑːbuː, tˈɜːn ˈɒf ðə kˈɪtʃən lˈaɪts",en
+neg318,train,okay_nabu,okay_nabu,"okay Nabu, turn off the kitchen lights","əʊkˈeɪ nˈɑːbuː, tˈɜːn ˈɒf ðə kˈɪtʃən lˈaɪts",en-gb-x-rp
+neg319,train,okay_nabu,okay_nabu,"okay Nabu, turn off the kitchen lights","oʊkˈeɪ nˈɑːbuː, tˈɜːn ˈɒf də kˈɪtʃən lˈaɪts",en-029
+neg320,test,okay_nabu,okay_nabu,ok Nabu,ˌoʊkˈeɪ nˈɑːbuː,en-us
+neg321,test,okay_nabu,okay_nabu,ok Nabu,ˌəʊkˈeɪ nˈɑːbuː,en
+neg322,test,okay_nabu,okay_nabu,ok Nabu,ˌəʊkˈeɪ nˈɑːbuː,en-gb-x-rp
+neg323,test,okay_nabu,okay_nabu,ok Nabu,ˌoʊkˈeɪ nˈɑːbuː,en-029
+neg324,train,hey,hey,hey,hˈeɪ,en-us
+neg325,train,hey,hey,hey,hˈeɪ,en
+neg326,train,hey,hey,hey,hˈeɪ,en-gb-x-rp
+neg327,train,hey,hey,hey,hˈeɪ,en-029
+neg328,train,hey,hey,hey!,hˈeɪ!,en-us
+neg329,train,hey,hey,hey!,hˈeɪ!,en
+neg330,train,hey,hey,hey!,hˈeɪ!,en-gb-x-rp
+neg331,train,hey,hey,hey!,hˈeɪ!,en-029
+neg332,train,hey,hey,hey.,hˈeɪ.,en-us
+neg333,train,hey,hey,hey.,hˈeɪ.,en
+neg334,train,hey,hey,hey.,hˈeɪ.,en-gb-x-rp
+neg335,train,hey,hey,hey.,hˈeɪ.,en-029
+neg336,test,hey,hey,hey there,hˈeɪ ðˈɛɹ,en-us
+neg337,test,hey,hey,hey there,hˈeɪ ðˈeə,en
+neg338,test,hey,hey,hey there,hˈeɪ ðˈeə,en-gb-x-rp
+neg339,test,hey,hey,hey there,hˈeɪ dˈeə,en-029
+neg340,train,hey,hey,hey you,hˈeɪ juː,en-us
+neg341,train,hey,hey,hey you,hˈeɪ juː,en
+neg342,train,hey,hey,hey you,hˈeɪ juː,en-gb-x-rp
+neg343,train,hey,hey,hey you,hˈeɪ juː,en-029
+neg344,train,hey,hey,"hey, what's up","hˈeɪ, wˌʌts ˈʌp",en-us
+neg345,train,hey,hey,"hey, what's up","hˈeɪ, wˌɒts ˈʌp",en
+neg346,train,hey,hey,"hey, what's up","hˈeɪ, wˌɒts ˈʌp",en-gb-x-rp
+neg347,train,hey,hey,"hey, what's up","hˈeɪ, wˌɒts ˈʌp",en-029
+neg348,train,hey,hey,"hey, look at this","hˈeɪ, lˈʊk æt ðˈɪs",en-us
+neg349,train,hey,hey,"hey, look at this","hˈeɪ, lˈʊk at ðˈɪs",en
+neg350,train,hey,hey,"hey, look at this","hˈeɪ, lˈʊk æt ðˈɪs",en-gb-x-rp
+neg351,train,hey,hey,"hey, look at this","hˈeɪ, lˈʊk at dˈɪs",en-029
+neg352,train,hey,hey,hey mate,hˈeɪ mˈeɪt,en-us
+neg353,train,hey,hey,hey mate,hˈeɪ mˈeɪt,en
+neg354,train,hey,hey,hey mate,hˈeɪ mˈeɪt,en-gb-x-rp
+neg355,train,hey,hey,hey mate,hˈeɪ mˈeɪt,en-029
+neg356,train,hey,hey,hey guys,hˈeɪ ɡˈaɪz,en-us
+neg357,train,hey,hey,hey guys,hˈeɪ ɡˈaɪz,en
+neg358,train,hey,hey,hey guys,hˈeɪ ɡˈaɪz,en-gb-x-rp
+neg359,train,hey,hey,hey guys,hˈeɪ ɡˈaɪz,en-029
+neg360,validation,hey,hey,"hey, hello","hˈeɪ, həlˈoʊ",en-us
+neg361,validation,hey,hey,"hey, hello","hˈeɪ, həlˈəʊ",en
+neg362,validation,hey,hey,"hey, hello","hˈeɪ, həlˈəʊ",en-gb-x-rp
+neg363,validation,hey,hey,"hey, hello","hˈeɪ, həlˈoʊ",en-029
+neg364,train,hey,hey,oh hey,ˈoʊ hˈeɪ,en-us
+neg365,train,hey,hey,oh hey,ˈəʊ hˈeɪ,en
+neg366,train,hey,hey,oh hey,ˈəʊ hˈeɪ,en-gb-x-rp
+neg367,train,hey,hey,oh hey,ˈoʊ hˈeɪ,en-029
+neg368,train,hey,hey,"hey, how are you","hˈeɪ, hˈaʊ ɑːɹ juː",en-us
+neg369,train,hey,hey,"hey, how are you","hˈeɪ, hˈaʊ ɑː juː",en
+neg370,train,hey,hey,"hey, how are you","hˈeɪ, hˈaʊ ɑː juː",en-gb-x-rp
+neg371,train,hey,hey,"hey, how are you","hˈeɪ, hˈaʊ ɑə juː",en-029
+neg372,train,hey,hey,hey hey,hˈeɪ hˈeɪ,en-us
+neg373,train,hey,hey,hey hey,hˈeɪ hˈeɪ,en
+neg374,train,hey,hey,hey hey,hˈeɪ hˈeɪ,en-gb-x-rp
+neg375,train,hey,hey,hey hey,hˈeɪ hˈeɪ,en-029
+neg376,train,hey,hey,"hey, at the shops","hˈeɪ, æt ðə ʃˈɑːps",en-us
+neg377,train,hey,hey,"hey, at the shops","hˈeɪ, at ðə ʃˈɒps",en
+neg378,train,hey,hey,"hey, at the shops","hˈeɪ, æt ðə ʃˈɒps",en-gb-x-rp
+neg379,train,hey,hey,"hey, at the shops","hˈeɪ, at də ʃˈɒps",en-029
+neg380,train,hey,hey,"hey, that's lovely","hˈeɪ, ðæts lˈʌvli",en-us
+neg381,train,hey,hey,"hey, that's lovely","hˈeɪ, ðats lˈʌvli",en
+neg382,train,hey,hey,"hey, that's lovely","hˈeɪ, ðæts lˈʌvlɪ",en-gb-x-rp
+neg383,train,hey,hey,"hey, that's lovely","hˈeɪ, dats lˈʌvli",en-029
+neg384,train,hey,hey,"hey, I'm home","hˈeɪ, aɪm hˈoʊm",en-us
+neg385,train,hey,hey,"hey, I'm home","hˈeɪ, aɪm hˈəʊm",en
+neg386,train,hey,hey,"hey, I'm home","hˈeɪ, aɪm hˈəʊm",en-gb-x-rp
+neg387,train,hey,hey,"hey, I'm home","hˈeɪ, aɪm hˈoʊm",en-029
+neg388,train,hey,hey,"hey, listen","hˈeɪ, lˈɪsən",en-us
+neg389,train,hey,hey,"hey, listen","hˈeɪ, lˈɪsən",en
+neg390,train,hey,hey,"hey, listen","hˈeɪ, lˈɪsən",en-gb-x-rp
+neg391,train,hey,hey,"hey, listen","hˈeɪ, lˈɪsən",en-029
+neg392,test,hey,hey,"hey, thanks","hˈeɪ, θˈæŋks",en-us
+neg393,test,hey,hey,"hey, thanks","hˈeɪ, θˈaŋks",en
+neg394,test,hey,hey,"hey, thanks","hˈeɪ, θˈæŋks",en-gb-x-rp
+neg395,test,hey,hey,"hey, thanks","hˈeɪ, t̪ˈaŋks",en-029
+neg396,train,hey,hey,"hey, last one","hˈeɪ, lˈæst wˌʌn",en-us
+neg397,train,hey,hey,"hey, last one","hˈeɪ, lˈast wˌɒn",en
+neg398,train,hey,hey,"hey, last one","hˈeɪ, lˈɑːst wˌɒn",en-gb-x-rp
+neg399,train,hey,hey,"hey, last one","hˈeɪ, lˈaast wˌɒn",en-029
+neg400,validation,hey,hey,"hey, have a look","hˈeɪ, hæv ɐ lˈʊk",en-us
+neg401,validation,hey,hey,"hey, have a look","hˈeɪ, hav ɐ lˈʊk",en
+neg402,validation,hey,hey,"hey, have a look","hˈeɪ, hæv ɐ lˈʊk",en-gb-x-rp
+neg403,validation,hey,hey,"hey, have a look","hˈeɪ, hav a lˈʊk",en-029
+neg404,train,other,other,a tassel,ɐ tˈæsəl,en-us
+neg405,train,other,other,a tassel,ɐ tˈasəl,en
+neg406,train,other,other,a tassel,ɐ tˈæsəl,en-gb-x-rp
+neg407,train,other,other,a tassel,a tˈasɛl,en-029
+neg408,train,other,other,hat lace,hˈæt lˈeɪs,en-us
+neg409,train,other,other,hat lace,hˈat lˈeɪs,en
+neg410,train,other,other,hat lace,hˈæt lˈeɪs,en-gb-x-rp
+neg411,train,other,other,hat lace,hˈat lˈeɪs,en-029
+neg412,validation,other,other,Atlassian,ætlˈæsiən,en-us
+neg413,validation,other,other,Atlassian,atlˈasiən,en
+neg414,validation,other,other,Atlassian,ætlˈɑːsiən,en-gb-x-rp
+neg415,validation,other,other,Atlassian,atlˈaasiən,en-029
+neg416,train,other,other,battle us,bˈæɾəl ˌʌs,en-us
+neg417,train,other,other,battle us,bˈatəl ˌʌs,en
+neg418,train,other,other,battle us,bˈætəl ˌʌs,en-gb-x-rp
+neg419,train,other,other,battle us,bˈatɛl ˌʌs,en-029
+neg420,train,other,other,Dallas,dˈæləs,en-us
+neg421,train,other,other,Dallas,dˈaləs,en
+neg422,train,other,other,Dallas,dˈæləs,en-gb-x-rp
+neg423,train,other,other,Dallas,dˈaləs,en-029
+neg424,train,other,other,atlases,ˈætləsᵻz,en-us
+neg425,train,other,other,atlases,ˈatləsɪz,en
+neg426,train,other,other,atlases,ˈætləsɪz,en-gb-x-rp
+neg427,train,other,other,atlases,ˈatləsɪz,en-029
+neg428,train,other,other,at least,æt lˈiːst,en-us
+neg429,train,other,other,at least,at lˈiːst,en
+neg430,train,other,other,at least,æt lˈiːst,en-gb-x-rp
+neg431,train,other,other,at least,at lˈiːst,en-029
+neg432,train,other,other,a cutlass,ɐ kˈʌtləs,en-us
+neg433,train,other,other,a cutlass,ɐ kˈʌtləs,en
+neg434,train,other,other,a cutlass,ɐ kˈʌtləs,en-gb-x-rp
+neg435,train,other,other,a cutlass,a kˈʌtləs,en-029
+neg436,test,other,other,the lattice,ðə lˈæɾɪs,en-us
+neg437,test,other,other,the lattice,ðə lˈatɪs,en
+neg438,test,other,other,the lattice,ðə lˈætɪs,en-gb-x-rp
+neg439,test,other,other,the lattice,də lˈatɪs,en-029
+neg440,train,other,other,haystack,hˈeɪstæk,en-us
+neg441,train,other,other,haystack,hˈeɪstak,en
+neg442,train,other,other,haystack,hˈeɪstæk,en-gb-x-rp
+neg443,train,other,other,haystack,hˈeɪstak,en-029
+neg444,train,other,other,eight lasses,ˈeɪt lˈæsᵻz,en-us
+neg445,train,other,other,eight lasses,ˈeɪt lˈasɪz,en
+neg446,train,other,other,eight lasses,ˈeɪt lˈæsɪz,en-gb-x-rp
+neg447,train,other,other,eight lasses,ˈeɪt lˈasɪz,en-029
+neg448,train,other,other,hate less,hˈeɪt lˈɛs,en-us
+neg449,train,other,other,hate less,hˈeɪt lˈɛs,en
+neg450,train,other,other,hate less,hˈeɪt lˈɛs,en-gb-x-rp
+neg451,train,other,other,hate less,hˈeɪt lˈɛs,en-029
