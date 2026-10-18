@@ -1,8 +1,10 @@
 # Hey Atlas wake word: training record
 
-## Verdict (provisional: PILOT model)
+## Verdict (provisional: mid-run model, main run step 14,000 of 30,000)
 
-**The model in this folder is the pilot (1,000 positives, 10,000 steps). It is not the final model.** It proves the pipeline end to end (synthesis, features, training, quantisation, streaming export, selection), but its recall is too low for daily use. A larger run is in progress; this file is replaced when it finishes.
+**The model in this folder is a mid-run checkpoint of the main run (36,000 positives), pushed to keep progress safe. It is not the final choice.** On validation it reaches 82.2% recall with 0 false accepts in 9.67 h; on test, 85.1% recall and 0 false accepts in 5.33 h (DiPCo), sliding window 7, cutoff 0.97 (`results/main_midrun/`). The pilot results below are kept for reference. This file is replaced when the run finishes.
+
+### Pilot (1,000 positives, 10,000 steps)
 
 Pilot, chosen on validation only (checkpoint 9000, sliding window 3, cutoff 0.97):
 

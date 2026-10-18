@@ -52,8 +52,15 @@ def export(config, weights, out_dir, seed=1234):
     data_processor = input_data.FeatureHandler(cfg)
     random.seed(seed)
     np.random.seed(seed)
+    # The trainer's calibration cuts each representative spectrogram into
+    # stride-sized chunks and asserts its length is a multiple of the stride.
+    # A 377-frame window is not (377 % 3 == 2), so calibration samples are cut
+    # to 375 frames. This changes only which frames calibrate the int8 ranges,
+    # not the model (the streaming model takes 3 frames per call).
+    stride = int(config["stride"])
+    cfg_q = dict(cfg, spectrogram_length=cfg["spectrogram_length"] - cfg["spectrogram_length"] % stride)
     utils.convert_saved_model_to_tflite(
-        cfg, audio_processor=data_processor,
+        cfg_q, audio_processor=data_processor,
         path_to_model=os.path.join(out_dir, "stream_state_internal"),
         folder=out_dir, fname="model.tflite", quantize=True)
     return os.path.join(out_dir, "model.tflite")
