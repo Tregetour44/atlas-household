@@ -49,6 +49,9 @@ class AtlasOptionsFlow(OptionsFlow):
         except on the test copy, whose checks use it [R12-06, R12-09]. It should be an Atlas-only agent (its only tools the atlas_ ones);
         if another tool runs in a turn, the guard never says "I haven't changed anything" (conversation.py, external_tool) [R13-06]."""
         from homeassistant.helpers import entity_registry as er  # noqa: PLC0415
+        from . import guarded_platform_available  # noqa: PLC0415
+        if not guarded_platform_available():
+            return 'guard_not_installed'          # this copy doesn't ship the guarded agent [cloud review 1, M1]
         own = er.async_get(self.hass).async_get_entity_id('conversation', DOMAIN, f'{self.config_entry.entry_id}_claim_guarded')
         if not agent.startswith('conversation.') or self.hass.states.get(agent) is None:
             return 'not_a_conversation_agent'

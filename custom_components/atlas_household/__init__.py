@@ -19,6 +19,12 @@ HERE = pathlib.Path(__file__).parent
 TEST_COPY_NAME = 'Atlas test copy'     # homeassistant: name: in the test copy's configuration.yaml; the household HA is not called this
 
 
+def guarded_platform_available() -> bool:
+    """The claim-guarded agent is the 'conversation' platform of this package. An export without conversation.py must not forward the entry
+    to it (setup would fail) and must refuse the option, so nobody believes replies are guarded when they aren't [cloud review 1, M1]."""
+    return (HERE / 'conversation.py').exists()
+
+
 class Runtime:
     def __init__(self, hass, coord, backend) -> None:
         self.hass, self.coord, self.backend = hass, coord, backend
@@ -111,8 +117,11 @@ async def async_setup_entry(hass, entry) -> bool:
     rt.guarded_loaded = False
     rt.options_lock = asyncio.Lock()
     if (entry.options or {}).get('guarded_agent'):          # the claim-guarded agent, only when an underlying agent is configured
-        await hass.config_entries.async_forward_entry_setups(entry, ['conversation'])
-        rt.guarded_loaded = True
+        if guarded_platform_available():
+            await hass.config_entries.async_forward_entry_setups(entry, ['conversation'])
+            rt.guarded_loaded = True
+        else:
+            _guard_missing(hass)
     entry.async_on_unload(entry.add_update_listener(_options_changed))
 
     def _unload():
@@ -175,8 +184,17 @@ async def _options_changed(hass, entry) -> None:
             await hass.config_entries.async_unload_platforms(entry, ['conversation'])
             rt.guarded_loaded = False
         if (entry.options or {}).get('guarded_agent'):
+            if not guarded_platform_available():
+                _guard_missing(hass)
+                return
             await hass.config_entries.async_forward_entry_setups(entry, ['conversation'])
             rt.guarded_loaded = True
+
+
+def _guard_missing(hass) -> None:
+    from homeassistant.components import persistent_notification  # noqa: PLC0415
+    persistent_notification.async_create(hass, "The claim-guarded Atlas agent isn't installed (conversation.py is missing), so Atlas's replies are NOT "
+                                         "guarded. Install the complete integration.", title='Atlas coordinator', notification_id='atlas_guard_missing')
 
 
 async def async_unload_entry(hass, entry) -> bool:

@@ -61,7 +61,14 @@ def wait_up(timeout=180):
     raise RuntimeError('test copy did not come up with atlas_household')
 
 
+CODE_SHA = None
+
+
 def install():
+    global CODE_SHA
+    import hashlib  # noqa: PLC0415
+    pkg = ROOT / 'custom_components/atlas_household'
+    CODE_SHA = hashlib.sha256(b''.join(p.read_bytes() for p in sorted(pkg.glob('*.py')) + [pkg / 'manifest.json'])).hexdigest()
     dst = ROOT / 'devha-config/custom_components/atlas_household'
     shutil.rmtree(dst, ignore_errors=True)
     shutil.copytree(ROOT / 'custom_components/atlas_household', dst, ignore=shutil.ignore_patterns('__pycache__'))
@@ -265,19 +272,45 @@ def S_stream_guard():
     eq(task['state'], 'pending', 'an options change keeps pending timers (no reload)')
 
     def probe(agent_id, cid):
+        text = 'turn the bed light off in 30 minutes' if cid.endswith('fast') else 'living room lights off'
         return http('POST', '/api/services/atlas_stream_test/probe?return_response',
-                    {'text': 'living room lights off', 'conversation_id': cid, 'agent_id': agent_id})['service_response']
+                    {'text': text, 'conversation_id': cid, 'agent_id': agent_id})['service_response']
 
     raw = probe(agent, 'tc-stream-raw')
     ok(''.join(raw['deltas']).startswith('I have turned off'), f'control: the harness did not see the stream: {raw!r}')
+    n_before = len([x for x in store()['data']['log'] if x.get('label') == 'nudged once' and x.get('conversation') == 'tc-stream-guarded'])
     g = probe(guarded, 'tc-stream-guarded')
     eq(g['deltas'], [], 'deltas reached the listener before the guard (streaming TTS would speak them)')
     ok(g['speech'].startswith("I haven't changed anything") and 'turned off' not in g['speech'], f'speech not rewritten: {g!r}')
     ok('cannot manage the battery settings' in g['speech'], f'honest part lost: {g!r}')
     eq(g['history'][-1:], [g['speech']], 'chat log keeps the rewritten reply')
+    eq(len(g['history']), 1, 'the history keeps only what was said (the unspoken first reply and the nudge are dropped) [B16-02]')
+    nudges = [x for x in store()['data']['log'] if x.get('event') == 'claim_guard' and x.get('label') == 'nudged once'
+              and x.get('conversation') == 'tc-stream-guarded']
+    eq(len(nudges) - n_before, 1, 'the model was nudged exactly once this run (coordinator log)')
+    # the deterministic timer path: scheduled by the coordinator itself; the (stream) model is not asked at all
+    f = probe(guarded, 'tc-stream-fast')
+    ok(f['speech'].startswith('Timer set'), f'fast timer path not taken: {f!r}')
+    eq(f['deltas'], [], 'no model output streamed')
+    ok(not any('turned off the living room' in h for h in f['history']), f'the model was asked: {f!r}')
+    pend = [x for x in store()['data']['tasks'] if x['state'] == 'pending' and x['handle'] == 'bed_light']
+    eq(len(pend), 1, 'one bed-light timer pending')
     ok(not any('turned off' in h for h in g['history']), f'original claim left in history: {g!r}')
     eq(options('').get('type'), 'create_entry', 'back to no guarded agent')
     eq(call('atlas_cancel', {}, 'cancel that')['task'], t['task'])
+    for x in [x for x in store()['data']['tasks'] if x['state'] == 'pending']:      # the fast-path timer too
+        call('atlas_cancel', {'task': x['id']}, 'cancel that one')
+
+
+def S_nudge_keeps_the_persons_words():
+    # B16-01 through HA's real LLM API path: after the person's never-list turn, the claim guard's nudge message is added to the chat log,
+    # and a tool the model calls then must still be checked against the PERSON's words (api.py skips the nudge), so the turn is refused.
+    nudge = next(line.split('"')[1] for line in (ROOT / 'custom_components/atlas_household/turn.py').read_text(encoding='utf-8').splitlines()
+                 if line.startswith('NUDGE = '))
+    conv = 'tc-nudge-words'
+    call('atlas_scheduled', {}, 'kitchen lights on and unlock the front door', conv=conv)          # the person's turn (a harmless read)
+    r = call('atlas_lights', {'target_handle': 'kitchen_lights', 'operation': 'on'}, nudge, conv=conv)   # the nudge, then a tool call
+    eq((r['status'], r.get('reason')), ('denied', 'never_list'), 'a tool call during the nudge is judged on the person\'s words')
 
 
 def S_reload_cancels():
@@ -301,7 +334,8 @@ def main():
         except Exception as ex:
             bad += 1
             rows.append({'scenario': name[2:], 'result': 'FAIL', 'detail': f'{type(ex).__name__}: {ex}'})
-    out = {'at': time.strftime('%Y-%m-%dT%H:%M:%S%z'), 'where': 'atlas-ha-test (Docker, demo devices only)', 'map': DEMO['version'],
+    code = CODE_SHA
+    out = {'at': time.strftime('%Y-%m-%dT%H:%M:%S%z'), 'where': 'atlas-ha-test (Docker, demo devices only)', 'map': DEMO['version'], 'code_sha256': code,
            'pass': len(rows) - bad, 'fail': bad, 'rows': rows}
     (HERE / 'testcopy-results.json').write_text(json.dumps(out, indent=1) + '\n', encoding='utf-8')
     print(json.dumps(out, indent=1))

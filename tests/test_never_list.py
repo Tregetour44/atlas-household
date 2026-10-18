@@ -67,6 +67,14 @@ class MapNeverList(unittest.TestCase):
         self.assertEqual((r['status'], r['reason']), ('denied', 'not_reviewed_cover'))
         self.assertEqual(h.calls, [])
 
+    def test_cover_names_real_rollers_load_doors_refused(self):     # cloud review 1 M4, adapted: a roller BLIND is a blind
+        self.load({'x': {'kind': 'blind', 'label': 'x', 'entity_ids': ['cover.blind_motor']}},
+                  {'cover.blind_motor': 'shade'})
+        for e in ('cover.carport', 'cover.carport_roller', 'cover.roller_door', 'cover.carport_door', 'cover.driveway', 'cover.side_gate'):
+            with self.assertRaises(ValueError, msg=e):
+                self.load({'x': {'kind': 'blind', 'label': 'x', 'entity_ids': [e]}}, {e: 'shutter'})
+        self.load({'x': {'kind': 'blind', 'label': 'x', 'entity_ids': ['cover.lounge_door_blind']}}, {'cover.lounge_door_blind': 'shade'})
+
     def test_undo_rechecks_the_class(self):          # [R12-13]
         h = FakeHouse()
         e = REAL['handles']['sunroom_blind']['entity_ids'][0]

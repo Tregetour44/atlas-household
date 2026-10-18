@@ -145,6 +145,40 @@ class R13Cases(unittest.TestCase):
             self.assertTrue(guard_reply(reply, [])[1], reply)
         self.assertEqual(guard_reply("The lights went off at 9 pm.", [])[1], [])
 
+    def test_E12_false_already(self):         # C0e 21:12, E12 "switch everything off downstairs" (the Atlas-side project's recorded replies)
+        for reply in ("The ground floor lights were already off.", "The downstairs lights were already off."):
+            out, bad = guard_reply(reply, ['done'])
+            self.assertEqual(bad, ['already'], reply)
+            self.assertTrue(out.startswith(CANT), out)
+        self.assertEqual(guard_reply("I have turned the downstairs lights off for you.", ['done']), ("I have turned the downstairs lights off for you.", []))
+        for reply in ("Done: I turned off 5 lights downstairs; 23 were already off.", "I turned off 5 of the downstairs lights; the other 23 were already off."):
+            self.assertEqual(guard_reply(reply, ['done']), (reply, []), reply)
+        self.assertEqual(guard_reply("The office light is already off.", ['skipped_already']), ("The office light is already off.", []))
+        self.assertEqual(guard_reply("The office light is already off.", []), ("The office light is already off.", []))   # a state statement
+        out, bad = guard_reply("The office light is already off.", ['done'])                   # but not after a turn that changed it
+        self.assertTrue(bad == ['already'] and out.startswith(CANT), out)
+
+    def test_E12_summary_leads_with_the_change(self):
+        h = FakeHouse()
+        ids = [e for e in h.coord.handles['ground_floor_lights']['entity_ids']]
+        for e in ids:
+            h.set(e, 'off')
+        for e in ids[:3]:
+            h.set(e, 'on')
+        r = h.call('atlas_lights', {'target_handle': 'ground_floor_lights', 'operation': 'off'})
+        self.assertEqual(r['status'], 'done')
+        want = f"Done: {h.coord.handles['ground_floor_lights']['label']} off, 3 of {len(ids)} changed; the other {len(ids) - 3} already were. Checked."
+        self.assertEqual(r['summary'], want)
+        self.assertEqual(guard_reply(r['summary'], ['done']), (r['summary'], []))
+
+    def test_RT106_automatic_timer_claim(self):   # C0e triage 3: no timer exists, prior turn was text only
+        out, bad = guard_reply("I haven't changed anything. They will turn on automatically at that time.", [])
+        self.assertEqual(bad, ['scheduled'])
+        self.assertEqual(out, "I haven't changed anything.")                 # the head once, not twice
+        self.assertNotIn('automatically', out)
+        self.assertEqual(guard_reply("They will turn on automatically at 6:05 pm.", ['scheduled_list'])[1], [])
+        self.assertEqual(guard_reply("Your entry lights will turn on automatically at sunset.", [])[1], [])   # an automation, honestly [B16-05]
+
     def test_history_answers_pass(self):
         for reply in ("Family Room lights turned on at 6:12 pm.", "The galley lights were turned off yesterday.", "The office lights dimmed earlier tonight? No."):
             self.assertEqual(guard_reply(reply, [])[1], [], reply)

@@ -49,6 +49,8 @@ def specs(handles: dict, timer_blinds: bool = False) -> list[dict]:
     ]
     if not scenes:     # no reviewed scene yet: don't offer a scene tool with an empty list
         out = [x for x in out if x[0] != 'atlas_scene']
+    if not blinds:     # no enabled blind (phase 1, lights only): don't offer a blind tool with an empty list either
+        out = [x for x in out if x[0] != 'atlas_blind']
     if media:      # later v1 group: offered only once a media handle is enabled
         out.insert(3, ('atlas_media', 'Pause, resume, mute, unmute or set the volume (up to 40%) on a media player.',
                        {'target_handle': {'type': 'string', 'enum': media}, 'operation': {'type': 'string', 'enum': ['resume', 'pause', 'mute', 'unmute', 'volume']},
