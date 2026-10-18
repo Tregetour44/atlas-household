@@ -1,0 +1,2 @@
+{"domain": "atlas_stream_test", "name": "Atlas stream test (TEST COPY ONLY)", "version": "0.1.0", "config_flow": true, "dependencies": ["conversation"],
+ "documentation": "https://example.invalid", "codeowners": [], "iot_class": "local_push", "requirements": []}

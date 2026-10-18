@@ -1,0 +1,144 @@
+{
+ "version": "demo-1",
+ "test_only": true,
+ "note": "TEST COPY ONLY: HA's demo entities, for the coordinator's tests on atlas-ha-test. Never install on the household HA. restart_policy keep_if_unchanged here so the test copy exercises that path; the household default is cancel_pending.",
+ "handles": {
+  "bed_light": {
+   "kind": "light",
+   "group": "lights",
+   "entity_ids": [
+    "light.bed_light"
+   ],
+   "label": "Bed light",
+   "risk": "R1",
+   "enabled": true,
+   "area": "Bedroom"
+  },
+  "ceiling_lights": {
+   "kind": "light",
+   "group": "lights",
+   "entity_ids": [
+    "light.ceiling_lights"
+   ],
+   "label": "Ceiling lights",
+   "risk": "R1",
+   "enabled": true,
+   "area": "Living Room"
+  },
+  "kitchen_lights": {
+   "kind": "light",
+   "group": "lights",
+   "entity_ids": [
+    "light.kitchen_lights"
+   ],
+   "label": "Kitchen lights",
+   "risk": "R1",
+   "enabled": true,
+   "area": "Kitchen"
+  },
+  "office_lights": {
+   "kind": "light",
+   "group": "lights",
+   "entity_ids": [
+    "light.office_rgbw_lights"
+   ],
+   "label": "Office lights",
+   "risk": "R1",
+   "enabled": true,
+   "area": "Office"
+  },
+  "living_room_lights": {
+   "kind": "light",
+   "group": "lights",
+   "entity_ids": [
+    "light.ceiling_lights",
+    "light.living_room_rgbww_lights"
+   ],
+   "label": "Living room lights",
+   "risk": "R1",
+   "enabled": true,
+   "area": "Living Room"
+  },
+  "entrance_lights": {
+   "kind": "light",
+   "group": "lights",
+   "entity_ids": [
+    "light.entrance_color_white_lights"
+   ],
+   "label": "Entrance lights",
+   "risk": "R1",
+   "enabled": false,
+   "disabled_reason": "test: a disabled handle"
+  },
+  "evening": {
+   "kind": "scene",
+   "group": "scenes",
+   "entity_ids": [
+    "scene.atlas_test_evening"
+   ],
+   "label": "Evening",
+   "risk": "R1",
+   "enabled": true,
+   "members": [
+    "light.ceiling_lights",
+    "light.bed_light"
+   ],
+   "expect": {
+    "light.ceiling_lights": {
+     "state": "on",
+     "brightness_percent": 40
+    },
+    "light.bed_light": {
+     "state": "off"
+    }
+   }
+  },
+  "hall_window": {
+   "kind": "blind",
+   "group": "blinds",
+   "entity_ids": [
+    "cover.hall_window"
+   ],
+   "label": "Hall window",
+   "risk": "R2",
+   "enabled": true
+  },
+  "living_room_window": {
+   "kind": "blind",
+   "group": "blinds",
+   "entity_ids": [
+    "cover.living_room_window"
+   ],
+   "label": "Living room window",
+   "risk": "R2",
+   "enabled": true
+  },
+  "kitchen_window": {
+   "kind": "blind",
+   "group": "blinds",
+   "entity_ids": [
+    "cover.kitchen_window"
+   ],
+   "label": "Kitchen window",
+   "risk": "R2",
+   "enabled": true
+  },
+  "media_living_room": {
+   "kind": "media",
+   "group": "media",
+   "entity_ids": [
+    "media_player.living_room"
+   ],
+   "label": "Living room speaker",
+   "risk": "R1",
+   "enabled": false,
+   "disabled_reason": "media is a later v1 group"
+  }
+ },
+ "restart_policy": "keep_if_unchanged",
+ "reviewed_covers": {
+  "cover.hall_window": null,
+  "cover.living_room_window": null,
+  "cover.kitchen_window": null
+ }
+}

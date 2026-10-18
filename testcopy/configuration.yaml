@@ -1,0 +1,30 @@
+# Atlas coordinator TEST COPY of Home Assistant: a throwaway instance for tests only.
+# Deliberately minimal: no default_config, so no network discovery (zeroconf/ssdp/dhcp), no cloud, nothing that could find or touch real devices.
+# Test devices come from HA's built-in "demo" integration only. The name below is what the integration's test-only services check for.
+homeassistant:
+  name: Atlas test copy
+  time_zone: Australia/Sydney
+  unit_system: metric
+  country: AU
+  currency: AUD
+http:
+api:
+config:
+frontend:
+history:
+logbook:
+recorder:
+  purge_keep_days: 5
+logger:
+  default: info
+demo:
+automation: !include automations.yaml
+# Test-only scene for the coordinator (its members and expected states are in tests/fixtures/targets.demo.json).
+scene:
+  - id: atlas_test_evening
+    name: Atlas test evening
+    entities:
+      light.ceiling_lights:
+        state: "on"
+        brightness: 102
+      light.bed_light: "off"
