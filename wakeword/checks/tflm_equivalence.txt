@@ -1,0 +1,14 @@
+Final model (candidate B, checkpoint 20000), checked with scripts/check_tflm_equivalence.py
+and the TFLM re-run of all evaluation streams (scripts/tflm_eval.py).
+
+Sample streams: 3 test positives, 3 test probes, 3 DiPCo tracks (first 3,000 frames each) = 9 streams, 4,110 inferences.
+  TFLite Micro vs LiteRT (XNNPACK delegate, used for selection): identical 4,088/4,110, max |diff| 14 (uint8).
+  TFLite Micro vs LiteRT without delegates: identical 4,093/4,110.
+  Streams whose detection (W=3, cutoff 0.93) differs between TFLM and the evaluated LiteRT outputs: 0/9.
+
+All evaluation streams at the chosen setting (W=3, cutoff 0.93), LiteRT -> TFLM:
+  train_pos 922 -> 922 /1000; train_neg 32 -> 33 /1000; val_pos 3253 -> 3255 /3600; val_neg 23 -> 22 /800;
+  test_pos 3256 -> 3259 /3600; test_neg 36 -> 36 /800; test_probe 81 -> 81 /1904; test_probe_rhyme 69 -> 69 /448;
+  ambient false accepts: train 0 -> 0 (2.00 h), validation 0 -> 0 (9.67 h), test 0 -> 1 (5.33 h).
+  Highest 3-window sum on ambient (threshold int(0.93*255)*3 = 711):
+    validation: LiteRT 699, TFLM 704; test: LiteRT 707, TFLM 718; train sample: LiteRT 704, TFLM 699.

@@ -1,0 +1,78 @@
+{
+ "weights": "runs/candB/train/0_weights_20000.weights.h5",
+ "tflite": "evals/candB/s20000/model.tflite",
+ "input_scale": 0.10196078568696976,
+ "input_zero_point": -128,
+ "stride": 3,
+ "esphome_equivalent_scale": 0.10162353515625,
+ "export_s": 36.0,
+ "sets": {
+  "train_pos": {
+   "streams": 1000,
+   "frames": 557000,
+   "hours": 1.5472222222222223,
+   "dir": "data/feat_big/stream_eval/training/positive_*_mmap"
+  },
+  "train_neg": {
+   "streams": 1000,
+   "frames": 557000,
+   "hours": 1.5472222222222223,
+   "dir": "data/feat_big/stream_eval/training/negative_*_mmap"
+  },
+  "val_pos": {
+   "streams": 3600,
+   "frames": 2005200,
+   "hours": 5.57,
+   "dir": "data/feat_big/stream_eval/validation/positive_*_mmap"
+  },
+  "val_neg": {
+   "streams": 800,
+   "frames": 445600,
+   "hours": 1.2377777777777779,
+   "dir": "data/feat_big/stream_eval/validation/negative_*_mmap"
+  },
+  "test_pos": {
+   "streams": 3600,
+   "frames": 2005200,
+   "hours": 5.57,
+   "dir": "data/feat_big/stream_eval/testing/positive_*_mmap"
+  },
+  "test_neg": {
+   "streams": 800,
+   "frames": 445600,
+   "hours": 1.2377777777777779,
+   "dir": "data/feat_big/stream_eval/testing/negative_*_mmap"
+  },
+  "test_probe": {
+   "streams": 1904,
+   "frames": 1060528,
+   "hours": 2.945911111111111,
+   "dir": "data/feat_big/stream_eval/testing/probe_*_mmap"
+  },
+  "test_probe_rhyme": {
+   "streams": 448,
+   "frames": 249536,
+   "hours": 0.6931555555555556,
+   "dir": "data/feat_big/stream_eval/testing/probeB_*_mmap"
+  },
+  "train_ambient": {
+   "streams": 1440,
+   "frames": 720000,
+   "hours": 2.0,
+   "dir": "/home/user/ww/negx_inloop/train_ambient_sample/*_mmap"
+  },
+  "val_ambient": {
+   "streams": 4,
+   "frames": 3481371,
+   "hours": 9.670475,
+   "dir": "/home/user/ww/negx/dinner_party_eval/validation_ambient/*_mmap"
+  },
+  "test_ambient": {
+   "streams": 10,
+   "frames": 1920499,
+   "hours": 5.334719444444445,
+   "dir": "/home/user/ww/negx/dinner_party_eval/testing_ambient/*_mmap"
+  }
+ },
+ "total_s": 129.6
+}

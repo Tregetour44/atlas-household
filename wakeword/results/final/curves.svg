@@ -1,0 +1,116 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 840 460" width="840" height="460" font-family="system-ui, sans-serif" font-size="11">
+<style>
+  svg { --surface:#fcfcfb; --ink:#0b0b0b; --ink2:#52514e; --grid:#e4e3df; --s1:#2a78d6; --s2:#eb6834; --s3:#1baf7a; }
+  @media (prefers-color-scheme: dark) {
+    svg { --surface:#1a1a19; --ink:#f0efec; --ink2:#c3c2b7; --grid:#3a3936; --s1:#3987e5; --s2:#d95926; --s3:#199e70; }
+  }
+  .bg { fill: var(--surface); } .t { fill: var(--ink); } .m { fill: var(--ink2); }
+  .g { stroke: var(--grid); stroke-width: 1; } .ax { stroke: var(--ink2); stroke-width: 1; }
+  .s1 { stroke: var(--s1); } .s2 { stroke: var(--s2); } .s3 { stroke: var(--s3); }
+  .k1 { fill: var(--s1); } .k2 { fill: var(--s2); } .k3 { fill: var(--s3); }
+  .line { fill: none; stroke-width: 2; stroke-linejoin: round; stroke-linecap: round; }
+</style>
+<rect class="bg" width="840" height="460"/>
+<rect class="k1" x="52" y="12" width="12" height="4" rx="2"/>
+<text class="t" x="68" y="18">pilot</text>
+<rect class="k2" x="132" y="12" width="12" height="4" rx="2"/>
+<text class="t" x="148" y="18">candB</text>
+<rect class="k3" x="212" y="12" width="12" height="4" rx="2"/>
+<text class="t" x="228" y="18">main</text>
+<text class="t" x="52" y="58" font-weight="600">Training loss (mini-batch)</text>
+<line class="g" x1="52" x2="404" y1="216.0" y2="216.0"/>
+<text class="m" x="46" y="220.0" text-anchor="end">0</text>
+<line class="g" x1="52" x2="404" y1="180.5" y2="180.5"/>
+<text class="m" x="46" y="184.5" text-anchor="end">0.016</text>
+<line class="g" x1="52" x2="404" y1="145.0" y2="145.0"/>
+<text class="m" x="46" y="149.0" text-anchor="end">0.032</text>
+<line class="g" x1="52" x2="404" y1="109.5" y2="109.5"/>
+<text class="m" x="46" y="113.5" text-anchor="end">0.047</text>
+<line class="g" x1="52" x2="404" y1="74.0" y2="74.0"/>
+<text class="m" x="46" y="78.0" text-anchor="end">0.063</text>
+<text class="m" x="52.0" y="232" text-anchor="middle">0k</text>
+<text class="m" x="140.0" y="232" text-anchor="middle">11k</text>
+<text class="m" x="228.0" y="232" text-anchor="middle">22k</text>
+<text class="m" x="316.0" y="232" text-anchor="middle">33k</text>
+<text class="m" x="404.0" y="232" text-anchor="middle">45k</text>
+<line class="ax" x1="52" x2="404" y1="216" y2="216"/>
+<path class="line s1" d="M55.9,135.2 L59.8,163.3 L63.7,177.4 L67.6,206.8 L71.6,208.3 L75.5,196.8 L79.4,214.9 L83.3,213.2 L87.2,213.9 L91.1,214.9 L95.0,206.4 L98.9,214.7 L102.8,187.7 L106.8,214.7 L110.7,165.8 L114.6,213.2 L118.5,136.4 L122.4,215.5 L126.3,215.9 L130.2,213.8"><title>pilot loss</title></path>
+<text class="t" x="128.2" y="207.8" text-anchor="end">pilot 0.000959</text>
+<path class="line s2" d="M59.8,130.9 L67.6,100.6 L75.5,99.1 L83.3,157.8 L91.1,204.7 L98.9,160.6 L106.8,156.0 L114.6,195.8 L122.4,120.6 L130.2,172.9 L138.0,209.9 L145.9,213.0 L153.7,162.3 L161.5,202.4 L169.3,198.3 L177.2,204.8 L185.0,174.6 L192.8,175.5 L200.6,98.2 L208.4,209.4 L216.3,213.7 L224.1,159.3 L231.9,152.7 L239.7,188.1 L247.6,210.0 L255.4,211.5 L263.2,214.7 L271.0,194.0 L278.8,206.1 L286.7,178.9 L294.5,214.0 L302.3,208.8 L310.1,211.8 L318.0,214.0 L325.8,208.6 L333.6,213.7 L341.4,198.0 L349.2,151.9 L357.1,168.5 L364.9,210.0 L372.7,215.5 L380.5,208.2 L388.4,214.0 L396.2,215.0 L404.0,210.5"><title>candB loss</title></path>
+<text class="t" x="402.0" y="204.5" text-anchor="end">candB 0.00245</text>
+<path class="line s3" d="M59.8,145.4 L67.6,207.6 L75.5,178.6 L83.3,117.9 L91.1,80.8 L98.9,139.9 L106.8,211.5 L114.6,208.0 L122.4,206.9 L130.2,204.1 L138.0,206.0 L145.9,196.2 L153.7,130.3 L161.5,212.1 L169.3,208.4 L177.2,201.6 L185.0,202.3 L192.8,189.2 L200.6,200.4 L208.4,200.5 L216.3,200.9 L224.1,212.8 L231.9,215.5 L239.7,195.9 L247.6,197.3 L255.4,145.4 L263.2,213.4 L271.0,215.3 L278.8,208.3 L286.7,141.3"><title>main loss</title></path>
+<text class="t" x="284.7" y="135.3" text-anchor="end">main 0.0332</text>
+<text class="m" x="404" y="246" text-anchor="end">training step</text>
+<text class="t" x="472" y="58" font-weight="600">Validation loss (in-loop)</text>
+<line class="g" x1="472" x2="824" y1="216.0" y2="216.0"/>
+<text class="m" x="466" y="220.0" text-anchor="end">0</text>
+<line class="g" x1="472" x2="824" y1="180.5" y2="180.5"/>
+<text class="m" x="466" y="184.5" text-anchor="end">0.14</text>
+<line class="g" x1="472" x2="824" y1="145.0" y2="145.0"/>
+<text class="m" x="466" y="149.0" text-anchor="end">0.28</text>
+<line class="g" x1="472" x2="824" y1="109.5" y2="109.5"/>
+<text class="m" x="466" y="113.5" text-anchor="end">0.42</text>
+<line class="g" x1="472" x2="824" y1="74.0" y2="74.0"/>
+<text class="m" x="466" y="78.0" text-anchor="end">0.56</text>
+<text class="m" x="472.0" y="232" text-anchor="middle">0k</text>
+<text class="m" x="560.0" y="232" text-anchor="middle">11k</text>
+<text class="m" x="648.0" y="232" text-anchor="middle">22k</text>
+<text class="m" x="736.0" y="232" text-anchor="middle">33k</text>
+<text class="m" x="824.0" y="232" text-anchor="middle">45k</text>
+<line class="ax" x1="472" x2="824" y1="216" y2="216"/>
+<path class="line s1" d="M475.9,212.2 L479.8,213.3 L483.7,213.1 L487.6,211.4 L491.6,212.9 L495.5,213.9 L499.4,208.1 L503.3,213.4 L507.2,213.9 L511.1,210.1 L515.0,213.5 L518.9,212.5 L522.8,202.8 L526.8,213.0 L530.7,210.7 L534.6,213.1 L538.5,210.0 L542.4,208.8 L546.3,211.0 L550.2,213.5"><title>pilot loss</title></path>
+<text class="t" x="548.2" y="207.5" text-anchor="end">pilot 0.01</text>
+<path class="line s2" d="M479.8,161.0 L487.6,199.9 L495.5,135.2 L503.3,158.5 L511.1,206.2 L518.9,157.4 L526.8,175.2 L534.6,199.5 L542.4,185.3 L550.2,159.7 L558.0,158.1 L565.9,193.6 L573.7,193.8 L581.5,190.3 L589.3,203.9 L597.2,195.4 L605.0,180.2 L612.8,191.4 L620.6,195.2 L628.4,176.6 L636.3,200.1 L644.1,202.5 L651.9,195.9 L659.7,205.4 L667.6,190.0 L675.4,200.1 L683.2,203.5 L691.0,202.4 L698.8,199.7 L706.7,201.3 L714.5,207.3 L722.3,205.7 L730.1,196.5 L738.0,206.3 L745.8,196.1 L753.6,203.4 L761.4,204.1 L769.2,198.7 L777.1,201.8 L784.9,201.6 L792.7,206.6 L800.5,205.2 L808.4,203.7 L816.2,201.6 L824.0,206.0"><title>candB loss</title></path>
+<text class="t" x="822.0" y="200.0" text-anchor="end">candB 0.0395</text>
+<path class="line s3" d="M479.8,200.8 L487.6,197.7 L495.5,80.8 L503.3,193.2 L511.1,169.1 L518.9,206.8 L526.8,203.5 L534.6,197.9 L542.4,175.6 L550.2,205.8 L558.0,202.6 L565.9,208.8 L573.7,189.7 L581.5,195.4 L589.3,207.7 L597.2,204.7 L605.0,205.1 L612.8,209.0 L620.6,207.6 L628.4,210.3 L636.3,207.2 L644.1,208.3 L651.9,203.7 L659.7,208.3 L667.6,210.6 L675.4,207.7 L683.2,209.3 L691.0,209.4 L698.8,208.3 L706.7,209.8"><title>main loss</title></path>
+<text class="t" x="704.7" y="203.8" text-anchor="end">main 0.0245</text>
+<text class="m" x="824" y="246" text-anchor="end">training step</text>
+<text class="t" x="52" y="268" font-weight="600">Validation recall at 0 FA/h (in-loop, 3.2 h ambient)</text>
+<line class="g" x1="52" x2="404" y1="426.0" y2="426.0"/>
+<text class="m" x="46" y="430.0" text-anchor="end">0</text>
+<line class="g" x1="52" x2="404" y1="390.5" y2="390.5"/>
+<text class="m" x="46" y="394.5" text-anchor="end">0.25</text>
+<line class="g" x1="52" x2="404" y1="355.0" y2="355.0"/>
+<text class="m" x="46" y="359.0" text-anchor="end">0.5</text>
+<line class="g" x1="52" x2="404" y1="319.5" y2="319.5"/>
+<text class="m" x="46" y="323.5" text-anchor="end">0.75</text>
+<line class="g" x1="52" x2="404" y1="284.0" y2="284.0"/>
+<text class="m" x="46" y="288.0" text-anchor="end">1</text>
+<text class="m" x="52.0" y="442" text-anchor="middle">0k</text>
+<text class="m" x="140.0" y="442" text-anchor="middle">11k</text>
+<text class="m" x="228.0" y="442" text-anchor="middle">22k</text>
+<text class="m" x="316.0" y="442" text-anchor="middle">33k</text>
+<text class="m" x="404.0" y="442" text-anchor="middle">45k</text>
+<line class="ax" x1="52" x2="404" y1="426" y2="426"/>
+<path class="line s1" d="M55.9,316.7 L59.8,308.1 L63.7,312.4 L67.6,309.6 L71.6,330.9 L75.5,352.2 L79.4,309.6 L83.3,353.6 L87.2,426.0 L91.1,329.4 L95.0,316.7 L98.9,426.0 L102.8,336.5 L106.8,301.0 L110.7,320.9 L114.6,299.6 L118.5,312.4 L122.4,320.9 L126.3,426.0 L130.2,426.0"><title>pilot recall_at_no_faph</title></path>
+<text class="t" x="128.2" y="420.0" text-anchor="end">pilot 0</text>
+<path class="line s2" d="M59.8,352.8 L67.6,314.3 L75.5,344.9 L83.3,317.4 L91.1,426.0 L98.9,341.0 L106.8,323.6 L114.6,320.8 L122.4,334.4 L130.2,382.8 L138.0,314.8 L145.9,301.9 L153.7,315.4 L161.5,315.2 L169.3,309.9 L177.2,323.7 L185.0,315.6 L192.8,296.5 L200.6,308.8 L208.4,322.1 L216.3,303.8 L224.1,309.8 L231.9,297.4 L239.7,306.3 L247.6,303.4 L255.4,303.5 L263.2,298.6 L271.0,299.9 L278.8,297.0 L286.7,315.9 L294.5,298.8 L302.3,299.5 L310.1,325.7 L318.0,298.1 L325.8,319.3 L333.6,301.8 L341.4,314.6 L349.2,307.3 L357.1,299.5 L364.9,302.3 L372.7,298.0 L380.5,314.0 L388.4,301.2 L396.2,309.8 L404.0,300.3"><title>candB recall_at_no_faph</title></path>
+<text class="t" x="402.0" y="294.3" text-anchor="end">candB 0.885</text>
+<path class="line s3" d="M59.8,321.8 L67.6,335.4 L75.5,326.4 L83.3,320.8 L91.1,317.3 L98.9,303.0 L106.8,305.3 L114.6,319.5 L122.4,303.2 L130.2,426.0 L138.0,306.9 L145.9,426.0 L153.7,304.7 L161.5,305.2 L169.3,426.0 L177.2,295.9 L185.0,298.1 L192.8,299.1 L200.6,291.5 L208.4,426.0 L216.3,306.1 L224.1,293.8 L231.9,291.6 L239.7,292.4 L247.6,289.3 L255.4,291.8 L263.2,291.3 L271.0,287.1 L278.8,292.0 L286.7,291.8"><title>main recall_at_no_faph</title></path>
+<text class="t" x="284.7" y="285.8" text-anchor="end">main 0.945</text>
+<text class="m" x="404" y="456" text-anchor="end">training step</text>
+<text class="t" x="472" y="268" font-weight="600">Validation average viable recall (in-loop)</text>
+<line class="g" x1="472" x2="824" y1="426.0" y2="426.0"/>
+<text class="m" x="466" y="430.0" text-anchor="end">0</text>
+<line class="g" x1="472" x2="824" y1="390.5" y2="390.5"/>
+<text class="m" x="466" y="394.5" text-anchor="end">0.25</text>
+<line class="g" x1="472" x2="824" y1="355.0" y2="355.0"/>
+<text class="m" x="466" y="359.0" text-anchor="end">0.5</text>
+<line class="g" x1="472" x2="824" y1="319.5" y2="319.5"/>
+<text class="m" x="466" y="323.5" text-anchor="end">0.75</text>
+<line class="g" x1="472" x2="824" y1="284.0" y2="284.0"/>
+<text class="m" x="466" y="288.0" text-anchor="end">1</text>
+<text class="m" x="472.0" y="442" text-anchor="middle">0k</text>
+<text class="m" x="560.0" y="442" text-anchor="middle">11k</text>
+<text class="m" x="648.0" y="442" text-anchor="middle">22k</text>
+<text class="m" x="736.0" y="442" text-anchor="middle">33k</text>
+<text class="m" x="824.0" y="442" text-anchor="middle">45k</text>
+<line class="ax" x1="472" x2="824" y1="426" y2="426"/>
+<path class="line s1" d="M475.9,304.9 L479.8,301.0 L483.7,302.4 L487.6,302.6 L491.6,303.2 L495.5,302.6 L499.4,302.5 L503.3,309.3 L507.2,307.4 L511.1,308.3 L515.0,299.2 L518.9,305.3 L522.8,310.1 L526.8,298.9 L530.7,306.3 L534.6,295.7 L538.5,304.3 L542.4,300.0 L546.3,306.2 L550.2,320.6"><title>pilot average_viable_recall</title></path>
+<text class="t" x="548.2" y="314.6" text-anchor="end">pilot 0.743</text>
+<path class="line s2" d="M479.8,323.1 L487.6,306.6 L495.5,328.2 L503.3,302.8 L511.1,309.4 L518.9,328.5 L526.8,315.2 L534.6,297.2 L542.4,311.2 L550.2,316.9 L558.0,302.9 L565.9,296.3 L573.7,303.1 L581.5,307.6 L589.3,302.8 L597.2,308.3 L605.0,306.8 L612.8,293.4 L620.6,298.0 L628.4,302.1 L636.3,298.5 L644.1,298.8 L651.9,292.6 L659.7,299.2 L667.6,299.5 L675.4,295.6 L683.2,294.6 L691.0,294.5 L698.8,293.6 L706.7,306.6 L714.5,293.5 L722.3,294.2 L730.1,308.7 L738.0,293.5 L745.8,306.9 L753.6,292.9 L761.4,297.5 L769.2,298.9 L777.1,295.2 L784.9,292.7 L792.7,293.5 L800.5,299.8 L808.4,294.3 L816.2,296.7 L824.0,293.8"><title>candB average_viable_recall</title></path>
+<text class="t" x="822.0" y="287.8" text-anchor="end">candB 0.931</text>
+<path class="line s3" d="M479.8,302.1 L487.6,302.9 L495.5,320.6 L503.3,311.4 L511.1,306.4 L518.9,294.3 L526.8,299.3 L534.6,300.1 L542.4,294.9 L550.2,309.2 L558.0,304.4 L565.9,305.3 L573.7,295.3 L581.5,293.9 L589.3,300.2 L597.2,289.5 L605.0,290.1 L612.8,292.6 L620.6,288.3 L628.4,303.4 L636.3,289.5 L644.1,289.6 L651.9,288.2 L659.7,289.5 L667.6,286.7 L675.4,287.3 L683.2,287.1 L691.0,286.4 L698.8,288.4 L706.7,288.1"><title>main average_viable_recall</title></path>
+<text class="t" x="704.7" y="282.1" text-anchor="end">main 0.971</text>
+<text class="m" x="824" y="456" text-anchor="end">training step</text>
+</svg>

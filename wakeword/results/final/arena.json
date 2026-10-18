@@ -1,0 +1,11 @@
+{
+ "min_arena_bytes_host": 34830,
+ "model_bytes": 69624,
+ "reference_outputs_first5": [
+  13,
+  1,
+  0,
+  0,
+  0
+ ]
+}

@@ -451,3 +451,59 @@ neg448,train,other,other,hate less,hˈeɪt lˈɛs,en-us
 neg449,train,other,other,hate less,hˈeɪt lˈɛs,en
 neg450,train,other,other,hate less,hˈeɪt lˈɛs,en-gb-x-rp
 neg451,train,other,other,hate less,hˈeɪt lˈɛs,en-029
+neg452,train,z_rhyme,z_rhyme,pay Atlas,pˈeɪ ˈætləs,en-us
+neg453,train,z_rhyme,z_rhyme,pay Atlas,pˈeɪ ˈatləs,en
+neg454,train,z_rhyme,z_rhyme,pay Atlas,pˈeɪ ˈætləs,en-gb-x-rp
+neg455,train,z_rhyme,z_rhyme,pay Atlas,pˈeɪ ˈatləs,en-029
+neg456,train,z_rhyme,z_rhyme,day Atlas,dˈeɪ ˈætləs,en-us
+neg457,train,z_rhyme,z_rhyme,day Atlas,dˈeɪ ˈatləs,en
+neg458,train,z_rhyme,z_rhyme,day Atlas,dˈeɪ ˈætləs,en-gb-x-rp
+neg459,train,z_rhyme,z_rhyme,day Atlas,dˈeɪ ˈatləs,en-029
+neg460,train,z_rhyme,z_rhyme,play Atlas,plˈeɪ ˈætləs,en-us
+neg461,train,z_rhyme,z_rhyme,play Atlas,plˈeɪ ˈatləs,en
+neg462,train,z_rhyme,z_rhyme,play Atlas,plˈeɪ ˈætləs,en-gb-x-rp
+neg463,train,z_rhyme,z_rhyme,play Atlas,plˈeɪ ˈatləs,en-029
+neg464,train,z_rhyme,z_rhyme,"stay, Atlas","stˈeɪ, ˈætləs",en-us
+neg465,train,z_rhyme,z_rhyme,"stay, Atlas","stˈeɪ, ˈatləs",en
+neg466,train,z_rhyme,z_rhyme,"stay, Atlas","stˈeɪ, ˈætləs",en-gb-x-rp
+neg467,train,z_rhyme,z_rhyme,"stay, Atlas","stˈeɪ, ˈatləs",en-029
+neg468,train,z_rhyme,z_rhyme,may Atlas,mˈeɪ ˈætləs,en-us
+neg469,train,z_rhyme,z_rhyme,may Atlas,mˈeɪ ˈatləs,en
+neg470,train,z_rhyme,z_rhyme,may Atlas,mˈeɪ ˈætləs,en-gb-x-rp
+neg471,train,z_rhyme,z_rhyme,may Atlas,mˈeɪ ˈatləs,en-029
+neg472,train,z_rhyme,z_rhyme,grey atlas,ɡɹˈeɪ ˈætləs,en-us
+neg473,train,z_rhyme,z_rhyme,grey atlas,ɡɹˈeɪ ˈatləs,en
+neg474,train,z_rhyme,z_rhyme,grey atlas,ɡɹˈeɪ ˈætləs,en-gb-x-rp
+neg475,train,z_rhyme,z_rhyme,grey atlas,ɡɹˈeɪ ˈatləs,en-029
+neg476,train,z_rhyme,z_rhyme,weigh the atlas,wˈeɪ ðɪʲ ˈætləs,en-us
+neg477,train,z_rhyme,z_rhyme,weigh the atlas,wˈeɪ ðɪʲ ˈatləs,en
+neg478,train,z_rhyme,z_rhyme,weigh the atlas,wˈeɪ ðɪʲ ˈætləs,en-gb-x-rp
+neg479,train,z_rhyme,z_rhyme,weigh the atlas,wˈeɪ dɪʲ ˈatləs,en-029
+neg480,test,z_rhyme,z_rhyme,"okay, Atlas","oʊkˈeɪ, ˈætləs",en-us
+neg481,test,z_rhyme,z_rhyme,"okay, Atlas","əʊkˈeɪ, ˈatləs",en
+neg482,test,z_rhyme,z_rhyme,"okay, Atlas","əʊkˈeɪ, ˈætləs",en-gb-x-rp
+neg483,test,z_rhyme,z_rhyme,"okay, Atlas","oʊkˈeɪ, ˈatləs",en-029
+neg484,train,z_rhyme,z_rhyme,"they, Atlas","ðeɪ, ˈætləs",en-us
+neg485,train,z_rhyme,z_rhyme,"they, Atlas","ðeɪ, ˈatləs",en
+neg486,train,z_rhyme,z_rhyme,"they, Atlas","ðeɪ, ˈætləs",en-gb-x-rp
+neg487,train,z_rhyme,z_rhyme,"they, Atlas","deɪ, ˈatləs",en-029
+neg488,train,z_rhyme,z_rhyme,relay Atlas,ɹˈiːleɪ ˈætləs,en-us
+neg489,train,z_rhyme,z_rhyme,relay Atlas,ɹˈiːleɪ ˈatləs,en
+neg490,train,z_rhyme,z_rhyme,relay Atlas,ɹˈiːleɪ ˈætləs,en-gb-x-rp
+neg491,train,z_rhyme,z_rhyme,relay Atlas,ɹˈiːleɪ ˈatləs,en-029
+neg492,validation,z_rhyme,z_rhyme,hey Atlassian,hˈeɪ ætlˈæsiən,en-us
+neg493,validation,z_rhyme,z_rhyme,hey Atlassian,hˈeɪ atlˈasiən,en
+neg494,validation,z_rhyme,z_rhyme,hey Atlassian,hˈeɪ ætlˈɑːsiən,en-gb-x-rp
+neg495,validation,z_rhyme,z_rhyme,hey Atlassian,hˈeɪ atlˈaasiən,en-029
+neg496,train,z_rhyme,z_rhyme,hey Atlantic,hˈeɪ ɐtlˈæntɪk,en-us
+neg497,train,z_rhyme,z_rhyme,hey Atlantic,hˈeɪ ɐtlˈantɪk,en
+neg498,train,z_rhyme,z_rhyme,hey Atlantic,hˈeɪ ɐtlˈɑːntɪk,en-gb-x-rp
+neg499,train,z_rhyme,z_rhyme,hey Atlantic,hˈeɪ atlˈaantɪk,en-029
+neg500,train,z_rhyme,z_rhyme,hey at least,hˈeɪ æt lˈiːst,en-us
+neg501,train,z_rhyme,z_rhyme,hey at least,hˈeɪ at lˈiːst,en
+neg502,train,z_rhyme,z_rhyme,hey at least,hˈeɪ æt lˈiːst,en-gb-x-rp
+neg503,train,z_rhyme,z_rhyme,hey at least,hˈeɪ at lˈiːst,en-029
+neg504,train,z_rhyme,z_rhyme,"hey, a tassel","hˈeɪ, ɐ tˈæsəl",en-us
+neg505,train,z_rhyme,z_rhyme,"hey, a tassel","hˈeɪ, ɐ tˈasəl",en
+neg506,train,z_rhyme,z_rhyme,"hey, a tassel","hˈeɪ, ɐ tˈæsəl",en-gb-x-rp
+neg507,train,z_rhyme,z_rhyme,"hey, a tassel","hˈeɪ, a tˈasɛl",en-029
