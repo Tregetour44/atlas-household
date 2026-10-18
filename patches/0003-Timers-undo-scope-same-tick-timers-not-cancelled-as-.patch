@@ -1,0 +1,139 @@
+From 89d3f7274a71d3e92c512519c2fa43b1314541ba Mon Sep 17 00:00:00 2001
+From: Claude <noreply@anthropic.com>
+Date: Sun, 18 Oct 2026 10:39:50 +0000
+Subject: [PATCH 3/4] Timers, undo, scope: same-tick timers not cancelled as
+ late, undo scoped to the conversation, floor groups need floor words, blind
+ yes bound to the snapshot, failed undo retryable (cloud review 1: M9-M11, m1,
+ m2)
+
+---
+ custom_components/atlas_household/core.py | 51 ++++++++++++++++++-----
+ 1 file changed, 40 insertions(+), 11 deletions(-)
+
+diff --git a/custom_components/atlas_household/core.py b/custom_components/atlas_household/core.py
+index 8d7875c..2cb573b 100644
+--- a/custom_components/atlas_household/core.py
++++ b/custom_components/atlas_household/core.py
+@@ -78,6 +78,10 @@ AFFIRMATIVE = re.compile(r"^\s*(yes|yep|yeah|yup|ok|okay|sure|please do|do it|go
+ STATUSES = ('done', 'skipped_already', 'needs_confirmation', 'denied', 'scheduled', 'cancelled', 'undone', 'not_verified', 'failed',
+             'needs_choice', 'scheduled_list')
+ ACTING = {'atlas_lights', 'atlas_scene', 'atlas_blind', 'atlas_media', 'atlas_confirm', 'atlas_schedule', 'atlas_undo'}
++# A floor-wide or whole-outside group (a multi-light handle with a floor, or with no area) is used only when the person's words name that scope
++# or all the lights; otherwise ask. A model that picks "ground_floor_lights" for "the family room lamp" would switch 14 lights [cloud review 1, M11].
++SCOPE_SYNONYMS = {'ground': ('downstairs', 'ground floor'), 'upstairs': ('first floor', 'top floor', 'up stairs'), 'outside': ('outdoor', 'outdoors', 'exterior')}
++ALL_LIGHTS = re.compile(r"\b(all(\s+of)?\s+(the\s+)?lights|every\s+light|everywhere|whole\s+(house|home|place))\b(?!\s+(in|on|at)\s+the\b)", re.I)
+ NEVER_SCOPE = ACTING | {'atlas_cancel'}      # a cancel changes what will happen, so it is refused in a never-list turn too [cloud review 1, M3]
+ 
+ 
+@@ -624,6 +628,10 @@ class Coordinator:
+             res = _deny('inhibited', "I've stopped making changes because my action log couldn't be saved. Please tell the owner.", detail=self.inhibited)
+         elif name in NEVER_SCOPE and NEVER_WORDS.search(ctx['user_text']):
+             res = _deny('never_list', "Part of that is something I'm never allowed to do (locks, doors, alarms, gates or the energy system), so I haven't done any of it.")
++        elif name in ('atlas_lights', 'atlas_schedule') and ctx['user_text'] and not self._in_scope(args.get('target_handle'), ctx['user_text']):
++            t = self.handles[args['target_handle']]
++            res = _r('needs_choice', f"Do you mean all of the {t['label'].lower()}, or just one room? Ask which.", reason='scope', handle=args['target_handle'],
++                     label=t['label'])
+         else:
+             try:
+                 res = await fn(dict(args), ctx)
+@@ -654,6 +662,18 @@ class Coordinator:
+             self.requests[key] = (self.now(), res)
+         return res
+ 
++    def _in_scope(self, handle: str, text: str) -> bool:
++        """False when a floor-wide or whole-outside group is asked for in words that name neither its scope nor all the lights [M11]."""
++        t = self.handles.get(handle) or {}
++        if t.get('kind') != 'light' or len(set(t.get('entity_ids') or [])) < 2 or (t.get('area') and not t.get('floor')):
++            return True
++        said = f" {_words(text)} "
++        if ALL_LIGHTS.search(text):
++            return True
++        base = set(_words(t.get('floor') or t['label'].split('(')[0]).split()) - {'lights', 'light', 'floor', 'the', 'and'}
++        names = base | {x for w in base for x in SCOPE_SYNONYMS.get(w, ())}
++        return any(f" {w} " in said for w in names)
++
+     # ---------- shared ----------
+     @staticmethod
+     def _light_ok(op: str, pct: int | None):
+@@ -926,7 +946,7 @@ class Coordinator:
+             return res
+         need, _, pos, word = plan
+         q = (f"{'Open' if pos == 100 else 'Close'} the {t['label'].lower()}?" if pos in (0, 100) else f"Set the {t['label'].lower()} to {pos}% open?")
+-        return self._ask(ctx, {'kind': 'blind_now', 'args': a, 'preview': {e: s['rev'] for e, s in need}}, q, t)
++        return self._ask(ctx, {'kind': 'blind_now', 'args': a, 'preview': {e: s['rev'] for e, s in need}, 'preview_snaps': {e: s for e, s in need}}, q, t)
+ 
+     async def _confirm(self, a: dict, ctx: dict) -> dict:
+         cid = a['confirmation']
+@@ -957,7 +977,8 @@ class Coordinator:
+             plan, res = await self._blind_plan(t, p['args']['operation'], p['args'].get('position_percent'))
+             if res:
+                 return res
+-            if {e: s['rev'] for e, s in plan[0]} != p['preview']:      # act only on the frozen preview
++            if {e: s['rev'] for e, s in plan[0]} != p['preview'] or \
++                    any(not _same(s, p['preview_snaps'].get(e)) for e, s in plan[0]):      # act only on the frozen preview [R8-08, cloud review 1 m1]
+                 return _deny('changed_since_question', f"{t['label']} changed since I asked, so I haven't moved it. Ask again if you still want it.")
+             return await self._blind_send(t, plan, ctx)
+         if p['kind'] == 'schedule':
+@@ -1151,13 +1172,17 @@ class Coordinator:
+         out = []
+         if not self.ready:
+             return out
++        tick_at = self.now()
+         for task in self._pending():
+             async with self.lock:
+                 if task['state'] != 'pending':          # cancelled while we waited for the lock
+                     continue
+                 now = self.now()
+                 due = datetime.fromisoformat(task['due_at'])
+-                late = (now - due).total_seconds()
++                # a timer that fell due while this tick was still sending and reading back an earlier one (a blind takes up to 45 s) is judged as
++                # of when its turn came, not as late: HA was up the whole time [cloud review 1, M9]. Lateness before the tick still counts.
++                busy = max(0.0, (now - max(due, tick_at)).total_seconds()) if due <= now else 0.0
++                late = (now - due).total_seconds() - busy
+                 ran_for = self.mono() - self.mono_at[task['id']] if task['id'] in self.mono_at else None
+                 wall_for = (now - datetime.fromisoformat(task['created_at'])).total_seconds()
+                 why, state = None, None
+@@ -1166,8 +1191,8 @@ class Coordinator:
+                 elif (due - now).total_seconds() > LIMITS['maximum_delay_seconds'] + LIMITS['clock_disagreement_seconds'] or \
+                         (ran_for is not None and abs(ran_for - wall_for) > LIMITS['clock_disagreement_seconds']):
+                     why, state = 'the clock changed', 'needs_review'
+-                elif ran_for is not None and ran_for > task.get('delay_seconds', LIMITS['maximum_delay_seconds']) + LIMITS['maximum_uptime_lateness_seconds']:
+-                    why, state = f"it would have run {round(ran_for - task.get('delay_seconds', 0))} s late", 'cancelled_missed'
++                elif ran_for is not None and ran_for - busy > task.get('delay_seconds', LIMITS['maximum_delay_seconds']) + LIMITS['maximum_uptime_lateness_seconds']:
++                    why, state = f"it would have run {round(ran_for - busy - task.get('delay_seconds', 0))} s late", 'cancelled_missed'
+                 elif due > now:
+                     continue
+                 elif late > LIMITS['maximum_uptime_lateness_seconds']:
+@@ -1251,7 +1276,10 @@ class Coordinator:
+         else:
+             if not live:
+                 return _deny('nothing_to_undo', "There's nothing from the last 10 minutes to undo.")
+-            r = live[-1]       # the latest action by creation order (receipts are appended in order; times can tie)
++            mine = [x for x in live if x.get('conversation') == ctx['conversation_id']]      # as cancel [R4-04]: never another room's action [M10]
++            if not mine:
++                return _deny('not_here', "The last change wasn't made here, so I can't undo it from here.")
++            r = mine[-1]       # the latest action by creation order (receipts are appended in order; times can tie)
+         if r.get('restarted_since'):
+             return _deny('restarted', f"Home Assistant restarted since {r['description']}, so I can't undo it safely.", receipt=r['id'])
+         if r.get('kind') == 'blind':
+@@ -1293,11 +1321,12 @@ class Coordinator:
+         t = {'handle': r['handle'], 'kind': r['kind'], 'label': r['label']}
+         res = await self._execute(t, sends, checks, befores, ctx, f"{r['description']} undone", [], [], source='undo', parent=r['id'],
+                                   timeout=LIMITS['blind_readback_timeout_seconds'] if r['kind'] == 'blind' else None)
+-        r['undone'] = True
+-        r['undone_by'] = res.get('receipt')
+-        for x in self.data['receipts']:
+-            if x['id'] == res.get('receipt'):
+-                x['is_undo'] = True
++        ur = next((x for x in self.data['receipts'] if x['id'] == res.get('receipt')), None)
++        if ur is not None:
++            ur['is_undo'] = True
++        if (ur or {}).get('phase') != 'send_failed':      # nothing was sent: the action can still be undone [cloud review 1, m2]
++            r['undone'] = True
++            r['undone_by'] = res.get('receipt')
+         part = f" ({len(blocked)} left alone because they were changed since)" if blocked else ''
+         if res['status'] == 'done':
+             return _r('undone', f"Undone: {r['description']}{part}. Checked.", receipt=res['receipt'], parent=r['id'], restored=len(checks), left_alone=len(blocked) or None)
+-- 
+2.43.0
+

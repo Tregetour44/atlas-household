@@ -1,0 +1,130 @@
+From e4b55cefab5085ae6d93c98573f88ffd9c7aff1d Mon Sep 17 00:00:00 2001
+From: Claude <noreply@anthropic.com>
+Date: Sun, 18 Oct 2026 10:43:16 +0000
+Subject: [PATCH 4/4] Wiring: no forward to a missing guarded-agent platform,
+ per-task HA context, no acting without a conversation (cloud review 1: M1,
+ M12, m4)
+
+---
+ custom_components/atlas_household/__init__.py | 22 +++++++++++++++++--
+ custom_components/atlas_household/api.py      | 17 +++++++++++++-
+ .../atlas_household/config_flow.py            |  3 +++
+ 3 files changed, 39 insertions(+), 3 deletions(-)
+
+diff --git a/custom_components/atlas_household/__init__.py b/custom_components/atlas_household/__init__.py
+index 0b560d5..3624880 100644
+--- a/custom_components/atlas_household/__init__.py
++++ b/custom_components/atlas_household/__init__.py
+@@ -19,6 +19,12 @@ HERE = pathlib.Path(__file__).parent
+ TEST_COPY_NAME = 'Atlas test copy'     # homeassistant: name: in the test copy's configuration.yaml; the household HA is not called this
+ 
+ 
++def guarded_platform_available() -> bool:
++    """The claim-guarded agent is the 'conversation' platform of this package. An export without conversation.py must not forward the entry
++    to it (setup would fail) and must refuse the option, so nobody believes replies are guarded when they aren't [cloud review 1, M1]."""
++    return (HERE / 'conversation.py').exists()
++
++
+ class Runtime:
+     def __init__(self, hass, coord, backend) -> None:
+         self.hass, self.coord, self.backend = hass, coord, backend
+@@ -111,8 +117,11 @@ async def async_setup_entry(hass, entry) -> bool:
+     rt.guarded_loaded = False
+     rt.options_lock = asyncio.Lock()
+     if (entry.options or {}).get('guarded_agent'):          # the claim-guarded agent, only when an underlying agent is configured
+-        await hass.config_entries.async_forward_entry_setups(entry, ['conversation'])
+-        rt.guarded_loaded = True
++        if guarded_platform_available():
++            await hass.config_entries.async_forward_entry_setups(entry, ['conversation'])
++            rt.guarded_loaded = True
++        else:
++            _guard_missing(hass)
+     entry.async_on_unload(entry.add_update_listener(_options_changed))
+ 
+     def _unload():
+@@ -175,10 +184,19 @@ async def _options_changed(hass, entry) -> None:
+             await hass.config_entries.async_unload_platforms(entry, ['conversation'])
+             rt.guarded_loaded = False
+         if (entry.options or {}).get('guarded_agent'):
++            if not guarded_platform_available():
++                _guard_missing(hass)
++                return
+             await hass.config_entries.async_forward_entry_setups(entry, ['conversation'])
+             rt.guarded_loaded = True
+ 
+ 
++def _guard_missing(hass) -> None:
++    from homeassistant.components import persistent_notification  # noqa: PLC0415
++    persistent_notification.async_create(hass, "The claim-guarded Atlas agent isn't installed (conversation.py is missing), so Atlas's replies are NOT "
++                                         "guarded. Install the complete integration.", title='Atlas coordinator', notification_id='atlas_guard_missing')
++
++
+ async def async_unload_entry(hass, entry) -> bool:
+     """Disable, remove or reload: every pending timer is cancelled durably (Codex 40 A049), so nothing comes back on a restart.
+     (HA does not unload entries when it shuts down, so a restart keeps the queue, and start()/rebaseline() handle it.)"""
+diff --git a/custom_components/atlas_household/api.py b/custom_components/atlas_household/api.py
+index 5f35d31..0c07306 100644
+--- a/custom_components/atlas_household/api.py
++++ b/custom_components/atlas_household/api.py
+@@ -4,6 +4,7 @@ Imported only by __init__.async_setup_entry (inside HA), so core/tools/fake stay
+ from __future__ import annotations
+ 
+ import asyncio
++import contextvars
+ import time
+ 
+ import voluptuous as vol
+@@ -11,6 +12,7 @@ import voluptuous as vol
+ from homeassistant.core import Context, HomeAssistant
+ from homeassistant.helpers import llm
+ 
++from .core import NEVER_SCOPE
+ from .tools import API_ID, API_NAME, api_prompt, specs
+ 
+ 
+@@ -19,7 +21,17 @@ class HABackend:
+ 
+     def __init__(self, hass: HomeAssistant) -> None:
+         self.hass = hass
+-        self.context: Context | None = None
++        self._context: contextvars.ContextVar[Context | None] = contextvars.ContextVar('atlas_context', default=None)
++
++    @property
++    def context(self) -> Context | None:
++        """The HA context for this tool call or timer run. Per asyncio task: two satellites talking at once, or a timer firing during a call,
++        each keep their own, and one finishing never clears another's [cloud review 1, m4]."""
++        return self._context.get()
++
++    @context.setter
++    def context(self, value: Context | None) -> None:
++        self._context.set(value)
+ 
+     async def get_state(self, entity_id):
+         st = self.hass.states.get(entity_id)
+@@ -60,6 +72,9 @@ class AtlasTool(llm.Tool):
+         from homeassistant.components.conversation.chat_log import AssistantContent, UserContent, current_chat_log  # noqa: PLC0415
+         chat = current_chat_log.get()
+         user_text, conversation_id, turn, last_reply = '', None, None, None
++        if chat is None and tool_input.tool_name in NEVER_SCOPE:
++            # no conversation means no words: the never-list and every other check of what the person said would pass vacuously [cloud review 1, M12]
++            return {'status': 'denied', 'reason': 'no_conversation', 'summary': "I can only make changes from a conversation, where I can check what was asked."}
+         if chat is not None:
+             conversation_id = chat.conversation_id
+             content = list(chat.content)
+diff --git a/custom_components/atlas_household/config_flow.py b/custom_components/atlas_household/config_flow.py
+index e93f869..6e2fd1e 100644
+--- a/custom_components/atlas_household/config_flow.py
++++ b/custom_components/atlas_household/config_flow.py
+@@ -49,6 +49,9 @@ class AtlasOptionsFlow(OptionsFlow):
+         except on the test copy, whose checks use it [R12-06, R12-09]. It should be an Atlas-only agent (its only tools the atlas_ ones);
+         if another tool runs in a turn, the guard never says "I haven't changed anything" (conversation.py, external_tool) [R13-06]."""
+         from homeassistant.helpers import entity_registry as er  # noqa: PLC0415
++        from . import guarded_platform_available  # noqa: PLC0415
++        if not guarded_platform_available():
++            return 'guard_not_installed'          # this copy doesn't ship the guarded agent [cloud review 1, M1]
+         own = er.async_get(self.hass).async_get_entity_id('conversation', DOMAIN, f'{self.config_entry.entry_id}_claim_guarded')
+         if not agent.startswith('conversation.') or self.hass.states.get(agent) is None:
+             return 'not_a_conversation_agent'
+-- 
+2.43.0
+

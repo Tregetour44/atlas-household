@@ -1,0 +1,66 @@
+From 372193191eeadbaf245890ae1507a3f901607ed9 Mon Sep 17 00:00:00 2001
+From: Claude <noreply@anthropic.com>
+Date: Sun, 18 Oct 2026 10:35:46 +0000
+Subject: [PATCH 1/4] Never-list: more never words, cancel refused in a
+ never-list turn, door-named covers refused (cloud review 1: M2, M3, M4)
+
+---
+ custom_components/atlas_household/core.py | 17 ++++++++++++++---
+ 1 file changed, 14 insertions(+), 3 deletions(-)
+
+diff --git a/custom_components/atlas_household/core.py b/custom_components/atlas_household/core.py
+index 66e4ed0..b31b5da 100644
+--- a/custom_components/atlas_household/core.py
++++ b/custom_components/atlas_household/core.py
+@@ -57,19 +57,28 @@ FORBIDDEN = re.compile(r'(battery|inverter|export|sungrow|tariff|solar|grid|ener
+ # A blind is accepted only if the map lists it in reviewed_covers with the device class it was reviewed with, and at run time it still
+ # reports that class. Names alone never make a cover safe (Codex 43 H2): a garage door, gate or window opener is refused.
+ ALLOWED_COVER_CLASSES = {'shade', 'blind', 'curtain', 'awning', 'shutter'}
++# ...and a cover NAMED like a door is refused whatever class it was reviewed with: roller garage doors often report "shutter"
++# [cloud review 1, M4]. "..._door_blind" and "..._roller_blind" stay allowed.
++COVER_FORBIDDEN = re.compile(r'(?<![a-z])(garages?|carports?|driveways?|sheds?|rollers?(?!_?blinds?)|doors?(?!_?blinds?))', re.I)
+ # Never-list subjects in the person's own words: the whole turn is refused, so nothing is done partly.
+ NEVER_WORDS = re.compile(r"\b(un ?lock\w*|lock(s|ed|ing)?|alarm\w*|(garage|front|back|side|roller)[- ]?doors?|door ?locks?|(door )?openers?|"
+-                         r"(open|close|shut|lift|raise|lower|unlatch|release)\s+(the\s+|my\s+|our\s+|a\s+)?([\w-]+\s+){0,2}?(garage|doors?)\b"
++                         r"(open|close|shut|lift|raise|lower|unlatch|release)\s+(the\s+|my\s+|our\s+|a\s+)?([\w-]+\s+){0,2}?(garages?|doors?)\b"
+                          r"(?![\s-]*(lights?|lamps?|blinds?|downlights?|spotlights?))|"
+                          r"gates?|batter(y|ies)|inverter\w*|export\w*|tariff\w*|reserve|discharg\w*|sungrow|power ?wall|energy|solar|grid|self[- ]?use|"
+                          r"feed[- ]?in|backup power|pv|photovoltaic|the panels|disarm\w*|arm\w*\s+(the\s+|my\s+|our\s+)?(house|home|system|security|alarm)|"
+                          r"secure (the|my|our) (house|home|place)|away mode|security(?!\s+lights?)|garage\s+(up|down|open|closed)|pop the garage|"
+                          r"(the\s+)?rollers?(?![\s-]*blinds?)|(house|home) to away|arm\w*\s+(everything|(it|them) all)|(ev|car)\s+charg\w*|wallbox|ev|"
+-                         r"charg\w*\s+(the\s+|my\s+)?(car|ev)|plug in the (car|ev))\b", re.I)   # whole-turn refusal [Codex 43 H2, R12-05, R13-07]
++                         r"charg\w*\s+(the\s+|my\s+)?(car|ev)|plug in the (car|ev)|"
++                         # cloud review 1, M2: lock hardware, securing, the grid and tariff in other words, energy brands, door strikes
++                         r"deadbolt\w*|latch\w*|padlock\w*|keypad\w*|sirens?|intruder\w*|(house|home|place)\s+(is\s+)?secure|garages|"
++                         r"electricity|off[- ]?peak|peak\s+(rate|hours?|time|tariff|pricing)|cheap\s+rate|kwh|kilowatt\w*|mains|"
++                         r"power\s+(bill|usage|use|plan|rate|price|company|draw)|tesla|fronius|enphase|solaredge|goodwe|zappi|buzz\s+(\w+\s+){0,2}in)\b",
++                         re.I)   # whole-turn refusal [Codex 43 H2, R12-05, R13-07, cloud review 1]
+ AFFIRMATIVE = re.compile(r"^\s*(yes|yep|yeah|yup|ok|okay|sure|please do|do it|go ahead|confirm(ed)?|yes please|correct)\b[\s.!,]*(please)?[\s.!]*$", re.I)
+ STATUSES = ('done', 'skipped_already', 'needs_confirmation', 'denied', 'scheduled', 'cancelled', 'undone', 'not_verified', 'failed',
+             'needs_choice', 'scheduled_list')
+ ACTING = {'atlas_lights', 'atlas_scene', 'atlas_blind', 'atlas_media', 'atlas_confirm', 'atlas_schedule', 'atlas_undo'}
++NEVER_SCOPE = ACTING | {'atlas_cancel'}      # a cancel changes what will happen, so it is refused in a never-list turn too [cloud review 1, M3]
+ 
+ 
+ class Backend(Protocol):
+@@ -427,6 +436,8 @@ class Coordinator:
+                     cls = reviewed[e]
+                     if not (cls in ALLOWED_COVER_CLASSES or (cls is None and targets.get('test_only') is True)):
+                         raise ValueError(f'{h}: {e} reviewed class {cls!r} is not a blind')
++                    if COVER_FORBIDDEN.search(e):
++                        raise ValueError(f'{h}: {e} is named like a door, not a blind')
+             for e in t['entity_ids'] + t.get('members', []):
+                 if FORBIDDEN.search(e):
+                     raise ValueError(f'{h}: {e} matches the never-list')
+@@ -561,7 +572,7 @@ class Coordinator:
+             res = _deny('bad_argument', "I couldn't understand that request exactly.", detail=err)
+         elif name in ACTING and self.inhibited:
+             res = _deny('inhibited', "I've stopped making changes because my action log couldn't be saved. Please tell the owner.", detail=self.inhibited)
+-        elif name in ACTING and NEVER_WORDS.search(ctx['user_text']):
++        elif name in NEVER_SCOPE and NEVER_WORDS.search(ctx['user_text']):
+             res = _deny('never_list', "Part of that is something I'm never allowed to do (locks, doors, alarms, gates or the energy system), so I haven't done any of it.")
+         else:
+             try:
+-- 
+2.43.0
+
