@@ -72,7 +72,7 @@ Phrases the brief named: "an atlas" (6/16) and "the atlas" (7/20) are among the 
 
 ### Run time
 
-This session ran on a 4-core CPU with no GPU, from 11:30 to about 18:40 UTC on 2026-10-18 (about 7 h, set-up included).
+This session ran on a 4-core CPU with no GPU, from 11:30 to 18:15 UTC on 2026-10-18 (about 6 h 45 min, set-up included).
 
 | Stage | Time |
 | --- | --- |
