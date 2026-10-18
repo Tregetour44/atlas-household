@@ -1,0 +1,216 @@
+{
+ "chosen": {
+  "candidate": "s26000",
+  "window": 3,
+  "cutoff": 0.993,
+  "train_pos_accept": 0.901,
+  "train_neg_accept": 0.017,
+  "val_pos_accept": 0.89,
+  "val_neg_accept": 0.03,
+  "test_pos_accept": 0.9089,
+  "test_neg_accept": 0.0462,
+  "test_probe_accept": 0.032,
+  "test_probe_rhyme_accept": 0.3772,
+  "train_ambient_fa": 0,
+  "train_ambient_fa_per_h": 0.0,
+  "val_ambient_fa": 0,
+  "val_ambient_fa_per_h": 0.0,
+  "test_ambient_fa": 0,
+  "test_ambient_fa_per_h": 0.0
+ },
+ "threshold_u8_sum": 759,
+ "refractory_inferences": 100,
+ "metrics": {
+  "train_pos": {
+   "n": 1000,
+   "accepted": 901,
+   "rate": 0.901
+  },
+  "train_neg": {
+   "n": 1000,
+   "accepted": 17,
+   "rate": 0.017
+  },
+  "val_pos": {
+   "n": 3600,
+   "accepted": 3204,
+   "rate": 0.89
+  },
+  "val_neg": {
+   "n": 800,
+   "accepted": 24,
+   "rate": 0.03
+  },
+  "test_pos": {
+   "n": 3600,
+   "accepted": 3272,
+   "rate": 0.9089
+  },
+  "test_neg": {
+   "n": 800,
+   "accepted": 37,
+   "rate": 0.0462
+  },
+  "test_probe": {
+   "n": 1904,
+   "accepted": 61,
+   "rate": 0.032
+  },
+  "test_probe_rhyme": {
+   "n": 448,
+   "accepted": 169,
+   "rate": 0.3772
+  },
+  "train_ambient": {
+   "false_accepts": 0,
+   "hours": 2.0,
+   "fa_per_hour": 0.0
+  },
+  "val_ambient": {
+   "false_accepts": 0,
+   "hours": 9.67,
+   "fa_per_hour": 0.0
+  },
+  "test_ambient": {
+   "false_accepts": 0,
+   "hours": 5.335,
+   "fa_per_hour": 0.0
+  }
+ },
+ "arena": {
+  "min_arena_bytes_host": 34830,
+  "model_bytes": 69624,
+  "reference_outputs_first5": [
+   70,
+   39,
+   21,
+   10,
+   4
+  ]
+ },
+ "manifest": {
+  "type": "micro",
+  "wake_word": "Hey Atlas",
+  "author": "Atlas household (private, non-commercial)",
+  "website": "https://github.com/OHF-Voice/micro-wake-word",
+  "model": "hey_atlas.tflite",
+  "trained_languages": [
+   "en"
+  ],
+  "version": 2,
+  "micro": {
+   "probability_cutoff": 0.993,
+   "feature_step_size": 10,
+   "sliding_window_size": 3,
+   "tensor_arena_size": 38912,
+   "minimum_esphome_version": "2024.7.0"
+  }
+ },
+ "worst_confusables": [
+  {
+   "text": "pay Atlas",
+   "n": 32,
+   "accepts": 31,
+   "rate": 0.969,
+   "template_split": "train"
+  },
+  {
+   "text": "hi Atlas",
+   "n": 16,
+   "accepts": 13,
+   "rate": 0.812,
+   "template_split": "probe-only"
+  },
+  {
+   "text": "stay, Atlas",
+   "n": 32,
+   "accepts": 26,
+   "rate": 0.812,
+   "template_split": "train"
+  },
+  {
+   "text": "say Atlas",
+   "n": 16,
+   "accepts": 10,
+   "rate": 0.625,
+   "template_split": "validation"
+  },
+  {
+   "text": "they, Atlas",
+   "n": 32,
+   "accepts": 18,
+   "rate": 0.562,
+   "template_split": "train"
+  },
+  {
+   "text": "hey at least",
+   "n": 32,
+   "accepts": 17,
+   "rate": 0.531,
+   "template_split": "train"
+  },
+  {
+   "text": "play Atlas",
+   "n": 32,
+   "accepts": 17,
+   "rate": 0.531,
+   "template_split": "train"
+  },
+  {
+   "text": "grey atlas",
+   "n": 32,
+   "accepts": 16,
+   "rate": 0.5,
+   "template_split": "train"
+  },
+  {
+   "text": "day Atlas",
+   "n": 32,
+   "accepts": 12,
+   "rate": 0.375,
+   "template_split": "train"
+  },
+  {
+   "text": "may Atlas",
+   "n": 32,
+   "accepts": 12,
+   "rate": 0.375,
+   "template_split": "train"
+  },
+  {
+   "text": "okay, Atlas",
+   "n": 32,
+   "accepts": 12,
+   "rate": 0.375,
+   "template_split": "test"
+  },
+  {
+   "text": "hey at last",
+   "n": 16,
+   "accepts": 5,
+   "rate": 0.312,
+   "template_split": "probe-only"
+  },
+  {
+   "text": "free at last",
+   "n": 16,
+   "accepts": 4,
+   "rate": 0.25,
+   "template_split": "test"
+  },
+  {
+   "text": "hey, at last",
+   "n": 16,
+   "accepts": 4,
+   "rate": 0.25,
+   "template_split": "probe-only"
+  },
+  {
+   "text": "an atlas",
+   "n": 16,
+   "accepts": 3,
+   "rate": 0.188,
+   "template_split": "train"
+  }
+ ]
+}

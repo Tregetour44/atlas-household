@@ -20,6 +20,7 @@ for W in "$@"; do
     --set "test_pos=$SE/testing/positive_*_mmap" \
     --set "test_neg=$SE/testing/negative_*_mmap" \
     --set "test_probe=$SE/testing/probe_*_mmap" \
+    --set "test_probe_rhyme=$SE/testing/probeB_*_mmap" \
     --ambient "train_ambient=$NEGX/train_ambient_sample/*_mmap" \
     --ambient "val_ambient=$NEG/dinner_party_eval/validation_ambient/*_mmap" \
     --ambient "test_ambient=$NEG/dinner_party_eval/testing_ambient/*_mmap" \

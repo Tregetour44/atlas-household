@@ -89,6 +89,15 @@ HARD_NEGATIVES = [
     ("other", "battle us"), ("other", "Dallas"), ("other", "atlases"),
     ("other", "at least"), ("other", "a cutlass"), ("other", "the lattice"),
     ("other", "haystack"), ("other", "eight lasses"), ("other", "hate less"),
+    # Added for candidate B after the main run's worst confusable ("say Atlas",
+    # a validation template). The group name sorts last so the existing groups
+    # keep their seeds and splits; ids are appended. Homophones of "hey"
+    # ("hay") are left out: they are the wake phrase.
+    ("z_rhyme", "pay Atlas"), ("z_rhyme", "day Atlas"), ("z_rhyme", "play Atlas"),
+    ("z_rhyme", "stay, Atlas"), ("z_rhyme", "may Atlas"), ("z_rhyme", "grey atlas"),
+    ("z_rhyme", "weigh the atlas"), ("z_rhyme", "okay, Atlas"), ("z_rhyme", "they, Atlas"),
+    ("z_rhyme", "relay Atlas"), ("z_rhyme", "hey Atlassian"), ("z_rhyme", "hey Atlantic"),
+    ("z_rhyme", "hey at least"), ("z_rhyme", "hey, a tassel"),
 ]
 HARD_NEGATIVE_VOICES = ["en-us", "en", "en-gb-x-rp", "en-029"]
 

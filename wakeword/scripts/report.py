@@ -45,7 +45,7 @@ def main():
     info = json.load(open(os.path.join(args.eval_dir, name, "info.json")))
     npz = np.load(os.path.join(args.eval_dir, name, "streams.npz"))
 
-    metrics = {}
+    metrics, probe_acc = {}, {}
     for set_name, si in info["sets"].items():
         streams = split_streams(npz, set_name)
         if set_name.endswith("ambient"):
@@ -56,20 +56,23 @@ def main():
             acc = [bool(len(s) and window_sums(s, w).max() > thr) for s in streams]
             metrics[set_name] = {"n": len(acc), "accepted": int(sum(acc)),
                                  "rate": round(float(np.mean(acc)), 4)}
-            if set_name == "test_probe":
-                probe_acc = acc
+            if set_name.startswith("test_probe"):
+                probe_acc[set_name] = acc
 
     # Per-phrase accept rates on the probes (test voices)
     tsplit = {}
     for r in csv.DictReader(open(args.neg_templates, encoding="utf-8")):
         tsplit[r["text"]] = r["split"]
-    index = []
-    for p in sorted(glob.glob(os.path.join(args.stream_eval, "testing_index_probe_*.csv"))):
-        index += list(csv.DictReader(open(p, encoding="utf-8")))
-    assert len(index) == len(probe_acc), (len(index), len(probe_acc))
     by_text = {}
-    for r, a in zip(index, probe_acc):
-        by_text.setdefault(r["text"], []).append(a)
+    for set_name, prefix in (("test_probe", "probe"), ("test_probe_rhyme", "probeB")):
+        if set_name not in probe_acc:
+            continue
+        index = []
+        for p in sorted(glob.glob(os.path.join(args.stream_eval, f"testing_index_{prefix}_*.csv"))):
+            index += list(csv.DictReader(open(p, encoding="utf-8")))
+        assert len(index) == len(probe_acc[set_name]), (set_name, len(index))
+        for r, a in zip(index, probe_acc[set_name]):
+            by_text.setdefault(r["text"], []).append(a)
     phrases = sorted(({"text": t, "n": len(v), "accepts": int(sum(v)), "rate": round(float(np.mean(v)), 3),
                        "template_split": tsplit.get(t, "probe-only")} for t, v in by_text.items()),
                      key=lambda x: (-x["rate"], x["text"]))

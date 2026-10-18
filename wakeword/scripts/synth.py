@@ -135,6 +135,8 @@ def main():
     ap.add_argument("--batch-size", type=int, default=16)
     ap.add_argument("--start-index", type=int, default=0, help="first clip index (to extend a set)")
     ap.add_argument("--workers", type=int, default=1, help="probe sets: number of parallel workers")
+    ap.add_argument("--groups", default=None,
+                    help="comma list: generate only templates of these groups (splits unchanged)")
     ap.add_argument("--only-split", choices=SPLITS, default=None,
                     help="probe sets: generate only this split's voices")
     args = ap.parse_args()
@@ -161,7 +163,8 @@ def main():
         tsplit = {t["template_id"]: text_split[t["text"]] for t in templates}
     spk_split = split_ids(range(NUM_SPEAKERS), args.split_seed)
     speakers = {s: [k for k, v in spk_split.items() if v == s] for s in SPLITS}
-    by_split = {s: [t for t in templates if tsplit[t["template_id"]] == s] for s in SPLITS}
+    use = [t for t in templates if not args.groups or t["group"] in args.groups.split(",")]
+    by_split = {s: [t for t in use if tsplit[t["template_id"]] == s] for s in SPLITS}
 
     out = Path(args.out)
     for s in SPLITS:

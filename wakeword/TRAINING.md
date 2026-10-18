@@ -1,8 +1,8 @@
 # Hey Atlas wake word: training record
 
-## Verdict (provisional: mid-run model, main run step 14,000 of 30,000)
+## Verdict (provisional: main run, checkpoint 26000)
 
-**The model in this folder is a mid-run checkpoint of the main run (36,000 positives), pushed to keep progress safe. It is not the final choice.** On validation it reaches 82.2% recall with 0 false accepts in 9.67 h; on test, 85.1% recall and 0 false accepts in 5.33 h (DiPCo), sliding window 7, cutoff 0.97 (`results/main_midrun/`). The pilot results below are kept for reference. This file is replaced when the run finishes.
+**Provisional; candidate B (45,000 steps, extra rhyme negatives) is still training.** The model here is the main run's choice, made on validation only: checkpoint 26000, sliding window 3, cutoff 0.993. Validation recall 89.0% with 0 false accepts in 9.67 h; test recall 90.9% with 0 false accepts in 5.33 h (DiPCo). Hard-negative accepts are 3.0% (validation) and 4.6% (test). Phrases rhyming with "hey" + "Atlas" ("pay Atlas", "stay, Atlas") still trigger often. See `results/main/`.
 
 ### Pilot (1,000 positives, 10,000 steps)
 

@@ -10,10 +10,12 @@ Detector (an emulation of ESPHome micro_wake_word's streaming_model.cpp):
     REFRACTORY inferences are ignored (100 x 30 ms = 3 s);
   * a clip "accepts" if it detects anywhere in its stream.
 
-Rule: among all candidates x W x cutoff with 0 false accepts on the full
-9.7 h dinner_party_eval validation_ambient, take the highest validation
-recall; ties go to fewer validation hard-negative accepts, then the higher
-cutoff (more margin).
+Rule (validation only): among all candidates x W x cutoff with 0 false
+accepts on the full 9.7 h dinner_party_eval validation_ambient and at most
+--max-val-neg validation hard-negative accepts (share of clips), take the
+highest validation recall; ties go to fewer validation hard-negative
+accepts, then the higher cutoff (more margin). With --max-val-neg 1 the
+hard-negative cap is off (the plain "0 FA, best recall" rule).
 
   python -I choose.py --eval-dir EVAL --out report.json [--candidates a b c]
 """
@@ -28,7 +30,11 @@ import numpy as np
 
 REFRACTORY = 100
 WINDOWS = (3, 5, 7)
-CUTOFFS = [round(c, 2) for c in np.arange(0.50, 1.0, 0.01)]
+# Cutoffs 0.50-0.99 plus 0.993 and 0.997, keeping only values where
+# cutoff*255 has the same integer part whether ESPHome truncates or rounds it
+# (e.g. 0.98 -> 249.9 is dropped), so the device threshold is unambiguous.
+CUTOFFS = [c for c in [round(c, 2) for c in np.arange(0.50, 1.0, 0.01)] + [0.993, 0.997]
+           if (c * 255) % 1 < 0.5]
 
 
 def split_streams(npz, name):
@@ -91,6 +97,7 @@ def main():
     ap.add_argument("--eval-dir", required=True)
     ap.add_argument("--out", required=True)
     ap.add_argument("--candidates", nargs="*", default=None)
+    ap.add_argument("--max-val-neg", type=float, default=0.03)
     args = ap.parse_args()
 
     names = args.candidates or sorted(os.path.basename(os.path.dirname(p)) for p in
@@ -116,7 +123,8 @@ def main():
         w.writeheader()
         w.writerows(rows)
 
-    viable = [r for r in rows if r["val_ambient_fa"] == 0]
+    viable = [r for r in rows if r["val_ambient_fa"] == 0
+              and r.get("val_neg_accept", 0) <= args.max_val_neg]
     if not viable:
         best = None
     else:
@@ -128,8 +136,9 @@ def main():
         v = [r for r in viable if r["candidate"] == name]
         per_candidate[name] = (max(v, key=lambda r: (r["val_pos_accept"], -r.get("val_neg_accept", 0),
                                                       r["cutoff"])) if v else None)
-    json.dump({"rule": "max val recall s.t. 0 FA on validation_ambient; ties: fewer val "
-                       "hard-negative accepts, then higher cutoff",
+    json.dump({"rule": f"max val recall s.t. 0 FA on validation_ambient and val hard-negative "
+                       f"accepts <= {args.max_val_neg}; ties: fewer val hard-negative accepts, "
+                       f"then higher cutoff",
                "refractory_inferences": REFRACTORY, "chosen": best,
                "per_candidate": per_candidate}, open(args.out, "w"), indent=1)
     print(json.dumps(best, indent=1))

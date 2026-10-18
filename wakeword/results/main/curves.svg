@@ -1,0 +1,106 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 840 460" width="840" height="460" font-family="system-ui, sans-serif" font-size="11">
+<style>
+  svg { --surface:#fcfcfb; --ink:#0b0b0b; --ink2:#52514e; --grid:#e4e3df; --s1:#2a78d6; --s2:#eb6834; --s3:#1baf7a; }
+  @media (prefers-color-scheme: dark) {
+    svg { --surface:#1a1a19; --ink:#f0efec; --ink2:#c3c2b7; --grid:#3a3936; --s1:#3987e5; --s2:#d95926; --s3:#199e70; }
+  }
+  .bg { fill: var(--surface); } .t { fill: var(--ink); } .m { fill: var(--ink2); }
+  .g { stroke: var(--grid); stroke-width: 1; } .ax { stroke: var(--ink2); stroke-width: 1; }
+  .s1 { stroke: var(--s1); } .s2 { stroke: var(--s2); } .s3 { stroke: var(--s3); }
+  .k1 { fill: var(--s1); } .k2 { fill: var(--s2); } .k3 { fill: var(--s3); }
+  .line { fill: none; stroke-width: 2; stroke-linejoin: round; stroke-linecap: round; }
+</style>
+<rect class="bg" width="840" height="460"/>
+<rect class="k1" x="52" y="12" width="12" height="4" rx="2"/>
+<text class="t" x="68" y="18">pilot</text>
+<rect class="k2" x="132" y="12" width="12" height="4" rx="2"/>
+<text class="t" x="148" y="18">main</text>
+<text class="t" x="52" y="58" font-weight="600">Training loss (mini-batch)</text>
+<line class="g" x1="52" x2="404" y1="216.0" y2="216.0"/>
+<text class="m" x="46" y="220.0" text-anchor="end">0</text>
+<line class="g" x1="52" x2="404" y1="180.5" y2="180.5"/>
+<text class="m" x="46" y="184.5" text-anchor="end">0.016</text>
+<line class="g" x1="52" x2="404" y1="145.0" y2="145.0"/>
+<text class="m" x="46" y="149.0" text-anchor="end">0.032</text>
+<line class="g" x1="52" x2="404" y1="109.5" y2="109.5"/>
+<text class="m" x="46" y="113.5" text-anchor="end">0.047</text>
+<line class="g" x1="52" x2="404" y1="74.0" y2="74.0"/>
+<text class="m" x="46" y="78.0" text-anchor="end">0.063</text>
+<text class="m" x="52.0" y="232" text-anchor="middle">0k</text>
+<text class="m" x="140.0" y="232" text-anchor="middle">7k</text>
+<text class="m" x="228.0" y="232" text-anchor="middle">15k</text>
+<text class="m" x="316.0" y="232" text-anchor="middle">22k</text>
+<text class="m" x="404.0" y="232" text-anchor="middle">30k</text>
+<line class="ax" x1="52" x2="404" y1="216" y2="216"/>
+<path class="line s1" d="M57.9,135.2 L63.7,163.3 L69.6,177.4 L75.5,206.8 L81.3,208.3 L87.2,196.8 L93.1,214.9 L98.9,213.2 L104.8,213.9 L110.7,214.9 L116.5,206.4 L122.4,214.7 L128.3,187.7 L134.1,214.7 L140.0,165.8 L145.9,213.2 L151.7,136.4 L157.6,215.5 L163.5,215.9 L169.3,213.8"><title>pilot loss</title></path>
+<text class="t" x="167.3" y="207.8" text-anchor="end">pilot 0.000959</text>
+<path class="line s2" d="M63.7,145.4 L75.5,207.6 L87.2,178.6 L98.9,117.9 L110.7,80.8 L122.4,139.9 L134.1,211.5 L145.9,208.0 L157.6,206.9 L169.3,204.1 L181.1,206.0 L192.8,196.2 L204.5,130.3 L216.3,212.1 L228.0,208.4 L239.7,201.6 L251.5,202.3 L263.2,189.2 L274.9,200.4 L286.7,200.5 L298.4,200.9 L310.1,212.8 L321.9,215.5 L333.6,195.9 L345.3,197.3 L357.1,145.4 L368.8,213.4 L380.5,215.3 L392.3,208.3 L404.0,141.3"><title>main loss</title></path>
+<text class="t" x="402.0" y="135.3" text-anchor="end">main 0.0332</text>
+<text class="m" x="404" y="246" text-anchor="end">training step</text>
+<text class="t" x="472" y="58" font-weight="600">Validation loss (in-loop)</text>
+<line class="g" x1="472" x2="824" y1="216.0" y2="216.0"/>
+<text class="m" x="466" y="220.0" text-anchor="end">0</text>
+<line class="g" x1="472" x2="824" y1="180.5" y2="180.5"/>
+<text class="m" x="466" y="184.5" text-anchor="end">0.14</text>
+<line class="g" x1="472" x2="824" y1="145.0" y2="145.0"/>
+<text class="m" x="466" y="149.0" text-anchor="end">0.28</text>
+<line class="g" x1="472" x2="824" y1="109.5" y2="109.5"/>
+<text class="m" x="466" y="113.5" text-anchor="end">0.42</text>
+<line class="g" x1="472" x2="824" y1="74.0" y2="74.0"/>
+<text class="m" x="466" y="78.0" text-anchor="end">0.56</text>
+<text class="m" x="472.0" y="232" text-anchor="middle">0k</text>
+<text class="m" x="560.0" y="232" text-anchor="middle">7k</text>
+<text class="m" x="648.0" y="232" text-anchor="middle">15k</text>
+<text class="m" x="736.0" y="232" text-anchor="middle">22k</text>
+<text class="m" x="824.0" y="232" text-anchor="middle">30k</text>
+<line class="ax" x1="472" x2="824" y1="216" y2="216"/>
+<path class="line s1" d="M477.9,212.2 L483.7,213.3 L489.6,213.1 L495.5,211.4 L501.3,212.9 L507.2,213.9 L513.1,208.1 L518.9,213.4 L524.8,213.9 L530.7,210.1 L536.5,213.5 L542.4,212.5 L548.3,202.8 L554.1,213.0 L560.0,210.7 L565.9,213.1 L571.7,210.0 L577.6,208.8 L583.5,211.0 L589.3,213.5"><title>pilot loss</title></path>
+<text class="t" x="587.3" y="207.5" text-anchor="end">pilot 0.01</text>
+<path class="line s2" d="M483.7,200.8 L495.5,197.7 L507.2,80.8 L518.9,193.2 L530.7,169.1 L542.4,206.8 L554.1,203.5 L565.9,197.9 L577.6,175.6 L589.3,205.8 L601.1,202.6 L612.8,208.8 L624.5,189.7 L636.3,195.4 L648.0,207.7 L659.7,204.7 L671.5,205.1 L683.2,209.0 L694.9,207.6 L706.7,210.3 L718.4,207.2 L730.1,208.3 L741.9,203.7 L753.6,208.3 L765.3,210.6 L777.1,207.7 L788.8,209.3 L800.5,209.4 L812.3,208.3 L824.0,209.8"><title>main loss</title></path>
+<text class="t" x="822.0" y="203.8" text-anchor="end">main 0.0245</text>
+<text class="m" x="824" y="246" text-anchor="end">training step</text>
+<text class="t" x="52" y="268" font-weight="600">Validation recall at 0 FA/h (in-loop, 3.2 h ambient)</text>
+<line class="g" x1="52" x2="404" y1="426.0" y2="426.0"/>
+<text class="m" x="46" y="430.0" text-anchor="end">0</text>
+<line class="g" x1="52" x2="404" y1="390.5" y2="390.5"/>
+<text class="m" x="46" y="394.5" text-anchor="end">0.25</text>
+<line class="g" x1="52" x2="404" y1="355.0" y2="355.0"/>
+<text class="m" x="46" y="359.0" text-anchor="end">0.5</text>
+<line class="g" x1="52" x2="404" y1="319.5" y2="319.5"/>
+<text class="m" x="46" y="323.5" text-anchor="end">0.75</text>
+<line class="g" x1="52" x2="404" y1="284.0" y2="284.0"/>
+<text class="m" x="46" y="288.0" text-anchor="end">1</text>
+<text class="m" x="52.0" y="442" text-anchor="middle">0k</text>
+<text class="m" x="140.0" y="442" text-anchor="middle">7k</text>
+<text class="m" x="228.0" y="442" text-anchor="middle">15k</text>
+<text class="m" x="316.0" y="442" text-anchor="middle">22k</text>
+<text class="m" x="404.0" y="442" text-anchor="middle">30k</text>
+<line class="ax" x1="52" x2="404" y1="426" y2="426"/>
+<path class="line s1" d="M57.9,316.7 L63.7,308.1 L69.6,312.4 L75.5,309.6 L81.3,330.9 L87.2,352.2 L93.1,309.6 L98.9,353.6 L104.8,426.0 L110.7,329.4 L116.5,316.7 L122.4,426.0 L128.3,336.5 L134.1,301.0 L140.0,320.9 L145.9,299.6 L151.7,312.4 L157.6,320.9 L163.5,426.0 L169.3,426.0"><title>pilot recall_at_no_faph</title></path>
+<text class="t" x="167.3" y="420.0" text-anchor="end">pilot 0</text>
+<path class="line s2" d="M63.7,321.8 L75.5,335.4 L87.2,326.4 L98.9,320.8 L110.7,317.3 L122.4,303.0 L134.1,305.3 L145.9,319.5 L157.6,303.2 L169.3,426.0 L181.1,306.9 L192.8,426.0 L204.5,304.7 L216.3,305.2 L228.0,426.0 L239.7,295.9 L251.5,298.1 L263.2,299.1 L274.9,291.5 L286.7,426.0 L298.4,306.1 L310.1,293.8 L321.9,291.6 L333.6,292.4 L345.3,289.3 L357.1,291.8 L368.8,291.3 L380.5,287.1 L392.3,292.0 L404.0,291.8"><title>main recall_at_no_faph</title></path>
+<text class="t" x="402.0" y="285.8" text-anchor="end">main 0.945</text>
+<text class="m" x="404" y="456" text-anchor="end">training step</text>
+<text class="t" x="472" y="268" font-weight="600">Validation average viable recall (in-loop)</text>
+<line class="g" x1="472" x2="824" y1="426.0" y2="426.0"/>
+<text class="m" x="466" y="430.0" text-anchor="end">0</text>
+<line class="g" x1="472" x2="824" y1="390.5" y2="390.5"/>
+<text class="m" x="466" y="394.5" text-anchor="end">0.25</text>
+<line class="g" x1="472" x2="824" y1="355.0" y2="355.0"/>
+<text class="m" x="466" y="359.0" text-anchor="end">0.5</text>
+<line class="g" x1="472" x2="824" y1="319.5" y2="319.5"/>
+<text class="m" x="466" y="323.5" text-anchor="end">0.75</text>
+<line class="g" x1="472" x2="824" y1="284.0" y2="284.0"/>
+<text class="m" x="466" y="288.0" text-anchor="end">1</text>
+<text class="m" x="472.0" y="442" text-anchor="middle">0k</text>
+<text class="m" x="560.0" y="442" text-anchor="middle">7k</text>
+<text class="m" x="648.0" y="442" text-anchor="middle">15k</text>
+<text class="m" x="736.0" y="442" text-anchor="middle">22k</text>
+<text class="m" x="824.0" y="442" text-anchor="middle">30k</text>
+<line class="ax" x1="472" x2="824" y1="426" y2="426"/>
+<path class="line s1" d="M477.9,304.9 L483.7,301.0 L489.6,302.4 L495.5,302.6 L501.3,303.2 L507.2,302.6 L513.1,302.5 L518.9,309.3 L524.8,307.4 L530.7,308.3 L536.5,299.2 L542.4,305.3 L548.3,310.1 L554.1,298.9 L560.0,306.3 L565.9,295.7 L571.7,304.3 L577.6,300.0 L583.5,306.2 L589.3,320.6"><title>pilot average_viable_recall</title></path>
+<text class="t" x="587.3" y="314.6" text-anchor="end">pilot 0.743</text>
+<path class="line s2" d="M483.7,302.1 L495.5,302.9 L507.2,320.6 L518.9,311.4 L530.7,306.4 L542.4,294.3 L554.1,299.3 L565.9,300.1 L577.6,294.9 L589.3,309.2 L601.1,304.4 L612.8,305.3 L624.5,295.3 L636.3,293.9 L648.0,300.2 L659.7,289.5 L671.5,290.1 L683.2,292.6 L694.9,288.3 L706.7,303.4 L718.4,289.5 L730.1,289.6 L741.9,288.2 L753.6,289.5 L765.3,286.7 L777.1,287.3 L788.8,287.1 L800.5,286.4 L812.3,288.4 L824.0,288.1"><title>main average_viable_recall</title></path>
+<text class="t" x="822.0" y="282.1" text-anchor="end">main 0.971</text>
+<text class="m" x="824" y="456" text-anchor="end">training step</text>
+</svg>
