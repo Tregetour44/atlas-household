@@ -15,7 +15,7 @@ Every voice reads the same four lines (`tools/lines.txt`). Files are named `<mod
 
 - a model's own built-in voice;
 - a text description of the style (Parler-TTS);
-- for the two `chatterbox-kokoro-*-ref` voices, a 10-second clip of a *synthetic* Kokoro voice (generated above) used as Chatterbox's style reference. That gives Chatterbox's natural delivery with a British voice, without any human reference.
+- for the two `chatterbox-kokoro-*-ref` voices, a 10-second clip of a *synthetic* Kokoro voice used as Chatterbox's style reference. The exact clips, their sha256 and how they were made are in [`refs/`](refs/README.md). That gives Chatterbox's natural delivery with a British voice, without any human reference.
 
 The XTTS speaker names are the labels of Coqui's built-in studio voices. They are not public figures.
 
