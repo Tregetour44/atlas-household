@@ -1,0 +1,54 @@
+From 0a439b236f1290650a27fdfc2ff02c8a51c7dd4d Mon Sep 17 00:00:00 2001
+From: Claude <noreply@anthropic.com>
+Date: Sun, 18 Oct 2026 12:34:54 +0000
+Subject: [PATCH 3/5] KNOWN R17-01: an acknowledgement sharing a clause with a
+ timer statement is backed by the timer's result
+
+Only when every thing named in the clause is inside the timer statement: "All set, the lights are off and the timer is set." still needs a
+lights result. Marked known: the owner's R17 review holds R17-01; this is a proposal.
+Test: tests/test_cloud_review_2_generated.py ClaimGuardPairs.test_known_R17_01_ack_with_a_thing_backed_by_a_timer.
+---
+ custom_components/atlas_household/core.py | 13 +++++++++++--
+ 1 file changed, 11 insertions(+), 2 deletions(-)
+
+diff --git a/custom_components/atlas_household/core.py b/custom_components/atlas_household/core.py
+index 7d1397d..ca212ee 100644
+--- a/custom_components/atlas_household/core.py
++++ b/custom_components/atlas_household/core.py
+@@ -208,6 +208,7 @@ _BLIND_PRONOUN = re.compile(r"\b(?:opened|closed|lowered|raised|shut|drawn|drew|
+ _KIND_TOOLS = {'scheduled': {'atlas_schedule', 'atlas_confirm'}, 'scheduled:future': {'atlas_schedule', 'atlas_confirm', 'atlas_scheduled'},
+                'cancelled': {'atlas_cancel'}}
+ _TIMER_OBJECT = re.compile(r"^\s*(?:off\s+)?(?:[\w:'-]+\s+){0,4}?timers?\b", re.I)                # "I've turned off the (9 pm) timer"
++_TIMER_PHRASE = re.compile(r"\b(?:the|that|your|a|an)\s+(?:[\w:'-]+\s+){0,4}?timers?\b(?:'s|\s+(?:is|has\s+been|was))?(?:\s+(?:now\s+)?(?:been\s+)?(?:cancell?ed|set))?", re.I)
+ _TIMER_STOP = re.compile(r"\b(stopped|turned off|switched off|killed|cleared|removed|deleted|cancell?ed)\b", re.I)
+ _LATER = re.compile(r"\bto\s+(?:turn|switch|go|come|be)\b.*" + _WHEN, re.I)                      # "I've set the lights to turn off at 9 pm"
+ _CAVEAT = re.compile(r"\b(couldn't|could not|can't|cannot|didn't|did not|unable to)\s+(confirm|verify|check|reach)|report(ed)? back|"
+@@ -259,15 +260,23 @@ def _backing(kind: str, clause: str, ev: list[tuple[str | None, str]]) -> set[st
+     things = [t for t, rx in _THINGS.items() if rx.search(clause)] if tools is None else []
+     if tools is None and 'blind' not in things and _BLIND_PRONOUN.search(clause):
+         things.append('blind')
++    # an acknowledgement in the same clause as a timer statement ("All set, the office lights will turn off in 10 minutes.") acknowledges
++    # the timer, so the timer's result backs it, but only when every thing named is inside the timer statement: "All set, the lights are off
++    # and the timer is set." still needs a lights result [R17-01, known]
++    timer = set()
++    if kind == 'ack':
++        rest = _TIMER_PHRASE.sub(' ', _SCHED_FUTURE_FIRST.sub(' ', _SCHED_FUTURE.sub(' ', clause)))
++        if rest != clause and not any(rx.search(rest) for rx in _THINGS.values()):
++            timer = _KIND_TOOLS['scheduled'] | _KIND_TOOLS['cancelled']
+ 
+     def fits(tool):
+         if tool is None:
+             return True
+         if tools is not None:
+             return tool in tools
+-        return all(tool in _THING_TOOLS[t] for t in things)
++        return tool in timer or all(tool in _THING_TOOLS[t] for t in things)
+     if tools is None and len(things) > 1:          # "the lights are off and the blind is closed": every thing needs its own result
+-        return set.intersection(*[{st for tool, st in ev if tool is None or tool in _THING_TOOLS[t]} for t in things])
++        return set.intersection(*[{st for tool, st in ev if tool is None or tool in timer or tool in _THING_TOOLS[t]} for t in things])
+     return {st for tool, st in ev if fits(tool)}
+ 
+ 
+-- 
+2.43.0
+

@@ -1,0 +1,28 @@
+From 28a4f4a551e764ef0f862ae4169411f0edf72132 Mon Sep 17 00:00:00 2001
+From: Claude <noreply@anthropic.com>
+Date: Sun, 18 Oct 2026 12:38:27 +0000
+Subject: [PATCH 5/5] Fast path: a zero-padded time ("04:00", "00:00") is a
+ 24-hour time, not a bare hour
+
+Cloud review 2, T1 (MAJOR): "turn the office lights off at 00:00" was scheduled for 12:00 noon; "at 04:00" after 4 am for 4:00 pm.
+Test: tests/test_cloud_review_2_generated.py Timers.test_spoken_times_through_the_fast_path.
+---
+ custom_components/atlas_household/fastpath.py | 2 ++
+ 1 file changed, 2 insertions(+)
+
+diff --git a/custom_components/atlas_household/fastpath.py b/custom_components/atlas_household/fastpath.py
+index 7ef5f17..d84cd4f 100644
+--- a/custom_components/atlas_household/fastpath.py
++++ b/custom_components/atlas_household/fastpath.py
+@@ -82,6 +82,8 @@ def _clock(spec: str, now: datetime) -> str | None:
+         return None
+     if ap:
+         h = (h % 12) + (12 if ap == 'pm' else 0)
++    elif m.group(1).startswith('0'):
++        pass                                          # "04:00", "00:30", "0:15": a 24-hour time as written, never flipped to pm [cloud review 2]
+     elif h <= 12:
+         # a bare hour: its next occurrence (h or h+12), so "at 11" after midday is 11 pm [the lead project]
+         cands = sorted({h % 12, h % 12 + 12})
+-- 
+2.43.0
+

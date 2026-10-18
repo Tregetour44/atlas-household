@@ -1,0 +1,110 @@
+From 44b69f70b69de7ca4bc80571ad23f6972644be57 Mon Sep 17 00:00:00 2001
+From: Claude <noreply@anthropic.com>
+Date: Sun, 18 Oct 2026 12:31:19 +0000
+Subject: [PATCH 2/5] Claim guard: a blind claimed by pronoun needs a blind
+ result; common reply shapes it missed; a hyphenated timer object
+
+Cloud review 2, G1 (MAJOR: "I've closed it." passes on a lights result while the blind waits for its yes), G2 (MAJOR: "have now been",
+"they'll / it'll", "will be off at", "are set / scheduled to ... at", "Got it, lights off at 9 pm", "That's cancelled", downlights as a
+subject), G3 (minor: "I've started a 10-minute timer" rewritten), m-2 (minor phrasings).
+Tests: tests/test_cloud_review_2_generated.py ClaimGuardPairs.test_pairs, MinorPhrasings.test_less_common_claims_are_caught.
+---
+ custom_components/atlas_household/core.py | 33 +++++++++++++++++------
+ 1 file changed, 25 insertions(+), 8 deletions(-)
+
+diff --git a/custom_components/atlas_household/core.py b/custom_components/atlas_household/core.py
+index 735d548..7d1397d 100644
+--- a/custom_components/atlas_household/core.py
++++ b/custom_components/atlas_household/core.py
+@@ -121,6 +121,7 @@ _NEG_BEFORE = re.compile(r"\b(can't|cannot|can not|couldn't|could not|didn't|did
+ _NONE_AFTER = re.compile(r"^\s+(nothing|none|no\b)", re.I)                                    # "I set nothing."
+ _ADV = r"(?:(?:also|now|just|then|already|successfully|quickly|not only|gone ahead and|went ahead and|go ahead and|\w+ly)\s+){0,3}"
+ _DID = (r"(turned|switched|set(?!\s+(?:up\s+)?(?:a|an|the|your)\s+(?:timer|reminder))|opened|closed|dimmed|brightened|raised|lowered|activated|enabled|"
++        r"run(?!\s+(?:out|into|late|through|a\s+check))|"                       # "I've run the Daily scene" [cloud review 2]
+         r"disabled|started|stopped(?!\s+(?:making|doing|sending|changing|trying))|cranked|put|changed|adjusted|ran|killed|shut|paused|muted|unmuted|played|resumed|skipped|applied|triggered|recalled|restored|moved|"
+         r"flicked|flipped|popped|powered)")
+ _PP = r"(turned|switched|set|opened|closed|dimmed|brightened|raised|lowered|activated|enabled|changed|adjusted|paused|muted|started|stopped)"
+@@ -128,10 +129,13 @@ _DO = r"(turn|switch|open|close|dim|brighten|set|run|put|start|stop|activate|low
+ _ING = r"(turning|switching|opening|closing|dimming|brightening|setting|activating|starting|stopping|running|putting|lowering|raising|pausing|muting)"
+ _THING = r"(lights?|lamps?|blinds?|downlights?|spotlights?|scene)"
+ _OK = r"(?:(?:ok(?:ay)?|sure(?: thing)?|right|alright|all right|great|no problem|got it|on it|cool|yes|yep)\W+)*"
++_OK_ONE = _OK[:-1] + "{1}"                                                                        # at least one acknowledgement word
+ _NOT_SUBJECT = r"(?!(?:I|we|you|it|they|he|she|there)\b)"                                    # "I sent the lights on" is not verbless
+ _WHEN = (r"\b(?:at\s+\d|at\s+(?:noon|midnight)|in\s+(?:\d+|an?|one|two|three|four|five|six|seven|eight|nine|ten|fifteen|twenty|thirty|forty|"
+          r"forty-five|fifty|sixty|half)\b|tomorrow|tonight|this (?:evening|afternoon|morning)|later\b|at that time)")   # [RT106; B16-05: not "automatically", which describes automations]
+-_WILL = r"(?:I'll|I will|I'm going to|(?:it|they|[\w ]{0,30}?\b(?:lights?|lamps?|blinds?|scene)) will)\s+" + _ADV + r"(?:" + _DO[1:-1] + r"|go|be turned|be switched)\b"
++# "they'll" / "it'll", any light word ("downlights"), and "will be off" [cloud review 2]
++_WILL = (r"(?:I'll|I will|I'm going to|(?:it|they)(?:'ll|\s+will)|[\w ]{0,30}?(?:lights?|lamps?|blinds?|scenes?)(?:'ll|\s+will))\s+" + _ADV
++         + r"(?:" + _DO[1:-1] + r"|go|be turned|be switched|be\s+(?:on|off|open|closed))\b")
+ _SCHED_FUTURE = re.compile(r"\b" + _WILL + r".{0,60}" + _WHEN, re.I)          # "I'll dim the loft at 9 pm", "Your lights will switch off in 10 minutes"
+ _SCHED_FUTURE_FIRST = re.compile(_WHEN + r".{0,40}?\b" + _WILL, re.I)          # "In 10 minutes, the lights will turn off" [cloud review 1, m3]
+ # exclusions read the words right after the claim, up to a "so/because/as" (R14-04: not "...now so the room isn't too bright")
+@@ -145,9 +149,10 @@ _CLAIMS = [
+     ('action', False, re.compile(r"\bI did\s+" + _DO + r"\b", re.I), None),
+     ('action', False, re.compile(r"\bI'm\s+" + _ADV + _ING + r"\b", re.I), None),
+     ('action', False, re.compile(r"^\W*" + _OK + _ING + r"\b", re.I), _FAILED_AFTER),       # "Turning off the lights now." (not "Turning it off failed")
+-    ('action', False, re.compile(r"\b(is|are)\s+now\s+(on|off|open|closed|dimmed|brighter|dimmer|set|running|playing|paused|muted|active)\b", re.I), None),
+-    ('action', False, re.compile(r"\b(is|are|should be)\s+(on|off|open|closed)\s+now\b(?!\s+in\b)", re.I), None),   # not "on now in the study"
+-    ('action', False, re.compile(r"\b(has|have|had)\s+been\s+" + _PP + r"\b", re.I), None),
++    ('action', False, re.compile(r"\b(is|are|'s|'re)\s+now\s+(?:(?:switched|turned)\s+)?(on|off|open|closed|down|lowered|raised|dimmed|brighter|dimmer|set|"
++                                 r"running|playing|paused|muted|active)\b", re.I), None),           # "is now switched off", "is now down" [cloud review 2]
++    ('action', False, re.compile(r"\b(is|are|'s|'re|should be)\s+(on|off|open|closed|closing|opening)\s+now\b(?!\s+in\b)", re.I), None),   # not "on now in the study"
++    ('action', False, re.compile(r"\b(has|have|had)\s+(?:now\s+|just\s+|also\s+|successfully\s+|all\s+)?been\s+" + _PP + r"\b", re.I), None),   # "have now been" [cloud review 2]
+     ('action', False, re.compile(r"\b(was|were)\s+(just|now|successfully)\s+" + _PP + r"\b", re.I), None),   # not "were turned off at 9" (history)
+     ('action', False, re.compile(r"\b(has|have)\s+gone\s+(off|out)\b|\b(just\s+)?went\s+(off|out)\b", re.I), _PAST_TIME),     # not "went off at 9 pm"
+     # an acknowledgement ("Done!", "All set") claims that whatever was asked happened: a timer set or cancelled backs it too [cloud review 1, M7]
+@@ -156,10 +161,17 @@ _CLAIMS = [
+     ('ack', False, re.compile(r"\bI(?:'ve| have)?\s+taken care of (it|that|this)\b", re.I), None),
+     ('action', False, re.compile(r"\bI(?:'ve| have)?\s+" + _ADV + r"got\s+(?:the\s+|your\s+|all\s+the\s+)?(?:[\w']+\s+){0,3}?" + _THING
+                                  + r"\s+(?:on|off|open|closed|up|down)\b", re.I), None),       # "I've got the lights off" [m3]
++    ('action', False, re.compile(r"\bI(?:'ve| have)?\s+" + _ADV + r"(?:lit|drawn|drew|toggled|cut|dropped|pulled|rolled|brought)\s+(?:up\s+|down\s+)?"
++                                 r"(?:the\s+|your\s+|all\s+the\s+)?(?:[\w']+\s+){0,3}?" + _THING + r"\b", re.I), None),   # "I've drawn the blinds" [cloud review 2]
+     ('action', False, re.compile(r"\bshould\s+now\s+be\s+(on|off|open|closed)\b", re.I), None),  # "The lights should now be off" [m3]
+     ('action', False, re.compile(r"^\W*(turned|switched)\s+(on|off)\b", re.I), None),          # "Turned on the light" (HA's own wording)
+-    ('action', False, re.compile(r"^\W*" + _OK + _NOT_SUBJECT + r"(the\s+)?([\w']+\s+){0,3}" + _THING + r"\s+(now\s+)?(on|off|open|closed|up|down)(\s+now)?\W*$",
+-                                 re.I), None),                                                  # "Lights off." (no verb)
++    ('action', False, re.compile(r"^\W*" + _OK + _NOT_SUBJECT + r"(the\s+)?([\w']+\s+){0,3}" + _THING + r"\s+(now\s+)?(on|off|open|closed|up|down|active|running)(\s+now)?\W*$",
++                                 re.I), None),                                                  # "Lights off." (no verb); "Daily scene running."
++    # a timer acknowledged without a verb ("Got it, office lights off at 9 pm."), or stated as the queue's state ("The lights are set to turn off
++    # at 9 pm.") [cloud review 2]. A bare "Office lights off at 9 pm." is left alone: it reads the same as an item in a choice list.
++    ('scheduled:future', False, re.compile(r"^\W*" + _OK_ONE + _OK + _NOT_SUBJECT + r"(the\s+)?([\w']+\s+){0,3}" + _THING + r"\s+(on|off|open|closed|up|down)\s+"
++                                           + _WHEN, re.I), None),
++    ('scheduled:future', False, re.compile(r"\b(?:is|are|'s|'re)\s+(?:now\s+|all\s+)?(?:set|scheduled|due)\s+to\s+(?:turn|switch|go|come|be|open|close)\b.{0,40}?" + _WHEN, re.I), None),
+     ('action', False, re.compile(r"^\W*" + _OK + _NOT_SUBJECT + r"(the\s+)?([\w']+\s+){0,3}" + _THING + r"\s+(dimmed|brightened|lowered|raised|opened|closed|"
+                                  r"activated|set|turned (on|off)|switched (on|off))\b", re.I), _PAST_TIME),   # "Lights dimmed to 40%." (not a history answer)
+     ('action', True, re.compile(r"\b(?:I'll|I will|I'm going to|let me)\s+" + _ADV + _DO + r"\b", re.I), None),     # "I'll turn off the lights now."
+@@ -176,7 +188,8 @@ _CLAIMS = [
+     ('already', False, re.compile(r"\b(is|are|was|were)\s+(all\s+)?already\s+(on|off|open|closed|shut|set|at|dimmed|running|playing|paused)\b|"
+                                   r"\balready\s+(on|off|open|closed|at full|at the lowest)\b|\bnothing (needed|to) (to )?(change|do)\b", re.I), None),
+     ('cancelled', False, re.compile(r"\b(I(?:'ve| have)?\s+" + _ADV + r"(cancell?ed|removed|deleted|cleared|stopped) (the|that|your|those) timers?|"
+-                                    r"I(?:'ve| have)?\s+" + _ADV + r"cancell?ed\b|timer(?:'s| is| has)? (been )?cancell?ed|cancell?ed (the|that|your) timer)", re.I), None),
++                                    r"I(?:'ve| have)?\s+" + _ADV + r"cancell?ed\b|timer(?:'s| is| has)? (been )?cancell?ed|cancell?ed (the|that|your|those) (?:[\w:'-]+\s+){0,3}?timers?|"
++                                    r"that(?:'s| is| has)\s+(?:been\s+)?cancell?ed|I'm\s+(?:now\s+)?cancell?ing\b)", re.I), None),   # "That's cancelled." [cloud review 2]
+ ]
+ # What backs a claim: a same-turn atlas_ result of that kind. A timer list (scheduled_list) backs future-tense timer statements [R13-03], never
+ # "I've set a timer" / "Timer set" [cloud review 1, M6].
+@@ -190,9 +203,11 @@ _BACKED_BY = {'action': {'done', 'undone'}, 'ack': {'done', 'undone', 'scheduled
+ _THINGS = {'blind': re.compile(r"\b(blinds?|curtains?|shades?|shutters?)\b", re.I), 'scene': re.compile(r"\bscenes?\b", re.I),
+            'light': re.compile(r"\b(lights?|lamps?|downlights?|spotlights?)\b", re.I)}
+ _THING_TOOLS = {'blind': {'atlas_confirm', 'atlas_undo'}, 'scene': {'atlas_scene', 'atlas_undo'}, 'light': {'atlas_lights', 'atlas_scene', 'atlas_undo'}}
++# a blind spoken of by pronoun ("I've closed it", "...and lowered them"): only a blind opens, closes, lowers or raises [cloud review 2]
++_BLIND_PRONOUN = re.compile(r"\b(?:opened|closed|lowered|raised|shut|drawn|drew|pulled\s+down|rolled\s+down|put\s+down)\s+(?:it|them|that|those|both)\b", re.I)
+ _KIND_TOOLS = {'scheduled': {'atlas_schedule', 'atlas_confirm'}, 'scheduled:future': {'atlas_schedule', 'atlas_confirm', 'atlas_scheduled'},
+                'cancelled': {'atlas_cancel'}}
+-_TIMER_OBJECT = re.compile(r"^\s*(?:off\s+)?(?:[\w:']+\s+){0,4}?timers?\b", re.I)                # "I've turned off the (9 pm) timer"
++_TIMER_OBJECT = re.compile(r"^\s*(?:off\s+)?(?:[\w:'-]+\s+){0,4}?timers?\b", re.I)                # "I've turned off the (9 pm) timer"
+ _TIMER_STOP = re.compile(r"\b(stopped|turned off|switched off|killed|cleared|removed|deleted|cancell?ed)\b", re.I)
+ _LATER = re.compile(r"\bto\s+(?:turn|switch|go|come|be)\b.*" + _WHEN, re.I)                      # "I've set the lights to turn off at 9 pm"
+ _CAVEAT = re.compile(r"\b(couldn't|could not|can't|cannot|didn't|did not|unable to)\s+(confirm|verify|check|reach)|report(ed)? back|"
+@@ -242,6 +257,8 @@ def _backing(kind: str, clause: str, ev: list[tuple[str | None, str]]) -> set[st
+     """The statuses that may back a claim of this kind in this clause: every result whose tool fits what the clause is about."""
+     tools = _KIND_TOOLS.get(kind)
+     things = [t for t, rx in _THINGS.items() if rx.search(clause)] if tools is None else []
++    if tools is None and 'blind' not in things and _BLIND_PRONOUN.search(clause):
++        things.append('blind')
+ 
+     def fits(tool):
+         if tool is None:
+-- 
+2.43.0
+

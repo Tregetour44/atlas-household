@@ -1,0 +1,44 @@
+From 49b2ba51e981fa41d18983bf0ea38c2ce87f21d1 Mon Sep 17 00:00:00 2001
+From: Claude <noreply@anthropic.com>
+Date: Sun, 18 Oct 2026 12:36:53 +0000
+Subject: [PATCH 4/5] Scope: "all the lights" covers a floor or outside group
+ only when the words name no other floor, the outside or a room
+
+Cloud review 2, S1 (MAJOR, M11 partly fixed): "turn off all the lights upstairs" ran ground_floor_lights (14 lights); "all the lights in my
+office" / "all lights off in the office" ran any floor group.
+Test: tests/test_cloud_review_2_generated.py OverReach.test_floor_groups_need_their_own_scope.
+---
+ custom_components/atlas_household/core.py | 15 ++++++++++++---
+ 1 file changed, 12 insertions(+), 3 deletions(-)
+
+diff --git a/custom_components/atlas_household/core.py b/custom_components/atlas_household/core.py
+index ca212ee..c538020 100644
+--- a/custom_components/atlas_household/core.py
++++ b/custom_components/atlas_household/core.py
+@@ -720,11 +720,20 @@ class Coordinator:
+         if t.get('kind') != 'light' or len(set(t.get('entity_ids') or [])) < 2 or (t.get('area') and not t.get('floor')):
+             return True
+         said = f" {_words(text)} "
+-        if ALL_LIGHTS.search(text):
++        if any(f" {w} " in said for w in self._scope_names(t)):
+             return True
++        # "all the lights" covers this group only when the words name no other place: not "all the lights upstairs" for the ground floor,
++        # nor "all the lights in my office" for any floor [cloud review 2]
++        others = {w for h, o in self.handles.items() if h != handle and o.get('kind') == 'light' and len(set(o.get('entity_ids') or [])) > 1
++                  and not (o.get('area') and not o.get('floor')) for w in self._scope_names(o)}
++        others |= {_words(o['area']) for o in self.handles.values() if o.get('area')}
++        return bool(ALL_LIGHTS.search(text)) and not any(f" {w} " in said for w in others if w)
++
++    @staticmethod
++    def _scope_names(t: dict) -> set[str]:
++        """The words that name a floor-wide or whole-outside group's scope: its floor (or label) and their synonyms."""
+         base = set(_words(t.get('floor') or t['label'].split('(')[0]).split()) - {'lights', 'light', 'floor', 'the', 'and'}
+-        names = base | {x for w in base for x in SCOPE_SYNONYMS.get(w, ())}
+-        return any(f" {w} " in said for w in names)
++        return base | {x for w in base for x in SCOPE_SYNONYMS.get(w, ())}
+ 
+     # ---------- shared ----------
+     @staticmethod
+-- 
+2.43.0
+

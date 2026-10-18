@@ -1,0 +1,51 @@
+From 899a9c71fae59e1077e92973d8889bbdb921e35c Mon Sep 17 00:00:00 2001
+From: Claude <noreply@anthropic.com>
+Date: Sun, 18 Oct 2026 12:26:23 +0000
+Subject: [PATCH 1/5] Never-list: more lock, alarm, opener, charging, storage,
+ export and tariff words; never-list handle names and labels don't load
+
+Cloud review 2, N1 (MAJOR) and N2 (MAJOR), m-1 (minor: brands and units).
+Tests: tests/test_cloud_review_2_generated.py NeverListMixing.*, MinorPhrasings.test_minor_never_words_brands_and_units.
+---
+ custom_components/atlas_household/core.py | 18 ++++++++++++++++--
+ 1 file changed, 16 insertions(+), 2 deletions(-)
+
+diff --git a/custom_components/atlas_household/core.py b/custom_components/atlas_household/core.py
+index 7d83d7b..735d548 100644
+--- a/custom_components/atlas_household/core.py
++++ b/custom_components/atlas_household/core.py
+@@ -72,8 +72,17 @@ NEVER_WORDS = re.compile(r"\b(un ?lock\w*|lock(s|ed|ing)?|alarm\w*|(garage|front
+                          # cloud review 1, M2: lock hardware, securing, the grid and tariff in other words, energy brands, door strikes
+                          r"deadbolt\w*|latch\w*|padlock\w*|keypad\w*|sirens?|intruder\w*|(house|home|place)\s+(is\s+)?secure|garages|"
+                          r"electricity|off[- ]?peak|peak\s+(rate|hours?|time|tariff|pricing)|cheap\s+rate|kwh|kilowatt\w*|mains|"
+-                         r"power\s+(bill|usage|use|plan|rate|price|company|draw)|tesla|fronius|enphase|solaredge|goodwe|zappi|buzz\s+(\w+\s+){0,2}in)\b",
+-                         re.I)   # whole-turn refusal [Codex 43 H2, R12-05, R13-07, cloud review 1]
++                         r"power\s+(bill|usage|use|plan|rate|price|company|draw)|tesla|fronius|enphase|solaredge|goodwe|zappi|buzz\s+(\w+\s+){0,2}in|"
++                         # cloud review 2: lock, alarm, opener, charging, storage, export and tariff intents in other words, and more brands
++                         r"(un|re)?bolt(s|ed|ing)?|re-?lock\w*|secur\w*\s+(the\s+|my\s+|our\s+|all\s+(the\s+)?)?(doors?|house|home|place|premises|garages?|gates?)|"
++                         r"arm(ed|ing)?\s+(stay|night|away|perimeter|zones?|mode|the\s+perimeter)|(to|is|as)\s+armed|dis-arm\w*|"
++                         r"roll(s|ed|ing)?\s+(up|down|open)\s+(the\s+|my\s+|our\s+)?(garages?|doors?|carports?|sheds?|gates?)(?![\s-]*(lights?|lamps?|blinds?))|"
++                         r"(open|close|shut|lift|raise|lower|pop)\s+(up\s+)?(the\s+|my\s+|our\s+)?(carports?|sheds?|driveway)(?![\s-]*(lights?|lamps?|blinds?|downlights?|spotlights?))|"
++                         r"door\s+(strike|release|buzzer)|tilt[- ]?doors?|let\s+(me|us|them|him|her)\s+in|"
++                         r"(stop|start|pause|resume|schedule)\s+(the\s+)?charging|chargers?|home\s+storage|storage\s+(to|mode|system|battery)|power-wall|"
++                         r"sell\w*\s+(the\s+)?(power|electricity|energy)(\s+back)?|time[- ]of[- ]use|shoulder\s+(rate|period|tariff)|smart\s+meter|"
++                         r"photovoltaics|(roof(top)?|my|our)\s+(solar\s+)?panels|\d+\s*kw|sonnen|victron|redback|selectronic|growatt|amber\s+electric|yale|nuki)\b",
++                         re.I)   # whole-turn refusal [Codex 43 H2, R12-05, R13-07, cloud review 1, cloud review 2]
+ AFFIRMATIVE = re.compile(r"^\s*(yes|yep|yeah|yup|ok|okay|sure|please do|do it|go ahead|confirm(ed)?|yes please|correct)\b[\s.!,]*(please)?[\s.!]*$", re.I)
+ STATUSES = ('done', 'skipped_already', 'needs_confirmation', 'denied', 'scheduled', 'cancelled', 'undone', 'not_verified', 'failed',
+             'needs_choice', 'scheduled_list')
+@@ -506,6 +515,11 @@ class Coordinator:
+             for e in t['entity_ids'] + t.get('members', []):
+                 if FORBIDDEN.search(e):
+                     raise ValueError(f'{h}: {e} matches the never-list')
++            # the names the model and the person use count too: a handle or label (or alias) on the never-list never loads, whatever the
++            # entity id says (a relay exposed as a light can drive a gate; a reviewed "shutter" can be the garage) [cloud review 2]
++            for name in [h.replace('_', ' '), str(t.get('label', ''))] + [str(a) for a in t.get('aliases') or []]:
++                if NEVER_WORDS.search(name) or (t['kind'] == 'blind' and COVER_FORBIDDEN.search(re.sub(r'\W+', '_', name.lower()))):
++                    raise ValueError(f'{h}: the name {name!r} matches the never-list')
+         return hs
+ 
+     def _target(self, handle: Any, kinds: tuple[str, ...]) -> tuple[dict | None, dict | None]:
+-- 
+2.43.0
+
