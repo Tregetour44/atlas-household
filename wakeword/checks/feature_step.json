@@ -1,0 +1,56 @@
+{
+ "reference (8-25 Hz power share, read as 10 ms)": {
+  "tf_10ms": [
+   0.08,
+   0.03
+  ],
+  "pymicro_10ms": [
+   0.08,
+   0.03
+  ],
+  "tf_20ms": [
+   0.25,
+   0.08
+  ]
+ },
+ "negx/dinner_party/training/chime6_train_u01_ch1_mmap": [
+  0.14,
+  0.09
+ ],
+ "negx/dinner_party/training/chime6_train_u02_ch1_mmap": [
+  0.13,
+  0.08
+ ],
+ "negx/dinner_party_eval/testing_ambient/dipco_u01_ch1_mmap": [
+  0.15,
+  0.06
+ ],
+ "negx/dinner_party_eval/validation_ambient/chime6_dev_eval_mmap": [
+  0.11,
+  0.05
+ ],
+ "negx/no_speech/training/fma_medium_mmap": [
+  0.24,
+  0.13
+ ],
+ "negx/no_speech/training/fsd50k_no_speech_mmap": [
+  0.31,
+  0.2
+ ],
+ "negx/no_speech/training/fsd50k_speech_mmap": [
+  0.17,
+  0.13
+ ],
+ "negx/no_speech/training/wham_train_mmap": [
+  0.16,
+  0.07
+ ],
+ "negx/speech/training/voices_lav_far_training_mmap": [
+  0.09,
+  0.04
+ ],
+ "negx/speech/training/voices_lav_mid_training_mmap": [
+  0.09,
+  0.04
+ ]
+}
