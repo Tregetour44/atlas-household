@@ -1,0 +1,3 @@
+{"tag": "cpu4", "n": 42, "synth_s": 6.85, "audio_s": 186.55, "rtf_mean": 0.037, "rtf_p50": 0.036, "rtf_p95": 0.049, "peak_rss_mb": 343, "threads": null}
+{"tag": "cpu1-pinned", "n": 42, "synth_s": 6.71, "audio_s": 184.62, "rtf_mean": 0.036, "rtf_p50": 0.036, "rtf_p95": 0.045, "peak_rss_mb": 340, "threads": null}
+{"tag": "cpu2-pinned", "n": 42, "synth_s": 6.79, "audio_s": 184.91, "rtf_mean": 0.037, "rtf_p50": 0.036, "rtf_p95": 0.045, "peak_rss_mb": 344, "threads": null}

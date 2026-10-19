@@ -1,0 +1,6 @@
+{"tag": "base", "n": 42, "synth_s": 5.98, "audio_s": 153.05, "rtf_mean": 0.039, "rtf_p50": 0.039, "rtf_p95": 0.051, "peak_rss_mb": 309, "threads": null}
+{"tag": "step500", "n": 42, "synth_s": 6.8, "audio_s": 173.78, "rtf_mean": 0.039, "rtf_p50": 0.04, "rtf_p95": 0.046, "peak_rss_mb": 337, "threads": null}
+{"tag": "step1000", "n": 42, "synth_s": 6.9, "audio_s": 175.6, "rtf_mean": 0.039, "rtf_p50": 0.039, "rtf_p95": 0.046, "peak_rss_mb": 337, "threads": null}
+{"tag": "step1500", "n": 42, "synth_s": 7.56, "audio_s": 174.54, "rtf_mean": 0.043, "rtf_p50": 0.043, "rtf_p95": 0.052, "peak_rss_mb": 337, "threads": null}
+{"tag": "step2000", "n": 42, "synth_s": 6.84, "audio_s": 175.57, "rtf_mean": 0.039, "rtf_p50": 0.039, "rtf_p95": 0.048, "peak_rss_mb": 340, "threads": null}
+{"tag": "step2500", "n": 42, "synth_s": 7.38, "audio_s": 187.27, "rtf_mean": 0.039, "rtf_p50": 0.039, "rtf_p95": 0.047, "peak_rss_mb": 345, "threads": null}
