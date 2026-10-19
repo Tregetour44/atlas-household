@@ -62,6 +62,7 @@ All measures are on text never seen in training: 30 clips from two held-out fami
 | student step 1500 | 4.07 | 1.1% | 0.790 | 0.846 | 28.5 | 99 Hz | 3.00 | 3.96 |
 | student step 2000 | 4.10 | 1.3% | 0.778 | 0.837 | 28.3 | 98 Hz | 3.15 | 3.96 |
 | **student step 2500 (delivered)** | **4.06** | **0.9%** | 0.771 | **0.837** | **27.9** | 96 Hz | **3.70** | **3.71** |
+| student step 3000 (not kept: plateau) | 4.05 | 1.2% | 0.789 | 0.840 | 27.9 | 101 Hz | 3.49 | 3.77 |
 
 † Leave-one-out: each teacher clip against the centroid of the *other* teacher clips.
 
@@ -117,16 +118,16 @@ Not measured on the owner's 8-core desktop (**NO DATA**). Expect it to be at lea
    - Code: OHF-Voice piper1-gpl @ `619f513`, Piper medium, warm-started with `--model.warmstart_ckpt` (all 784 tensors) from `rhasspy/piper-checkpoints` `en/en_GB/northern_english_male/medium/epoch=9029-step=2261720.ckpt` (sha256 `39a47097…815585`, dataset revision `37d1bea2`).
    - **Why this base and not `lj-med_1000`:** it is a British male voice already trained on `en-gb-x-rp` phonemes, so less has to change. On this CPU every 500 steps costs ~45 min, so the head start matters. The licence is clear enough for personal home use, with a caveat (see Licences). LJSpeech (public domain, US female) is the clean-licence alternative: pass `lj-med_1000.ckpt` as the base argument of `train_student.sh`.
    - Settings: batch 16, CPU, fp32, lr 2e-4, checkpoints every 500 steps. Lightning counts 2 steps per batch (generator + discriminator), so 2,500 steps = 1,250 batches ≈ 37 epochs.
-   - It trained in 500-step stages, evaluating held-out text between stages (table above), and was extended while the results improved. Step 2500 is delivered: best MCD, WER, pitch movement and pace, with speaker similarity level with step 2000 and UTMOS within noise of the best (4.10 at step 2000).
+   - It trained in 500-step stages, evaluating held-out text between stages (table above), and was extended while the results improved. Step 3000 was level with step 2500 (similarity 0.840 vs 0.837, MCD equal), slightly worse on WER and pitch movement, and lower on UTMOS for the sample lines (3.93 vs 4.06). That is a plateau, so training stopped there. Step 2500 is delivered: best MCD, WER, pitch movement and pace, with speaker similarity level with step 2000 and UTMOS within noise of the best (4.10 at step 2000).
 5. **Evaluate** (`scripts/eval_checkpoint.sh`, `student_synth.py`, `compare.py`).
 
 ## Run time
 
-About 10.5 h wall clock on the 4-vCPU sandbox:
+About 11.5 h wall clock on the 4-vCPU sandbox:
 - Gate: ~1 h.
 - Teacher corpus: ~4 h, including ~35 min lost to an out-of-memory kill.
 - Filtering: ~0.5 h.
-- Training: ~4 h for 2,500 steps; one more OOM restart cost ~10 min.
+- Training: ~4 h for 2,500 steps, plus ~45 min for the plateau check to step 3000; one more OOM restart cost ~10 min.
 - Evaluation and packaging: ~1 h.
 
 Teacher compute was ~7.6 process-hours. Training ran at 8–13 s per batch.
@@ -169,7 +170,7 @@ dcb737c11134d59e78fecf5c4c56887757d6f02c3c885ca844e5e310ffd97beb  samples/lewis-
 ## What's left / NO DATA
 
 - **Listening.** Every judgement above is an objective proxy; the owner decides by ear. If the student sounds too smooth or too even, the next lever is more data and more steps, not a different model.
-- **More training.** Results were still moving at step 2500, mainly pitch movement and pace. To continue, a later session needs:
+- **More training.** Results plateaued between steps 2500 and 3000 with this 37-min corpus, so more steps alone are unlikely to help. More (and longer) teacher audio is the better lever. To continue, a later session needs:
   - the corpus audio, regenerated from `corpus/manifest.tsv` with `scripts/teacher_generate.py`. Seeds are fixed, but bit-identical output across machines and torch versions isn't guaranteed. The masters (113 MB) and the full checkpoint (846 MB, with optimiser state) were too big to commit.
   - a warm-start checkpoint, built with `python scripts/make_warmstart.py merge checkpoint/lewis_small-step2500-generator-fp16.pt <northern_english_male ckpt> warm.ckpt`, then `scripts/train_student.sh <dataset> <out> warm.ckpt`. This keeps the generator but starts with a fresh optimiser and the base's discriminator, so expect a short wobble.
 - **A bigger corpus.** The brief's stretch goal was ~2 h of teacher audio. The pilot stopped at 37 min because the teacher costs ~6× real time on this CPU (~12 h of teacher compute for 2 h of audio). Short confirmations are the weakest family: 11 of 59 were rejected.

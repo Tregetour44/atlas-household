@@ -1,8 +1,8 @@
 # voice-lewis-small: status
 
-**Updated:** 2026-10-19 22:35 UTC (Tue 20 Oct, 09:35 Sydney)
+**Updated:** 2026-10-19 23:30 UTC (Tue 20 Oct, 10:30 Sydney)
 **Step:** 4 of 4. Evaluation is done and **the deliverable is pushed**: `model/`, `samples/`, `README.md`. The brief's definition of done is met.
-**Now:** training is continuing past step 2500 (to 3000, then 3500) because held-out results were still improving. The model, samples and README will only be updated if a later checkpoint is better on the held-out measures. If not, step 2500 stays.
+**Finished.** Training was extended to step 3000 to check for further gains. Step 3000 was level with step 2500 (similarity 0.840 vs 0.837, MCD equal), slightly worse on WER (1.2% vs 0.9%) and pitch movement, and lower on UTMOS for the sample lines (3.93 vs 4.06). That is a plateau, so training stopped and **step 2500 remains the delivered model**. Nothing is running.
 **Blockers:** none.
 
 ## Headline (step 2500, delivered)
@@ -23,4 +23,4 @@
 
 ## Time left
 
-- Optional extension: about 45 min per 500 steps. I'll stop when held-out results stop improving, or after step 3500.
+None. Done; the owner judges by ear.
