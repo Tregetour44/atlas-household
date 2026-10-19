@@ -1,0 +1,82 @@
+{"id": "tr0045", "file": "tr0045.flac", "text": "The bottle-o closes at nine tonight.", "reasons": ["asr wer=0.16666666666666666/0.16666666666666666 crit=True/True hyp='The bottler closes at nine tonight.'"]}
+{"id": "tr0065", "file": "tr0065.a1.flac", "text": "The appointment is on Saturday the sixth at half past twelve.", "reasons": ["asr wer=0.1111111111111111/0.1111111111111111 crit=True/False hyp='The appointment is on Saturday the 6th at 12.'"]}
+{"id": "tr0065", "file": "tr0065.flac", "text": "The appointment is on Saturday the sixth at half past twelve.", "reasons": ["asr wer=0.1111111111111111/0.4444444444444444 crit=True/False hyp='The appointment is on Saturday the 6th at 12h30pm.'"]}
+{"id": "tr0099", "file": "tr0099.flac", "text": "I'll turn the heating off in ten minutes.", "reasons": ["speaker sim 0.617 < 0.65 (dur 2.44s)"]}
+{"id": "tr0106", "file": "tr0106.flac", "text": "Shall I lock the back door?", "reasons": ["speaking rate 5.22 words/s"]}
+{"id": "tr0113", "file": "tr0113.flac", "text": "Will do.", "reasons": ["asr wer=0.5/0.5 crit=True/True hyp='Swill do.'"]}
+{"id": "tr0128", "file": "tr0128.a1.flac", "text": "Shall I set a timer for the pasta?", "reasons": ["asr wer=0.125/0.125 crit=True/True hyp='Shall I set a timer for the pastor?'"]}
+{"id": "tr0128", "file": "tr0128.flac", "text": "Shall I set a timer for the pasta?", "reasons": ["asr wer=0.125/0.125 crit=True/True hyp='Shall I set a timer for the pastor?'"]}
+{"id": "tr0142", "file": "tr0142.a1.flac", "text": "The dishwasher has finished. It did its best with the lasagne dish.", "reasons": ["asr wer=0.08333333333333333/0.08333333333333333 crit=True/True hyp='The dishwasher has finished. It did its best with the Lausanne dish.'"]}
+{"id": "tr0142", "file": "tr0142.flac", "text": "The dishwasher has finished. It did its best with the lasagne dish.", "reasons": ["asr wer=0.08333333333333333/0.08333333333333333 crit=True/True hyp='The dishwasher has finished. It did its best with the Lausanne dish.'"]}
+{"id": "tr0150", "file": "tr0150.a1.flac", "text": "The flyscreen on the back door has come off its track.", "reasons": ["asr wer=0.18181818181818182/0.18181818181818182 crit=True/True hyp='The fly screen on the back door has come off its track.'"]}
+{"id": "tr0150", "file": "tr0150.flac", "text": "The flyscreen on the back door has come off its track.", "reasons": ["asr wer=0.18181818181818182/0.18181818181818182 crit=True/True hyp='The fly screen on the back door has come off its track.'"]}
+{"id": "tr0164", "file": "tr0164.a1.flac", "text": "Pool pump off.", "reasons": ["utmos 3.34 < 3.5"]}
+{"id": "tr0164", "file": "tr0164.flac", "text": "Pool pump off.", "reasons": ["asr wer=0.3333333333333333/0.3333333333333333 crit=True/True hyp='Ooh, pump off.'", "utmos 3.11 < 3.5"]}
+{"id": "tr0166", "file": "tr0166.flac", "text": "Thursday the twenty-second of December.", "reasons": ["asr wer=0.4/0.2 crit=True/True hyp='Thursday 22nd of December.'"]}
+{"id": "tr0181", "file": "tr0181.a1.flac", "text": "Understood.", "reasons": ["asr wer=2.0/1.0 crit=True/True hyp='or understood.'", "speaking rate 0.89 words/s"]}
+{"id": "tr0181", "file": "tr0181.flac", "text": "Understood.", "reasons": ["asr wer=1.0/3.0 crit=True/True hyp=\"I'm listed.\""]}
+{"id": "tr0187", "file": "tr0187.flac", "text": "The air con is on. I'd tell you to enjoy it, but you already are.", "reasons": ["asr wer=0.06666666666666667/0.06666666666666667 crit=True/True hyp=\"The aircom is on. I'd tell you to enjoy it, but you already are.\""]}
+{"id": "tr0188", "file": "tr0188.a1.flac", "text": "It's one fifty-five.", "reasons": ["asr wer=0.3333333333333333/0.3333333333333333 crit=False/False hyp=\"It's 1.55.\""]}
+{"id": "tr0188", "file": "tr0188.flac", "text": "It's one fifty-five.", "reasons": ["sound outside words before=0.0s after=0.31s"]}
+{"id": "tr0192", "file": "tr0192.flac", "text": "Brown paper parcels, tied up with string, are piled by the door.", "reasons": ["asr wer=0.08333333333333333/0.08333333333333333 crit=True/True hyp='Bram paper parcels, tied up with string, are piled by the door.'"]}
+{"id": "tr0217", "file": "tr0217.flac", "text": "Do you want to hear the calendar for today?", "reasons": ["speaking rate 5.29 words/s"]}
+{"id": "tr0220", "file": "tr0220.flac", "text": "The rent is due on the first.", "reasons": ["speaking rate 5.15 words/s"]}
+{"id": "tr0221", "file": "tr0221.a1.flac", "text": "Fan on low.", "reasons": ["asr wer=0.3333333333333333/0.3333333333333333 crit=True/True hyp='One on low.'"]}
+{"id": "tr0221", "file": "tr0221.flac", "text": "Fan on low.", "reasons": ["asr wer=0.3333333333333333/0.3333333333333333 crit=True/True hyp='Was fan on low'"]}
+{"id": "tr0226", "file": "tr0226.flac", "text": "It's two twenty.", "reasons": ["asr wer=1.0/0.6666666666666666 crit=False/True hyp='220.'", "sound outside words before=0.0s after=0.53s"]}
+{"id": "tr0228", "file": "tr0228.flac", "text": "Do you want me to remind you to take the bins out?", "reasons": ["speaking rate 5.5 words/s"]}
+{"id": "tr0235", "file": "tr0235.flac", "text": "Do you want the fan on high or low?", "reasons": ["speaking rate 5.2 words/s"]}
+{"id": "tr0248", "file": "tr0248.a1.flac", "text": "The phone number ends in zero six seven nine.", "reasons": ["asr wer=0.16666666666666666/0.16666666666666666 crit=False/False hyp='The phone number ends in 0679.'"]}
+{"id": "tr0248", "file": "tr0248.flac", "text": "The phone number ends in zero six seven nine.", "reasons": ["asr wer=0.16666666666666666/0.16666666666666666 crit=False/False hyp='The phone number ends in 0679.'"]}
+{"id": "tr0280", "file": "tr0280.flac", "text": "Heater on.", "reasons": ["asr wer=0.5/0.5 crit=True/True hyp='Later on.'"]}
+{"id": "tr0286", "file": "tr0286.flac", "text": "That comes to four hundred and forty dollars and eighty-five cents.", "reasons": ["sound outside words before=0.0s after=0.32s"]}
+{"id": "tr0295", "file": "tr0295.flac", "text": "A cheerful judge measured the beige garage with a yellow tape.", "reasons": ["asr wer=0.18181818181818182/0.09090909090909091 crit=True/True hyp='A cheerful judge measured the beige garage with the yellow tape.'"]}
+{"id": "tr0306", "file": "tr0306.flac", "text": "The ute's due for a service at the end of the month.", "reasons": ["asr wer=0.15384615384615385/0.07692307692307693 crit=True/True hyp='The ute due for a service at the end of the month.'"]}
+{"id": "tr0310", "file": "tr0310.flac", "text": "That comes to twelve dollars and ninety cents.", "reasons": ["sound outside words before=0.0s after=0.31s"]}
+{"id": "tr0314", "file": "tr0314.a1.flac", "text": "Air con on, set to twenty-two.", "reasons": ["asr wer=0.4/0.4 crit=False/False hyp='AIRCONOM set to 22.'"]}
+{"id": "tr0314", "file": "tr0314.flac", "text": "Air con on, set to twenty-two.", "reasons": ["asr wer=0.4/0.4 crit=False/True hyp='Aircon on, sector 22.'"]}
+{"id": "tr0323", "file": "tr0323.a1.flac", "text": "Anything else?", "reasons": ["speaker sim 0.475 < 0.65 (dur 2.76s)", "utmos 3.04 < 3.5", "sound outside words before=0.45s after=0.0s"]}
+{"id": "tr0323", "file": "tr0323.flac", "text": "Anything else?", "reasons": ["speaker sim 0.444 < 0.45 (dur 1.76s)"]}
+{"id": "tr0329", "file": "tr0329.a1.flac", "text": "All quiet.", "reasons": ["speaker sim 0.423 < 0.45 (dur 1.16s)", "utmos 2.34 < 3.5"]}
+{"id": "tr0329", "file": "tr0329.flac", "text": "All quiet.", "reasons": ["utmos 3.50 < 3.5"]}
+{"id": "tr0344", "file": "tr0344.flac", "text": "The pool's a touch cold for a swim, but the kids won't mind.", "reasons": ["asr wer=0.2/0.2 crit=True/True hyp=\"The pools are touch cold for a swim, but the kids won't mind.\""]}
+{"id": "tr0348", "file": "tr0348.a1.flac", "text": "Do you want the air con on before you get home?", "reasons": ["speaking rate 5.73 words/s"]}
+{"id": "tr0348", "file": "tr0348.flac", "text": "Do you want the air con on before you get home?", "reasons": ["speaking rate 5.58 words/s"]}
+{"id": "tr0356", "file": "tr0356.a1.flac", "text": "Welcome home.", "reasons": ["utmos 3.37 < 3.5"]}
+{"id": "tr0356", "file": "tr0356.flac", "text": "Welcome home.", "reasons": ["asr wer=0.5/0.5 crit=True/True hyp='Come home.'", "utmos 3.20 < 3.5"]}
+{"id": "tr0360", "file": "tr0360.flac", "text": "The kids' room lights are off and the night light is on.", "reasons": ["speaking rate 5.22 words/s"]}
+{"id": "tr0369", "file": "tr0369.a1.flac", "text": "I'm on it.", "reasons": ["speaking rate 5.08 words/s"]}
+{"id": "tr0369", "file": "tr0369.flac", "text": "I'm on it.", "reasons": ["utmos 2.98 < 3.5"]}
+{"id": "tr0383", "file": "tr0383.flac", "text": "Cancelled.", "reasons": ["asr wer=1.0/1.0 crit=True/True hyp='Quite cancelled.'", "speaking rate 1.1 words/s"]}
+{"id": "tr0392", "file": "tr0392.flac", "text": "That's four out of nineteen, if anyone's keeping score.", "reasons": ["asr wer=0.09090909090909091/0.09090909090909091 crit=True/True hyp=\"That's 4 out of 19, if anyone's keeping school.\""]}
+{"id": "tr0393", "file": "tr0393.flac", "text": "A couple of lorikeets are making a racket in the grevillea.", "reasons": ["asr wer=0.09090909090909091/0.09090909090909091 crit=True/True hyp='A couple of lorikeets are making a racket in the gravelia.'"]}
+{"id": "tr0433", "file": "tr0433.flac", "text": "Outside it's seven degrees, with fifty-six percent humidity.", "reasons": ["asr wer=0.25/0.25 crit=True/True hyp='outside at 7 degrees, with 56% humidity.'"]}
+{"id": "tr0438", "file": "tr0438.flac", "text": "The house is quiet. Suspiciously so.", "reasons": ["speaker sim 0.634 < 0.65 (dur 3.56s)"]}
+{"id": "tr0440", "file": "tr0440.flac", "text": "The dryer has finished, and the towels are warm.", "reasons": ["asr wer=0.1111111111111111/0.1111111111111111 crit=True/True hyp='The dryer has finished and the towels are worn.'"]}
+{"id": "tr0446", "file": "tr0446.a1.flac", "text": "Do you want me to add that to the shopping list?", "reasons": ["speaking rate 5.7 words/s"]}
+{"id": "tr0446", "file": "tr0446.flac", "text": "Do you want me to add that to the shopping list?", "reasons": ["speaking rate 5.98 words/s"]}
+{"id": "tr0447", "file": "tr0447.flac", "text": "Music paused.", "reasons": ["asr wer=0.5/0.5 crit=True/True hyp='Quoi. Music paused.'"]}
+{"id": "tr0490", "file": "tr0490.a1.flac", "text": "Thursday the tenth of August.", "reasons": ["asr wer=0.4/0.4 crit=True/True hyp='Thursday 10th August.'"]}
+{"id": "tr0490", "file": "tr0490.flac", "text": "Thursday the tenth of August.", "reasons": ["asr wer=0.4/0.4 crit=True/True hyp='Thursday 10th August.'"]}
+{"id": "tr0521", "file": "tr0521.flac", "text": "Usually the rain stops by noon; today it simply carried on.", "reasons": ["asr wer=0.09090909090909091/0.09090909090909091 crit=True/True hyp=\"Usually the rain stops by noon. Today it's simply carried on.\""]}
+{"id": "tr0525", "file": "tr0525.flac", "text": "Charger paused.", "reasons": ["speaker sim 0.562 < 0.65 (dur 2.16s)", "utmos 2.24 < 3.5"]}
+{"id": "tr0532", "file": "tr0532.a1.flac", "text": "Got it.", "reasons": ["speaker sim 0.379 < 0.45 (dur 0.72s)", "speaking rate 6.06 words/s"]}
+{"id": "tr0532", "file": "tr0532.flac", "text": "Got it.", "reasons": ["asr wer=0.5/0.5 crit=False/True hyp='Ot it.'", "speaker sim 0.436 < 0.45 (dur 0.96s)", "utmos 3.05 < 3.5"]}
+{"id": "tr0533", "file": "tr0533.flac", "text": "The lights in the study have been on for five hours.", "reasons": ["asr wer=0.09090909090909091/0.09090909090909091 crit=True/True hyp='The lights in the study had been on for five hours.'"]}
+{"id": "tr0541", "file": "tr0541.flac", "text": "Monday the first of April.", "reasons": ["asr wer=0.6/0.4 crit=False/True hyp='Monday, 1st April'"]}
+{"id": "tr0544", "file": "tr0544.a1.flac", "text": "Heater off.", "reasons": ["asr wer=1.0/1.0 crit=False/False hyp='Heater off, eater off.'", "speaker sim 0.607 < 0.65 (dur 2.28s)"]}
+{"id": "tr0544", "file": "tr0544.flac", "text": "Heater off.", "reasons": ["asr wer=1.0/0.5 crit=True/True hyp='ITER off.'"]}
+{"id": "tr0545", "file": "tr0545.flac", "text": "There's a eighty percent chance of rain on Wednesday.", "reasons": ["asr wer=0.1111111111111111/0.1111111111111111 crit=True/True hyp=\"There's an 80% chance of rain on Wednesday.\""]}
+{"id": "tr0554", "file": "tr0554.a1.flac", "text": "Would you like a cup of tea? I can at least boil the kettle.", "reasons": ["speaking rate 5.17 words/s"]}
+{"id": "tr0554", "file": "tr0554.flac", "text": "Would you like a cup of tea? I can at least boil the kettle.", "reasons": ["asr wer=0.07142857142857142/0.07142857142857142 crit=True/True hyp='Would you like a cup of tea? I could at least boil the kettle.'", "speaking rate 5.3 words/s"]}
+{"id": "tr0560", "file": "tr0560.a1.flac", "text": "Do you want the heater on in the study?", "reasons": ["asr wer=0.1111111111111111/0.1111111111111111 crit=True/True hyp='Do you want the heather on in the study?'", "speaking rate 5.11 words/s"]}
+{"id": "tr0560", "file": "tr0560.flac", "text": "Do you want the heater on in the study?", "reasons": ["speaking rate 5.39 words/s"]}
+{"id": "tr0565", "file": "tr0565.a1.flac", "text": "Sorted.", "reasons": ["asr wer=1.0/1.0 crit=True/True hyp='Chickens.'", "utmos 3.29 < 3.5"]}
+{"id": "tr0565", "file": "tr0565.flac", "text": "Sorted.", "reasons": ["utmos 3.04 < 3.5", "speaking rate 1.09 words/s"]}
+{"id": "tr0571", "file": "tr0571.a1.flac", "text": "Noted.", "reasons": ["asr wer=2.0/2.0 crit=True/True hyp='Huo Wei, noted.'", "speaking rate 0.76 words/s"]}
+{"id": "tr0571", "file": "tr0571.flac", "text": "Noted.", "reasons": ["utmos 2.49 < 3.5"]}
+{"id": "tr0572", "file": "tr0572.a1.flac", "text": "The petrol at the corner servo is one dollar eighty-nine a litre.", "reasons": ["asr wer=0.2/0.2 crit=False/False hyp='The petrol at the corner servo is $1.89 a litre.'"]}
+{"id": "tr0572", "file": "tr0572.flac", "text": "The petrol at the corner servo is one dollar eighty-nine a litre.", "reasons": ["asr wer=0.2/0.2 crit=False/False hyp='The petrol at the corner servo is $1.89 a litre.'"]}
+{"id": "tr0574", "file": "tr0574.flac", "text": "One moment.", "reasons": ["asr wer=1.0/0.5 crit=True/True hyp='The moment.'", "utmos 2.37 < 3.5"]}
+{"id": "tr0603", "file": "tr0603.flac", "text": "The internet has been patchy this evening. I've restarted the router, and things seem to be behaving again, for now.", "reasons": ["asr wer=0.09523809523809523/0.09523809523809523 crit=True/True hyp=\"The internet is being patchy this evening. I've restarted the router and things seem to be behaving again for now.\""]}
+{"id": "tr0607", "file": "tr0607.flac", "text": "The robot vacuum has finished downstairs. It found a sock, two pegs and a surprising amount of cat hair.", "reasons": ["asr wer=0.058823529411764705/0.058823529411764705 crit=True/True hyp='The robot vacuum has finished downstairs. It found a sock, two pegs and the surprising amount of cat hair.'"]}

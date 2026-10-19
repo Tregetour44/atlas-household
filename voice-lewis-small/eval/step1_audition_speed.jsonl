@@ -1,0 +1,4 @@
+{"tag": "chatterbox-turbo", "n": 8, "synth_s": 94.2, "audio_s": 39.68, "rtf_mean": 2.374, "rtf_p50": 2.352, "rtf_p95": 3.177, "peak_rss_mb": 6244, "threads": 4}
+{"tag": "kokoro-bm_lewis", "n": 8, "synth_s": 18.33, "audio_s": 50.1, "rtf_mean": 0.366, "rtf_p50": 0.35, "rtf_p95": 0.417, "peak_rss_mb": 1795, "threads": 4}
+{"tag": "chatterbox", "n": 8, "synth_s": 262.21, "audio_s": 44.2, "rtf_mean": 5.932, "rtf_p50": 5.787, "rtf_p95": 12.789, "peak_rss_mb": 6756, "threads": 4}
+{"tag": "pocket-catalog-charles", "n": 8, "synth_s": 23.9, "audio_s": 40.72, "rtf_mean": 0.587, "rtf_p50": 0.588, "rtf_p95": 0.645, "peak_rss_mb": 1044, "threads": 4}

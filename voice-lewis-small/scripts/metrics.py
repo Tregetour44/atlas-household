@@ -15,18 +15,36 @@ from english_normalizer import EnglishTextNormalizer  # noqa: E402
 _norm = EnglishTextNormalizer(json.load(open(os.path.join(HERE, "third_party", "whisper_english_spelling.json"))))
 _PRE = [(r"°\s*c\b", " degrees"), (r"°", " degrees"), (r"\bkwh\b", "kilowatt hours"), (r"\bkw\b", "kilowatts"),
         (r"\bkm/h\b", "kilometres an hour"), (r"\bkm\b", "kilometres"), (r"\bmm\b", "millimetres"),
-        (r"\bper cent\b", "percent"), (r"\bok\b", "okay"), (r"\bo'clock\b", ""), (r"\bmum\b", "mother")]
+        (r"(\d)\s*km/h\b", r"\1 kilometres an hour"), (r"(\d)\s*km\b", r"\1 kilometres"), (r"(\d)\s*mm\b", r"\1 millimetres"),
+        (r"(\d)\s*kwh\b", r"\1 kilowatt hours"), (r"(\d)\s*kw\b", r"\1 kilowatts"), (r"\bper cent\b", "percent"), (r"\bok\b", "okay"), (r"\bwi-?fi\b", "wifi"), (r"\bair ?con\b", "aircon"), (r"\bbottle-?o\b", "bottleo"),
+        (r"\bcivilisation\b", "civilization"),
+        (r"\bverandah\b", "veranda"), (r"\bheat wave\b", "heatwave"), (r"\bburnt\b", "burned"), (r"\bpick up\b", "pickup"), (r"\bkids'", "kids"), (r"\bkid's\b", "kids"), (r"\bo'clock\b", ""), (r"\bmum\b", "mother")]
 CRITICAL = set("on off open opened closed close shut locked unlocked lock unlock not no don't isn't can't won't up down "
                "high low cancelled minus empty full late early before after".split())
+
+
+def _clock(t):
+    """Canonical clock times so "half past six", "six thirty", "6.30" and "6:30" all become "630"."""
+    out, i = [], 0
+    while i < len(t):
+        w = t[i:i + 4]
+        if len(w) >= 3 and w[0] in ("half", "quarter") and w[1] == "past" and w[2].isdigit():
+            out.append(w[2] + ("30" if w[0] == "half" else "15")); i += 3; continue
+        if len(w) >= 3 and w[0] == "quarter" and w[1] == "to" and w[2].isdigit() and 1 <= int(w[2]) <= 12:
+            out.append(str((int(w[2]) - 2) % 12 + 1) + "45"); i += 3; continue
+        if len(w) >= 3 and w[0] in ("5", "10", "20", "25") and w[1] in ("past", "to") and w[2].isdigit() and 1 <= int(w[2]) <= 12:
+            h, m = int(w[2]), int(w[0])
+            out.append(f"{h}{m:02d}" if w[1] == "past" else f"{(h - 2) % 12 + 1}{60 - m:02d}"); i += 3; continue
+        out.append(t[i]); i += 1
+    out = [re.sub(r"^(\d{1,2})[.:](\d{2})$", r"\1\2", x).lstrip("-") for x in out]
+    return [x for x in out if x not in ("a", "o'clock")] if any(x.isdigit() for x in out) else out
 
 
 def normalise(s):
     s = s.lower()
     for a, b in _PRE:
         s = re.sub(a, b, s)
-    s = _norm(s)
-    s = re.sub(r"\b(\d+) (\d{2})\b", r"\1:\2", s)  # "six 42" (time) vs "6:42"
-    return s.replace(":00", "").split()
+    return _clock(_norm(s).split())
 
 
 def wer(ref, hyp):

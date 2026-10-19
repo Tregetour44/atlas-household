@@ -18,6 +18,11 @@ texts = [r[2] for r in rows]
 assert len(set(texts)) == len(texts), "duplicate sentence"
 heldout_texts = {r[2].lower() for r in evals}
 assert not any(r[2].lower() in heldout_texts for r in train)
+# Extension families (added after generation had started) are appended after everything else, unshuffled,
+# so existing ids and seeds never change.
+ext = [("train", os.path.basename(p)[:-4], t) for p in sorted(glob.glob(os.path.join(C, "train_ext", "*.txt"))) for t in lines(p)]
+assert not any(r[2] in texts or r[2].lower() in heldout_texts for r in ext), "duplicate / held-out sentence in extension"
+train += ext
 with open(os.path.join(C, "manifest.tsv"), "w", encoding="utf-8") as f:
     f.write("id\tsplit\tfamily\tseed\ttext\n")
     for i, (split, fam, t) in enumerate(evals + train):

@@ -1,0 +1,25 @@
+# piper1-gpl (OHF-Voice) LightningCLI config for the voice-lewis-small fine-tune on CPU.
+# Paths and the warm-start checkpoint are passed on the command line (see scripts/train_student.sh).
+trainer:
+  accelerator: cpu
+  devices: 1
+  precision: 32
+  max_steps: 2500
+  log_every_n_steps: 10
+  callbacks:
+    - class_path: lightning.pytorch.callbacks.ModelCheckpoint
+      init_args:
+        every_n_train_steps: 500
+        save_top_k: -1
+        save_last: true
+        filename: "step={step}"
+        auto_insert_metric_name: false
+data:
+  espeak_voice: en-gb-x-rp
+  batch_size: 16
+  validation_split: 0.03
+  num_test_examples: 0
+  num_workers: 0
+model:
+  sample_rate: 22050
+  mos_metric: none

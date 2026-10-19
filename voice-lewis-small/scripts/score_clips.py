@@ -26,7 +26,7 @@ for f in files:
     if "asr" in want and cid in text:
         hyp, span = ev.transcribe(y)
         r.update(asr=hyp, wer=round(wer(text[cid], hyp), 4), crit_ok=critical_ok(text[cid], hyp)[0])
-        if r["wer"] > 0.05 or not r["crit_ok"]:  # second opinion from a stronger ASR before blaming the audio
+        if (r["wer"] > 0.05 or not r["crit_ok"]) and not os.environ.get("VLS_NO_MEDIUM"):  # second opinion from a stronger ASR before blaming the audio
             hyp2, span2 = ev.transcribe(y, "medium")
             r.update(asr2=hyp2, wer2=round(wer(text[cid], hyp2), 4), crit_ok2=critical_ok(text[cid], hyp2)[0])
             if r["wer2"] < r["wer"]:

@@ -3,10 +3,18 @@ For each clip id the first passing attempt (attempt 0, then retries) is kept.
 Writes: <out>/accepted.tsv (id, file, text), <out>/rejects.jsonl (every failing attempt + reasons), <out>/retry_ids.txt.
 usage: filter_corpus.py <manifest.tsv> <scores.jsonl> <filter.json> <out_dir>"""
 import csv, json, os, sys
+sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
+from metrics import wer, critical_ok
 manifest, scores, cfgp, out = sys.argv[1:5]
 cfg = json.load(open(cfgp))
 rows = {r["id"]: r for r in csv.DictReader(open(manifest, encoding="utf-8"), delimiter="\t")}
 S = [json.loads(l) for l in open(scores)]
+for s in S:  # re-derive WER / critical words from the stored transcripts with the current normaliser
+    if s.get("id") in rows and "asr" in s:
+        ref = rows[s["id"]]["text"]
+        s["wer"], s["crit_ok"] = wer(ref, s["asr"]), critical_ok(ref, s["asr"])[0]
+        if "asr2" in s:
+            s["wer2"], s["crit_ok2"] = wer(ref, s["asr2"]), critical_ok(ref, s["asr2"])[0]
 
 
 def reasons(s):
@@ -15,8 +23,9 @@ def reasons(s):
     a2 = s.get("wer2", 1) <= cfg["wer_max"] and s.get("crit_ok2", False)
     if not (a1 or a2):
         r.append(f"asr wer={s.get('wer')}/{s.get('wer2')} crit={s.get('crit_ok')}/{s.get('crit_ok2')} hyp={s.get('asr2', s.get('asr'))!r}")
-    if s["spk_ref"] < cfg["spk_ref_min"]:
-        r.append(f"speaker sim {s['spk_ref']:.3f} < {cfg['spk_ref_min']}")
+    cut = cfg["spk_ref_min"] if s["dur"] >= cfg["spk_short_dur_s"] else cfg["spk_ref_min_short"]
+    if s["spk_ref"] < cut:
+        r.append(f"speaker sim {s['spk_ref']:.3f} < {cut} (dur {s['dur']}s)")
     if s["utmos"] < cfg["utmos_min"]:
         r.append(f"utmos {s['utmos']:.2f} < {cfg['utmos_min']}")
     if s["clip_frac"] > cfg["clip_frac_max"]:
