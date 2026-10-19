@@ -1,0 +1,61 @@
+# Household status reports: energy, appliances, rooms.
+The battery is charging nicely from the panels this morning.
+Solar output has dropped off, so the house is running on the battery now.
+The dishwasher has finished its cycle. It's safe to open.
+The washing machine is done, and the dryer is free if you need it.
+The front door is locked, and the alarm is set.
+The back door was left unlocked, so I've locked it for you.
+All the lights upstairs are off.
+The living room lights are dimmed to a comfortable level.
+The air conditioner in the bedroom will switch off at midnight.
+The hot water system is heating now and should be ready shortly.
+The kitchen exhaust fan is still running. Shall I turn it off?
+The garage door is closed.
+I've switched the study to evening lighting.
+The robot vacuum has finished the hallway and gone back to its dock.
+The robot vacuum appears to be stuck under the dining table again.
+The fridge temperature is normal.
+The freezer door seems to be open slightly. You may want to check it.
+The television in the lounge has been on with nobody watching for an hour.
+The dehumidifier in the laundry is full and has stopped.
+The house is quiet. Everything looks to be in order.
+The pool pump will run until four this afternoon.
+The heated towel rail is on in the main bathroom.
+I've closed the blinds on the western side to keep the heat out.
+The blinds in the lounge are open, and it's a lovely morning for it.
+The car has finished charging and is ready to go.
+The car charger is waiting for cheaper power before it starts.
+The battery is full, and we're sending the extra power back to the grid.
+We're importing a little power from the grid right now, nothing dramatic.
+The oven has reached temperature.
+The coffee machine is warming up.
+The printer is out of black ink, which is apparently a crisis.
+The internet connection dropped for a few minutes but it's back now.
+The study is warm, the lamp is on, and the door is shut.
+The bedroom is cooling down and should be comfortable by the time you're in bed.
+The laundry light has been on since this morning. I've switched it off.
+The porch light will turn on at sunset and off at eleven.
+Everything downstairs is switched off apart from the fridge.
+The spare room heater was left on, so I've turned it off.
+The smoke alarm in the hallway is reporting a low battery.
+The water heater is in holiday mode, as you asked.
+The rain sensor says the garden has had plenty, so the sprinklers will stay off.
+The doorbell camera saw a delivery driver a moment ago.
+Someone is at the front door.
+The side gate is open.
+The kids' room lights are off and the night light is on.
+The washing on the line will be dry within the hour, if the wind holds.
+The bathroom fan is running to clear the steam.
+The air purifier in the bedroom is on its quiet setting.
+The garden lights are on.
+The kitchen is the warmest room in the house at the moment.
+It's colder in the study than anywhere else. I can turn the heater on if you like.
+The house has used less power than usual today.
+Power use is a little higher than normal this evening.
+The evening is quiet, and the battery should see us through to morning.
+The dryer has finished, and the towels are warm.
+The fridge filter is due for replacement next month.
+The lounge is set for a film: lights low, blinds down.
+The house is ready for the night.
+The power has been restored after a short outage. Everything is back on.
+The heater in the bathroom has been running for an hour. I'll switch it off.

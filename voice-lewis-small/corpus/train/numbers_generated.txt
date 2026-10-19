@@ -1,0 +1,111 @@
+# Templated spoken numbers (scripts/gen_numbers.py, seed 20261019).
+Sunset is at seven forty-seven this evening.
+Outside it's sixteen degrees, with eighty percent humidity.
+The wind is gusting to fifty-two kilometres an hour.
+Today the house used seven kilowatt hours, and the panels made twenty-six.
+It's one fifty-five.
+The rain gauge shows forty-two millimetres since this morning.
+Today the house used twenty-six kilowatt hours, and the panels made eight.
+It's twenty-four degrees in the kids' room.
+Power costs thirty-six cents a kilowatt hour at the moment.
+It's seventeen degrees in the spare room.
+That comes to twelve dollars and ninety cents.
+That's seven out of sixteen, if anyone's keeping score.
+The timer has thirty-eight minutes left.
+Outside it's twenty-six degrees, with twenty-four percent humidity.
+Sunset is at eight oh one this evening.
+There's a sixty percent chance of rain on Thursday.
+Sunset is at seven thirty-five this evening.
+The car is at fifty-one percent, with about two hundred kilometres of range.
+The year is two thousand and four.
+That's four out of nineteen, if anyone's keeping score.
+The lights in the study have been on for five hours.
+The dishwasher will finish at seven.
+The car is at eighty-five percent, with about one hundred and ninety kilometres of range.
+Solar is producing four point six kilowatts right now.
+Today the house used twelve kilowatt hours, and the panels made twenty-four.
+The battery is at seventy-two percent.
+The appointment is on Saturday the sixth at half past twelve.
+I'll turn the heating off in fifteen minutes.
+The dishwasher will finish at six fifty.
+Outside it's twenty-three degrees, with forty percent humidity.
+The car is at one hundred percent, with about four hundred kilometres of range.
+That comes to one hundred and two dollars and forty-five cents.
+The year is two thousand and thirteen.
+Today the house used nine kilowatt hours, and the panels made twenty-four.
+Solar is producing nine point five kilowatts right now.
+The wind is gusting to seventy-two kilometres an hour.
+It's twelve fifty-five.
+I'll turn the heating off in five minutes.
+Thursday the tenth of August.
+The dishwasher will finish at half past ten.
+There's a forty percent chance of rain on Monday.
+The battery is at fifty percent.
+It's two twenty.
+The car is at forty-two percent, with about one hundred and eighty kilometres of range.
+It's four oh three.
+The year is two thousand and twenty-eight.
+That comes to three hundred and sixty-eight dollars and ninety cents.
+The timer has fourteen minutes left.
+The timer has thirty-one minutes left.
+The lights in the study have been on for four hours.
+The year is two thousand and twenty-one.
+There's a fifty percent chance of rain on Sunday.
+Solar is producing one point five kilowatts right now.
+It's thirty-one degrees in the study.
+It's twelve degrees in the study.
+Thursday the twenty-second of December.
+That's four out of twelve, if anyone's keeping score.
+The wind is gusting to seventy-six kilometres an hour.
+The wind is gusting to sixty-eight kilometres an hour.
+The year is two thousand and twenty-five.
+That comes to four hundred and forty dollars and eighty-five cents.
+Today the house used sixteen kilowatt hours, and the panels made thirty-two.
+The dishwasher will finish at a quarter past six.
+The rain gauge shows fifty-four millimetres since this morning.
+The timer has twenty-three minutes left.
+The wind is gusting to eighty-eight kilometres an hour.
+There's a twenty percent chance of rain on Monday.
+The timer has three minutes left.
+The year is two thousand and seventeen.
+Power costs twenty cents a kilowatt hour at the moment.
+That comes to one hundred and seventy-three dollars and forty cents.
+It's four forty.
+Power costs forty-seven cents a kilowatt hour at the moment.
+The phone number ends in zero six seven nine.
+Outside it's seven degrees, with fifty-six percent humidity.
+Solar is producing one point one kilowatts right now.
+The rain gauge shows thirty-four millimetres since this morning.
+The car is at sixty-two percent, with about three hundred and fifty kilometres of range.
+Solar is producing five point six kilowatts right now.
+The year is two thousand and twenty-three.
+The dishwasher will finish at half past five.
+Today the house used twenty-nine kilowatt hours, and the panels made thirty-four.
+The year is two thousand and twelve.
+The phone number ends in four seven nine two.
+The dishwasher will finish at one forty.
+The timer has forty-seven minutes left.
+Outside it's thirty-six degrees, with sixty percent humidity.
+The battery is at ninety-seven percent.
+There's a eighty percent chance of rain on Wednesday.
+The year is two thousand and nineteen.
+I'll turn the heating off in twenty minutes.
+The wind is gusting to thirty-three kilometres an hour.
+The dishwasher will finish at a quarter to twelve.
+That comes to one hundred and sixty-one dollars and five cents.
+The dishwasher will finish at twelve o'clock.
+There's a fifty percent chance of rain on Monday.
+Power costs fifty cents a kilowatt hour at the moment.
+The car is at seventy-seven percent, with about four hundred kilometres of range.
+Monday the seventh of November.
+I'll turn the heating off in ten minutes.
+The phone number ends in seven zero six four.
+Solar is producing nine point nine kilowatts right now.
+Today the house used sixteen kilowatt hours, and the panels made thirty-nine.
+It's twenty degrees in the garage.
+I'll turn the heating off in thirty minutes.
+That's eight out of twelve, if anyone's keeping score.
+The battery is at ninety percent.
+That comes to one hundred and forty-four dollars and sixty cents.
+Monday the first of April.
+The appointment is on Wednesday the twelfth at a quarter to ten.

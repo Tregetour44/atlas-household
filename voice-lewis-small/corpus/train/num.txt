@@ -1,0 +1,51 @@
+# Spoken numbers, times, percentages, money and temperatures (hand-written; more in numbers_generated.txt).
+The battery is at sixty-four percent.
+The battery is at one hundred percent, and the sun is still going.
+The battery has dropped to twelve percent. I'd hold off on the oven.
+Solar produced twenty-two kilowatt hours today.
+We used eighteen point five kilowatt hours yesterday.
+It's twenty-seven degrees inside and thirty-four outside.
+It's seven degrees outside, so you'll want a coat.
+The forecast is a top of thirty-eight, with a cool change late in the evening.
+Overnight it should drop to nine degrees.
+It's a quarter past seven.
+It's half past eleven, and the house is all locked up.
+It's ten to six.
+The timer is set for twenty-five minutes.
+The oven will be ready in about eight minutes.
+The washing machine has forty-three minutes left.
+The dishwasher will finish at nine fifteen.
+The grid price is forty-one cents per kilowatt hour right now.
+Power is cheapest between eleven and two this afternoon.
+Feeding power back to the grid earns us five cents a kilowatt hour.
+The electricity bill came to two hundred and twelve dollars for the quarter.
+The water bill is ninety-six dollars and forty cents.
+The car is at eighty-five percent and has about three hundred and forty kilometres of range.
+The rain gauge says fourteen millimetres since midnight.
+There's a ninety percent chance of rain tomorrow.
+There's only a ten percent chance of rain, so the washing can go out.
+Humidity is at seventy-two percent.
+The wind is gusting to forty-five kilometres an hour.
+The pool is at twenty-four degrees.
+The hot water tank is at fifty-five degrees.
+The fridge is at three degrees, and the freezer is at minus eighteen.
+You have three appointments tomorrow, the first at eight thirty.
+It's Tuesday the fourteenth of March.
+The bins go out on Sunday night, the twenty-third.
+The car service is booked for the first of June at nine.
+That's the fourth time the gate has been left open this week.
+Two parcels arrived today, and a third is due on Friday.
+The house used thirty percent less power than this time last year.
+Sunset is at six forty-two this evening.
+Sunrise tomorrow is at five fifty-eight.
+The internet is running at eighty-seven megabits per second.
+The study has been empty for two hours, so I've turned the lights off.
+The garage door has been open for fifteen minutes.
+In five minutes, the sprinklers will start.
+The kettle boiled seven times today. I'm not judging.
+It's nearly midnight.
+It's one minute past twelve.
+It's exactly noon.
+The temperature in the nursery is twenty-one point five degrees.
+The petrol at the corner servo is one dollar eighty-nine a litre.
+Your timer for the roast has two minutes to go.
