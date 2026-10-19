@@ -1,26 +1,24 @@
 # voice-lewis-small: status
 
-**Updated:** 2026-10-19 23:30 UTC (Tue 20 Oct, 10:30 Sydney)
-**Step:** 4 of 4. Evaluation is done and **the deliverable is pushed**: `model/`, `samples/`, `README.md`. The brief's definition of done is met.
-**Finished.** Training was extended to step 3000 to check for further gains. Step 3000 was level with step 2500 (similarity 0.840 vs 0.837, MCD equal), slightly worse on WER (1.2% vs 0.9%) and pitch movement, and lower on UTMOS for the sample lines (3.93 vs 4.06). That is a plateau, so training stopped and **step 2500 remains the delivered model**. Nothing is running.
+## Round 2: narrow the naturalness gap (started 2026-10-19 23:44 UTC / 20 Oct 10:44 Sydney)
+
+**Updated:** 2026-10-19 23:50 UTC | **elapsed round 2:** 0 h 06 m
+**Stage:** 2, growing the teacher corpus (writing new sentences).
+**Reused from round 1:** all 682 teacher masters (113 MB) and the full step 2000/2500/3000 checkpoints are still in this sandbox, so no regeneration is needed.
+
+**Plan, in stages, stopping at a plateau:**
+1. Write about 600 new original sentences: about 120 short confirmations (round 1's weakest family), times, percentages, energy, weather, dry wit and longer briefings. Also 3 new held-out Atlas-style lines.
+2. Generate with the same teacher, settings and filters. That is about 5 h of teacher compute for roughly +40 min of accepted audio (37 → about 80 min).
+3. Meanwhile (almost free): tune Piper's inference noise settings (`noise_scale`, `noise_w`) on the round-1 model.
+4. Student (a): Piper medium warm-started from step 2500 on the bigger corpus, about 1,000–1,500 steps, evaluated every 500.
+5. If (a) improves, grow towards 2 h and train again. (b) Piper high and (c) another architecture are judged on training cost and CPU speed; see the round-2 README when it's written.
+
+**Best so far:** round 1, step 2500: UTMOS 4.06 (teacher 4.34), similarity to teacher 0.837, WER 0.9%, p95 RTF 0.049 (4 vCPU).
+**ETA:** first round-2 student evaluation in about 7–8 h.
 **Blockers:** none.
 
-## Headline (step 2500, delivered)
+---
 
-- **Speed:** CPU RTF 0.037 mean, **0.049 p95**, on 4 vCPU Xeon @ 2.1 GHz. Pinned to 1 core it is the same (p95 0.045). RAM ~185–345 MB. The target was p95 ≤ 0.7.
-- **Likeness:**
-  - speaker similarity to the teacher 0.84 overall and 0.90 on the four sample lines (the teacher scores 0.87 against its own other clips);
-  - same pitch (96 vs 99 Hz), similar pitch movement (3.7 vs 3.8 st) and pace (3.71 vs 3.78 words/s);
-  - WER 0.9%.
-- **Gap:** naturalness, UTMOS 4.06 vs the teacher's 4.34. Judge by ear: `samples/lewis-small-N.mp3` vs `samples/teacher-chatterbox-kokoro-lewis-ref-N.mp3`.
+## Round 1 (done)
 
-## Step history
-
-- Step 1 gate: no lighter option passed. Turbo RTF 2.4 is too slow; Kokoro bm_lewis is fast but is the delivery the owner passed over; Pocket TTS cloning is gated (NO DATA). See the README.
-- Step 2 corpus: 570 accepted clips, 37.0 min (target 30–45). 82 rejected attempts are logged.
-- Step 3 student: northern_english_male medium base, 2,500 steps on CPU (~4 h).
-- Step 4 evaluate: README tables, `eval/`.
-
-## Time left
-
-None. Done; the owner judges by ear.
+The round 1 deliverable is at the folder root: `model/`, `samples/`, `README.md`. Verdict: about 25× faster than real time, similarity 0.84, naturalness gap UTMOS 4.06 vs 4.34. Step 3000 was a plateau, so step 2500 was kept.
