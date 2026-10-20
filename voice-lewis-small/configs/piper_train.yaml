@@ -14,6 +14,14 @@ trainer:
         save_last: true
         filename: "step={step}"
         auto_insert_metric_name: false
+    # rolling resume point (this sandbox VM restarts every ~2 h): keeps only the newest
+    - class_path: lightning.pytorch.callbacks.ModelCheckpoint
+      init_args:
+        every_n_train_steps: 100
+        save_top_k: 1
+        monitor: null
+        filename: "rolling"
+        auto_insert_metric_name: false
 data:
   espeak_voice: en-gb-x-rp
   batch_size: 16

@@ -2,8 +2,8 @@
 
 ## Round 2: narrow the naturalness gap (started 2026-10-19 23:44 UTC / 20 Oct 10:44 Sydney)
 
-**Updated:** 2026-10-20 03:18 UTC | **elapsed round 2:** 3 h 34 m
-**Stage:** 2, growing the teacher corpus. About 1,212 of about 1,596 teacher clips (rounds 1 and 2) exist. At 03:14 UTC the sandbox VM rebooted; no files were lost, and generation resumed at 03:15 via a resumable pipeline (`generate → score → second-opinion ASR → filter → one retry round → Piper copies`). One worker was OOM-killed earlier; the scorer now waits until generation finishes. **ETA:** corpus about 05:45 UTC, first round-2 student checkpoint about 06:45 UTC.
+**Updated:** 2026-10-20 05:50 UTC | **elapsed round 2:** 6 h 06 m
+**Stage:** 2, teacher generation is finishing: 1,595 of 1,596 clips. The VM rebooted again at 05:16 UTC (about every 2 h); nothing was lost and the pipeline resumed. Next: scoring, second-opinion ASR, one retry round, filtering (about 1–1.5 h), then student (a). Training now saves a rolling resume checkpoint every 100 steps because of the reboots. **ETA:** first round-2 student checkpoint about 08:00 UTC.
 **Accepted so far:** 755 clips, **48.7 min** (round 1: 37.0 min). The projection is about 85 min once all batches are generated (about 4 h more).
 **Free gain found:** an inference-noise grid on the round-1 model. Lowering `noise_scale` from 0.667 to 0.5 (`noise_w` 0.8) raises UTMOS from 4.06–4.07 to 4.11 with WER 0.7% and unchanged similarity. Piper sampling is random, so small differences will be confirmed with repeated renders.
 **(b) Piper high:** published `en_GB-cori-high` runs about 5× slower than our medium model on the same CPU. That fits the desktop target, but probably not 1–2 ARM cores, and its CPU training would cost 3–5× more per step. Deferred until (a) is measured.
