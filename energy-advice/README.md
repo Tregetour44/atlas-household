@@ -81,7 +81,12 @@ The current prompt on 6 of these (DW-01, 02, 03, 07, 10, 11) gave the time-of-da
 
 ### Cards position check
 
-In the main run the cards sat inside the template, before the energy history. In the integration they arrive as the guarded agent's `extra_system_prompt`, which HA appends at the very end. `build/run_end.py` re-runs 8 cases (the owner's case and seven dishwasher states) that way: see `build/results/position-end-candidate.jsonl` and the note at the end of this file.
+In the main run the cards sat inside the template, before the energy history. In the integration they arrive as the guarded agent's `extra_system_prompt`, which HA appends at the very end. `build/run_end.py` re-ran 8 cases that way (OWN-01, DW-01, 02, 03, 07, 08, 10, 11; `build/results/position-end-candidate.jsonl`):
+- **the same choice in 8 of 8**;
+- **0 unsupported figures**, 0 controller advice, 0 dead ends;
+- DW-03 kept its reason this time ("would only cost about $0.09 to $0.46 tonight … leave the battery below the reserve before 11 am").
+
+Two small wording slips: DW-08 says "even though you have enough battery" before explaining that you don't, and DW-11 drops the "no history, not certain" label. So the integration position is fine. Keep the cards' wording as tested.
 
 ### Timing (NO DATA for the household PC)
 
@@ -153,7 +158,7 @@ Add the cards text to the figure guard's sources too (one line in `conversation.
 
 - Real-house readings, entity mappings for the new inputs (hourly house statistics, the credit-hour meters, a PV energy forecast, appliance profiles) and whether they are healthy and exposed: NO DATA. The cards say "Not known" for them, and the appliance figures say "typical, not measured here".
 - Calibrated delivered battery energy (the cards are nominal, from 25.6 kWh) and round-trip losses: NO DATA.
-- Latency on the household PC: NO DATA. Behaviour of the claim-guarded agent in HA with `extra_system_prompt` cards: not run (no HA here). Run42's 27 original energy regressions: not run (out of this brief's scope).
+- Latency on the household PC: NO DATA. The cards-at-end position was checked only with this harness (8 cases); the real claim-guarded agent in HA with `extra_system_prompt` cards was not run (no HA here). Run42's 27 original energy regressions: not run (out of this brief's scope).
 - One repeat per case: the run-to-run variance is unmeasured. The judge is Claude, not a human, and is not independent of this build's author. Energy's review, House AI's own scoring and the owner's yes are still to come.
 
 ## Limits

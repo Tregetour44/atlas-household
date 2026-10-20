@@ -22,3 +22,4 @@ Branch `energy-advice-build`, cut from `energy-advice-input` (3f0d3b9). Nothing 
 | 19:09 | Progress: codex-candidate 40; own-candidate 37; subset-current 13;  |
 | 19:46 | Progress: codex-candidate 40; own-candidate 37; subset-current 23;  |
 | 20:20 | Candidate arm 77/77, current prompt 25/25, both blind-judged; AR-04/13/20 re-run with the money fix. **README.md written: verdict, scores, integration, NO DATA, 8 samples.** Patches refreshed (coordinator suite 184 OK on a fresh copy of main). Still running: the 8-case cards-at-end position check (about 40 min); its result will be added to the README. |
+| 20:55 | **Done.** Cards-at-end position check (8 cases, as the integration places them): same choice in 8/8, 0 unsupported figures. README updated. All runs finished; Ollama idle. |
