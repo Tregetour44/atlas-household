@@ -1,0 +1,5 @@
+{"before": {"set": {"CLAUSE_SPLIT": 510, "MERGE_BELOW": 1000, "REWRITES": "none", "LEXICON": {}, "SHORT_FULL": 0, "SHORT_NONE": 1,
+            "EDGE_KEEP_S": 10, "FINAL_PAUSE_S": 0, "CLAUSE_PAUSE_S": 0, "PAUSE_S": {}}},
+ "fin200": {},
+ "fin120": {"set": {"CLAUSE_SPLIT": 120}},
+ "fin80": {"set": {"CLAUSE_SPLIT": 80}}}

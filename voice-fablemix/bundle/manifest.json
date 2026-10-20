@@ -1,0 +1,37 @@
+{
+ "bundle": "Kokoro-82M v1.0 'Fable-mix' (en_GB-fablemix) for ONNX Runtime on CPU",
+ "files": [
+  {
+   "name": "kokoro-v1.0.onnx",
+   "size": 325532232,
+   "sha256": "8fbea51ea711f2af382e88c833d9e288c6dc82ce5e98421ea61c058ce21a34cb",
+   "source": "https://huggingface.co/onnx-community/Kokoro-82M-v1.0-ONNX/resolve/1939ad2a8e416c0acfeecc08a694d14ef25f2231/onnx/model.onnx",
+   "licence": "Apache-2.0",
+   "notes": "fp32 ONNX export of hexgrad/Kokoro-82M v1.0 (onnx-community, pinned commit). Saved under this name. Do not substitute the fp16 (NaN audio on CPU) or int8 (changed timing) files from the same repository."
+  },
+  {
+   "name": "config.json",
+   "size": 2351,
+   "sha256": "5abb01e2403b072bf03d04fde160443e209d7a0dad49a423be15196b9b43c17f",
+   "source": "https://huggingface.co/hexgrad/Kokoro-82M/resolve/f3ff3571791e39611d31c381e3a41a3af07b4987/config.json",
+   "licence": "Apache-2.0",
+   "notes": "Kokoro-82M's own config; the backend reads only its phoneme vocabulary."
+  },
+  {
+   "name": "en_GB-fablemix.npy",
+   "size": 522368,
+   "sha256": "5de2db9de4510efd4b3dd9f64bf0cf03530089b2220aec95f43f3b27636fbf80",
+   "source": "bundle/en_GB-fablemix.npy",
+   "licence": "Apache-2.0 (derived from Kokoro-82M voices, Apache-2.0)",
+   "notes": "The voice-scout Fable-mix pack (voice-scout/voices/kokoro-fablemix.pt, sha256 cadc5c98dc83ac96214afbdb8952ddb0edc88ccfd95adbdb97ea96ca332e6d79) saved as a plain float32 NumPy array [510, 1, 256], bit-identical values, no pickle. Rebuild and check with tools/convert_voice.py."
+  },
+  {
+   "name": "en_GB-fablemix-short.npy",
+   "size": 522368,
+   "sha256": "86faab493d94047df677164f5743b9cf62084168bd83cbc1551bf48e39eb1ed5",
+   "source": "bundle/en_GB-fablemix-short.npy",
+   "licence": "Apache-2.0 (derived from Kokoro-82M voices, Apache-2.0)",
+   "notes": "Short-reply pack: Fable-mix timbre half, prosody half 50 % bm_fable + 50 % the inno-kokoro fitted pack that Fable-mix itself contains. Used for pieces under 60 phonemes (fully under 40). Built by tools/convert_voice.py."
+  }
+ ]
+}

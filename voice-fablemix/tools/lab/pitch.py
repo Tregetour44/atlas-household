@@ -9,21 +9,24 @@ tags = list(dict.fromkeys(v for v, _ in rows))
 def feats(f):
     y, _ = librosa.load(f, sr=16000)
     f0, _, _ = librosa.pyin(y, fmin=55, fmax=320, sr=16000, frame_length=1024, hop_length=160)
-    v = ~np.isnan(f0); st = 12 * np.log2(f0[v] / np.median(f0[v]))
+    v = ~np.isnan(f0)
+    if v.sum() < 5:
+        print('no voiced frames:', f, file=sys.stderr); return None
+    st = 12 * np.log2(f0[v] / np.median(f0[v]))
     k = len(st) * 2 // 3
     d = np.abs(np.diff(12 * np.log2(f0)))  # nan across unvoiced gaps
-    return dict(sd=float(np.std(st)), rng=float(np.percentile(st, 90) - np.percentile(st, 10)),
+    return dict(hz=float(np.median(f0[v])), sd=float(np.std(st)), rng=float(np.percentile(st, 90) - np.percentile(st, 10)),
                 end=float(np.median(st[k:]) - np.median(st[:k])), jump=float(np.nanmean(d)))
 agg = collections.defaultdict(list)
 for t in tags:
     for i in ids:
         f = os.path.join(wavdir, f"{t}-{i}.wav")
-        if (t, i) in rows and os.path.exists(f):
-            agg[t].append({**feats(f), "utmos": rows[(t, i)]["utmos"], "eng_us": rows[(t, i)]["eng_us"],
+        if (t, i) in rows and os.path.exists(f) and (ft := feats(f)):
+            agg[t].append({**ft, "utmos": rows[(t, i)]["utmos"], "eng_us": rows[(t, i)]["eng_us"],
                            "wer": rows[(t, i)]["wer"], "brit": rows[(t, i)]["accent"] in ("england", "australia"),
                            "lmd": rows[(t, i)].get("lmd_ref", 0.0), "dur": rows[(t, i)]["dur"]})
-print("| variant | n | F0 spread (st) | F0 range p10–p90 (st) | ending (st) | frame jump (st) | UTMOS | Eng−US | British | WER | dur (s) |")
-print("|---|---|---|---|---|---|---|---|---|---|---|")
+print("| variant | n | median F0 (Hz) | F0 spread (st) | F0 range p10–p90 (st) | ending (st) | frame jump (st) | UTMOS | Eng−US | British | WER | dur (s) |")
+print("|---|---|---|---|---|---|---|---|---|---|---|---|")
 for t, xs in agg.items():
     m = lambda k: np.mean([x[k] for x in xs])
-    print(f"| {t} | {len(xs)} | {m('sd'):.2f} | {m('rng'):.2f} | {m('end'):+.2f} | {m('jump'):.3f} | {m('utmos'):.3f} | {m('eng_us'):+.3f} | {sum(x['brit'] for x in xs)}/{len(xs)} | {m('wer'):.3f} | {m('dur'):.2f} |")
+    print(f"| {t} | {len(xs)} | {m('hz'):.1f} | {m('sd'):.2f} | {m('rng'):.2f} | {m('end'):+.2f} | {m('jump'):.3f} | {m('utmos'):.3f} | {m('eng_us'):+.3f} | {sum(x['brit'] for x in xs)}/{len(xs)} | {m('wer'):.3f} | {m('dur'):.2f} |")

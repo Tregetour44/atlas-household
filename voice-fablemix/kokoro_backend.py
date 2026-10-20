@@ -41,19 +41,27 @@ SAMPLE_RATE = 24000
 VOICE_NAME = "en_GB-fablemix"
 SynthFn = Callable[[str], Iterator[bytes]]
 
-MODEL_FILE, CONFIG_FILE, VOICE_FILE = "kokoro-v1.0.onnx", "config.json", "en_GB-fablemix.npy"
+MODEL_FILE, CONFIG_FILE = "kokoro-v1.0.onnx", "config.json"
+VOICE_FILE, SHORT_VOICE_FILE = "en_GB-fablemix.npy", "en_GB-fablemix-short.npy"
 # File name in model_dir -> SHA-256 of its exact bytes. bundle/manifest.json gives each one's source and licence.
 BUNDLE: Mapping[str, str] = {
     MODEL_FILE: "8fbea51ea711f2af382e88c833d9e288c6dc82ce5e98421ea61c058ce21a34cb",
     CONFIG_FILE: "5abb01e2403b072bf03d04fde160443e209d7a0dad49a423be15196b9b43c17f",
     VOICE_FILE: "5de2db9de4510efd4b3dd9f64bf0cf03530089b2220aec95f43f3b27636fbf80",
+    SHORT_VOICE_FILE: "86faab493d94047df677164f5743b9cf62084168bd83cbc1551bf48e39eb1ed5",
 }
 
 MAX_PHONEMES = 510  # Kokoro's limit per inference; the voice pack holds one style row per phoneme length
 CLAUSE_SPLIT = 200  # a sentence longer than this (in phonemes) is rendered clause by clause, for faster first audio
 MERGE_BELOW = 30  # a sentence shorter than this is rendered together with its neighbour (short pieces sound sing-song)
 OUTPUT_GAIN = 0.678  # this ONNX export is 3.4 dB louder than Kokoro's PyTorch reference; restores level and headroom
-
+# Short pieces sound sing-song. Up to SHORT_FULL phonemes the style comes from the short-reply pack (same timbre,
+# flatter prosody) at row SHORT_FULL; from there it fades linearly to the Fable-mix pack itself at SHORT_NONE.
+SHORT_FULL, SHORT_NONE = 40, 60
+# Kokoro pads every piece with ~0.27 s of silence before and ~0.3 s after. Each piece is trimmed to EDGE_KEEP_S of
+# that and given a pause chosen by its closing punctuation; the last piece of a reply gets FINAL_PAUSE_S.
+EDGE_KEEP_S, FINAL_PAUSE_S, CLAUSE_PAUSE_S = 0.03, 0.1, 0.15
+PAUSE_S: Mapping[str, float] = {".": 0.3, "!": 0.3, "?": 0.35, "…": 0.35, ":": 0.25, ";": 0.2, "—": 0.2}
 
 
 def _am_pm(m: re.Match[str]) -> str:
@@ -68,6 +76,7 @@ REWRITES: tuple[tuple[re.Pattern[str], str | Callable[[re.Match[str]], str]], ..
     # "seven a m" was read "seven uh em", and "p.m." swallowed a sentence's full stop; "AM" / "PM" read cleanly.
     (re.compile(r"\b([aApP])(?: |\. ?)[mM](\.?)(?=[\s,;:!?\"')]|$)"), _am_pm),
     (re.compile(r"\bwind down\b", re.IGNORECASE), "[Wind](/wˈInd/) Down"),  # the scene; as a name misaki says "wɪnd"
+    (re.compile(r"(?:^|(?<=[.!?] ))Timer set\b"), "Timer's set"),  # "Timer set:" was heard as "Time a set" (4 of 8)
 )
 # Word pronunciations (misaki British phonemes), merged into misaki's gold lexicon at load.
 LEXICON: Mapping[str, str] = {
@@ -170,6 +179,22 @@ def plan_chunks(g2p: Any, text: str, vocab: Mapping[str, int] | None = None) -> 
     return merged
 
 
+def trim_edges(audio: Any, end: str, last: bool) -> Any:
+    """Cut a rendered piece's leading and trailing silence to EDGE_KEEP_S and append the pause it ends with."""
+    import numpy as np
+
+    frame = SAMPLE_RATE // 100
+    n = len(audio) // frame
+    rms = np.sqrt(np.mean(audio[: n * frame].reshape(n, frame) ** 2, axis=1)) if n else np.zeros(0)
+    loud = np.flatnonzero(rms > rms.max() * 0.01) if n else rms  # within 40 dB of the piece's loudest 10 ms
+    if not len(loud):
+        return audio
+    keep = round(EDGE_KEEP_S * 100)
+    start, stop = max(loud[0] - keep, 0) * frame, min(loud[-1] + 1 + keep, n) * frame
+    pause = FINAL_PAUSE_S if last else PAUSE_S.get(end, CLAUSE_PAUSE_S)
+    return np.concatenate([audio[start:stop], np.zeros(round(pause * SAMPLE_RATE), audio.dtype)])
+
+
 def kokoro_synth(
     model_dir: str | os.PathLike[str], speed: float = 0.95, threads: int | None = None
 ) -> tuple[SynthFn, int]:
@@ -201,9 +226,10 @@ def kokoro_synth(
     import onnxruntime as ort
 
     vocab: dict[str, int] = json.loads(files[CONFIG_FILE])["vocab"]
-    pack = np.load(io.BytesIO(files[VOICE_FILE]), allow_pickle=False)
-    if pack.shape != (MAX_PHONEMES, 1, 256) or pack.dtype != np.float32:
-        raise BundleError("voice pack has the wrong shape or type")
+    pack, short = (np.load(io.BytesIO(files[f]), allow_pickle=False) for f in (VOICE_FILE, SHORT_VOICE_FILE))
+    for p in (pack, short):
+        if p.shape != (MAX_PHONEMES, 1, 256) or p.dtype != np.float32:
+            raise BundleError("voice pack has the wrong shape or type")
     g2p = build_g2p()
 
     ort.disable_telemetry_events()
@@ -216,18 +242,23 @@ def kokoro_synth(
     session = ort.InferenceSession(files.pop(MODEL_FILE), options, providers=["CPUExecutionProvider"])
     speed_in = np.array([speed], dtype=np.float32)
 
-    def render(phonemes: str) -> bytes:
+    def style(n: int) -> Any:
+        w = min(max((SHORT_NONE - n) / (SHORT_NONE - SHORT_FULL), 0.0), 1.0)
+        return pack[n - 1] if w == 0 else (1 - w) * pack[n - 1] + w * short[max(n, SHORT_FULL) - 1]
+
+    def render(phonemes: str, last: bool) -> bytes:
         ids = np.array([[0, *(vocab[p] for p in phonemes), 0]], dtype=np.int64)
-        audio = session.run(None, {"input_ids": ids, "style": pack[len(phonemes) - 1], "speed": speed_in})[0]
-        audio = audio.reshape(-1) * OUTPUT_GAIN
+        audio = session.run(None, {"input_ids": ids, "style": style(len(phonemes)), "speed": speed_in})[0]
+        audio = trim_edges(audio.reshape(-1) * OUTPUT_GAIN, phonemes.rstrip("“”\"")[-1:], last)
         if not np.isfinite(audio).all():
             raise SynthesisError("synthesis failed: non-finite audio")
         return (np.clip(audio, -1.0, 1.0) * 32767.0).round().astype("<i2").tobytes()
 
     def synth(text: str) -> Iterator[bytes]:
         try:
-            for phonemes in plan_chunks(g2p, text, vocab):
-                yield render(phonemes)
+            chunks = plan_chunks(g2p, text, vocab)
+            for i, phonemes in enumerate(chunks):
+                yield render(phonemes, last=i == len(chunks) - 1)
         except SynthesisError:
             raise
         except Exception as exc:  # never let text or phonemes reach the server's logs through an exception message

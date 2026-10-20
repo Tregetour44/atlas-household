@@ -1,0 +1,4 @@
+{"cwhole": {"set": {"CLAUSE_SPLIT": 510, "MERGE_BELOW": 1000, "REWRITES": "none", "LEXICON": {}}},
+ "csent": {"set": {"MERGE_BELOW": 0, "REWRITES": "none", "LEXICON": {}}},
+ "cmerge": {"set": {"REWRITES": "none", "LEXICON": {}}},
+ "cclause60": {"set": {"CLAUSE_SPLIT": 60, "REWRITES": "none", "LEXICON": {}}}}

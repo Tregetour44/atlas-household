@@ -1,0 +1,3 @@
+{"hbase": {"set": {"REWRITES": "none", "LEXICON": {}}},
+ "hfix": {},
+ "hdstop": {"sub": [["^Done:", "Done."]]}}
