@@ -48,8 +48,8 @@ diff -ruN a/custom_components/atlas_household/api.py b/custom_components/atlas_h
  class AtlasAPI(llm.API):
 diff -ruN a/custom_components/atlas_household/calc.py b/custom_components/atlas_household/calc.py
 --- a/custom_components/atlas_household/calc.py	1970-01-01 00:00:00.000000000 +0000
-+++ b/custom_components/atlas_household/calc.py	2026-10-20 20:06:24.179077053 +0000
-@@ -0,0 +1,317 @@
++++ b/custom_components/atlas_household/calc.py	2026-10-20 23:06:00.179618130 +0000
+@@ -0,0 +1,331 @@
 +"""Atlas arithmetic in code (energy-advice-build; the owner, 20 Oct: "it couldnt even do basic arithmatic"). Pure Python, no HA import.
 +
 +Three pieces, so no figure Atlas says comes from the model's own arithmetic:
@@ -346,6 +346,20 @@ diff -ruN a/custom_components/atlas_household/calc.py b/custom_components/atlas_
 +                "Answer again, briefly: quote only figures you were given, and use atlas_calc for any sum you need.")
 +
 +
++# ---- the advice nudge (round 2): a question answered with a refusal ----
++_REQUEST = re.compile(r"^\s*(?:(?:hey\s+)?atlas,?\s+)?(?:please\b|(?:can|could|would|will)\s+you\b)", re.I)
++_REFUSAL = re.compile(r"\b(?:can(?:'|no)t|cannot|unable to|not able to)\s+(?:yet\s+)?(?:control|switch|change|turn|operate|start|stop)\b", re.I)
++ADVICE_NUDGE = ("That was a question asking for your advice, not a request to switch anything. Answer it as advice from the readings and the "
++                "energy cards, briefly; don't say you can't control it.")
++
++
++def advice_nudge_needed(text: str, reply: str) -> bool:
++    """A question that isn't a request ("Leave the AC off until 8?", "Put the washing on now?"), answered only with "I can't control it":
++    ask once for the advice. A request worded as a question ("Can you turn the aircon on?") is left alone."""
++    t = (text or '').strip()
++    return t.endswith('?') and not _REQUEST.match(t) and bool(_REFUSAL.search(reply or ''))
++
++
 +def _drop(reply: str, bad: list[str]) -> str:
 +    parts = re.split(r'(?<=[.!?])\s+', reply.strip())
 +    keep = [p for p in parts if not any(b and b in p for b in bad)]
@@ -425,8 +439,8 @@ diff -ruN a/custom_components/atlas_household/core.py b/custom_components/atlas_
          t = self.handles.get(handle) or {}
 diff -ruN a/custom_components/atlas_household/energy_cards.py b/custom_components/atlas_household/energy_cards.py
 --- a/custom_components/atlas_household/energy_cards.py	1970-01-01 00:00:00.000000000 +0000
-+++ b/custom_components/atlas_household/energy_cards.py	2026-10-20 20:06:24.178634999 +0000
-@@ -0,0 +1,529 @@
++++ b/custom_components/atlas_household/energy_cards.py	2026-10-20 23:06:00.175705427 +0000
+@@ -0,0 +1,672 @@
 +"""Atlas energy fact cards (energy-advice-build; Codex 49 FACT-CARDS, directive 20261018-2225 + am. 1). Pure Python, no HA import, read-only.
 +
 +Every energy figure Atlas may say is computed here and handed to the model as finished text: the model quotes, it never adds, subtracts,
@@ -696,6 +710,148 @@ diff -ruN a/custom_components/atlas_household/energy_cards.py b/custom_component
 +    return [name for name, pat in _LOAD_WORDS if re.search(pat, q)]
 +
 +
++# ---- the credit-status card (round 2, PC Steward 21 Oct: "the model never judges the credit from raw numbers") ----
++# DRAFT policy values for Energy's review: a current hour with less headroom than this is AT RISK; a meter report older than this is not
++# fresh enough to call the hour SAFE.
++AT_RISK_HEADROOM_KWH = 0.010
++CREDIT_METER_FRESH_MIN = 5
++
++
++def credit_status(now: datetime, h1: Value, h2: Value, *, meter_age_min: float | None = 0, protection: bool | None = None,
++                  export_kwh: float | None = None, load: dict | None = None, house_kw: float | None = None,
++                  battery_limit_kw: float | None = None, final_pending: bool = False, rules: dict = RULES) -> dict:
++    """The evening credit, judged in code. Each hour [18,19) and [19,20) on its own: gross import strictly below 0.030 kWh passes, exactly
++    0.030 fails, export never offsets, hours are never added. Per hour: PASSED / MISSED / SAFE (so far) / AT RISK / NO DATA / AHEAD.
++    Tonight: MISSED (any hour reached the limit, final), MET (both hours passed), PENDING (in the window: the current hour's status),
++    NO DATA, or NOT IN WINDOW (before 6 pm). A named load: overlap with the credit hours if started now, its likely grid import when the
++    battery's output limit is known, otherwise "can't be ruled out", and the advice line (after 8 pm) the model must use."""
++    now = now.astimezone(SYDNEY)
++    lim, m = rules['credit_limit_kwh'], _minute(now)
++    cs, ce = rules['credit_start'], rules['credit_end']
++    starts = (cs, cs + 60)
++    stale = meter_age_min is None or meter_age_min > CREDIT_METER_FRESH_MIN
++    hours = []
++    for i, (v, st) in enumerate(((h1, starts[0]), (h2, starts[1]))):
++        end = st + 60
++        h = {'n': i + 1, 'start': st, 'value': v.value, 'complete': m >= end, 'started': m >= st, 'minutes_left': max(0, end - m) if st <= m < end else None}
++        if v and v.value >= lim:
++            h['status'] = 'MISSED'                      # conclusive, even part-way through the hour (a valid meter only counts up)
++        elif not h['started']:
++            h['status'] = 'AHEAD'
++        elif not v:
++            h['status'] = 'NO DATA'
++        elif h['complete']:
++            h['status'] = 'PASSED'
++        else:
++            h['headroom'] = lim - v.value
++            h['status'] = 'AT RISK' if (stale or h['headroom'] < AT_RISK_HEADROOM_KWH or protection is False) else 'SAFE'
++        hours.append(h)
++    out = {'limit': lim, 'hours': hours, 'stale': stale and cs <= m < ce, 'meter_age_min': meter_age_min, 'protection': protection,
++           'export_kwh': export_kwh}
++    st = [h['status'] for h in hours]
++    if 'MISSED' in st:
++        out['tonight'] = 'MISSED'
++    elif m >= ce:
++        out['tonight'] = ('MET' if st == ['PASSED', 'PASSED'] else 'PENDING FINAL' if final_pending else
++                          'NOT SUPPLIED' if h1.value is None and h2.value is None else 'NO DATA')
++    elif m < cs:
++        out['tonight'] = 'NOT IN WINDOW'
++    else:
++        cur = hours[0] if m < starts[1] else hours[1]
++        out['current'] = cur['n']
++        out['tonight'] = 'NO DATA' if 'NO DATA' in st else cur['status']        # SAFE or AT RISK (so far)
++    out['window'] = 'before' if m < cs else 'during' if m < ce else 'after'
++    out['minutes_to_window'] = _mins(now, _at_minute(now, cs)) if m < cs else None
++    out['minutes_to_end'] = _mins(now, _at_minute(now, ce)) if m < ce else None
++    if load:
++        nm = load.get('name', 'the load')
++        ld = {'name': nm, 'minutes': number(load.get('minutes')), 'peak_kw': number(load.get('peak_kw')),
++              'comfort': bool(re.search(r'aircon|air ?con|\bac\b|cooling|heating|heater', nm, re.I)),
++              'mixed': bool(re.search(r',| and ', nm))}
++        c0, c1 = _at_minute(now, cs), _at_minute(now, ce)
++        if m >= ce:
++            ld['overlap'] = 0.0
++        elif ld['minutes']:
++            ld['overlap'] = _overlap(now, now + timedelta(minutes=ld['minutes']), c0, c1)
++        else:
++            ld['overlap'] = _mins(now, c1) if m >= cs else None           # in the window: at least the rest of it; before: unknown
++        if ld['minutes'] and m < cs:
++            latest = c0 - timedelta(minutes=ld['minutes'])
++            ld['latest_start'] = latest if latest > now else None
++        ld['import_kw'] = None
++        if ld.get('overlap') and battery_limit_kw is not None and ld['peak_kw'] is not None and house_kw is not None:
++            ld['import_kw'] = max(0.0, house_kw + ld['peak_kw'] - battery_limit_kw)
++        out['load'] = ld
++    return out
++
++
++def credit_lines(c: dict) -> list[str]:
++    """The credit card as prompt lines. The status words are Home Assistant's verdict; the model uses them as given."""
++    L, hrs = [], c['hours']
++    lim = f"{c['limit']:.3f}"
++
++    def hour_text(h):
++        name = ('first hour (6-7 pm)', 'second hour (7-8 pm)')[h['n'] - 1]
++        if h['status'] == 'AHEAD':
++            return f'{name}: not started'
++        if h['status'] == 'NO DATA':
++            return f'{name}: no meter reading'
++        v = f"{h['value']:.3f} kWh"
++        if h['status'] == 'MISSED':
++            return f'{name}: {v}, MISSED (not under {lim}; exactly {lim} also misses)'
++        if h['status'] == 'PASSED':
++            return f'{name}: {v}, passed (under {lim})'
++        return f"{name}: {v} so far, {h['headroom']:.3f} kWh of headroom left, {h['minutes_left']} min to go, {h['status']}"
++    t = c['tonight']
++    head = {'MISSED': "MISSED on Home Assistant's meter. That is final for tonight: waiting or exporting can't recover it",
++            'MET': "MET on Home Assistant's meter (both hours under the limit)",
++            'PENDING FINAL': 'the hours are over; the final meter reading is not in yet, so the result is still pending',
++            'NOT SUPPLIED': "the credit hours are over for today; tonight's result isn't in these readings",
++            'NO DATA': "NO DATA: a credit-hour meter reading is missing, so the result can't be confirmed",
++            'SAFE': 'SAFE so far (not settled until 8 pm)', 'AT RISK': 'AT RISK (not settled until 8 pm)',
++            'NOT IN WINDOW': f"NOT IN WINDOW: the credit hours start in {hm(c['minutes_to_window'] or 0)}"}[t]
++    L.append(f'- Evening credit status (worked out by Home Assistant; use it as given): {head}. The bill decides the actual credit.')
++    if (c['window'] != 'before' or any(h['value'] is not None for h in hrs)) and t != 'NOT SUPPLIED':
++        L.append('- Credit hours: ' + '; '.join(hour_text(h) for h in hrs) + '.')
++    if c['window'] == 'during' and t != 'MISSED':
++        L.append(f"- The credit hours end in {hm(c['minutes_to_end'])} (8 pm).")
++    if c.get('stale'):
++        L.append(f"- The grid meter's last report is {c['meter_age_min']:.0f} min old, too old to call this hour safe.")
++    if c.get('protection') is False:
++        L.append("- The controller's credit protection is shown as not active tonight, so the usual export margin can't be counted on.")
++    if c.get('export_kwh'):
++        L.append(f"- Export ({c['export_kwh']:.1f} kWh) never cancels grid import for the credit.")
++    ld = c.get('load')
++    if ld:
++        n = ld['name']
++        if t == 'MISSED':
++            L.append(f'- {n.capitalize()} and the credit: tonight\'s credit is already missed, so waiting for it no longer helps; decide on the energy alone.')
++        elif c['window'] == 'after' or ld.get('overlap') == 0:
++            L.append(f'- {n.capitalize()} and the credit: started now it would not run in the credit hours'
++                     + (f" (it finishes before 6 pm if it starts by {clock(ld['latest_start'])})." if ld.get('latest_start') else '.'))
++        else:
++            if ld.get('overlap'):
++                L.append(f"- {n.capitalize()} started now would run {hm(ld['overlap'])} in the credit hours.")
++            else:
++                L.append(f'- {n.capitalize()}: its run time is not known, so it may run into the credit hours.')
++            if ld.get('import_kw') is not None:
++                kw = ld['import_kw']
++                L.append('- Likely grid import from it in the credit hours: ' + ('none on these figures.' if kw == 0 else f'about {kw:.1f} kW above what the battery can supply.'))
++            else:
++                L.append("- Its grid import in the credit hours can't be ruled out: a load step can pull from the grid before the battery catches up, and the battery's output limit isn't in the readings.")
++            if ld['comfort'] and ld['mixed']:
++                L.append(f"- Credit advice: keep the cooling or heating you need (comfort comes first); start the optional loads after 8 pm"
++                         f" (in {hm(c['minutes_to_end'])}).")
++            elif ld['comfort']:
++                L.append("- Credit advice: comfort comes first, so use the cooling or heating you need; the credit is a dollar. A load spike could"
++                         " still affect it, so leave optional big loads until after 8 pm.")
++            elif ld.get('latest_start'):
++                L.append(f"- Credit advice: start it by {clock(ld['latest_start'])} so it finishes before 6 pm, or after 8 pm.")
++            else:
++                L.append(f"- Credit advice: start it after 8 pm (in {hm(c['minutes_to_end'])}), so it doesn't run in the credit hours.")
++    return L
++
++
 +def load_from_question(question: str) -> str | None:
 +    n = loads_in(question)
 +    return n[0] if n else None
@@ -826,22 +982,7 @@ diff -ruN a/custom_components/atlas_household/energy_cards.py b/custom_component
 +        L.append(f"- Free grid power: on now, for another {hm(k['free_minutes_left'])} (until 2 pm).")
 +    else:
 +        L.append(f"- Free grid power: next from 11 am {'today' if k['next_free_start'].date() == k['now'].date() else 'tomorrow'}, in {hm(k['minutes_to_free'])}.")
-+    if k['credit'] == 'before':
-+        L.append(f"- Evening credit hours (6-8 pm): start in {hm(k['minutes_to_credit'])}.")
-+    elif k['credit'] == 'during':
-+        L.append(f"- Evening credit hours (6-8 pm): on now, {hm(k['credit_minutes_left'])} to go.")
-+    else:
-+        L.append('- Evening credit hours (6-8 pm): over for today.')
-+    st = cr['status']
-+    if st == 'missed':
-+        L.append("- Tonight's credit: missed on Home Assistant's meter (an hour reached 0.03 kWh of grid import; that can't be undone). The bill decides.")
-+    elif st == 'met':
-+        L.append(f"- Tonight's credit: met on Home Assistant's meter (both hours under 0.03 kWh: {cr['hour1']:.3f} and {cr['hour2']:.3f}). The bill decides.")
-+    elif st == 'pending':
-+        hrs = f"first hour {cr['hour1']:.3f} kWh" + (f", second hour {cr['hour2']:.3f} kWh so far" if cr['current_hour'] == 2 else ' so far')
-+        L.append(f"- Tonight's credit: on track so far ({hrs}; each hour must stay under 0.03 kWh). Not settled until 8 pm.")
-+    elif st == 'no data':
-+        L.append("- Tonight's credit: no meter reading for the credit hours, so it can't be told.")
++    L += credit_lines(c['credit_status'])
 +    if b.get('estimated_from'):
 +        last, at, used = b['estimated_from']
 +        L.append(f"- Battery: no current reading (the last was {last:.0f}% at {clock(at)}). Estimate from typical use since then: about {b['soc']:.0f}% now,"
@@ -874,11 +1015,6 @@ diff -ruN a/custom_components/atlas_household/energy_cards.py b/custom_component
 +        L.append(f"- {p['name'].capitalize()}: {rng} a cycle, about {hm(p['minutes'])} ({src}). From paid grid it would cost "
 +                 + (f"{money(ld['paid_cost_low'])}" if p['low'] == p['high'] else f"{money(ld['paid_cost_low'])} to {money(ld['paid_cost_high'])}")
 +                 + '; in the free window, nothing.')
-+        if ld.get('latest_start_before_credit'):
-+            L.append(f"- To finish before 6 pm it needs to start by {clock(ld['latest_start_before_credit'])}.")
-+        elif ld.get('credit_overlap_now'):
-+            L.append(f"- Started now it would run {hm(ld['credit_overlap_now'])} in the credit hours; started after 8 pm (in "
-+                     f"{hm(ld['minutes_to_credit_end'])}) it wouldn't.")
 +        when = 'tonight' if k['now'].hour >= 17 or k['now'].hour < 4 else 'now'
 +        if ld.get('after_load_now') and ld['after_load_now'][0] >= 0:
 +            a0, a1 = ld['after_load_now']
@@ -904,6 +1040,17 @@ diff -ruN a/custom_components/atlas_household/energy_cards.py b/custom_component
 +        L.append(f"- Lean (estimate{', on the estimated charge' if b.get('estimated_from') else ''}): {lean}, because {ld['why']}.")
 +    for g in c.get('gaps', []):
 +        L.append(f'- Not known: {g}.')
++    return '\n'.join(L)
++
++
++def credit_text(now: datetime, inp: dict, question: str = '', rules: dict = RULES) -> str:
++    """Only the clock and credit cards (for evidence that arrives as other cards, as in Codex 49's fixtures)."""
++    c = build(now, inp, question, rules)
++    k = c['clock']
++    L = ['Credit and clock cards (worked out by Home Assistant from the meter; use these as given):']
++    L.append(f"- Free grid power: on now, for another {hm(k['free_minutes_left'])} (until 2 pm)." if k['in_free'] else
++             f"- Free grid power: not on now; next from 11 am {'today' if k['next_free_start'].date() == k['now'].date() else 'tomorrow'}, in {hm(k['minutes_to_free'])}.")
++    L += credit_lines(c['credit_status'])
 +    return '\n'.join(L)
 +
 +
@@ -940,7 +1087,17 @@ diff -ruN a/custom_components/atlas_household/energy_cards.py b/custom_component
 +            gaps.append('solar forecast for the rest of today (invalid)')
 +    elif _minute(now) < 17 * 60 and not clk['in_free']:
 +        gaps.append('solar forecast for the rest of today')
-+    cards = {'clock': clk, 'battery': batt, 'demand': dem, 'credit': cr, 'solar_rest': solar_rest,
++    named0 = loads_in(question)
++    lname = (inp.get('load') or {}).get('name') or (named0[0] if len(named0) == 1 else ' and '.join(named0) if named0 else None)
++    lprof = load_profile(lname, inp.get('load')) if lname else None
++    cl = dict(inp.get('load') or {}, name=lname) if lname else None
++    if cl is not None and not cl.get('minutes') and lprof:
++        cl['minutes'] = lprof['minutes']
++    house = reading(inp.get('house_w'), now, 'power') if inp.get('house_w') is not None else Value(None)
++    credit_st = credit_status(now, h1, h2, meter_age_min=inp.get('meter_age_min', 0), protection=inp.get('credit_protection'),
++                              export_kwh=inp.get('export_kwh'), load=cl, house_kw=house.value / 1000 if house else None,
++                              battery_limit_kw=number(inp.get('battery_limit_kw')), final_pending=bool(inp.get('final_pending')), rules=rules)
++    cards = {'clock': clk, 'battery': batt, 'demand': dem, 'credit': cr, 'credit_status': credit_st, 'solar_rest': solar_rest,
 +             'solar_tomorrow': inp.get('solar_tomorrow'), 'gaps': gaps}
 +    named = loads_in(question)
 +    name = (inp.get('load') or {}).get('name') or (named[0] if len(named) == 1 else None)
@@ -986,12 +1143,12 @@ diff -ruN a/custom_components/atlas_household/tools.py b/custom_components/atlas
  {handles}"""
 diff -ruN a/custom_components/atlas_household/turn.py b/custom_components/atlas_household/turn.py
 --- a/custom_components/atlas_household/turn.py	2026-10-20 10:41:41.794696591 +0000
-+++ b/custom_components/atlas_household/turn.py	2026-10-20 10:46:49.726429633 +0000
++++ b/custom_components/atlas_household/turn.py	2026-10-20 23:06:00.227593605 +0000
 @@ -14,13 +14,14 @@
  """
  from __future__ import annotations
  
-+from .calc import FIGURE_NUDGE, _drop, fast_arithmetic, unsupported_figures
++from .calc import ADVICE_NUDGE, FIGURE_NUDGE, _drop, advice_nudge_needed, fast_arithmetic, unsupported_figures
  from .core import NEVER_WORDS, guard_reply
  from .fastpath import parse_timer
  
@@ -1015,11 +1172,19 @@ diff -ruN a/custom_components/atlas_household/turn.py b/custom_components/atlas_
      def evidence():
          # (tool, status) pairs, so a lights result can't back a blind claim [cloud review 1, M8]
          ev = coord.evidence_since(t0, conversation_id)
-@@ -64,5 +70,22 @@
+@@ -64,5 +70,30 @@
          coord._log('claim_guard', 'nudged once', conversation=conversation_id, first=first[:300], second=second[:300], claims=bad)
      elif bad:
          coord._log('claim_guard', 'reply rewritten', conversation=conversation_id, claims=bad, original=first[:300])
 -    return {'reply': reply, 'path': path, 'claims': bad, 'statuses': statuses, 'evidence': ev, 'first': first,
++    # The advice nudge (energy-advice-build round 2): a question that isn't a request ("Leave the AC off until 8?"), answered only with
++    # "I can't control that", is asked once for the advice. Only when no nudge has happened yet and no tool ran.
++    if path == 'model' and not statuses and advice_nudge_needed(text, reply):
++        again = await ask_model(ADVICE_NUDGE)
++        ev = evidence()
++        statuses = [st for _, st in ev]
++        reply, bad = guard_reply(again, ev)
++        path = 'advice_nudged'
 +    # The figure guard (energy-advice-build): every quantity in the reply must be in the turn's sources (the prompt's readings and energy
 +    # cards, the person's words, this turn's atlas_calc results). Otherwise ONE nudge (only if no nudge yet), then unsupported sentences go.
 +    figures = None
@@ -1027,7 +1192,7 @@ diff -ruN a/custom_components/atlas_household/turn.py b/custom_components/atlas_
 +        def src():
 +            return list(sources()) + [text] + [r.get('summary', '') for n, _, r in coord.results_since(t0, conversation_id) if n == 'atlas_calc']
 +        figures = unsupported_figures(reply, src())
-+        if figures and path == 'model':
++        if figures and path in ('model', 'advice_nudged'):
 +            again = await ask_model(FIGURE_NUDGE.format(figs=', '.join(figures)))
 +            ev = evidence()
 +            statuses = [st for _, st in ev]
@@ -1054,8 +1219,8 @@ diff -ruN a/tests/test_core.py b/tests/test_core.py
              self.assertEqual(s['type'], 'function')
 diff -ruN a/tests/test_energy_advice.py b/tests/test_energy_advice.py
 --- a/tests/test_energy_advice.py	1970-01-01 00:00:00.000000000 +0000
-+++ b/tests/test_energy_advice.py	2026-10-20 10:49:53.720288276 +0000
-@@ -0,0 +1,111 @@
++++ b/tests/test_energy_advice.py	2026-10-20 23:06:13.387605514 +0000
+@@ -0,0 +1,130 @@
 +"""energy-advice-build in the coordinator: atlas_calc (read-only), whole-utterance arithmetic in run_turn, the figure guard, and the energy
 +cards' honesty rules. A scripted model stands in for Atlas; nothing contacts Home Assistant."""
 +import pathlib
@@ -1145,6 +1310,16 @@ diff -ruN a/tests/test_energy_advice.py b/tests/test_energy_advice.py
 +        out, _ = self.run_turn(FakeHouse(start=NIGHT), 'Dishwasher tonight?', ["You'd have 9.3 kWh left."], sources=None)
 +        self.assertEqual(out['reply'], "You'd have 9.3 kWh left.")
 +
++    def test_advice_question_refused_is_nudged_once(self):
++        from atlas_household.calc import ADVICE_NUDGE  # noqa: PLC0415
++        out, asked = self.run_turn(FakeHouse(start=NIGHT), 'Leave the aircon off until 8 to save the credit?',
++                                   ["I can't control the aircon yet.", 'Use the cooling if you need it; comfort comes first.'])
++        self.assertEqual((asked[1], out['path'], out['reply']), (ADVICE_NUDGE, 'advice_nudged', 'Use the cooling if you need it; comfort comes first.'))
++
++    def test_request_refusal_not_nudged(self):
++        out, asked = self.run_turn(FakeHouse(start=NIGHT), 'Can you turn the aircon on?', ["I can't control the aircon yet."])
++        self.assertEqual((len(asked), out['path']), (1, 'model'))
++
 +    def test_timer_fast_path_first(self):
 +        out, asked = self.run_turn(FakeHouse(start=NIGHT), 'turn the office lights off in 10 minutes', [])
 +        self.assertEqual((out['path'], asked), ('fast', []))
@@ -1158,6 +1333,15 @@ diff -ruN a/tests/test_energy_advice.py b/tests/test_energy_advice.py
 +        self.assertEqual(c['load_card']['lean'], 'tonight_fine')
 +        self.assertIn('10.5 kWh above the 20% reserve', c['text'])
 +        self.assertNotRegex(c['text'].lower(), r'(lower|change|raise) (the )?(reserve|controller|export)')
++
++    def test_credit_status_in_code(self):
++        at = lambda h, m: datetime(2026, 10, 20, h, m, tzinfo=SYDNEY)
++        V = E.Value
++        self.assertEqual(E.credit_status(at(20, 1), V(0.030), V(0.001))['tonight'], 'MISSED')         # exactly 0.030 fails
++        self.assertEqual(E.credit_status(at(20, 1), V(0.029), V(0.029))['tonight'], 'MET')            # hours never added
++        c = E.credit_status(at(19, 5), V(0.010), V(0.026), load={'name': 'dishwasher'})
++        self.assertEqual(c['tonight'], 'AT RISK')
++        self.assertIn('start it after 8 pm (in 55 min)', '\n'.join(E.credit_lines(c)))
 +
 +    def test_missing_never_zero(self):
 +        c = E.build(NIGHT, {}, 'dishwasher tonight?')
