@@ -18,3 +18,4 @@ Branch `energy-advice-build`, cut from `energy-advice-input` (3f0d3b9). Nothing 
 | 16:06 | Progress: codex-candidate 13; own-candidate 37;  |
 | 16:58 | Progress: codex-candidate 23; own-candidate 37;  |
 | 17:49 | Progress: codex-candidate 33; own-candidate 37;  |
+| 18:34 | Progress: codex-candidate 40; own-candidate 37; subset-current 3;  |
