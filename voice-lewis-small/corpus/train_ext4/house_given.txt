@@ -1,0 +1,43 @@
+# Owner-supplied Atlas reply shapes (values made up), as written. Six held out in heldout_r3/house_heldout.txt.
+Done: Study lights on. Checked.
+Done: Loft lights on at forty-five percent. Checked.
+Done: Kitchen Downlight Left off. Checked.
+Done: Patio lights off, three of ten changed; the other seven already were. Checked.
+I've turned the hallway lights off for you.
+I have turned the dining room pendant on at seventy percent.
+I've dimmed the living room lamp to forty percent.
+I've brightened the guest bedroom lamp to eighty percent.
+The atrium spotlights are now at full brightness.
+Timer set: Porch lights off at ten fifteen p m. Say "cancel that" to stop it.
+Timer set: Kitchen lights on in twenty-five minutes. Say "cancel that" to stop it.
+Timer set: Loft lamp off at nine oh five p m. Say "cancel that" to stop it.
+Timer set: Garden Spotlight on at seven thirty p m. Say "cancel that" to stop it.
+Close the atrium blind at eight twenty p m?
+Open the living room blinds at six forty-five a m tomorrow?
+Cancelled: the study lights timer.
+You have one timer: the porch lights go off at eleven thirty p m.
+The laundry lights are already off. I didn't change anything.
+Garage lights are already on. I didn't change anything.
+I'm sorry, I can't control the TVs just yet.
+I can't control the aircon yet. It's currently set to off.
+Scenes aren't set up yet, so I can't run that one for you.
+I can't control the speakers yet.
+Which bedroom do you mean, the master or the guest bedroom?
+What time would you like the porch lights turned off?
+The study lights at thirty-five percent?
+How bright would you like the dining room lights, as a percentage?
+Did you mean the loft lamp, or all the loft lights?
+The home battery is at sixty-three point four percent.
+Solar is making two thousand eight hundred and fifty watts right now.
+You've made fourteen point six kilowatt hours of solar today.
+The house has used nine point eight kilowatt hours so far today.
+It's twenty-three degrees outside, heading for a low of fourteen degrees overnight.
+There's a forty percent chance of rain, with about three millimetres expected.
+Wind is gusting to thirty-five kilometres an hour this afternoon.
+It's nineteen point five degrees in the study.
+If the sun holds, the battery should be full by about two p m.
+I haven't changed anything.
+Porch lights on. Visitors will at least see where they're going.
+Timer set for ten fifty p m. I shall remember, so you needn't.
+The kitchen lights were already on, so I've left them be.
+Study lights off. Do mind the stairs.

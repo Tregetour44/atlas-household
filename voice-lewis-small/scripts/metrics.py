@@ -13,7 +13,8 @@ sys.path.insert(0, os.path.join(HERE, "third_party"))
 from english_normalizer import EnglishTextNormalizer  # noqa: E402
 
 _norm = EnglishTextNormalizer(json.load(open(os.path.join(HERE, "third_party", "whisper_english_spelling.json"))))
-_PRE = [(r"°\s*c\b", " degrees"), (r"°", " degrees"), (r"\bkwh\b", "kilowatt hours"), (r"\bkw\b", "kilowatts"),
+_PRE = [(r"\b([ap])\.? ?m\b\.?", r"\1m"), (r"(\d)(am|pm)\b", r"\1 \2"),
+        (r"°\s*c\b", " degrees"), (r"°", " degrees"), (r"\bkwh\b", "kilowatt hours"), (r"\bkw\b", "kilowatts"),
         (r"\bkm/h\b", "kilometres an hour"), (r"\bkm\b", "kilometres"), (r"\bmm\b", "millimetres"),
         (r"(\d)\s*km/h\b", r"\1 kilometres an hour"), (r"(\d)\s*km\b", r"\1 kilometres"), (r"(\d)\s*mm\b", r"\1 millimetres"),
         (r"(\d)\s*kwh\b", r"\1 kilowatt hours"), (r"(\d)\s*kw\b", r"\1 kilowatts"), (r"\bper cent\b", "percent"), (r"\bok\b", "okay"), (r"\bwi-?fi\b", "wifi"), (r"\bair ?con\b", "aircon"), (r"\bbottle-?o\b", "bottleo"),

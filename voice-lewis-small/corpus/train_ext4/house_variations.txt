@@ -1,0 +1,231 @@
+# Round 2: house names in Atlas reply shapes (scripts/gen_house.py, seed 20261021).
+Timer set: Atrium lights off at seven forty-five p m. Say "cancel that" to stop it.
+Open the atrium blind at seven twenty-five p m tomorrow?
+Atrium spotlight left off. That should do nicely.
+Done: Atrium Spotlight Right on. Checked.
+It's twenty-four point nine degrees in the dining room.
+Done: Dining Room Lamp on at twenty-five percent. Checked.
+The dining room pendant is now at full brightness.
+Nobody's been in the garage for an hour, so I've turned the lights off.
+I've turned the garage ceiling left on for you.
+Garage Ceiling Right is already on at fifty percent. I didn't change anything.
+Timer set: Garden Spotlight on at three oh five p m. Say "cancel that" to stop it.
+It's twenty-five point zero degrees in the guest bedroom.
+The guest bedroom ceiling is already on. I didn't change anything.
+The guest bedroom lamp at ten percent?
+Timer set: Hallway lights off at nine twenty-five a m. Say "cancel that" to stop it.
+I have turned the hallway downlight on at thirty percent.
+I have turned the hallway downlight back on at fifty-five percent.
+The hallway downlight front is now at full brightness.
+It's twenty-seven point one degrees in the kitchen.
+Timer set: Kitchen ceiling off in thirty minutes. Say "cancel that" to stop it.
+I have turned the kitchen chandelier one on at seventy percent.
+You have one timer: the kitchen chandelier two goes on at eleven p m.
+What time would you like the kitchen chandelier three turned off?
+Cancelled: the kitchen downlight right timer.
+Timer set: Laundry lights off at six twenty a m. Say "cancel that" to stop it.
+Timer set: Laundry Downlight on at nine twenty a m. Say "cancel that" to stop it.
+It's twenty-two point five degrees in the living room.
+I've turned the living room chandelier one on for you.
+Living Room Chandelier Two is already on at forty-five percent. I didn't change anything.
+Timer set: Living room chandelier three on in forty-five minutes. Say "cancel that" to stop it.
+Done: Living Room Chandelier Four on. Checked.
+Timer set: Living Room Chandelier Five on at three fifty-five a m. Say "cancel that" to stop it.
+Close the living room door blind at three forty a m?
+You have one timer: the living room downlight back goes on at eight forty-five a m.
+The living room downlight front is now at full brightness.
+Done: Living Room Lamp on at thirty percent. Checked.
+Open the living room window blind at four twenty a m tomorrow?
+Done: Loft lights off, four of five changed; the other one already were. Checked.
+The loft downlight left is already off. I didn't change anything.
+What time would you like the loft downlight middle turned on?
+Cancelled: the loft downlight right timer.
+What time would you like the loft lamp turned on?
+Done: Master bedroom lights off, three of four changed; the other one already were. Checked.
+I've dimmed the master bedroom ceiling to twenty-five percent.
+The master bedroom lamp is already on. I didn't change anything.
+Timer set: Patio lights off at two fifty-five p m. Say "cancel that" to stop it.
+I have turned the pergola floodlight one on at twenty-five percent.
+You have one timer: the pergola floodlight two goes off at ten thirty a m.
+The pergola spotlight one is already off. I didn't change anything.
+What time would you like the pergola spotlight two turned on?
+Done: Pergola Spotlight Three on at fifty percent. Checked.
+It's twenty-two point six degrees in the porch.
+Timer set: Porch downlight one off in thirty minutes. Say "cancel that" to stop it.
+Porch Downlight Two is already on at forty-five percent. I didn't change anything.
+Done: Porch downlight three off. Checked.
+I've turned the porch downlight four on for you.
+I've closed the range hood one for you.
+I've opened the range hood two halfway.
+It's fourteen point two degrees in the study.
+Timer set: Study Ceiling on at ten twenty a m. Say "cancel that" to stop it.
+Nobody's been in the lounge for an hour, so I've turned the lights off.
+Done: Upstairs lights on, three of seven changed; the other four already were. Checked.
+Done: Downstairs lights on, two of six changed; the other four already were. Checked.
+Nobody's been in the ground floor for an hour, so I've turned the lights off.
+Done: Outside lights on, four of eight changed; the other four already were. Checked.
+Cancelled: the living room lights timer.
+What time would you like the porch lights turned on?
+I've brightened the patio lights to sixty percent.
+I've turned the kitchen lights off for you.
+Cancelled: the loft lights timer.
+How bright would you like the study lights, as a percentage?
+The garage lights at seventy-five percent?
+I've turned the laundry lights on for you.
+The hallway lights are already off. I didn't change anything.
+What time would you like the atrium lights turned on?
+I have turned the dining room lights on at fifty-five percent.
+I have turned the guest bedroom lights on at thirty percent.
+Done: Master Bedroom Lights on at seventy percent. Checked.
+The living room blinds are already off. I didn't change anything.
+Timer set: Atrium lights off at ten oh five p m. Say "cancel that" to stop it.
+Cancelled: the atrium blind timer.
+Done: Atrium Spotlight Left on. Checked.
+You have one timer: the atrium spotlight right goes on at five a m.
+Which lights in the dining room do you mean?
+I have turned the dining room lamp on at eighty percent.
+The dining room pendant is already off. I didn't change anything.
+Timer set: Garage lights off at eleven forty-five p m. Say "cancel that" to stop it.
+Cancelled: the garage ceiling left timer.
+You have one timer: the garage ceiling right goes on at twelve twenty a m.
+I've turned the garden spotlight off for you.
+Done: Guest bedroom lights off, four of seven changed; the other three already were. Checked.
+How bright would you like the guest bedroom ceiling, as a percentage?
+Timer set: Guest Bedroom Lamp off at ten thirty p m. Say "cancel that" to stop it.
+It's twenty-seven point four degrees in the hallway.
+I have turned the hallway downlight on at thirty-five percent.
+What time would you like the hallway downlight back turned on?
+The hallway downlight front at thirty-five percent?
+Which lights in the kitchen do you mean?
+How bright would you like the kitchen ceiling, as a percentage?
+The kitchen chandelier one is now at full brightness.
+Done: Kitchen chandelier two off. Checked.
+Kitchen chandelier three on. As requested.
+Done: Kitchen Downlight Left on. Checked.
+Done: Kitchen Downlight Right on. Checked.
+It's twenty-two point one degrees in the laundry.
+Done: Laundry Downlight on at sixty percent. Checked.
+Timer set: Living Room lights off at eight forty a m. Say "cancel that" to stop it.
+How bright would you like the living room chandelier one, as a percentage?
+The living room chandelier two at eighty-five percent?
+I have turned the living room chandelier three on at twenty-five percent.
+I've brightened the living room chandelier four to sixty percent.
+Timer set: Living Room Chandelier Five off at ten thirty-five a m. Say "cancel that" to stop it.
+Timer set: Living Room Door Blind on at six twenty a m. Say "cancel that" to stop it.
+I've brightened the living room downlight back to fifty percent.
+Timer set: Living room downlight front on in twenty-five minutes. Say "cancel that" to stop it.
+The living room lamp at twenty percent?
+Living room window blind on. Do mind the stairs.
+It's twenty-five point six degrees in the loft.
+Timer set: Loft Downlight Left on at eleven thirty p m. Say "cancel that" to stop it.
+How bright would you like the loft downlight middle, as a percentage?
+I have turned the loft downlight right on at eighty-five percent.
+I have turned the loft lamp on at thirty-five percent.
+It's twenty-six point one degrees in the master bedroom.
+Master Bedroom Ceiling is already on at fifty percent. I didn't change anything.
+Done: Master Bedroom Lamp off. Checked.
+Done: Patio lights on, one of five changed; the other four already were. Checked.
+I've brightened the pergola floodlight one to fifty percent.
+The pergola floodlight two is already on. I didn't change anything.
+Done: Pergola Spotlight One on at forty-five percent. Checked.
+Timer set: Pergola Spotlight Two off at three twenty p m. Say "cancel that" to stop it.
+The pergola spotlight three is now at full brightness.
+Timer set: Porch lights off at six thirty-five a m. Say "cancel that" to stop it.
+The porch downlight one is already off. I didn't change anything.
+Porch downlight two on. Do mind the stairs.
+What time would you like the porch downlight three turned on?
+I've dimmed the porch downlight four to sixty percent.
+Cancelled: the range hood one timer.
+Done: Range Hood Two open. Checked.
+Done: Study lights on, one of five changed; the other four already were. Checked.
+Study ceiling off. As requested.
+Timer set: Lounge lights off at nine twenty p m. Say "cancel that" to stop it.
+Timer set: Upstairs lights off at three twenty a m. Say "cancel that" to stop it.
+Done: Downstairs lights on, four of eight changed; the other four already were. Checked.
+It's sixteen point four degrees in the ground floor.
+Timer set: Outside lights off at five forty-five p m. Say "cancel that" to stop it.
+Timer set: Living room lights on in twenty-five minutes. Say "cancel that" to stop it.
+The porch lights at fifteen percent?
+You have one timer: the patio lights go off at seven thirty-five p m.
+I've turned the kitchen lights on for you.
+I have turned the loft lights on at twenty percent.
+Study lights on. Do mind the stairs.
+The garage lights are now at full brightness.
+What time would you like the laundry lights turned on?
+Done: Hallway lights off. Checked.
+What time would you like the atrium lights turned off?
+The dining room lights are now at full brightness.
+Guest bedroom lights off. That should do nicely.
+Timer set: Master bedroom lights on in ten minutes. Say "cancel that" to stop it.
+The living room blinds are now fully open.
+Done: Living Room Chandelier Five and Atrium Spotlight Right off. Checked.
+The study ceiling is on, but the hallway downlight front is already off.
+Did you mean the loft lamp, or the garage ceiling left?
+Done: Kitchen Downlight Right and Hallway Downlight off. Checked.
+Did you mean the laundry lights, or the loft downlight middle?
+I've turned the garage ceiling right off and the garage ceiling left off.
+The living room chandelier four is on, but the hallway downlight back is already off.
+I've turned the kitchen chandelier one off and the master bedroom lamp on.
+I've turned the kitchen chandelier two off and the atrium lights on.
+Done: Living Room Lamp and Atrium Spotlight Left off. Checked.
+The dining room lights is on, but the pergola spotlight three is already off.
+Did you mean the garage lights, or the pergola floodlight two?
+I've turned the pergola spotlight two on and the kitchen lights off.
+The loft downlight middle is on, but the atrium spotlight left is already off.
+Done: Pergola Spotlight Two and Kitchen Downlight Right off. Checked.
+Did you mean the living room downlight back, or the garage ceiling right?
+Done: Pergola Floodlight Two and Garage Ceiling Right off. Checked.
+I've turned the pergola spotlight two off and the master bedroom lamp on.
+Done: Master Bedroom Lights and Kitchen Downlight Left off. Checked.
+Done: Living Room Chandelier Five and Living Room Lights off. Checked.
+Done: Kitchen Chandelier Two and Kitchen Downlight Right off. Checked.
+The hallway downlight front is on, but the living room chandelier four is already off.
+The dining room pendant is on, but the atrium lights is already off.
+Did you mean the living room lights, or the garage ceiling left?
+Done: Loft Downlight Left and Pergola Spotlight Three off. Checked.
+The atrium spotlight right is on, but the hallway downlight is already off.
+Did you mean the living room chandelier one, or the kitchen chandelier one?
+Did you mean the dining room lights, or the dining room pendant?
+Done: Kitchen Downlight Left and Atrium Lights off. Checked.
+The atrium spotlight left is on, but the pergola spotlight one is already off.
+Did you mean the kitchen chandelier two, or the guest bedroom ceiling?
+Did you mean the garage lights, or the master bedroom ceiling?
+Done: Kitchen Chandelier Three and Patio Lights off. Checked.
+Done: Living Room Chandelier Five and Living Room Downlight Back off. Checked.
+Done: Kitchen Lights and Dining Room Lights off. Checked.
+I've turned the pergola spotlight one on and the porch downlight one off.
+Done: Garage Ceiling Left and Pergola Spotlight Two off. Checked.
+Done: Guest Bedroom Lights and Kitchen Lights off. Checked.
+Did you mean the living room chandelier four, or the kitchen downlight right?
+I've turned the garage ceiling right off and the kitchen chandelier one on.
+Which room do you mean, the kitchen or the guest bedroom?
+Which room do you mean, the hallway or the guest bedroom?
+Which room do you mean, the atrium or the patio?
+Which room do you mean, the patio or the lounge?
+Which room do you mean, the atrium or the garage?
+Which room do you mean, the hallway or the lounge?
+Which room do you mean, the patio or the atrium?
+Which room do you mean, the garage or the study?
+Which room do you mean, the guest bedroom or the hallway?
+Which room do you mean, the porch or the master bedroom?
+Which room do you mean, the patio or the laundry?
+The house is using two thousand three hundred and forty watts, and you're selling four point three kilowatts to the grid.
+If the sun holds, the battery should be full by about three p m.
+Solar is making one thousand eight hundred watts right now.
+Solar is making two thousand two hundred and fifty watts right now.
+The home battery is at eighty-three point seven percent.
+The house is using three hundred and ten watts, and you're buying two point two kilowatts from the grid.
+The house is using two thousand eight hundred and seventy watts, and you're selling four point five kilowatts from the grid.
+You've made ten point one kilowatt hours of solar today.
+The house is using one thousand nine hundred and ninety watts, and you're buying zero point six kilowatts from the grid.
+The house is using three thousand four hundred and ninety watts, and you're buying three point nine kilowatts to the grid.
+You've made thirty-two point six kilowatt hours of solar today.
+The home battery is at fifty-four point three percent.
+The home battery is at thirty point five percent.
+The house is using one thousand one hundred and twenty watts, and you're selling three point three kilowatts from the grid.
+You've made twenty-seven point eight kilowatt hours of solar today.
+You've made six point two kilowatt hours of solar today.
+The house is using five hundred watts, and you're buying one point six kilowatts to the grid.
+Solar is making five thousand eight hundred watts right now.
+The home battery is at twenty-three point one percent.
+The home battery is at thirty-one point six percent.

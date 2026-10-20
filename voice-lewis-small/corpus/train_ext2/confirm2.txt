@@ -1,0 +1,127 @@
+# Round 2: short confirmations (round 1's weakest family).
+All set.
+That's done.
+Done and dusted.
+All sorted now.
+Right you are.
+Very good.
+Will do, straight away.
+Leave it with me.
+Already on it.
+It's done.
+Finished.
+Locked.
+Unlocked.
+Switched off.
+Switched on.
+Lounge lights off.
+Lounge lights on.
+Bedroom lights off.
+Hallway light on.
+Porch light off.
+Garage light off.
+Bathroom fan on.
+Bathroom fan off.
+Kitchen lights dimmed.
+Lamp on.
+Lamp off.
+Lights at half.
+Lights at twenty percent.
+Heating on.
+Heating off.
+Heating set to twenty.
+Air con off.
+Air con set to twenty-four.
+Fan on high.
+Fan off.
+Blinds closed.
+Blinds open.
+Curtains drawn.
+Garage door closing.
+Garage door open.
+Front door unlocked.
+Side gate locked.
+Alarm armed.
+Alarm disarmed.
+Alarm set for seven.
+Timer set for five minutes.
+Timer set for twenty minutes.
+Timer set for an hour.
+Two timers running.
+Your timer's done.
+Music on.
+Music off.
+Music resumed.
+Skipping that one.
+Volume down a touch.
+Quieter now.
+Paused.
+Resumed.
+Stopped.
+Kettle on.
+Coffee machine on.
+Dishwasher started.
+Washing machine started.
+Dryer started.
+Dryer paused.
+Vacuum started.
+Vacuum sent home.
+Sprinklers on.
+Sprinklers off.
+Pool pump on.
+Hot water boosted.
+Car charging.
+Charging paused.
+Night mode on.
+Away mode on.
+Holiday mode off.
+Eggs added.
+Bread added to the list.
+Coffee added to the list.
+Removed from the list.
+Your list is empty.
+Reminder set for tomorrow.
+Reminder set for six.
+I'll remind you.
+I'll let you know.
+I'll keep an eye on it.
+Nothing new.
+No change.
+Nothing to worry about.
+All clear.
+All well.
+All good here.
+Yes.
+No.
+Yes, of course.
+Not yet.
+Not at the moment.
+Probably not.
+Absolutely.
+Fair enough.
+Quite right.
+Good choice.
+As you wish.
+If you insist.
+Goodnight.
+Sleep well.
+Morning.
+Good afternoon.
+Welcome back.
+See you later.
+Have a good day.
+Take care.
+Mind the rain.
+Back shortly.
+Just a second.
+Bear with me.
+Hang on.
+Let me check.
+One moment, please.
+Sorry about that.
+My mistake.
+Try that again?
+I'm not sure I follow.
+That one's beyond me, I'm afraid.
+I can't reach the garage door right now.
+The lounge lamp isn't responding.

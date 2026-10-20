@@ -1,0 +1,46 @@
+# Round 2: household status, medium length.
+The lounge is twenty-two degrees, and the heating is holding it there.
+All the doors are locked, and the alarm will set itself at eleven.
+The washing machine has twelve minutes to go.
+The dryer has about half an hour left.
+The dishwasher finished at nine forty and the plates are still warm.
+The car is plugged in and will be full by six tomorrow morning.
+The hot water is ready for showers.
+The garage door has been closed for the night.
+The front porch light will turn off at midnight.
+The bedroom is cooling to twenty-one for sleep.
+The bathroom heater will switch itself off in fifteen minutes.
+The kitchen lights are at full brightness for cooking.
+The pool cover is on, and the pump has finished for the day.
+The robot vacuum will clean the kitchen at ten, once you've left.
+The fridge door is shut properly now. Thank you.
+The upstairs is empty, so I've turned the lights off up there.
+The study has been set for work: lamp on, heater on, music off.
+Nobody's home, so I've set the house to away mode.
+You're home. I've turned the hall light on and the heating up a little.
+The washing machine is ready to unload.
+The dishwasher needs a rinse aid top-up.
+The vacuum's bin is full again.
+The water filter in the fridge is due for a change.
+The smoke alarms all tested fine this morning.
+The doorbell battery is at twelve percent.
+The front gate sensor is offline. It may just need a new battery.
+The internet is back up after a short drop-out.
+The heater in the kids' room is on a timer until eight.
+The ceiling fan in the main bedroom is on low.
+The blinds will close automatically at sunset.
+The lamps in the lounge are on a warm setting.
+The house is in night mode. Only the hallway light will respond to movement.
+The coffee machine will be ready at six thirty.
+The bathroom fan has cleared the steam and switched itself off.
+The garden lights will stay on until ten.
+The towel rail is warming in the main bathroom.
+The air purifier is running because the pollen count is high.
+The dehumidifier has emptied its tank. Someone kindly did that.
+The laundry is warm and dry, and the dryer has cooled down.
+The oven is off, but it's still hot inside.
+The rangehood is still on low. Shall I switch it off?
+The spare bed's electric blanket is on, ready for your guest.
+Everything in the kitchen is switched off except the fridge.
+The heating is off upstairs, because the sun has warmed it nicely.
+The windows in the study are open a little to let the air through.

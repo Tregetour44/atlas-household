@@ -1,0 +1,49 @@
+# Round 2: energy, battery, solar and weather, in Atlas's everyday style.
+The battery's at seventy-three percent and climbing.
+The battery's down to nineteen percent. I'll stop exporting for the evening.
+The battery's full, so I'm running the dishwasher on sunshine.
+The battery should last until about four in the morning.
+We'll start drawing from the grid at about half past five.
+The panels are producing four kilowatts, which is about as good as it gets in winter.
+That's it for solar today. We made twenty-six kilowatt hours.
+Solar is slow this morning; the cloud is thicker than forecast.
+The sun's out properly now, so the battery should be full by lunchtime.
+We've exported nine kilowatt hours so far today.
+Grid power is cheap for the next two hours, so the car is charging now.
+The price has jumped to sixty cents a kilowatt hour, so I've paused the charger.
+The evening peak starts at four. I'd get the washing done before then.
+The house is using about one kilowatt at the moment, mostly the fridge and the heater.
+Usage is a little high; the oven and the dryer are both on.
+The hot water system has finished heating, on solar, as it should.
+Today the house was ninety percent self-sufficient.
+This week we covered seventy percent of our power from the panels.
+The battery has done two full cycles this week. Nothing unusual.
+The inverter is reporting normally.
+The solar panels might need a clean; output is down eight percent on similar days.
+It's fourteen degrees and drizzling. A coat would be wise.
+It's twenty-nine degrees and climbing, with a cool change after dinner.
+Tonight's low is four degrees, so I'll start the heating a little earlier.
+Tomorrow looks fine and sunny, with a top of twenty-three.
+Expect showers on and off all afternoon.
+There's a thunderstorm warning for this evening.
+The wind's picking up from the north-west. I'd bring the washing in.
+It's still and clear, perfect for drying.
+It's foggy this morning, and it should lift by about ten.
+The humidity is high today, around eighty-five percent.
+Frost is likely overnight, so the car may need a minute in the morning.
+The UV index is high from ten until three.
+It's warmer outside than in, so I've closed the windows on the west side.
+It's cooler outside now, so I've opened the bedroom windows.
+Rain has started, so I've cancelled tonight's watering.
+We've had twelve millimetres since this morning.
+The weekend looks mixed: sunny Saturday, wet Sunday.
+The heat should ease on Thursday, when the southerly arrives.
+The air quality is good today.
+Smoke from the hazard reduction burn may drift in this afternoon.
+The forecast says rain, but the sky seems unconvinced.
+It's a perfect autumn afternoon. Twenty degrees, light breeze, not a cloud.
+The power is out in the street. We're running on the battery, and the fridge is fine.
+Grid power has returned. I've switched everything back to normal.
+The air con has been running since noon; the lounge is down to twenty-three.
+The heater will switch off at ten unless you'd like it on longer.
+The house is warm, the battery is healthy, and the forecast is kind.

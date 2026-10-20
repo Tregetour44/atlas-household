@@ -1,0 +1,17 @@
+# HELD OUT (round 2, evaluation only): six owner-supplied reply lines as written, and eight lines using eight held-out names
+# (fountain spotlight, mirror ambiance, robe downlight, ensuite downlight, wall floodlight, wall light,
+# pergola floodlight three, living room chandelier six) that never appear in training text.
+Done: Upstairs lights on, five of seven changed; the other two already were. Checked.
+Timer set: Master Bedroom lights off at twelve forty a m tomorrow. Say "cancel that" to stop it.
+Atrium Spotlight Right is already on at sixty percent. I didn't change anything.
+Which blind would you like closed: the atrium, the living room door or the living room window blind?
+The house is using six hundred and forty watts, and you're selling one point two kilowatts to the grid.
+Done. The loft lamp is off, and the loft is suitably moody.
+Done: Fountain Spotlight on. Checked.
+I've dimmed the mirror ambiance to thirty percent.
+Timer set: Robe Downlight off in ten minutes. Say "cancel that" to stop it.
+The ensuite downlight is already off. I didn't change anything.
+Wall floodlight on. The back of the house looks rather theatrical.
+Done: Wall Light off. Checked.
+Pergola Floodlight Three is already on at full brightness. I didn't change anything.
+I've turned living room chandelier six on at fifty percent.

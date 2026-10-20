@@ -1,0 +1,201 @@
+# Round 2 templated numbers (scripts/gen_numbers2.py, seed 20261020).
+Sunrise is at seven forty-two, and sunset at seven fourteen.
+Your next reminder is at a quarter to two on Monday.
+Top of thirteen today, low of twelve tonight.
+That's five hours and six minutes of battery left at this rate.
+It's seven o'clock, and all the doors are locked.
+Top of thirteen today, low of three tonight.
+There's a twenty percent chance of rain after five thirty.
+Heater off in thirty minutes.
+Sunrise is at seven forty-seven, and sunset at five twenty-one.
+It's a quarter to three.
+The nineteenth is a Monday.
+That's five hours and thirty-one minutes of battery left at this rate.
+It's eight twenty.
+There's a fifty percent chance of rain after three o'clock.
+So far today we've used six kilowatt hours and exported six.
+We're eighty percent self-powered today.
+It's one thirty-five.
+The car's at seventy-nine percent. It'll be full by seven o'clock.
+The car's at sixty percent. It'll be full by four.
+Your next reminder is at a quarter to seven on Thursday.
+Sunrise is at six sixteen, and sunset at six oh two.
+Battery at seventy-one percent.
+It's two forty-six.
+The thermostat in the hallway is set to eighteen degrees.
+So far today we've used eight kilowatt hours and exported one.
+It's twelve degrees outside and twenty-two in the hallway.
+Your next reminder is at a quarter past ten on Wednesday.
+Battery at ninety-four percent.
+So far today we've used eleven kilowatt hours and exported eight.
+Sunrise is at seven twenty-nine, and sunset at six twenty-five.
+Your next reminder is at a quarter past six on Thursday.
+We're sixty-four percent self-powered today.
+Your next reminder is at eight o'clock on Thursday.
+The thermostat in the nursery is set to twenty-two degrees.
+The thirteenth is a Monday.
+It's a quarter past eight, and the house is quiet.
+Humidity is fifty-eight percent, and the wind is thirty-six kilometres an hour.
+Your next reminder is at seven on Wednesday.
+The battery's at seventy-one percent, and the panels are making three point six kilowatts.
+That's nine hours and fifty-three minutes of battery left at this rate.
+Top of fourteen today, low of eight tonight.
+The battery's at twenty-nine percent, and the panels are making two point five kilowatts.
+So far today we've used twenty-seven kilowatt hours and exported seventeen.
+It's one thirty-two.
+So far today we've used twenty-five kilowatt hours and exported thirteen.
+It's eleven degrees outside and twenty-three in the kids' room.
+It's ten degrees outside and nineteen in the dining room.
+Sunrise is at five twenty-two, and sunset at eight fifty-five.
+So far today we've used four kilowatt hours and exported six.
+Your next reminder is at a quarter past seven on Monday.
+Sunrise is at six fifty-one, and sunset at eight twenty-three.
+Sunrise is at five twenty-eight, and sunset at seven fifty-six.
+That's four hours and twenty-eight minutes of battery left at this rate.
+The car's at thirty percent. It'll be full by three o'clock.
+That's three hours and two minutes of battery left at this rate.
+Battery at seventy percent.
+It's three thirty, and the house is quiet.
+It's seventeen degrees outside and fifteen in the laundry.
+It's twelve degrees outside and fifteen in the spare room.
+The battery's at ninety-seven percent, and the panels are making six point five kilowatts.
+That's three hours and forty-eight minutes of battery left at this rate.
+It's half past four, and the kettle has boiled.
+Lights off in fifteen minutes.
+The car's at twelve percent. It'll be full by seven o'clock.
+It's twenty-four degrees outside and seventeen in the kids' room.
+Battery at fifty-two percent.
+The twentieth is a Sunday.
+The oven timer will be done at ten forty.
+It's ten, and the battery is holding up.
+The twenty-fourth is a Saturday.
+It's two, and the battery is holding up.
+The dryer will be done at three ten.
+The thermostat in the spare room is set to seventeen degrees.
+That's six hours and twenty-two minutes of battery left at this rate.
+The robot vacuum will be done at seven thirty.
+Sunrise is at five oh seven, and sunset at six thirty-three.
+Fan off in five minutes.
+The twenty-fifth is a Wednesday.
+So far today we've used twenty-eight kilowatt hours and exported twenty-three.
+Your next reminder is at half past three on Sunday.
+So far today we've used eight kilowatt hours and exported twenty-four.
+The car's at thirty percent. It'll be full by six thirty.
+That's three hours and twenty minutes of battery left at this rate.
+It's ten thirty, and all the doors are locked.
+There's a eighty percent chance of rain after five o'clock.
+That's seven hours and thirty-one minutes of battery left at this rate.
+Sunrise is at seven seventeen, and sunset at seven twenty-five.
+That's two hours and thirty-seven minutes of battery left at this rate.
+Top of fifteen today, low of seventeen tonight.
+Fan off in fifteen minutes.
+Sunrise is at five fifty-three, and sunset at five thirty-six.
+So far today we've used seven kilowatt hours and exported twenty-four.
+We're seventy-five percent self-powered today.
+We're ninety-three percent self-powered today.
+Grid power is sixty-eight cents a kilowatt hour until eleven thirty.
+Sunrise is at six thirty-six, and sunset at five thirty-nine.
+That's six hours and forty-two minutes of battery left at this rate.
+There's a eighty percent chance of rain after eight thirty.
+That's three hours and twelve minutes of battery left at this rate.
+The sixth is a Wednesday.
+It's five forty-one.
+Top of twenty-four today, low of six tonight.
+Sunrise is at five oh two, and sunset at seven forty-seven.
+It's a quarter to eleven, and the battery is holding up.
+There's a seventy percent chance of rain after four thirty.
+That's two hours and seventeen minutes of battery left at this rate.
+Humidity is ninety-two percent, and the wind is twenty-six kilometres an hour.
+Music off in twenty minutes.
+Top of twelve today, low of three tonight.
+It's half past eleven, and the battery is holding up.
+It's twelve oh seven.
+It's thirty-three degrees outside and twenty in the main bedroom.
+It's thirteen degrees outside and twenty-seven in the garage.
+Battery at twenty-five percent.
+The twentieth is a Thursday.
+Battery at forty percent.
+We're thirty-six percent self-powered today.
+Grid power is seventy cents a kilowatt hour until two thirty.
+The battery's at fifty-five percent, and the panels are making six point eight kilowatts.
+We're eighty-five percent self-powered today.
+The battery's at thirty-two percent, and the panels are making seven point five kilowatts.
+Battery at thirty-six percent.
+It's a quarter to nine, and the house is quiet.
+So far today we've used thirty kilowatt hours and exported four.
+Battery at five percent.
+We're fifty-five percent self-powered today.
+Sunrise is at five fifty-six, and sunset at five twenty-two.
+The battery's at ninety percent, and the panels are making two point three kilowatts.
+The washing machine will be done at a quarter past one.
+That's two hours and ten minutes of battery left at this rate.
+The twenty-fifth is a Monday.
+The oven timer will be done at twelve forty.
+Your next reminder is at a quarter to two on Sunday.
+The oven timer will be done at six forty.
+Humidity is ninety-six percent, and the wind is fifty-eight kilometres an hour.
+That's four hours and thirty-four minutes of battery left at this rate.
+Sunrise is at five twenty-nine, and sunset at five fifty-nine.
+The oven timer will be done at eleven oh five.
+It's a quarter to four, and the battery is holding up.
+Battery at seventy-seven percent.
+It's twelve, and the kettle has boiled.
+It's seven o'clock, and the battery is holding up.
+There's a sixty percent chance of rain after half past two.
+The tenth is a Wednesday.
+Battery at thirty-seven percent.
+Grid power is fifty-two cents a kilowatt hour until nine o'clock.
+The battery's at nine percent, and the panels are making one point one kilowatts.
+Humidity is seventy-eight percent, and the wind is six kilometres an hour.
+So far today we've used four kilowatt hours and exported fifteen.
+There's a twenty percent chance of rain after two o'clock.
+Your next reminder is at a quarter past nine on Sunday.
+It's one sixteen.
+It's four twenty-five.
+The thermostat in the laundry is set to nineteen degrees.
+Top of thirty-two today, low of seven tonight.
+It's a quarter to eleven, and the kettle has boiled.
+Your next reminder is at eight on Thursday.
+Battery at seventy-six percent.
+Battery at ninety-two percent.
+The thermostat in the kids' room is set to twenty-five degrees.
+The eleventh is a Monday.
+It's five thirty-eight.
+It's ten thirty-five.
+It's one degrees outside and twenty-one in the lounge.
+That's six hours and five minutes of battery left at this rate.
+The battery's at seventy-one percent, and the panels are making one point six kilowatts.
+The car's at eleven percent. It'll be full by half past four.
+Grid power is twenty cents a kilowatt hour until one o'clock.
+The car's at fifty-six percent. It'll be full by half past eight.
+It's thirty-seven degrees outside and twenty-three in the hallway.
+So far today we've used sixteen kilowatt hours and exported six.
+It's thirty-five degrees outside and twenty-four in the laundry.
+The oven timer will be done at a quarter to seven.
+The thermostat in the lounge is set to seventeen degrees.
+Sunrise is at seven fifty-two, and sunset at seven fifty-nine.
+We're eighty-four percent self-powered today.
+The thermostat in the lounge is set to sixteen degrees.
+There's a eighty percent chance of rain after half past one.
+The thermostat in the hallway is set to sixteen degrees.
+We're sixty-two percent self-powered today.
+There's a ten percent chance of rain after half past five.
+Your next reminder is at a quarter to three on Saturday.
+Lights off in five minutes.
+The twelfth is a Friday.
+So far today we've used fifteen kilowatt hours and exported seventeen.
+We're forty-eight percent self-powered today.
+Your next reminder is at two o'clock on Tuesday.
+The twenty-third is a Saturday.
+Top of fourteen today, low of fourteen tonight.
+There's a sixty percent chance of rain after half past five.
+Grid power is forty-eight cents a kilowatt hour until six.
+The car's at thirty-two percent. It'll be full by three thirty.
+It's nine thirty-three.
+It's ten, and all the doors are locked.
+We're seventy-six percent self-powered today.
+That's eight hours and forty-nine minutes of battery left at this rate.
+It's a quarter past three, and all the doors are locked.
+The car's at forty-one percent. It'll be full by one o'clock.
+Top of eighteen today, low of four tonight.
+The battery's at ninety-nine percent, and the panels are making four point eight kilowatts.

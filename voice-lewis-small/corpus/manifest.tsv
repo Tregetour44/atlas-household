@@ -635,3 +635,917 @@ tr0632	train	briefings	1309804776	The study is ready: the lamp is on, the heater
 tr0633	train	briefings	957692030	I've turned the music down. It sounded as though someone was trying to have a conversation.
 tr0634	train	briefings	661761501	The power is back on after a short outage. The clocks on the oven and the microwave will need resetting, I'm afraid.
 tr0635	train	briefings	1349950795	It's past midnight. I'd suggest bed; the house will look after itself until morning.
+tr0636	train	numbers2	1233112305	That's nine hours and fifty-three minutes of battery left at this rate.
+tr0637	train	briefings2	1048116327	I've moved the dishwasher to eleven, when power is cheaper, and the car will start charging after midnight. Neither of them will mind the wait.
+tr0638	train	status2	784851446	The vacuum's bin is full again.
+tr0639	train	confirm2	1505808736	Blinds closed.
+tr0640	train	confirm2	1868431107	Dishwasher started.
+tr0641	train	energy_weather	408604565	That's it for solar today. We made twenty-six kilowatt hours.
+tr0642	train	confirm2	22257199	Reminder set for six.
+tr0643	train	confirm2	1985261241	Car charging.
+tr0644	train	wit2	1747991322	I'd suggest bed. Nothing good was ever decided after midnight.
+tr0645	train	confirm2	523701132	Fan off.
+tr0646	train	wit2	104749622	That's the last load of washing. Well, the last until tomorrow.
+tr0647	train	status2	1899588256	The house is in night mode. Only the hallway light will respond to movement.
+tr0648	train	numbers2	1636202289	There's a sixty percent chance of rain after half past five.
+tr0649	train	numbers2	377571239	The car's at thirty-two percent. It'll be full by three thirty.
+tr0650	train	numbers2	1984351810	Lights off in fifteen minutes.
+tr0651	train	confirm2	21102292	Very good.
+tr0652	train	numbers2	407416686	It's a quarter past eight, and the house is quiet.
+tr0653	train	numbers2	1867489272	The battery's at seventy-one percent, and the panels are making three point six kilowatts.
+tr0654	train	status2	1898646107	The dishwasher needs a rinse aid top-up.
+tr0655	train	confirm2	103561933	I'll let you know.
+tr0656	train	numbers2	522546039	It's a quarter to three.
+tr0657	train	numbers2	1747082209	That's six hours and forty-two minutes of battery left at this rate.
+tr0658	train	confirm2	2023573104	Dryer paused.
+tr0659	train	numbers2	261781222	That's two hours and ten minutes of battery left at this rate.
+tr0660	train	confirm2	1567333761	Blinds open.
+tr0661	train	energy_weather	711765271	The sun's out properly now, so the battery should be full by lunchtime.
+tr0662	train	numbers2	862321837	That's two hours and seventeen minutes of battery left at this rate.
+tr0663	train	energy_weather	1147325499	The forecast says rain, but the sky seems unconvinced.
+tr0664	train	numbers2	1510365592	There's a twenty percent chance of rain after two o'clock.
+tr0665	train	wit2	755067150	The battery is low and the sun has gone. It's been that sort of day.
+tr0666	train	numbers2	872954036	It's seven o'clock, and the battery is holding up.
+tr0667	train	numbers2	1125058594	The twenty-fifth is a Monday.
+tr0668	train	wit2	1404048819	The bins go out tonight. It's the least glamorous part of my job, and yours.
+tr0669	train	wit2	615982373	The heater's off. The house will cope, and so, I suspect, will you.
+tr0670	train	status2	1148234944	The dehumidifier has emptied its tank. Someone kindly did that.
+tr0671	train	numbers2	863476822	The battery's at twenty-nine percent, and the panels are making two point five kilowatts.
+tr0672	train	numbers2	712953324	The robot vacuum will be done at seven thirty.
+tr0673	train	numbers2	1568275834	It's thirteen degrees outside and twenty-seven in the garage.
+tr0674	train	briefings2	1126000857	It's almost midnight, and the house is in good order. Battery healthy, doors locked, dishwasher finished. I'll keep watch until morning.
+tr0675	train	energy_weather	874141775	The battery's at seventy-three percent and climbing.
+tr0676	train	numbers2	756222453	We're forty-eight percent self-powered today.
+tr0677	train	briefings2	1511274851	There's rain on the way, about twenty millimetres overnight. I've turned off tomorrow's watering and closed the skylight in the hall.
+tr0678	train	confirm2	1252730098	Locked.
+tr0679	train	confirm2	1034687588	Eggs added.
+tr0680	train	numbers2	1139322895	Sunrise is at seven seventeen, and sunset at seven twenty-five.
+tr0681	train	numbers2	888111257	The battery's at thirty-two percent, and the panels are making seven point five kilowatts.
+tr0682	train	numbers2	770101539	It's one degrees outside and twenty-one in the lounge.
+tr0683	train	status2	1524752821	The spare bed's electric blanket is on, ready for your guest.
+tr0684	train	confirm2	1149596694	Let me check.
+tr0685	train	energy_weather	864175232	The inverter is reporting normally.
+tr0686	train	wit2	713758010	The pool is twenty-one degrees. Refreshing, if you're an optimist.
+tr0687	train	numbers2	1569465772	Sunrise is at seven twenty-nine, and sunset at six twenty-five.
+tr0688	train	wit2	1295202365	It's quiet. Too quiet, as they say, although I think it's simply Tuesday.
+tr0689	train	numbers2	976488619	Grid power is fifty-two cents a kilowatt hour until nine o'clock.
+tr0690	train	confirm2	1525907790	Bear with me.
+tr0691	train	numbers2	771011032	The thermostat in the lounge is set to seventeen degrees.
+tr0692	train	numbers2	889053282	That's six hours and twenty-two minutes of battery left at this rate.
+tr0693	train	numbers2	1140510964	So far today we've used twenty-five kilowatt hours and exported thirteen.
+tr0694	train	numbers2	1570653527	So far today we've used eight kilowatt hours and exported one.
+tr0695	train	numbers2	714700225	Your next reminder is at a quarter to two on Monday.
+tr0696	train	confirm2	865084539	Nothing new.
+tr0697	train	confirm2	1150751981	Quieter now.
+tr0698	train	energy_weather	1411910012	It's still and clear, perfect for drying.
+tr0699	train	numbers2	590297578	There's a eighty percent chance of rain after half past one.
+tr0700	train	wit2	183717936	The battery's full, the sun is shining, and for once nothing needs doing.
+tr0701	train	confirm2	2113167526	Holiday mode off.
+tr0702	train	confirm2	1694314780	Mind the rain.
+tr0703	train	numbers2	335151498	Your next reminder is at eight o'clock on Thursday.
+tr0704	train	confirm2	228496425	Garage light off.
+tr0705	train	numbers2	2056889535	Humidity is ninety-six percent, and the wind is fifty-eight kilometres an hour.
+tr0706	train	numbers2	1670444293	It's twelve oh seven.
+tr0707	train	confirm2	345490835	Try that again?
+tr0708	train	wit2	69785602	The laundry is folded. I'm joking, of course, but it is dry.
+tr0709	train	numbers2	1932519572	It's a quarter to four, and the battery is holding up.
+tr0710	train	numbers2	333996401	So far today we've used eleven kilowatt hours and exported eight.
+tr0711	train	confirm2	1693405671	Alarm armed.
+tr0712	train	numbers2	2112225373	Your next reminder is at a quarter to seven on Thursday.
+tr0713	train	confirm2	182530251	Air con set to twenty-four.
+tr0714	train	status2	344302952	The upstairs is empty, so I've turned the lights off up there.
+tr0715	train	numbers2	1669502462	It's twenty-four degrees outside and seventeen in the kids' room.
+tr0716	train	energy_weather	2055980100	Rain has started, so I've cancelled tonight's watering.
+tr0717	train	energy_weather	227341522	The air con has been running since noon; the lounge is down to twenty-three.
+tr0718	train	confirm2	489941315	Fan on high.
+tr0719	train	numbers2	1781848533	Your next reminder is at a quarter to three on Saturday.
+tr0720	train	confirm2	952447666	Away mode on.
+tr0721	train	energy_weather	1338114596	The heater will switch off at ten unless you'd like it on longer.
+tr0722	train	numbers2	1456165790	It's thirty-three degrees outside and twenty in the main bedroom.
+tr0723	train	numbers2	567042824	Sunrise is at six sixteen, and sunset at six oh two.
+tr0724	train	confirm2	1068037803	Two timers running.
+tr0725	train	briefings2	1219479101	Today was a strong solar day. We made thirty-one kilowatt hours, used eighteen, and sent the rest to the grid for a modest credit.
+tr0726	train	numbers2	1369872263	So far today we've used twenty-seven kilowatt hours and exported seventeen.
+tr0727	train	confirm2	648128273	Hot water boosted.
+tr0728	train	confirm2	907983488	Sorry about that.
+tr0729	train	numbers2	1092192790	We're ninety-three percent self-powered today.
+tr0730	train	numbers2	568198131	Fan off in fifteen minutes.
+tr0731	train	status2	1457075045	The study has been set for work: lamp on, heater on, music off.
+tr0732	train	numbers2	1339056863	That's five hours and thirty-one minutes of battery left at this rate.
+tr0733	train	confirm2	953635401	No.
+tr0734	train	confirm2	649316330	Back shortly.
+tr0735	train	energy_weather	1370814332	The price has jumped to sixty cents a kilowatt hour, so I've paused the charger.
+tr0736	train	numbers2	1220388550	Top of eighteen today, low of four tonight.
+tr0737	train	confirm2	1069192784	Right you are.
+tr0738	train	energy_weather	788892609	Usage is a little high; the oven and the dryer are both on.
+tr0739	train	numbers2	1476574039	It's eleven degrees outside and twenty-three in the kids' room.
+tr0740	train	numbers2	1855952180	The battery's at ninety-nine percent, and the panels are making four point eight kilowatts.
+tr0741	train	confirm2	429434274	Have a good day.
+tr0742	train	confirm2	9565208	I can't reach the garage door right now.
+tr0743	train	numbers2	2006369422	Sunrise is at five oh two, and sunset at seven forty-seven.
+tr0744	train	numbers2	1777488173	There's a seventy percent chance of rain after four thirty.
+tr0745	train	confirm2	519397819	Sprinklers off.
+tr0746	train	numbers2	133967873	Battery at seventy-six percent.
+tr0747	train	wit2	1895497879	It's freezing out. The heating is on, and I'd advise staying firmly where you are.
+tr0748	train	wit2	1615076614	That's the alarm silenced. I'll take it as a vote of confidence.
+tr0749	train	numbers2	390278544	The thermostat in the spare room is set to seventeen degrees.
+tr0750	train	numbers2	2005181557	That's three hours and twenty minutes of battery left at this rate.
+tr0751	train	numbers2	8623331	It's two, and the battery is holding up.
+tr0752	train	energy_weather	428524889	There's a thunderstorm warning for this evening.
+tr0753	train	status2	1854797263	Everything in the kitchen is switched off except the fridge.
+tr0754	train	numbers2	1894342764	It's a quarter to nine, and the house is quiet.
+tr0755	train	status2	133058810	The lounge is twenty-two degrees, and the heating is holding it there.
+tr0756	train	energy_weather	518455616	The air quality is good today.
+tr0757	train	wit2	1776300502	I've set an alarm for six. I apologise in advance.
+tr0758	train	energy_weather	2036280391	Tonight's low is four degrees, so I'll start the heating a little earlier.
+tr0759	train	energy_weather	240655569	Tomorrow looks fine and sunny, with a top of twenty-three.
+tr0760	train	wit2	1554642870	Your meeting has been moved to three. I'd call that a small mercy.
+tr0761	train	numbers2	732874528	Sunrise is at six fifty-one, and sunset at eight twenty-three.
+tr0762	train	numbers2	849843866	Sunrise is at five oh seven, and sunset at six thirty-three.
+tr0763	train	status2	1168156172	The garage door has been closed for the night.
+tr0764	train	numbers2	1539584943	The washing machine will be done at a quarter past one.
+tr0765	train	numbers2	750977849	That's two hours and thirty-seven minutes of battery left at this rate.
+tr0766	train	numbers2	902451843	We're sixty-two percent self-powered today.
+tr0767	train	numbers2	1120756245	The dryer will be done at three ten.
+tr0768	train	confirm2	1383235460	Bedroom lights off.
+tr0769	train	confirm2	628444946	The lounge lamp isn't responding.
+tr0770	train	status2	1169344247	The smoke alarms all tested fine this morning.
+tr0771	train	wit2	850785889	I've paused the music. You seemed to be singing along, and I wanted to spare the neighbours.
+tr0772	train	briefings2	733784027	There's a storm warning for late tonight, with strong winds. I've charged the battery to full, just in case the power drops out.
+tr0773	train	confirm2	1555797837	Reminder set for tomorrow.
+tr0774	train	confirm2	1121911534	Garage door closing.
+tr0775	train	confirm2	903361144	Hang on.
+tr0776	train	confirm2	751920066	Unlocked.
+tr0777	train	numbers2	1540772692	Your next reminder is at a quarter past seven on Monday.
+tr0778	train	energy_weather	1265192645	Today the house was ninety percent self-sufficient.
+tr0779	train	confirm2	1013874259	Timer set for an hour.
+tr0780	train	status2	1110104632	The front porch light will turn off at midnight.
+tr0781	train	numbers2	892201646	It's two forty-six.
+tr0782	train	numbers2	740604692	We're eighty percent self-powered today.
+tr0783	train	numbers2	1529056130	Battery at seventy-one percent.
+tr0784	train	wit2	1162288673	I've switched off the heater in the empty room. It was warming nobody in particular.
+tr0785	train	confirm2	843067063	Front door unlocked.
+tr0786	train	numbers2	726236941	It's one thirty-five.
+tr0787	train	confirm2	1548636059	Already on it.
+tr0788	train	confirm2	1290883594	All clear.
+tr0789	train	confirm2	1006002844	Dryer started.
+tr0790	train	numbers2	1529998201	Sunrise is at seven forty-seven, and sunset at five twenty-one.
+tr0791	train	wit2	741792751	It's a beautiful evening, and the battery is full. A rare alignment.
+tr0792	train	briefings2	893356629	If you're heading out, the back door is still open and the study heater is on. I can sort both of those as soon as you leave.
+tr0793	train	wit2	1111014083	The dishwasher is finished. The lasagne dish, I'm sorry to say, has won.
+tr0794	train	numbers2	1549545312	It's nine thirty-three.
+tr0795	train	wit2	727392246	It's Friday. I'm told that's significant.
+tr0796	train	numbers2	844254796	Sunrise is at seven forty-two, and sunset at seven fourteen.
+tr0797	train	numbers2	1163230938	Your next reminder is at seven on Wednesday.
+tr0798	train	numbers2	1441424203	The car's at eleven percent. It'll be full by half past four.
+tr0799	train	numbers2	585978845	The car's at forty-one percent. It'll be full by one o'clock.
+tr0800	train	energy_weather	28251917	It's cooler outside now, so I've opened the bedroom windows.
+tr0801	train	numbers2	1990731675	Battery at seventy-seven percent.
+tr0802	train	numbers2	1872852513	Grid power is sixty-eight cents a kilowatt hour until eleven thirty.
+tr0803	train	numbers2	413550263	The car's at seventy-nine percent. It'll be full by seven o'clock.
+tr0804	train	numbers2	113431316	It's ten thirty-five.
+tr0805	train	confirm2	1908794242	All sorted now.
+tr0806	train	confirm2	1758245432	Night mode on.
+tr0807	train	numbers2	533430958	The eleventh is a Monday.
+tr0808	train	confirm2	259301183	Leave it with me.
+tr0809	train	numbers2	2020847529	The oven timer will be done at eleven oh five.
+tr0810	train	confirm2	414459468	Charging paused.
+tr0811	train	energy_weather	1874007770	It's foggy this morning, and it should lift by about ten.
+tr0812	train	numbers2	1991919456	Battery at thirty-six percent.
+tr0813	train	status2	29194230	The garden lights will stay on until ten.
+tr0814	train	numbers2	534372949	Your next reminder is at half past three on Sunday.
+tr0815	train	numbers2	1759433411	It's a quarter to eleven, and the kettle has boiled.
+tr0816	train	numbers2	1909949305	Your next reminder is at two o'clock on Tuesday.
+tr0817	train	briefings2	114340847	I've turned off the television, the lounge lamps and the heater. If you'd like any of them back, just say so; I won't take it personally.
+tr0818	train	numbers2	376417918	That's three hours and twelve minutes of battery left at this rate.
+tr0819	train	numbers2	1634246376	Lights off in five minutes.
+tr0820	train	numbers2	865695119	It's ten degrees outside and nineteen in the dining room.
+tr0821	train	confirm2	1151223065	Alarm set for seven.
+tr0822	train	briefings2	1570182307	Here's your afternoon: the cleaners arrive at two, the parcel is due before five, and the forecast says the rain will hold off until evening.
+tr0823	train	wit2	714089525	Everything's off, everything's locked, and everyone is, I hope, asleep.
+tr0824	train	numbers2	888451478	Battery at forty percent.
+tr0825	train	confirm2	1140031744	I'm not sure I follow.
+tr0826	train	numbers2	1526386874	The thermostat in the nursery is set to twenty-two degrees.
+tr0827	train	numbers2	771612716	We're seventy-six percent self-powered today.
+tr0828	train	confirm2	1027800509	Not at the moment.
+tr0829	train	wit2	1246088491	The robot vacuum has given up on the rug. I can't say I blame it.
+tr0830	train	wit2	713180366	The house used very little power today. Either we're very efficient, or very lazy.
+tr0831	train	numbers2	1569027160	We're thirty-six percent self-powered today.
+tr0832	train	numbers2	1150035426	Humidity is ninety-two percent, and the wind is twenty-six kilometres an hour.
+tr0833	train	status2	864753012	The dryer has about half an hour left.
+tr0834	train	numbers2	770670807	The battery's at fifty-five percent, and the panels are making six point eight kilowatts.
+tr0835	train	energy_weather	1525198913	Grid power has returned. I've switched everything back to normal.
+tr0836	train	confirm2	1138876923	Bathroom fan off.
+tr0837	train	numbers2	887542125	Top of thirteen today, low of three tonight.
+tr0838	train	status2	609864956	The air purifier is running because the pollen count is high.
+tr0839	train	status2	1398733930	The doorbell battery is at twelve percent.
+tr0840	train	confirm2	1707332105	Bread added to the list.
+tr0841	train	wit2	314892959	The weather's turned. Summer appears to have been a brief visitor.
+tr0842	train	numbers2	198030117	There's a fifty percent chance of rain after three o'clock.
+tr0843	train	wit2	2093646771	The air con and the heater were both on. I've asked them to stop arguing.
+tr0844	train	confirm2	1655576080	Sprinklers on.
+tr0845	train	numbers2	363406982	So far today we've used thirty kilowatt hours and exported four.
+tr0846	train	confirm2	211842876	Timer set for twenty minutes.
+tr0847	train	numbers2	2074560426	The battery's at seventy-one percent, and the panels are making one point six kilowatts.
+tr0848	train	energy_weather	1796758075	The battery's full, so I'm running the dishwasher on sunshine.
+tr0849	train	numbers2	471820973	The thermostat in the laundry is set to nineteen degrees.
+tr0850	train	numbers2	2094588744	So far today we've used seven kilowatt hours and exported twenty-four.
+tr0851	train	numbers2	199218142	So far today we've used sixteen kilowatt hours and exported six.
+tr0852	train	status2	316047972	The rangehood is still on low. Shall I switch it off?
+tr0853	train	confirm2	1708241650	Yes, of course.
+tr0854	train	numbers2	2075469649	It's half past eleven, and the battery is holding up.
+tr0855	train	energy_weather	212998087	The hot water system has finished heating, on solar, as it should.
+tr0856	train	briefings2	364594813	You've got an hour before the guests arrive. The oven is hot, the lounge is warm, and the music is ready when you are.
+tr0857	train	numbers2	1656518379	Sunrise is at five twenty-eight, and sunset at seven fifty-six.
+tr0858	train	status2	1912826746	The ceiling fan in the main bedroom is on low.
+tr0859	train	numbers2	84171756	Sunrise is at five fifty-three, and sunset at five thirty-six.
+tr0860	train	numbers2	1475719307	Top of thirty-two today, low of seven tonight.
+tr0861	train	numbers2	552763421	The thermostat in the hallway is set to eighteen degrees.
+tr0862	train	briefings2	972804519	It's ten o'clock. The washing is dry, the dishwasher is running, and the battery is at forty percent, which should see us to morning.
+tr0863	train	confirm2	1325195569	That one's beyond me, I'm afraid.
+tr0864	train	confirm2	1352168594	My mistake.
+tr0865	train	numbers2	664749060	That's four hours and twenty-eight minutes of battery left at this rate.
+tr0866	train	status2	1050023358	The kitchen lights are at full brightness for cooking.
+tr0867	train	wit2	1234249000	I'd take an umbrella. And possibly a boat.
+tr0868	train	confirm2	1496201401	I'll remind you.
+tr0869	train	numbers2	774441007	It's seven o'clock, and all the doors are locked.
+tr0870	train	status2	1324253642	The bathroom fan has cleared the steam and switched itself off.
+tr0871	train	confirm2	971616604	Lamp off.
+tr0872	train	wit2	551608550	The cricket is still going. It's that sort of match.
+tr0873	train	numbers2	1474809968	So far today we've used twenty-eight kilowatt hours and exported twenty-three.
+tr0874	train	energy_weather	1233339859	It's fourteen degrees and drizzling. A coat would be wise.
+tr0875	train	numbers2	1048868165	Grid power is forty-eight cents a kilowatt hour until six.
+tr0876	train	numbers2	663561471	It's thirty-five degrees outside and twenty-four in the laundry.
+tr0877	train	energy_weather	1351226473	Grid power is cheap for the next two hours, so the car is charging now.
+tr0878	train	numbers2	1077217784	That's eight hours and forty-nine minutes of battery left at this rate.
+tr0879	train	confirm2	926038382	Music off.
+tr0880	train	numbers2	1232510213	It's ten, and the battery is holding up.
+tr0881	train	numbers2	1047637395	The twenty-fifth is a Wednesday.
+tr0882	train	energy_weather	662240297	This week we covered seventy percent of our power from the panels.
+tr0883	train	confirm2	1350552767	Sleep well.
+tr0884	train	briefings2	1310415132	The power went out for about four minutes this afternoon. The battery covered it, so nothing should have noticed apart from the microwave clock.
+tr0885	train	confirm2	958163338	Lights at twenty percent.
+tr0886	train	briefings2	538261552	The garage door was left open while you were out, so I closed it at four. The car was still inside, unharmed and slightly offended.
+tr0887	train	confirm2	1460799654	Air con off.
+tr0888	train	energy_weather	1202525495	The heat should ease on Thursday, when the southerly arrives.
+tr0889	train	wit2	816457121	Your timer is up. Whatever it was, I hope it's not burnt.
+tr0890	train	briefings2	1349364804	It's going to be cold tonight, down to three degrees. I've set the heating to come on at half past five, so the house is warm by breakfast.
+tr0891	train	confirm2	661298386	Kitchen lights dimmed.
+tr0892	train	numbers2	1046728040	It's a quarter to eleven, and the battery is holding up.
+tr0893	train	confirm2	1231355390	Not yet.
+tr0894	train	confirm2	1459644509	Lounge lights on.
+tr0895	train	confirm2	537352395	Heating on.
+tr0896	train	numbers2	957221233	The car's at thirty percent. It'll be full by six thirty.
+tr0897	train	numbers2	1309227495	Heater off in thirty minutes.
+tr0898	train	energy_weather	1588995190	It's a perfect autumn afternoon. Twenty degrees, light breeze, not a cloud.
+tr0899	train	numbers2	699471072	We're fifty-five percent self-powered today.
+tr0900	train	numbers2	7175482	Sunrise is at five fifty-six, and sunset at five twenty-two.
+tr0901	train	wit2	2003455404	Good morning. The coffee's on, the weather's grey, and the week has begun regardless.
+tr0902	train	status2	1851989014	Nobody's home, so I've set the house to away mode.
+tr0903	train	numbers2	425995392	It's four twenty-five.
+tr0904	train	confirm2	117487907	If you insist.
+tr0905	train	numbers2	1879542197	We're eighty-four percent self-powered today.
+tr0906	train	numbers2	1762580495	It's five thirty-eight.
+tr0907	train	confirm2	503965849	Switched off.
+tr0908	train	wit2	246871304	I've turned the lights on in the hall. Stubbed toes are so last season.
+tr0909	train	confirm2	2041693598	It's done.
+tr0910	train	wit2	427183227	The shopping list now includes chocolate, twice. I've left it, in case it was deliberate.
+tr0911	train	confirm2	1852931309	All good here.
+tr0912	train	numbers2	2004364631	The battery's at ninety percent, and the panels are making two point three kilowatts.
+tr0913	train	numbers2	8330689	It's one sixteen.
+tr0914	train	wit2	505120866	I've drawn the blinds. The sun was being rather insistent.
+tr0915	train	wit2	1763490036	I've turned the music down. The neighbours have been very patient.
+tr0916	train	status2	1880484174	The bathroom heater will switch itself off in fifteen minutes.
+tr0917	train	confirm2	118675928	Bathroom fan on.
+tr0918	train	confirm2	397263945	Kettle on.
+tr0919	train	status2	1621816543	The heater in the kids' room is on a timer until eight.
+tr0920	train	confirm2	844832696	Garage door open.
+tr0921	train	briefings2	1163669294	The fridge has been working harder than usual for three days. It could be the heat, but if it keeps up, the door seal is worth a look.
+tr0922	train	confirm2	1549106836	Good choice.
+tr0923	train	numbers2	726814210	Your next reminder is at a quarter past nine on Sunday.
+tr0924	train	confirm2	892787617	Alarm disarmed.
+tr0925	train	status2	1110567735	The robot vacuum will clean the kitchen at ten, once you've left.
+tr0926	train	briefings2	1530444429	The house has been quiet all afternoon. One delivery, no visitors, and the robot vacuum has finally finished the hallway.
+tr0927	train	numbers2	742361627	It's eight twenty.
+tr0928	train	confirm2	1015060362	Morning.
+tr0929	train	confirm2	1267181340	Goodnight.
+tr0930	train	numbers2	725626617	There's a ten percent chance of rain after half past five.
+tr0931	train	confirm2	1548164719	Timer set for five minutes.
+tr0932	train	energy_weather	1162760149	The house is using about one kilowatt at the moment, mostly the fridge and the heater.
+tr0933	train	status2	843677507	The fridge door is shut properly now. Thank you.
+tr0934	train	wit2	741206752	The back door was open again. The breeze appreciated it.
+tr0935	train	wit2	1529535094	The kettle has boiled for the fourth time. I'm beginning to think it's company you're after.
+tr0936	train	numbers2	1109625804	There's a eighty percent chance of rain after eight thirty.
+tr0937	train	numbers2	891599706	The twenty-third is a Saturday.
+tr0938	train	status2	630957771	All the doors are locked, and the alarm will set itself at eleven.
+tr0939	train	numbers2	1385993821	The twentieth is a Thursday.
+tr0940	train	wit2	1677834302	It's the first warm day of spring. The windows are open and the house is breathing.
+tr0941	train	confirm2	319195304	Lamp on.
+tr0942	train	energy_weather	168810770	Solar is slow this morning; the cloud is thicker than forecast.
+tr0943	train	confirm2	2097736068	Porch light off.
+tr0944	train	confirm2	1668054055	No change.
+tr0945	train	numbers2	342576305	Top of fourteen today, low of eight tonight.
+tr0946	train	confirm2	224533771	Music on.
+tr0947	train	numbers2	2053451165	That's five hours and six minutes of battery left at this rate.
+tr0948	train	confirm2	1792684044	Good afternoon.
+tr0949	train	briefings2	501022874	The heating has been on longer than usual this week. It's been cold, of course, but a draught in the hallway might be helping it along.
+tr0950	train	numbers2	2098891135	Music off in twenty minutes.
+tr0951	train	numbers2	169720297	So far today we've used eight kilowatt hours and exported twenty-four.
+tr0952	train	numbers2	320137299	Battery at ninety-four percent.
+tr0953	train	wit2	1679022277	The rain gauge is full. The garden, I'm told, is delighted.
+tr0954	train	briefings2	2054638950	Tomorrow's an early start. Your alarm is set for half past five, the coffee will be on at quarter to six, and the heating will beat you to it.
+tr0955	train	numbers2	225476080	The thermostat in the hallway is set to sixteen degrees.
+tr0956	train	energy_weather	343485514	The battery has done two full cycles this week. Nothing unusual.
+tr0957	train	confirm2	1669209308	One moment, please.
+tr0958	train	confirm2	1942028621	Heating off.
+tr0959	train	numbers2	80097755	We're eighty-five percent self-powered today.
+tr0960	train	status2	1446501052	The internet is back up after a short drop-out.
+tr0961	train	energy_weather	556853802	It's twenty-nine degrees and climbing, with a cool change after dinner.
+tr0962	train	briefings2	943307664	The house is ready for bed. The doors are locked, the heating is easing off, and I'll wake the hallway light if anyone gets up in the night.
+tr0963	train	wit2	1329498886	It's a lovely morning. I'd make the most of it before the forecast catches up.
+tr0964	train	confirm2	1364860581	Your timer's done.
+tr0965	train	confirm2	643640883	Absolutely.
+tr0966	train	briefings2	1062502281	The solar output is well down today, about half of normal. It's mostly the cloud, but the panels haven't been cleaned since autumn.
+tr0967	train	numbers2	1213419295	The twelfth is a Friday.
+tr0968	train	energy_weather	1491882638	The power is out in the street. We're running on the battery, and the fridge is fine.
+tr0969	train	briefings2	803955224	Good morning. It's seven degrees and clear, the battery got us through the night with thirty percent to spare, and your first meeting is at nine.
+tr0970	train	numbers2	1328344061	Battery at ninety-two percent.
+tr0971	train	confirm2	942398315	Vacuum sent home.
+tr0972	train	confirm2	555911889	Music resumed.
+tr0973	train	confirm2	1445313095	Curtains drawn.
+tr0974	train	confirm2	1212231652	As you wish.
+tr0975	train	energy_weather	1061560178	The weekend looks mixed: sunny Saturday, wet Sunday.
+tr0976	train	briefings2	642731720	Your week looks reasonably calm. Dentist on Tuesday, the plumber on Thursday morning, and nothing at all at the weekend.
+tr0977	train	briefings2	1363705438	The kids' rooms are dark, the night lights are on, and the house is down to a whisper. Everything else can wait until morning.
+tr0978	train	numbers2	1106731983	Battery at thirty-seven percent.
+tr0979	train	confirm2	921719641	Will do, straight away.
+tr0980	train	confirm2	1219819314	Heating set to twenty.
+tr0981	train	confirm2	1068746660	Switched on.
+tr0982	train	wit2	649762334	The study is nineteen degrees. Brisk, but character-building.
+tr0983	train	numbers2	1371383432	There's a sixty percent chance of rain after half past two.
+tr0984	train	status2	1339634475	The washing machine is ready to unload.
+tr0985	train	wit2	954074045	Another parcel. The front step is becoming a small warehouse.
+tr0986	train	status2	567759367	The windows in the study are open a little to let the air through.
+tr0987	train	status2	1456497297	The blinds will close automatically at sunset.
+tr0988	train	confirm2	1181712128	That's done.
+tr0989	train	briefings2	828919702	This month's power bill should be about a third lower than last month. The sunny weeks helped, and so did running the dryer at midday.
+tr0990	train	wit2	1370474099	It's going to be thirty-eight tomorrow. I'd plan to be somewhere with air conditioning, such as here.
+tr0991	train	numbers2	648607461	Grid power is twenty cents a kilowatt hour until one o'clock.
+tr0992	train	confirm2	1067558751	Removed from the list.
+tr0993	train	confirm2	1218877385	Probably not.
+tr0994	train	confirm2	1455555178	Welcome back.
+tr0995	train	wit2	566571772	The washing has been in the machine since Tuesday. It's starting to feel at home.
+tr0996	train	numbers2	952918854	Battery at fifty-two percent.
+tr0997	train	status2	1338725328	The dishwasher finished at nine forty and the plates are still warm.
+tr0998	train	numbers2	1601457729	Humidity is seventy-eight percent, and the wind is six kilometres an hour.
+tr0999	train	confirm2	678657751	Nothing to worry about.
+tr1000	train	numbers2	922755536	It's five forty-one.
+tr1001	train	confirm2	1074204998	Take care.
+tr1002	train	briefings2	1494106364	The house has used about the same as yesterday, a little under fifteen kilowatt hours. Most of that was the heater and the hot water.
+tr1003	train	numbers2	772370538	Your next reminder is at a quarter to two on Sunday.
+tr1004	train	numbers2	812508617	We're seventy-five percent self-powered today.
+tr1005	train	confirm2	1198183775	Done and dusted.
+tr1006	train	confirm2	1583580389	Lights at half.
+tr1007	train	confirm2	694465651	Pool pump on.
+tr1008	train	briefings2	970697186	It's going to be a hot one, so I've cooled the house early while the panels are strong. I'll close the blinds on the west side after lunch.
+tr1009	train	status2	1323080052	The hot water is ready for showers.
+tr1010	train	energy_weather	773525649	The solar panels might need a clean; output is down eight percent on similar days.
+tr1011	train	confirm2	1495015431	Finished.
+tr1012	train	numbers2	1075147197	Grid power is seventy cents a kilowatt hour until two thirty.
+tr1013	train	numbers2	923943211	So far today we've used four kilowatt hours and exported fifteen.
+tr1014	train	energy_weather	695653512	It's warmer outside than in, so I've closed the windows on the west side.
+tr1015	train	numbers2	1584522270	That's three hours and forty-eight minutes of battery left at this rate.
+tr1016	train	status2	1199093156	You're home. I've turned the hall light on and the heating up a little.
+tr1017	train	confirm2	813663538	Coffee added to the list.
+tr1018	train	numbers2	549492899	The oven timer will be done at a quarter to seven.
+tr1019	train	energy_weather	1472702517	The panels are producing four kilowatts, which is about as good as it gets in winter.
+tr1020	train	numbers2	87442258	There's a twenty percent chance of rain after five thirty.
+tr1021	train	numbers2	1915843524	The sixth is a Wednesday.
+tr1022	train	numbers2	1798840958	It's a quarter past three, and all the doors are locked.
+tr1023	train	numbers2	473895656	The oven timer will be done at twelve forty.
+tr1024	train	numbers2	39552843	It's seventeen degrees outside and fifteen in the laundry.
+tr1025	train	numbers2	1969010653	The car's at twelve percent. It'll be full by seven o'clock.
+tr1026	train	numbers2	1817568871	That's seven hours and thirty-one minutes of battery left at this rate.
+tr1027	train	numbers2	458413809	It's three thirty, and the house is quiet.
+tr1028	train	numbers2	200133472	The thermostat in the kids' room is set to twenty-five degrees.
+tr1029	train	energy_weather	2095774710	The battery's down to nineteen percent. I'll stop exporting for the evening.
+tr1030	train	energy_weather	472740371	We'll start drawing from the grid at about half past five.
+tr1031	train	numbers2	1797931653	It's one thirty-two.
+tr1032	train	numbers2	1914901311	It's ten, and all the doors are locked.
+tr1033	train	wit2	86254505	The doorbell rang twice. Someone is either eager or lost.
+tr1034	train	numbers2	457225738	Battery at twenty-five percent.
+tr1035	train	confirm2	1816626844	Resumed.
+tr1036	train	numbers2	1968101158	Your next reminder is at eight on Thursday.
+tr1037	train	wit2	38397872	The kitchen light has been on all night. It must have had a lot to think about.
+tr1038	train	confirm2	318175777	I'll keep an eye on it.
+tr1039	train	numbers2	1710344887	That's four hours and thirty-four minutes of battery left at this rate.
+tr1040	train	numbers2	1399645396	Sunrise is at five twenty-two, and sunset at eight fifty-five.
+tr1041	train	numbers2	611046466	We're sixty-four percent self-powered today.
+tr1042	train	wit2	1029867000	The heating will come on at six. By the time you're up, it'll be as if winter never happened.
+tr1043	train	numbers2	1248179566	It's ten thirty, and all the doors are locked.
+tr1044	train	numbers2	1409360077	It's thirty-seven degrees outside and twenty-three in the hallway.
+tr1045	train	numbers2	587599963	Top of fifteen today, low of seventeen tonight.
+tr1046	train	energy_weather	974078433	Expect showers on and off all afternoon.
+tr1047	train	status2	1292398967	The water filter in the fridge is due for a change.
+tr1048	train	numbers2	1572302054	Your next reminder is at a quarter past six on Thursday.
+tr1049	train	numbers2	716201072	Sunrise is at five twenty-nine, and sunset at five fifty-nine.
+tr1050	train	status2	1249367445	The lamps in the lounge are on a warm setting.
+tr1051	train	wit2	1030808835	The house is locked up tight. Even the draught would struggle to get in.
+tr1052	train	wit2	611955897	The dryer is finished. Somewhere in there, I expect, is the other sock.
+tr1053	train	numbers2	1400800303	That's three hours and two minutes of battery left at this rate.
+tr1054	train	numbers2	1293554060	The car's at thirty percent. It'll be full by three o'clock.
+tr1055	train	confirm2	974987546	Just a second.
+tr1056	train	numbers2	588542112	So far today we've used four kilowatt hours and exported six.
+tr1057	train	confirm2	1410547766	Fair enough.
+tr1058	train	numbers2	1152146855	The twenty-fourth is a Saturday.
+tr1059	train	numbers2	866872625	The oven timer will be done at six forty.
+tr1060	train	numbers2	1633322582	The thirteenth is a Monday.
+tr1061	train	numbers2	375240384	The thermostat in the lounge is set to sixteen degrees.
+tr1062	train	numbers2	257222522	That's six hours and five minutes of battery left at this rate.
+tr1063	train	numbers2	2018760684	Top of thirteen today, low of twelve tonight.
+tr1064	train	numbers2	1714897487	So far today we've used fifteen kilowatt hours and exported seventeen.
+tr1065	train	confirm2	288387801	Volume down a touch.
+tr1066	train	wit2	137962339	The spare room heater has been on for six hours. The spare room is extremely comfortable.
+tr1067	train	energy_weather	2134774773	Frost is likely overnight, so the car may need a minute in the morning.
+tr1068	train	energy_weather	1870728804	The wind's picking up from the north-west. I'd bring the washing in.
+tr1069	train	numbers2	411451122	Top of twenty-four today, low of six tonight.
+tr1070	train	status2	2017572631	The washing machine has twelve minutes to go.
+tr1071	train	wit2	256280449	It's late, the house is quiet, and the kettle has earned its rest.
+tr1072	train	numbers2	374330939	Top of fourteen today, low of fourteen tonight.
+tr1073	train	numbers2	1632167597	The twentieth is a Sunday.
+tr1074	train	wit2	2133619470	I've cancelled the sprinklers. The sky has the matter well in hand.
+tr1075	train	numbers2	137053080	The nineteenth is a Monday.
+tr1076	train	status2	287445538	The car is plugged in and will be full by six tomorrow morning.
+tr1077	train	numbers2	1713709748	Your next reminder is at a quarter past ten on Wednesday.
+tr1078	train	confirm2	1989820197	Vacuum started.
+tr1079	train	wit2	27070387	The fridge has been opened fourteen times this evening. The cheese is holding up well.
+tr1080	train	numbers2	2144971736	The tenth is a Wednesday.
+tr1081	train	numbers2	148806478	It's half past four, and the kettle has boiled.
+tr1082	train	wit2	299354868	The front light is on for your guests. And, inevitably, the moths.
+tr1083	train	wit2	1724971618	I've locked the back door. Again. It's becoming something of a ritual.
+tr1084	train	numbers2	2025091009	The battery's at ninety-seven percent, and the panels are making six point five kilowatts.
+tr1085	train	confirm2	263413591	Side gate locked.
+tr1086	train	confirm2	381292269	Coffee machine on.
+tr1087	train	energy_weather	1639792251	The evening peak starts at four. I'd get the washing done before then.
+tr1088	train	wit2	1895965674	The power bill is down again. The solar panels remain insufferably pleased with themselves.
+tr1089	train	briefings2	100995964	Welcome home. The house is twenty-one degrees, the kettle is warming, and there's a parcel on the bench that arrived just after lunch.
+tr1090	train	confirm2	1724029593	All well.
+tr1091	train	confirm2	298166799	Yes.
+tr1092	train	confirm2	147651509	Washing machine started.
+tr1093	train	numbers2	2144062243	There's a eighty percent chance of rain after five o'clock.
+tr1094	train	confirm2	1638882944	Paused.
+tr1095	train	numbers2	380136982	The oven timer will be done at ten forty.
+tr1096	train	wit2	262225836	It's raining, which saves me watering the garden and you mowing it.
+tr1097	train	wit2	2024148794	Your coffee is ready. I'd drink it before the day notices you're up.
+tr1098	train	numbers2	1746473643	So far today we've used six kilowatt hours and exported six.
+tr1099	train	energy_weather	522068541	Smoke from the hazard reduction burn may drift in this afternoon.
+tr1100	train	wit2	918703079	I can dim the lights, but I can't make the film any shorter.
+tr1101	train	energy_weather	1103461233	We've exported nine kilowatt hours so far today.
+tr1102	train	numbers2	1489775307	Humidity is fifty-eight percent, and the wind is thirty-six kilometres an hour.
+tr1103	train	energy_weather	801839709	The UV index is high from ten until three.
+tr1104	train	briefings2	833589246	The weather has turned, so I've closed the windows, brought the blinds down on the north side, and turned the porch light on early.
+tr1105	train	status2	1185464168	The heating is off upstairs, because the sun has warmed it nicely.
+tr1106	train	wit2	1604447954	The parcel's arrived. I won't ask what's in it.
+tr1107	train	wit2	682024516	The garage door has been open for an hour. I'm assuming it's airing.
+tr1108	train	confirm2	941212629	See you later.
+tr1109	train	numbers2	1327428419	Battery at seventy percent.
+tr1110	train	numbers2	802781862	It's twelve degrees outside and twenty-two in the hallway.
+tr1111	train	numbers2	1490962992	Fan off in five minutes.
+tr1112	train	energy_weather	1104616330	We've had twelve millimetres since this morning.
+tr1113	train	numbers2	919612188	It's twelve degrees outside and fifteen in the spare room.
+tr1114	train	status2	682933951	The laundry is warm and dry, and the dryer has cooled down.
+tr1115	train	numbers2	1605602857	The car's at fifty-six percent. It'll be full by half past eight.
+tr1116	train	status2	1186652051	The bedroom is cooling to twenty-one for sleep.
+tr1117	train	energy_weather	834531077	The house is warm, the battery is healthy, and the forecast is kind.
+tr1118	train	numbers2	553841300	Battery at five percent.
+tr1119	train	numbers2	1443217922	The car's at sixty percent. It'll be full by four.
+tr1120	train	confirm2	83110245	Skipping that one.
+tr1121	train	numbers2	1945311731	The battery's at nine percent, and the panels are making one point one kilowatts.
+tr1122	train	numbers2	1794787401	Sunrise is at six thirty-six, and sunset at five thirty-nine.
+tr1123	train	briefings2	503150815	It's a still, mild evening, nineteen degrees and dropping slowly. If you fancied sitting outside, now would be the time.
+tr1124	train	wit2	60419452	The oven has been preheated for twenty minutes. The dinner, I gather, is still theoretical.
+tr1125	train	confirm2	1956568554	Your list is empty.
+tr1126	train	numbers2	1838648400	Top of twelve today, low of three tonight.
+tr1127	train	confirm2	445693126	Quite right.
+tr1128	train	energy_weather	170893655	The battery should last until about four in the morning.
+tr1129	train	status2	2099810753	The towel rail is warming in the main bathroom.
+tr1130	train	numbers2	502208548	It's twelve, and the kettle has boiled.
+tr1131	train	status2	1793599666	The pool cover is on, and the pump has finished for the day.
+tr1132	train	numbers2	1944156424	Sunrise is at seven fifty-two, and sunset at seven fifty-nine.
+tr1133	train	confirm2	82200990	Stopped.
+tr1134	train	status2	444783677	The front gate sensor is offline. It may just need a new battery.
+tr1135	train	energy_weather	1837493419	The humidity is high today, around eighty-five percent.
+tr1136	train	confirm2	1955380497	Lounge lights off.
+tr1137	train	confirm2	59477383	Hallway light on.
+tr1138	train	confirm2	322211862	All set.
+tr1139	train	status2	1681105024	The coffee machine will be ready at six thirty.
+tr1140	train	wit2	1387171555	I've reminded you twice about the dentist. I'll stop now; I can tell it's working.
+tr1141	train	status2	631881333	The oven is off, but it's still hot inside.
+tr1142	train	wit2	1017180111	The lawn is long. Not alarming yet, but it has ambitions.
+he1143	heldout	atlas_r2	1836275243	Morning. The battery's at sixty-two percent, it's eleven degrees out, and the dishwasher can wait for the sun.
+he1144	heldout	atlas_r2	1930937224	The doors are all bolted for the night. The cat, as usual, remains unaccounted for.
+he1145	heldout	atlas_r2	68219678	It's a quarter to ten. I've dimmed the lounge, and I'd suggest you resist a second episode.
+tr1146	train	phon2	1003301846	The usual visual illusion made the beige wall look almost yellow.
+tr1147	train	household3	1288313664	I've switched the outside lights to motion only after midnight.
+tr1148	train	household3	1551173329	The batteries in the hallway sensor are getting low.
+tr1149	train	phon2	728905287	The zoo's zebras zigzagged through the dust towards the water trough.
+tr1150	train	briefings3	1270202274	It's been a good week for the house. We used less power than last week, the solar did well, and nothing needed fixing.
+tr1151	train	phon2	1018335028	The judge's gesture suggested a certain amount of genuine pleasure.
+tr1152	train	phon2	633069198	The orchestra tuned, the lights dimmed, and the audience settled.
+tr1153	train	briefings3	1388113432	The weather has been changeable all day. Sun, then hail, then sun again. I've given up predicting it and simply closed the windows.
+tr1154	train	briefings3	1289255867	The house is quiet this morning. Everyone has gone, the doors are locked, and the robot vacuum is about to have the place to itself.
+tr1155	train	household3	1004489517	The doorbell camera has been offline for an hour. I'll keep trying to reconnect it.
+tr1156	train	household3	584456855	I've paused the robot vacuum while you're on your call.
+tr1157	train	household3	1439771137	The front porch is lit, and the side gate is latched.
+tr1158	train	briefings3	1164851088	You've been in the study for three hours. It's not my place to say so, but the kettle is right there, and so is the window.
+tr1159	train	briefings3	845743878	There's a parcel on the front step, and the courier's photo suggests it's quite large. You may want help carrying it in.
+tr1160	train	household3	1620634721	The house is warm, but the bathroom is cold. I'll put the heater on in there.
+tr1161	train	phon2	396352759	Drizzle turned to downpour, and the drains gave up the struggle.
+tr1162	train	briefings3	244747597	The wind has dropped and the sky has cleared. It should be a cold night, so I'll leave the heating on a little longer than usual.
+tr1163	train	phon2	2039594459	Hushed voices drifted up the stairwell from the kitchen below.
+tr1164	train	household3	1744119928	The coffee machine needs descaling. It's been asking politely for a week.
+tr1165	train	briefings3	284301550	The bins go out tonight. It's the general waste and the yellow recycling. Green waste is next week.
+tr1166	train	briefings3	167463252	The air conditioning has been running hard since midday. The lounge is down to twenty-four, which is respectable, given the heat outside.
+tr1167	train	briefings3	2130475458	The battery has been doing most of the work this evening. It's at forty-one percent now, which should comfortably see us through to sunrise.
+tr1168	train	briefings3	1849910355	It's a mild, still night, sixteen degrees. I've opened the bedroom windows a little, and I'll close them if the wind picks up.
+tr1169	train	briefings3	423908549	The heat pump defrosted twice overnight, which is normal in this cold. It's back to heating quietly now.
+tr1170	train	phon2	2038684960	The mirror fogged, the tap dripped, and the radiator ticked as it cooled.
+tr1171	train	briefings3	243592630	The washing machine finished an hour ago, and the dryer is free. If you put the load in now, it'll be done by nine.
+tr1172	train	briefings3	395164684	Tomorrow's forecast is for a cold, bright morning and a gusty afternoon. If you're planning to hang washing out, the morning is your window.
+tr1173	train	phon2	1619692698	The chef's sharp knife made quick work of the shallots and the chives.
+tr1174	train	household3	2129533241	The study window has been open all day, so the room is cooler than usual.
+tr1175	train	household3	166275503	The pantry light was left on. I've turned it off.
+tr1176	train	briefings3	283146261	I've added milk, bread and dishwashing tablets to the shopping list. The tablets were running low, and I'd rather not go back to rinsing.
+tr1177	train	household3	1743210627	The air purifier filter will need replacing in about two weeks.
+tr1178	train	briefings3	2002277650	Your calendar for tomorrow has three things: a call at half past nine, lunch with Sam at one, and the electrician at four.
+tr1179	train	briefings3	6251908	There's a light frost this morning, and it's two degrees outside. The heating is on, and I'd give the windscreen a minute or two.
+tr1180	train	briefings3	2115748335	Power is expensive for the next three hours. I've paused the car charger and put the dryer on hold until half past eight.
+tr1181	train	briefings3	152891769	The kitchen has been the warmest room all day, mostly thanks to the oven. I've opened the window above the sink a little.
+tr1182	train	briefings3	269852867	It's been a gloomy day for solar, only nine kilowatt hours, but the battery started full, so we haven't needed the grid at all.
+tr1183	train	phon2	1729269845	Thoughtful thanks were offered, though nothing had truly been earned.
+tr1184	train	household3	2037777910	I've closed the garage door. The car's inside and plugged in.
+tr1185	train	household3	242300256	The kitchen exhaust fan has been on for an hour. I've turned it down to low.
+tr1186	train	household3	393766106	The bathroom mirror demister is on.
+tr1187	train	briefings3	1618957388	There's a total fire ban tomorrow and a severe heat warning. I'll keep the blinds down and cool the house before the panels drop off.
+tr1188	train	briefings3	1891650013	I've noticed the bathroom fan isn't clearing the steam as well as it used to. Its filter is probably due for a clean.
+tr1189	train	phon2	130513227	Frothy coffee, buttery toast, and a newspaper nobody had time to read.
+tr1190	train	household3	1728114862	The upstairs heater has been switched off, since the sun is doing the job.
+tr1191	train	household3	268943416	The laundry is cold, so the dryer may take a little longer than usual.
+tr1192	train	briefings3	151949698	You've had a long day, judging by the calendar. The house is warm, the lights are low, and nothing needs your attention tonight.
+tr1193	train	briefings3	2114560276	It's nearly bedtime. Shall I turn everything off downstairs, lock up, and leave a low light on in the hallway?
+tr1194	train	briefings3	1617769655	The smoke alarms tested fine, the water heater is healthy, and the router has been stable for a week. Nothing to report, which is how I like it.
+tr1195	train	household3	392823841	I've switched the hot water system to solar boost for the afternoon.
+tr1196	train	household3	241391003	The hallway sensor has gone quiet again. A new battery should fix it.
+tr1197	train	briefings3	2036622605	It's raining steadily and the gutters are coping, but the downpipe by the back door is overflowing. That one might need clearing.
+tr1198	train	household3	1775990940	The lounge lights are off, but the lamp by the couch is still on.
+tr1199	train	briefings3	517752842	The study heater has been running since seven. If you're finished in there, I'll switch it off and let the room cool.
+tr1200	train	briefings3	881128894	I've set the house to holiday mode until Sunday. Lights will come on in the evenings at slightly different times, so it looks lived in.
+tr1201	train	phon2	1132709160	The vintage violin was varnished with a deep, warm, velvety brown.
+tr1202	train	household3	1519031442	The washing on the line is dry, if you'd like to bring it in before the dew.
+tr1203	train	briefings3	764257284	Your reminders for today: put the bins out, call about the car service, and take the library books back before Saturday.
+tr1204	train	briefings3	870920615	I've moved tonight's dishwasher run to the morning. The battery is low, and the sun will do the job for free in a few hours.
+tr1205	train	phon2	1156448561	A thousand thrushes thronged the thicket at the edge of the field.
+tr1206	train	household3	1575440523	I've turned the electric blanket off. It's been on for two hours.
+tr1207	train	briefings3	719347741	It's past eleven, and the television has been on in an empty lounge for an hour. I've turned it off and left the lamp on low.
+tr1208	train	phon2	979336588	The rhythm of the rain on the roof was oddly reassuring.
+tr1209	train	household3	1297632538	The front door was unlocked for twenty minutes this afternoon. It's locked now.
+tr1210	train	phon2	765445375	Bright blue bottles balanced on the brick ledge beside the bath.
+tr1211	train	briefings3	1519973481	The forecast says thirty-five on Saturday. I'll pre-cool the house in the morning, so the afternoon is less of a fight.
+tr1212	train	household3	1133618643	The lounge blinds are down and the lamps are on, ready for the evening.
+tr1213	train	household3	882283845	The fan in the spare room is still running from yesterday. I've switched it off.
+tr1214	train	briefings3	720503014	I've noticed the back door has been left open most afternoons this week. If it's for the breeze, I'll stop mentioning it.
+tr1215	train	briefings3	1576349808	I've switched the porch light to stay on until you're home. After that, it'll go back to its usual timer.
+tr1216	train	briefings3	1157390794	The kids' rooms are warm, the night lights are on, and the house is settling. I'll let you know if anyone's up and about.
+tr1217	train	briefings3	872108380	The car charged overnight on cheap power. It's at ninety percent, which should be plenty for the week, unless you have plans.
+tr1218	train	household3	591678669	The garage freezer is running a little warm. It might be worth checking the seal.
+tr1219	train	household3	1413708891	The new light in the hallway is set up and named "hall lamp".
+tr1220	train	phon2	112367420	The sixth sheikh's sixth sheep is sick, or so the rhyme insists.
+tr1221	train	household3	1907730346	The heater in the lounge will turn off when the room reaches twenty-one.
+tr1222	train	phon2	1757214224	Measure the treasure twice, and leave the leisure for later.
+tr1223	train	household3	532399750	I've turned the heated floor in the bathroom on for the morning.
+tr1224	train	phon2	31413029	She gazed at the azure sky while the breeze rearranged her scarf.
+tr1225	train	briefings3	1993892787	The house used a lot of hot water this morning. It's reheating on solar, so it should be back to full by early afternoon.
+tr1226	train	briefings3	1875980809	The dishwasher is loaded and ready. I'll start it at eleven, when the cheaper rate begins, and it'll be finished long before breakfast.
+tr1227	train	briefings3	416678559	Good evening. The house is warm, the battery is at seventy percent, and dinner, if the oven timer is right, is twenty minutes away.
+tr1228	train	briefings3	141106958	The house has been on battery since four. We'll switch to the grid around three in the morning, when the price is at its lowest.
+tr1229	train	phon2	2137927576	Pebbles clattered down the slope and splashed into the creek.
+tr1230	train	briefings3	531211901	Today's solar was the best in a month. The battery filled by eleven, and we sent the rest of the day's sunshine to the grid.
+tr1231	train	phon2	1756272363	Ripe yellow pears, a wedge of hard cheese and a glass of something cold.
+tr1232	train	household3	1906820945	The washing machine door is still shut on a clean load.
+tr1233	train	phon2	111212487	Wet wellingtons waited by the back door, wrinkled and weary.
+tr1234	train	briefings3	415523428	I've turned the hallway light on for a few minutes. It's dark early these days, and the stairs are no place for guesswork.
+tr1235	train	household3	1875071730	The shower has been running for twenty minutes. Just a gentle observation.
+tr1236	train	phon2	1992950600	Strong winds swept through the street, stripping the last of the leaves.
+tr1237	train	phon2	30225374	Quietly, quickly, the quilted cushion slipped off the couch.
+tr1238	train	phon2	292695631	Owls hooted, possums squabbled, and somewhere a gate creaked open.
+tr1239	train	briefings3	1718951641	I've closed the upstairs windows; the rain has come in from the south, and it was finding its way onto the landing.
+tr1240	train	household3	1357394106	The house alarm will arm itself in two minutes.
+tr1241	train	household3	669974572	The dishwasher has finished, and the clean dishes are still steaming.
+tr1242	train	phon2	1055281558	A crisp, clear voice carried across the courtyard and into the cloisters.
+tr1243	train	phon2	1239507200	The plumber whistled while the pipes clanked and gurgled overhead.
+tr1244	train	phon2	1468396707	The cello's low hum filled the hall with a warm, mellow resonance.
+tr1245	train	phon2	545440821	Jagged edges of ginger biscuit lay scattered across the plate.
+tr1246	train	phon2	965449103	Choose the cheese, the chutney and the cheerful children's choir.
+tr1247	train	briefings3	1317840153	The house has been empty since nine, so I've kept the heating off and run the robot vacuum while nobody was in the way.
+tr1248	train	briefings3	1580447880	I've dimmed the lounge to a comfortable level and drawn the curtains. Everything else is off, apart from the fridge and me.
+tr1249	train	household3	691308574	The laundry tub tap is dripping again.
+tr1250	train	briefings3	1240662523	The fridge door was left ajar for about ten minutes. It's closed now, and the temperature is already coming back down.
+tr1251	train	phon2	1056190829	Shiny new shoes squeaked across the polished floorboards.
+tr1252	train	briefings3	670916823	I've had a look at the week's energy use. Monday and Tuesday were heavy, mostly the heating, but the sunny weekend more than made up for it.
+tr1253	train	phon2	1358581825	A lone kookaburra chuckled, as if it knew something we didn't.
+tr1254	train	briefings3	1319028194	I've turned the heating down to eighteen overnight. It'll come back up to twenty-one at six, a little before you wake.
+tr1255	train	household3	966391156	The bedside lamps will fade out in ten minutes.
+tr1256	train	household3	546350286	The television is on standby, and the speakers are off.
+tr1257	train	household3	1469551704	The towels are dry and folded, metaphorically speaking. They're in the dryer.
+tr1258	train	household3	1193839049	The rangehood light has been on since dinner. It's off now.
+tr1259	train	briefings3	808434015	The morning briefing is short today: twelve degrees, clearing later, the battery's at fifty percent, and the bins were collected.
+tr1260	train	briefings3	1658737208	You asked me to keep an eye on the power price. It's dropped to nine cents now, so this is a good time for the dryer.
+tr1261	train	household3	366568110	Your phone is charging in the kitchen, in case you were looking for it.
+tr1262	train	household3	214971156	The kitchen lights will brighten slowly from six thirty.
+tr1263	train	briefings3	2077688706	The power went out for twenty minutes, and the battery carried the whole house. The only casualty was the microwave clock, as usual.
+tr1264	train	house_variations	1706268193	Done: Living Room Chandelier Five and Living Room Lights off. Checked.
+tr1265	train	house_variations	313829047	You have one timer: the atrium spotlight right goes on at five a m.
+tr1266	train	house_variations	196998925	Which room do you mean, the guest bedroom or the hallway?
+tr1267	train	house_given	2092615579	Timer set: Porch lights off at ten fifteen p m. Say "cancel that" to stop it.
+tr1268	train	house_variations	1812322826	I've dimmed the porch downlight four to sixty percent.
+tr1269	train	house_variations	453175964	I've turned the pergola spotlight one on and the porch downlight one off.
+tr1270	train	house_variations	2076533625	Done: Master Bedroom Lights and Kitchen Downlight Left off. Checked.
+tr1271	train	house_variations	214062063	What time would you like the porch downlight three turned on?
+tr1272	train	house_given	365625941	Which bedroom do you mean, the master or the guest bedroom?
+tr1273	train	house_variations	1657549507	Done: Porch downlight three off. Checked.
+tr1274	train	house_variations	2091427680	Done: Downstairs lights on, two of six changed; the other four already were. Checked.
+tr1275	train	house_variations	196057078	Atrium spotlight left off. That should do nicely.
+tr1276	train	house_given	312919628	Done: Study lights on. Checked.
+tr1277	train	house_given	1705113306	Porch lights on. Visitors will at least see where they're going.
+tr1278	train	house_given	1964960587	Done: Patio lights off, three of ten changed; the other seven already were. Checked.
+tr1279	train	house_given	35249117	You have one timer: the porch lights go off at eleven thirty p m.
+tr1280	train	house_variations	2086502326	What time would you like the hallway downlight back turned on?
+tr1281	train	house_variations	190467872	I've closed the range hood one for you.
+tr1282	train	house_variations	307437210	The dining room lights is on, but the pergola spotlight three is already off.
+tr1283	train	house_variations	1700015628	Timer set: Porch lights off at six thirty-five a m. Say "cancel that" to stop it.
+tr1284	train	house_variations	2066791343	Done: Kitchen Downlight Left on. Checked.
+tr1285	train	house_variations	204966713	I've dimmed the master bedroom ceiling to twenty-five percent.
+tr1286	train	house_given	356440707	The atrium spotlights are now at full brightness.
+tr1287	train	house_variations	1647962645	Which lights in the dining room do you mean?
+tr1288	train	house_variations	1921447812	Cancelled: the living room lights timer.
+tr1289	train	house_variations	92391186	Done: Guest Bedroom Lights and Kitchen Lights off. Checked.
+tr1290	train	house_variations	1699106551	Done: Kitchen Lights and Dining Room Lights off. Checked.
+tr1291	train	house_variations	306282081	Cancelled: the kitchen downlight right timer.
+tr1292	train	house_given	189280219	It's nineteen point five degrees in the study.
+tr1293	train	house_variations	2085560141	I've turned the kitchen lights on for you.
+tr1294	train	house_variations	1647020782	Timer set: Garage lights off at eleven forty-five p m. Say "cancel that" to stop it.
+tr1295	train	house_variations	355252856	What time would you like the loft downlight middle turned on?
+tr1296	train	house_variations	203811778	I've brightened the patio lights to sixty percent.
+tr1297	train	house_variations	2065881940	The home battery is at eighty-three point seven percent.
+tr1298	train	house_variations	1805502149	Done: Pergola Spotlight Three on at fifty percent. Checked.
+tr1299	train	house_variations	479917651	The garage lights are now at full brightness.
+tr1300	train	house_variations	893820809	Timer set: Lounge lights off at nine twenty p m. Say "cancel that" to stop it.
+tr1301	train	house_variations	1111600927	The dining room pendant is now at full brightness.
+tr1302	train	house_variations	1531510437	It's twenty-two point five degrees in the living room.
+tr1303	train	house_variations	743427635	I have turned the loft lamp on at thirty-five percent.
+tr1304	train	house_variations	841702288	What time would you like the atrium lights turned off?
+tr1305	train	house_variations	1160538886	Which room do you mean, the garage or the study?
+tr1306	train	house_variations	1545943740	The pergola spotlight one is already off. I didn't change anything.
+tr1307	train	house_variations	723651114	Which room do you mean, the hallway or the guest bedroom?
+tr1308	train	house_variations	1000150971	Done: Living Room Chandelier Four on. Checked.
+tr1309	train	house_variations	1285170989	Did you mean the loft lamp, or the garage ceiling left?
+tr1310	train	house_variations	744337096	You've made thirty-two point six kilowatt hours of solar today.
+tr1311	train	house_variations	1532665438	Timer set: Outside lights off at five forty-five p m. Say "cancel that" to stop it.
+tr1312	train	house_given	1112788964	Close the atrium blind at eight twenty p m?
+tr1313	train	house_variations	894762866	The loft downlight left is already off. I didn't change anything.
+tr1314	train	house_variations	724593361	Kitchen chandelier three on. As requested.
+tr1315	train	house_variations	1547131463	Timer set: Master bedroom lights on in ten minutes. Say "cancel that" to stop it.
+tr1316	train	house_variations	1161694205	Cancelled: the atrium blind timer.
+tr1317	train	house_variations	842611563	I have turned the loft lights on at twenty percent.
+tr1318	train	house_variations	579217146	Porch downlight two on. Do mind the stairs.
+tr1319	train	house_variations	1434523244	Cancelled: the range hood one timer.
+tr1320	train	house_variations	124845323	I've brightened the pergola floodlight one to fifty percent.
+tr1321	train	house_variations	1886899613	The guest bedroom lamp at ten percent?
+tr1322	train	house_variations	1769905191	The living room blinds are now fully open.
+tr1323	train	house_variations	511290545	Guest bedroom lights off. That should do nicely.
+tr1324	train	house_variations	1915154	I have turned the hallway downlight on at thirty percent.
+tr1325	train	house_variations	1998195076	I've brightened the living room chandelier four to sixty percent.
+tr1326	train	house_given	1846761534	If the sun holds, the battery should be full by about two p m.
+tr1327	train	house_variations	420767912	The house is using five hundred watts, and you're buying one point six kilowatts to the grid.
+tr1328	train	house_variations	162231609	Timer set: Guest Bedroom Lamp off at ten thirty p m. Say "cancel that" to stop it.
+tr1329	train	house_variations	2125219247	Timer set: Living Room Door Blind on at six twenty a m. Say "cancel that" to stop it.
+tr1330	train	house_variations	510381130	I have turned the dining room lamp on at eighty percent.
+tr1331	train	house_given	1768750300	Garage lights are already on. I didn't change anything.
+tr1332	train	house_given	1885711718	There's a forty percent chance of rain, with about three millimetres expected.
+tr1333	train	house_variations	123903472	How bright would you like the guest bedroom ceiling, as a percentage?
+tr1334	train	house_given	419825747	Solar is making two thousand eight hundred and fifty watts right now.
+tr1335	train	house_variations	1845573829	The atrium spotlight right is on, but the hallway downlight is already off.
+tr1336	train	house_variations	1997039999	It's twenty-seven point four degrees in the hallway.
+tr1337	train	house_variations	1006057	Done: Kitchen Downlight Right on. Checked.
+tr1338	train	house_variations	279987320	The house is using three hundred and ten watts, and you're buying two point two kilowatts from the grid.
+tr1339	train	house_given	1740076270	It's twenty-three degrees outside, heading for a low of fourteen degrees overnight.
+tr1340	train	house_variations	1361730189	Done: Outside lights on, four of eight changed; the other four already were. Checked.
+tr1341	train	house_variations	640510491	Which room do you mean, the patio or the atrium?
+tr1342	train	house_given	1059339169	What time would you like the porch lights turned off?
+tr1343	train	house_variations	1210256183	The dining room pendant is on, but the atrium lights is already off.
+tr1344	train	house_given	1447534228	Did you mean the loft lamp, or all the loft lights?
+tr1345	train	house_variations	557886978	What time would you like the laundry lights turned on?
+tr1346	train	house_variations	944373688	Timer set: Study Ceiling on at ten twenty a m. Say "cancel that" to stop it.
+tr1347	train	house_variations	1330564910	You have one timer: the pergola floodlight two goes off at ten thirty a m.
+tr1348	train	house_variations	1609683647	It's twenty-five point zero degrees in the guest bedroom.
+tr1349	train	house_given	687268393	The home battery is at sixty-three point four percent.
+tr1350	train	house_variations	1211198412	Did you mean the living room chandelier one, or the kitchen chandelier one?
+tr1351	train	house_variations	1060526938	Done: Upstairs lights on, three of seven changed; the other four already were. Checked.
+tr1352	train	house_variations	641665760	Done: Kitchen Chandelier Three and Patio Lights off. Checked.
+tr1353	train	house_variations	1362639478	The porch lights at fifteen percent?
+tr1354	train	house_variations	1331474389	The house is using one thousand nine hundred and ninety watts, and you're buying zero point six kilowatts from the grid.
+tr1355	train	house_variations	945528643	The dining room pendant is already off. I didn't change anything.
+tr1356	train	house_variations	559075065	Timer set: Kitchen ceiling off in thirty minutes. Say "cancel that" to stop it.
+tr1357	train	house_variations	1448476271	Done: Master Bedroom Lamp off. Checked.
+tr1358	train	house_variations	1189798910	Done: Pergola Spotlight One on at forty-five percent. Checked.
+tr1359	train	house_variations	837669736	Solar is making five thousand eight hundred watts right now.
+tr1360	train	house_variations	1662793743	Done: Atrium Spotlight Left on. Checked.
+tr1361	train	house_variations	337315993	Solar is making one thousand eight hundred watts right now.
+tr1362	train	house_variations	219306275	You have one timer: the patio lights go off at seven thirty-five p m.
+tr1363	train	house_variations	2048223669	The house is using three thousand four hundred and ninety watts, and you're buying three point nine kilowatts to the grid.
+tr1364	train	house_variations	1685191702	Done: Living Room Chandelier Five and Atrium Spotlight Right off. Checked.
+tr1365	train	house_variations	326552704	It's twenty-five point six degrees in the loft.
+tr1366	train	house_variations	176135482	The hallway downlight front at thirty-five percent?
+tr1367	train	house_variations	2105060780	I have turned the kitchen chandelier one on at seventy percent.
+tr1368	train	house_variations	1841803325	Which room do you mean, the patio or the lounge?
+tr1369	train	house_given	448823467	I have turned the dining room pendant on at seventy percent.
+tr1370	train	house_variations	2047281486	Done: Living Room Lamp on at thirty percent. Checked.
+tr1371	train	house_variations	218118616	The pergola floodlight two is already on. I didn't change anything.
+tr1372	train	house_variations	336160866	Done: Kitchen Downlight Left and Atrium Lights off. Checked.
+tr1373	train	house_variations	1661884660	Did you mean the kitchen chandelier two, or the guest bedroom ceiling?
+tr1374	train	house_variations	2104151383	I have turned the living room chandelier three on at twenty-five percent.
+tr1375	train	house_variations	174980545	Timer set: Porch downlight one off in thirty minutes. Say "cancel that" to stop it.
+tr1376	train	house_variations	325364859	Which lights in the kitchen do you mean?
+tr1377	train	house_variations	1684249837	I've turned the laundry lights on for you.
+tr1378	train	house_given	1960608124	I've brightened the guest bedroom lamp to eighty percent.
+tr1379	train	house_given	64729578	Open the living room blinds at six forty-five a m tomorrow?
+tr1380	train	house_variations	2107577729	Done: Master Bedroom Lights on at seventy percent. Checked.
+tr1381	train	house_variations	177743127	The atrium spotlight left is on, but the pergola spotlight one is already off.
+tr1382	train	house_variations	328299693	If the sun holds, the battery should be full by about three p m.
+tr1383	train	house_given	1687569467	How bright would you like the dining room lights, as a percentage?
+tr1384	train	house_variations	2062733720	Timer set: Hallway lights off at nine twenty-five a m. Say "cancel that" to stop it.
+tr1385	train	house_given	234217742	Timer set: Garden Spotlight on at seven thirty p m. Say "cancel that" to stop it.
+tr1386	train	house_variations	352104628	I've turned the pergola spotlight two on and the kitchen lights off.
+tr1387	train	house_variations	1677426722	It's sixteen point four degrees in the ground floor.
+tr1388	train	house_variations	1933876659	The house is using one thousand one hundred and twenty watts, and you're selling three point three kilowatts from the grid.
+tr1389	train	house_variations	71544101	Nobody's been in the lounge for an hour, so I've turned the lights off.
+tr1390	train	house_variations	1686381760	It's fourteen point two degrees in the study.
+tr1391	train	house_variations	327357526	I've turned the garden spotlight off for you.
+tr1392	train	house_variations	176834028	Open the atrium blind at seven twenty-five p m tomorrow?
+tr1393	train	house_variations	2106422650	What time would you like the atrium lights turned on?
+tr1394	train	house_variations	1676271833	Done: Living Room Lamp and Atrium Spotlight Left off. Checked.
+tr1395	train	house_variations	351195215	It's twenty-two point six degrees in the porch.
+tr1396	train	house_given	233275893	Done: Kitchen Downlight Left off. Checked.
+tr1397	train	house_variations	2061545827	Living room window blind on. Do mind the stairs.
+tr1398	train	house_given	1784655090	The kitchen lights were already on, so I've left them be.
+tr1399	train	house_variations	492346468	I've turned the porch downlight four on for you.
+tr1400	train	house_variations	805931276	What time would you like the kitchen chandelier three turned off?
+tr1401	train	house_variations	1192147354	The home battery is at thirty point five percent.
+tr1402	train	house_variations	1577576480	Timer set: Living room downlight front on in twenty-five minutes. Say "cancel that" to stop it.
+tr1403	train	house_variations	687921334	You've made ten point one kilowatt hours of solar today.
+tr1404	train	house_variations	929320213	I've turned the kitchen chandelier one off and the master bedroom lamp on.
+tr1405	train	house_variations	1080262019	You have one timer: the living room downlight back goes on at eight forty-five a m.
+tr1406	train	house_given	1500130361	I'm sorry, I can't control the TVs just yet.
+tr1407	train	house_variations	778902703	Study ceiling off. As requested.
+tr1408	train	house_given	1053950270	Timer set for ten fifty p m. I shall remember, so you needn't.
+tr1409	train	house_variations	1238708648	Done: Laundry Downlight on at sixty percent. Checked.
+tr1410	train	house_variations	689092685	The house is using two thousand eight hundred and seventy watts, and you're selling four point five kilowatts from the grid.
+tr1411	train	house_variations	1578469595	Done: Patio lights on, one of five changed; the other four already were. Checked.
+tr1412	train	house_given	1193072993	I've turned the hallway lights off for you.
+tr1413	train	house_variations	807135735	What time would you like the loft lamp turned on?
+tr1414	train	house_variations	780106836	You've made six point two kilowatt hours of solar today.
+tr1415	train	house_given	1501056194	Scenes aren't set up yet, so I can't run that one for you.
+tr1416	train	house_variations	1081154936	The porch downlight one is already off. I didn't change anything.
+tr1417	train	house_variations	930491886	The home battery is at fifty-four point three percent.
+tr1418	train	house_variations	667496575	Which room do you mean, the porch or the master bedroom?
+tr1419	train	house_variations	1355677929	I have turned the dining room lights on at fifty-five percent.
+tr1420	train	house_variations	37743502	The loft downlight middle is on, but the atrium spotlight left is already off.
+tr1421	train	house_variations	1966660376	Did you mean the living room lights, or the garage ceiling left?
+tr1422	train	house_variations	1815186082	Done: Master bedroom lights off, three of four changed; the other one already were. Checked.
+tr1423	train	house_given	456571444	The house has used nine point eight kilowatt hours so far today.
+tr1424	train	house_variations	89272215	It's twenty-seven point one degrees in the kitchen.
+tr1425	train	house_variations	1918181121	The living room lamp at twenty percent?
+tr1426	train	house_variations	1801211579	How bright would you like the living room chandelier one, as a percentage?
+tr1427	train	house_variations	475758125	Study lights on. Do mind the stairs.
+tr1428	train	house_variations	216294332	I have turned the hallway downlight back on at fifty-five percent.
+tr1429	train	house_given	2078495530	Cancelled: the study lights timer.
+tr1430	train	house_given	455400143	The study lights at thirty-five percent?
+tr1431	train	house_variations	1814293081	Did you mean the dining room lights, or the dining room pendant?
+tr1432	train	house_variations	1965734883	Timer set: Upstairs lights off at three twenty a m. Say "cancel that" to stop it.
+tr1433	train	house_variations	36539253	Done: Kitchen chandelier two off. Checked.
+tr1434	train	house_variations	474554070	Which room do you mean, the patio or the laundry?
+tr1435	train	house_variations	1800285760	Cancelled: the loft downlight right timer.
+tr1436	train	house_variations	1917288442	The living room chandelier two at eighty-five percent?
+tr1437	train	house_variations	88100716	Cancelled: the loft lights timer.
+tr1438	train	house_variations	369054461	What time would you like the pergola spotlight two turned on?
+tr1439	train	house_variations	1660445291	Done: Dining Room Lamp on at twenty-five percent. Checked.
+tr1440	train	house_variations	1415924744	Living Room Chandelier Two is already on at forty-five percent. I didn't change anything.
+tr1441	train	house_variations	593656990	How bright would you like the study lights, as a percentage?
+tr1442	train	house_variations	980102436	How bright would you like the loft downlight middle, as a percentage?
+tr1443	train	house_variations	1298931122	I have turned the loft downlight right on at eighty-five percent.
+tr1444	train	house_variations	1393068049	Garage Ceiling Right is already on at fifty percent. I didn't change anything.
+tr1445	train	house_variations	605010055	The living room chandelier four is on, but the hallway downlight back is already off.
+tr1446	train	house_given	1023863101	The laundry lights are already off. I didn't change anything.
+tr1447	train	house_variations	1241635243	I've turned the garage ceiling left on for you.
+tr1448	train	house_variations	1522451514	The pergola spotlight three is now at full brightness.
+tr1449	train	house_given	767161516	I haven't changed anything.
+tr1450	train	house_variations	1300135241	Timer set: Patio lights off at two fifty-five p m. Say "cancel that" to stop it.
+tr1451	train	house_variations	981028319	Done: Range Hood Two open. Checked.
+tr1452	train	house_variations	594549861	The home battery is at thirty-one point six percent.
+tr1453	train	house_variations	1417096435	Master Bedroom Ceiling is already on at fifty percent. I didn't change anything.
+tr1454	train	house_variations	1242806608	I have turned the hallway downlight on at thirty-five percent.
+tr1455	train	house_variations	1024756166	Done: Guest bedroom lights off, four of seven changed; the other three already were. Checked.
+tr1456	train	house_variations	605935740	Done: Kitchen Chandelier Two and Kitchen Downlight Right off. Checked.
+tr1457	train	house_variations	1394272490	Did you mean the living room chandelier four, or the kitchen downlight right?
+tr1458	train	house_variations	1134949755	I have turned the guest bedroom lights on at thirty percent.
+tr1459	train	house_variations	883082733	The dining room lights are now at full brightness.
+tr1460	train	house_given	1716727434	I can't control the aircon yet. It's currently set to off.
+tr1461	train	house_given	290725404	Timer set: Loft lamp off at nine oh five p m. Say "cancel that" to stop it.
+tr1462	train	house_variations	140332966	Which room do you mean, the hallway or the lounge?
+tr1463	train	house_variations	2136637232	Open the living room window blind at four twenty a m tomorrow?
+tr1464	train	house_variations	1631513235	The hallway downlight front is now at full brightness.
+tr1465	train	house_given	372890117	Study lights off. Do mind the stairs.
+tr1466	train	house_variations	254839743	The hallway lights are already off. I didn't change anything.
+tr1467	train	house_variations	2016918313	I've turned the kitchen lights off for you.
+tr1468	train	house_variations	1753786040	Timer set: Living Room Chandelier Five on at three fifty-five a m. Say "cancel that" to stop it.
+tr1469	train	house_variations	529503790	Timer set: Living Room Chandelier Five off at ten thirty-five a m. Say "cancel that" to stop it.
+tr1470	train	house_variations	2135433163	What time would you like the porch lights turned on?
+tr1471	train	house_variations	139407197	Nobody's been in the ground floor for an hour, so I've turned the lights off.
+tr1472	train	house_variations	289832679	Which room do you mean, the atrium or the patio?
+tr1473	train	house_variations	1715555953	You have one timer: the garage ceiling right goes on at twelve twenty a m.
+tr1474	train	house_variations	2015747026	Done: Hallway lights off. Checked.
+tr1475	train	house_variations	253946692	The house is using two thousand three hundred and forty watts, and you're selling four point three kilowatts to the grid.
+tr1476	train	house_variations	371964670	Done: Study lights on, one of five changed; the other four already were. Checked.
+tr1477	train	house_variations	1630308968	It's twenty-two point one degrees in the laundry.
+tr1478	train	house_variations	1905498105	I've turned the garage ceiling right off and the kitchen chandelier one on.
+tr1479	train	house_given	110405487	Done: Loft lights on at forty-five percent. Checked.
+tr1480	train	house_variations	2026898180	The living room downlight front is now at full brightness.
+tr1481	train	house_variations	265761682	Done: Pergola Spotlight Two and Kitchen Downlight Right off. Checked.
+tr1482	train	house_variations	383672872	How bright would you like the kitchen ceiling, as a percentage?
+tr1483	train	house_variations	1641632446	I've turned the kitchen chandelier two off and the atrium lights on.
+tr1484	train	house_variations	2143143709	Did you mean the garage lights, or the master bedroom ceiling?
+tr1485	train	house_variations	146470795	Timer set: Living room chandelier three on in forty-five minutes. Say "cancel that" to stop it.
+tr1486	train	house_variations	296986161	Timer set: Atrium lights off at ten oh five p m. Say "cancel that" to stop it.
+tr1487	train	house_variations	1723111079	Done: Living Room Chandelier Five and Living Room Downlight Back off. Checked.
+tr1488	train	house_variations	1980468022	Done: Atrium Spotlight Right on. Checked.
+tr1489	train	house_variations	17611680	You have one timer: the kitchen chandelier two goes on at eleven p m.
+tr1490	train	house_variations	1640706629	Cancelled: the garage ceiling left timer.
+tr1491	train	house_variations	382468819	I've opened the range hood two halfway.
+tr1492	train	house_variations	264590185	Timer set: Pergola Spotlight Two off at three twenty p m. Say "cancel that" to stop it.
+tr1493	train	house_variations	2026005503	The master bedroom lamp is already on. I didn't change anything.
+tr1494	train	house_variations	1722218076	The home battery is at twenty-three point one percent.
+tr1495	train	house_variations	295814858	Did you mean the living room downlight back, or the garage ceiling right?
+tr1496	train	house_given	145266544	I can't control the speakers yet.
+tr1497	train	house_variations	2142218214	Porch Downlight Two is already on at forty-five percent. I didn't change anything.
+tr1498	train	house_variations	1863367287	Done: Loft Downlight Left and Pergola Spotlight Three off. Checked.
+tr1499	train	house_variations	404196065	Done: Pergola Floodlight Two and Garage Ceiling Right off. Checked.
+tr1500	train	house_variations	835445563	I've turned the pergola spotlight two off and the master bedroom lamp on.
+tr1501	train	house_variations	1187828653	Timer set: Living room lights on in twenty-five minutes. Say "cancel that" to stop it.
+tr1502	train	house_variations	1606779415	The hallway downlight front is on, but the living room chandelier four is already off.
+tr1503	train	house_variations	683848321	Timer set: Loft Downlight Left on at eleven thirty p m. Say "cancel that" to stop it.
+tr1504	train	house_variations	916858658	Close the living room door blind at three forty a m?
+tr1505	train	house_variations	1101076404	You've made twenty-seven point eight kilowatt hours of solar today.
+tr1506	train	house_variations	1487422990	Timer set: Atrium lights off at seven forty-five p m. Say "cancel that" to stop it.
+tr1507	train	house_variations	800028312	Nobody's been in the garage for an hour, so I've turned the lights off.
+tr1508	train	house_variations	1058040585	I've turned the living room chandelier one on for you.
+tr1509	train	house_variations	1209490335	Done: Kitchen Downlight Right and Hallway Downlight off. Checked.
+tr1510	train	house_variations	684774010	Timer set: Laundry lights off at six twenty a m. Say "cancel that" to stop it.
+tr1511	train	house_variations	1607983852	I've turned the garage ceiling right off and the garage ceiling left off.
+tr1512	train	house_variations	1189000022	It's twenty-six point one degrees in the master bedroom.
+tr1513	train	house_variations	836338624	Did you mean the garage lights, or the pergola floodlight two?
+tr1514	train	house_given	800921187	I've dimmed the living room lamp to forty percent.
+tr1515	train	house_variations	1488594677	Done: Garage Ceiling Left and Pergola Spotlight Two off. Checked.
+tr1516	train	house_variations	1102280527	Which room do you mean, the kitchen or the guest bedroom?
+tr1517	train	house_variations	917784537	Solar is making two thousand two hundred and fifty watts right now.
+tr1518	train	house_variations	638278216	Timer set: Laundry Downlight on at nine twenty a m. Say "cancel that" to stop it.
+tr1519	train	house_variations	1359768286	The guest bedroom ceiling is already on. I didn't change anything.
+tr1520	train	house_variations	66945465	I have turned the pergola floodlight one on at twenty-five percent.
+tr1521	train	house_variations	1962586415	The kitchen chandelier one is now at full brightness.
+tr1522	train	house_variations	1844699285	Done: Downstairs lights on, four of eight changed; the other four already were. Checked.
+tr1523	train	house_variations	452251651	The garage lights at seventy-five percent?
+tr1524	train	house_given	76563872	You've made fourteen point six kilowatt hours of solar today.
+tr1525	train	house_variations	1939305782	Timer set: Living Room lights off at eight forty a m. Say "cancel that" to stop it.
+tr1526	train	house_variations	1788748940	Did you mean the laundry lights, or the loft downlight middle?
+tr1527	train	house_given	496571418	Timer set: Kitchen lights on in twenty-five minutes. Say "cancel that" to stop it.
+tr1528	train	house_given	220596619	Wind is gusting to thirty-five kilometres an hour this afternoon.
+tr1529	train	house_variations	2048997661	It's twenty-four point nine degrees in the dining room.
+tr1530	train	house_variations	451326200	Done: Loft lights off, four of five changed; the other one already were. Checked.
+tr1531	train	house_variations	1843495022	Which room do you mean, the atrium or the garage?
+tr1532	train	house_variations	1961415124	The study ceiling is on, but the hallway downlight front is already off.
+tr1533	train	house_variations	66052418	Timer set: Garden Spotlight on at three oh five p m. Say "cancel that" to stop it.
+tr1534	train	house_variations	495678689	I've brightened the living room downlight back to fifty percent.
+tr1535	train	house_variations	1787577463	The living room blinds are already off. I didn't change anything.
+he1536	heldout	house_heldout	1431411903	Done: Upstairs lights on, five of seven changed; the other two already were. Checked.
+he1537	heldout	house_heldout	576105513	Timer set: Master Bedroom lights off at twelve forty a m tomorrow. Say "cancel that" to stop it.
+he1538	heldout	house_heldout	854176184	Atrium Spotlight Right is already on at sixty percent. I didn't change anything.
+he1539	heldout	house_heldout	1173258542	Which blind would you like closed: the atrium, the living room door or the living room window blind?
+he1540	heldout	house_heldout	1936961357	The house is using six hundred and forty watts, and you're selling one point two kilowatts to the grid.
+he1541	heldout	house_heldout	74751963	Done. The loft lamp is off, and the loft is suitably moody.
+he1542	heldout	house_heldout	494784097	Done: Fountain Spotlight on. Checked.
+he1543	heldout	house_heldout	1786445559	I've dimmed the mirror ambiance to thirty percent.
+he1544	heldout	house_heldout	1948150612	Timer set: Robe Downlight off in ten minutes. Say "cancel that" to stop it.
+he1545	heldout	house_heldout	51993538	The ensuite downlight is already off. I didn't change anything.
+he1546	heldout	house_heldout	437258872	Wall floodlight on. The back of the house looks rather theatrical.
+he1547	heldout	house_heldout	1830238958	Done: Wall Light off. Checked.
+he1548	heldout	house_heldout	2108172159	Pergola Floodlight Three is already on at full brightness. I didn't change anything.
+he1549	heldout	house_heldout	179247081	I've turned living room chandelier six on at fifty percent.

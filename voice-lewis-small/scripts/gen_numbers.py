@@ -71,13 +71,18 @@ T = [
     lambda: f"That's {words(random.randint(2, 12))} out of {words(random.randint(12, 20))}, if anyone's keeping score.",
 ]
 
-random.seed(20261019)
-n = int(sys.argv[1]) if len(sys.argv) > 1 else 110
-seen, out = set(), []
-while len(out) < n:
-    s = random.choice(T)()
-    s = s[0].upper() + s[1:]
-    if s not in seen:
-        seen.add(s); out.append(s)
-print("# Templated spoken numbers (scripts/gen_numbers.py, seed 20261019).")
-print("\n".join(out))
+def main():
+    random.seed(20261019)
+    n = int(sys.argv[1]) if len(sys.argv) > 1 else 110
+    seen, out = set(), []
+    while len(out) < n:
+        s = random.choice(T)()
+        s = s[0].upper() + s[1:]
+        if s not in seen:
+            seen.add(s); out.append(s)
+    print("# Templated spoken numbers (scripts/gen_numbers.py, seed 20261019).")
+    print("\n".join(out))
+
+
+if __name__ == "__main__":
+    main()

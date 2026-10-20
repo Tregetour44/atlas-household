@@ -2,8 +2,14 @@
 
 ## Round 2: narrow the naturalness gap (started 2026-10-19 23:44 UTC / 20 Oct 10:44 Sydney)
 
-**Updated:** 2026-10-19 23:50 UTC | **elapsed round 2:** 0 h 06 m
-**Stage:** 2, growing the teacher corpus (writing new sentences).
+**Updated:** 2026-10-20 00:35 UTC | **elapsed round 2:** 0 h 51 m
+**Stage:** 2, growing the teacher corpus. Teacher generation has been running since 23:48 UTC.
+**Corpus written:** 897 new original training lines (about 56 min of teacher audio expected, so about 87 min accepted in total), plus 17 new evaluation-only lines:
+- `train_ext2/`: 126 short confirmations, energy and weather, wit, status, longer briefings, 200 templated times and percentages;
+- `train_ext3/`: long briefings, phonetic coverage, household lines;
+- `train_ext4/`: **the owner's house names and reply shapes, folded in.** That is the 42 supplied reply lines as written, plus 230 variations; every name is used at least twice.
+- **Held out:** 3 new Atlas-style lines (`heldout_r2/`), plus 6 of the supplied reply lines and 8 lines using 8 held-out names (`heldout_r3/`). The held-out names never appear in training text.
+- Round-1 ids and seeds are unchanged (new rows are appended).
 **Reused from round 1:** all 682 teacher masters (113 MB) and the full step 2000/2500/3000 checkpoints are still in this sandbox, so no regeneration is needed.
 
 **Plan, in stages, stopping at a plateau:**
