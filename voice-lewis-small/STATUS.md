@@ -2,13 +2,14 @@
 
 ## Round 2: narrow the naturalness gap (started 2026-10-19 23:44 UTC / 20 Oct 10:44 Sydney)
 
-**Updated:** 2026-10-20 12:35 UTC | **elapsed round 2:** 12 h 51 m
+**Updated:** 2026-10-20 13:40 UTC | **elapsed round 2:** 13 h 56 m
 **Change of tack (owner, 20 Oct):** Fable samples come first, and **Lewis training is paused** at step 3300 (rolling checkpoint kept; the best evaluated checkpoint is step 3000). I stopped it at 10:16 UTC instead of finishing to 3500, because it was slowing the Fable work to a crawl on the shared CPU. Further Lewis steps may be moot if the owner picks Fable.
 **Done: `fable-deeper/`** (pushed). There are 9 Fable teacher variants: −1/−2/−3/−4 st, −2 st "mature" (formants −4%), formants −6% and −10% at the same pitch, and a crude post-shift. Each has the 4 sample lines and the 10 audition lines, per-line plus joined MP3s, and a README with F0, UTMOS, similarity and accent.
 - Key finding: Lewis and Fable already share the same median pitch on the sample lines (115 Hz). Chatterbox only partly follows a deeper reference, and similarity to Fable falls fast with depth.
 - Suggested listening: −2 st mature, −3 st, formants −6%.
 
-**In progress: `audition-ready/`.** MP3s for 21 ready-made voices are pushed; scoring and the top 3 follow in about 1 h.
+**Done: `audition-ready/`** (pushed): 24 ready-made voices with scores and a top 3. **Top pick: Kokoro blend bm_fable 0.7 + bm_lewis 0.3**: deeper than Fable (104 vs 108 Hz), keeps Fable's character (similarity 0.65), UTMOS 4.38 (above the Chatterbox teacher's 4.34), CPU RTF 0.39 here, and it works in Home Assistant today via Kokoro-FastAPI and wyoming_openai with no training. Second: the Fable/Lewis 50/50 blend; third: Fable 60 / Lewis 20 / George 20.
+**Student option (c), desk audit:** Kokoro fine-tuning exists as a community StyleTTS2 recipe (`semidark/kikiri-tts`, reportedly Apache-2.0), but it needs a GPU; it is impractical on this CPU-only sandbox. A CPU-feasible middle path is to optimise a Kokoro *voice pack* towards the chosen teacher voice.
 **Waiting on the owner:** which Fable depth to distil. No big generation run starts until then.
 **Earlier, Lewis round 2, step 3000:** First round-2 result (59 eval-only lines: the 42 from round 1 plus 17 new):
 
