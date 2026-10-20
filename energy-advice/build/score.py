@@ -49,7 +49,7 @@ def machine(row: dict, case: dict) -> dict:
         return out
     sysp, _, _ = case_prompt(row['arm'], case)
     summaries = [t['result']['summary'] for t in row.get('tool_calls', []) if t['result'].get('status') == 'calculated']
-    sources = [sysp, case['question']] + summaries
+    sources = [calc.readings_part(sysp), case['question']] + summaries
     out['unsupported_final'] = calc.unsupported_figures(reply, sources)
     out['unsupported_first'] = calc.unsupported_figures(row.get('first') or reply, sources)
     out['calc_calls'] = sum(1 for t in row.get('tool_calls', []) if t['name'] == calc.TOOL_NAME)

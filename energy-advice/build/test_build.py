@@ -349,6 +349,11 @@ class FigureGuard(unittest.TestCase):
         reply, rec = asyncio.run(C.turn_figures('About 9.3 kWh.', self.SRC, fixed))
         self.assertEqual((reply, rec['nudged']), ('Tonight is fine: about 10.5 kWh above the reserve.', True))
 
+    def test_instruction_figures_are_not_evidence(self):
+        prompt = 'Rules: for example "a typical night here uses about 6 kWh".\nHouse readings:\n- Battery: 27%; 1.8 kWh above the 20% reserve.'
+        self.assertEqual(C.unsupported_figures('A typical night uses about 6 kWh.', [C.readings_part(prompt)]), ['6 kWh'])
+        self.assertEqual(C.unsupported_figures('About 1.8 kWh above the reserve.', [C.readings_part(prompt)]), [])
+
     def test_calc_result_is_a_source(self):
         async def never(t):
             raise AssertionError('no nudge expected')

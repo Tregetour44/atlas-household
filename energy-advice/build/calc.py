@@ -285,6 +285,13 @@ def unsupported_figures(reply: str, sources: list[str]) -> list[str]:
     return bad
 
 
+def readings_part(prompt: str) -> str:
+    """The part of a system prompt that holds house data (readings, energy cards, history, forecast), from "House readings:" on. Figures in
+    the instructions (examples, rule numbers) are not evidence for a reply, so the guard and atlas_calc use only this part."""
+    i = (prompt or '').find('House readings:')
+    return prompt if i < 0 else prompt[i:]
+
+
 FIGURE_NUDGE = ("Your reply has figures that aren't in the readings, the energy cards, the person's words or an atlas_calc result: {figs}. "
                 "Answer again, briefly: quote only figures you were given, and use atlas_calc for any sum you need.")
 

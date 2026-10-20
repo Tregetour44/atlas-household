@@ -100,7 +100,7 @@ async def one(arm: str, c: dict, repeat: int) -> dict:
                 fn = call['function']
                 name, args = fn['name'], fn.get('arguments') or {}
                 if name == calc.TOOL_NAME and arm == 'candidate':
-                    res = calc.calc_tool(args, [sysp, c['question']] + summaries, calc_results)
+                    res = calc.calc_tool(args, [calc.readings_part(sysp), c['question']] + summaries, calc_results)
                     if res['status'] == 'calculated':
                         calc_results.append(res['result'])
                         summaries.append(res['summary'])
@@ -115,7 +115,7 @@ async def one(arm: str, c: dict, repeat: int) -> dict:
     reply, claims = guard_reply(first, evidence)
     rec['first'], rec['claims'] = first, claims
     if arm == 'candidate':
-        reply, fig = await calc.turn_figures(reply, [sysp, c['question']], ask, lambda: list(summaries))
+        reply, fig = await calc.turn_figures(reply, [calc.readings_part(sysp), c['question']], ask, lambda: list(summaries))
         rec['figures'] = fig
         if fig.get('nudged'):
             rec['path'] = 'figure_nudged'
