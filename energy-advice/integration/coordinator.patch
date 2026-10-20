@@ -19,8 +19,8 @@ diff -ruN a/custom_components/atlas_household/__init__.py b/custom_components/at
              self.arm()
 diff -ruN a/custom_components/atlas_household/api.py b/custom_components/atlas_household/api.py
 --- a/custom_components/atlas_household/api.py	2026-10-20 10:41:41.793862781 +0000
-+++ b/custom_components/atlas_household/api.py	2026-10-20 10:46:49.730425123 +0000
-@@ -71,13 +71,14 @@
++++ b/custom_components/atlas_household/api.py	2026-10-20 12:29:39.641466638 +0000
+@@ -71,13 +71,15 @@
          # The person's own words this turn, for the plain-yes check (never a flag from the model) and the conversation id.
          from homeassistant.components.conversation.chat_log import AssistantContent, UserContent, current_chat_log  # noqa: PLC0415
          chat = current_chat_log.get()
@@ -32,11 +32,12 @@ diff -ruN a/custom_components/atlas_household/api.py b/custom_components/atlas_h
          if chat is not None:
              conversation_id = chat.conversation_id
              content = list(chat.content)
-+            sources = [c.content for c in content[:1] if type(c).__name__ == 'SystemContent' and c.content]   # the rendered prompt: readings and cards
++            from .calc import readings_part  # noqa: PLC0415
++            sources = [readings_part(c.content) for c in content[:1] if type(c).__name__ == 'SystemContent' and c.content]   # readings and cards only
              from .turn import NUDGE  # noqa: PLC0415
              for i in range(len(content) - 1, -1, -1):
                  if isinstance(content[i], UserContent) and content[i].content == NUDGE:
-@@ -93,7 +94,7 @@
+@@ -93,7 +95,7 @@
                              break
                      break
          return await self.runtime.call(tool_input.tool_name, dict(tool_input.tool_args), conversation_id, user_text, turn, last_reply,
@@ -47,8 +48,8 @@ diff -ruN a/custom_components/atlas_household/api.py b/custom_components/atlas_h
  class AtlasAPI(llm.API):
 diff -ruN a/custom_components/atlas_household/calc.py b/custom_components/atlas_household/calc.py
 --- a/custom_components/atlas_household/calc.py	1970-01-01 00:00:00.000000000 +0000
-+++ b/custom_components/atlas_household/calc.py	2026-10-20 10:46:49.684212449 +0000
-@@ -0,0 +1,312 @@
++++ b/custom_components/atlas_household/calc.py	2026-10-20 12:29:39.616604038 +0000
+@@ -0,0 +1,319 @@
 +"""Atlas arithmetic in code (energy-advice-build; the owner, 20 Oct: "it couldnt even do basic arithmatic"). Pure Python, no HA import.
 +
 +Three pieces, so no figure Atlas says comes from the model's own arithmetic:
@@ -336,6 +337,13 @@ diff -ruN a/custom_components/atlas_household/calc.py b/custom_components/atlas_
 +    return bad
 +
 +
++def readings_part(prompt: str) -> str:
++    """The part of a system prompt that holds house data (readings, energy cards, history, forecast), from "House readings:" on. Figures in
++    the instructions (examples, rule numbers) are not evidence for a reply, so the guard and atlas_calc use only this part."""
++    i = (prompt or '').find('House readings:')
++    return prompt if i < 0 else prompt[i:]
++
++
 +FIGURE_NUDGE = ("Your reply has figures that aren't in the readings, the energy cards, the person's words or an atlas_calc result: {figs}. "
 +                "Answer again, briefly: quote only figures you were given, and use atlas_calc for any sum you need.")
 +
@@ -363,14 +371,16 @@ diff -ruN a/custom_components/atlas_household/calc.py b/custom_components/atlas_
 +    return (kept or "I can't give that figure reliably from what I have."), rec
 diff -ruN a/custom_components/atlas_household/conversation.py b/custom_components/atlas_household/conversation.py
 --- a/custom_components/atlas_household/conversation.py	2026-10-20 10:41:41.794026565 +0000
-+++ b/custom_components/atlas_household/conversation.py	2026-10-20 10:46:49.738433887 +0000
-@@ -78,7 +78,9 @@
++++ b/custom_components/atlas_household/conversation.py	2026-10-20 12:29:39.642025344 +0000
+@@ -78,7 +78,11 @@
              return await rt.call(name, args, chat_log.conversation_id, user_input.text, None, None, SimpleNamespace(context=user_input.context))
  
          # one turn, in the order the household hears it (turn.run_turn; the Atlas-side project's runners call the same function)
 -        out = await run_turn(rt.coord, user_input.text, chat_log.conversation_id, ask, other_tools=other_tools, call_tool=call_tool)
 +        def sources():                            # the underlying agent's rendered prompt (readings and energy cards), for the figure guard
-+            return [c.content for c in chat_log.content[:1] if type(c).__name__ == 'SystemContent' and c.content]
++            from .calc import readings_part  # noqa: PLC0415   (figures in the instructions are not evidence)
++            return [readings_part(c.content) + '\n' + (user_input.extra_system_prompt or '') for c in chat_log.content[:1]
++                    if type(c).__name__ == 'SystemContent' and c.content]
 +        out = await run_turn(rt.coord, user_input.text, chat_log.conversation_id, ask, other_tools=other_tools, call_tool=call_tool, sources=sources)
          if out['path'] == 'fast':
              speech = out['reply']
@@ -417,7 +427,7 @@ diff -ruN a/custom_components/atlas_household/core.py b/custom_components/atlas_
          t = self.handles.get(handle) or {}
 diff -ruN a/custom_components/atlas_household/energy_cards.py b/custom_components/atlas_household/energy_cards.py
 --- a/custom_components/atlas_household/energy_cards.py	1970-01-01 00:00:00.000000000 +0000
-+++ b/custom_components/atlas_household/energy_cards.py	2026-10-20 10:46:49.684073846 +0000
++++ b/custom_components/atlas_household/energy_cards.py	2026-10-20 12:29:39.616249028 +0000
 @@ -0,0 +1,529 @@
 +"""Atlas energy fact cards (energy-advice-build; Codex 49 FACT-CARDS, directive 20261018-2225 + am. 1). Pure Python, no HA import, read-only.
 +
