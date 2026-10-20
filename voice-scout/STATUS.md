@@ -1,6 +1,6 @@
 # voice-scout: status
 
-**Updated:** 2026-10-20 13:10 UTC | **elapsed:** 3 h 25 m
+**Updated:** 2026-10-20 13:00 UTC | **elapsed:** 3 h 15 m
 **Stage:** 5, done. Report in `README.md`; samples in `samples/`.
 **Verdict:**
 1. **Qwen3-TTS "Fable-mature"**: the liked Chatterbox-Fable clip lowered 3 st and re-cloned by Qwen3-TTS 0.6B. 99 Hz, British 10/10, UTMOS 4.43. Not real time on CPU (est. RTF 1.3–2.0 on the 9700X with the int8 C engine), so distil it into Piper on the `voice-lewis-small` recipe.
