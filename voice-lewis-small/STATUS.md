@@ -1,8 +1,22 @@
 # voice-lewis-small: status
 
+## STOPPED (owner decision, 21 Oct 01:1x Sydney)
+
+Atlas's voice will be the **Kokoro Fable-mix** from `audition-ready/`, and a new session will build its engine. This session has stopped all work. Nothing is running. Lewis training will not resume, and Fable distillation was not started.
+
+**Best Lewis round 2 checkpoint: step 3000** (59-line eval: UTMOS 4.11, WER 2.4%, similarity to teacher 0.851, vs round 1's 4.09 / 4.3% / 0.850). The gain over round 1 is near noise, so **round 1 (`model/`) remains the delivered Lewis voice**, and it is live in the home. The round 2 checkpoints (step 3000 and the rolling step 3300, 846 MB each) and the teacher audio (1,762 FLAC masters) stay only in this sandbox and were not committed (size rule), so they will be lost when it is reclaimed.
+
+**Kept on the branch:**
+- `model/`, `samples/`, `README.md`: the round 1 small Lewis (Piper medium ONNX) with its verdict, metrics, hashes and licences.
+- `checkpoint/`: the round 1 step 2500 generator (fp16) for warm starts.
+- `corpus/`: all corpus text (round 1 and round 2, including the owner's house names and reply shapes and the held-out lines), the manifest with per-clip seeds, and the round 1 teacher logs, scores, accepted list and rejects.
+- `fable-deeper/`: 9 Chatterbox Fable variants (4 sample lines and 10 audition lines), the deepened reference clips, scores and a README.
+- `audition-ready/`: 24 ready-made voices (Kokoro blends, Piper en_GB/VCTK, Pocket TTS, XTTS-v2), scores, the top 3 and per-line notes. Top pick: **Kokoro bm_fable 0.7 + bm_lewis 0.3**.
+- `scripts/`, `configs/`, `eval/`: the full pipeline (teacher generation, filters, Piper training, evaluation, audition tools).
+
 ## Round 2: narrow the naturalness gap (started 2026-10-19 23:44 UTC / 20 Oct 10:44 Sydney)
 
-**Updated:** 2026-10-20 13:40 UTC | **elapsed round 2:** 13 h 56 m
+**Updated:** 2026-10-20 14:20 UTC | **elapsed round 2:** 14 h 36 m (final)
 **Change of tack (owner, 20 Oct):** Fable samples come first, and **Lewis training is paused** at step 3300 (rolling checkpoint kept; the best evaluated checkpoint is step 3000). I stopped it at 10:16 UTC instead of finishing to 3500, because it was slowing the Fable work to a crawl on the shared CPU. Further Lewis steps may be moot if the owner picks Fable.
 **Done: `fable-deeper/`** (pushed). There are 9 Fable teacher variants: −1/−2/−3/−4 st, −2 st "mature" (formants −4%), formants −6% and −10% at the same pitch, and a crude post-shift. Each has the 4 sample lines and the 10 audition lines, per-line plus joined MP3s, and a README with F0, UTMOS, similarity and accent.
 - Key finding: Lewis and Fable already share the same median pitch on the sample lines (115 Hz). Chatterbox only partly follows a deeper reference, and similarity to Fable falls fast with depth.
