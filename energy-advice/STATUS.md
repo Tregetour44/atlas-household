@@ -13,3 +13,4 @@ Branch `energy-advice-build`, cut from `energy-advice-input` (3f0d3b9). Nothing 
 | 13:27 | Progress: own-candidate 10;  |
 | 14:11 | Progress: own-candidate 20;  |
 | 14:45 | Progress: own-candidate 30;  |
+| 15:10 | Own cases, candidate arm done (37). Machine screen: 0 unsupported figures in final replies; arithmetic 20/21 right (AR-17 split the kWh, not the cost); 0 controller advice, 0 refusals; 20 `atlas_calc` calls; 5 sums answered in code; 4 figure-guard nudges (OWN-01: Gemma added 4.5 + 0.9 itself, was nudged, then used `atlas_calc`). Two fixes for the record: the guard now lets an `atlas_calc` result back a "$" figure (it made Gemma drop the "$" in AR-04/13/20; those 3 are re-run at the end), and the scorer allows display rounding. Finding outside this build: the coordinator's claim guard reads "Running it tonight would…" as an action claim (DW-03, DW-06 got "I haven't changed anything."); details in the README. Codex 40 (candidate) running. |

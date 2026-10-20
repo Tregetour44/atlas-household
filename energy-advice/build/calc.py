@@ -262,8 +262,6 @@ def _match(kind: str, v: float, dec: int, src: list[tuple[str, float, int, str]]
     for k, s, _, _ in src:
         if kind != 'plain' and k != 'plain' and k != kind:
             continue
-        if kind == 'money' and k == 'plain':
-            continue
         if abs(s - v) <= tol:
             return True
     return False

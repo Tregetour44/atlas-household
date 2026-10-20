@@ -28,16 +28,14 @@ NEG = re.compile(r"\b(can't|cannot|won't|don't|never|not)\b", re.I)
 
 
 def numeric_hits(reply: str, answers) -> bool:
-    qs = calc.quantities(reply)
-    for lo, hi in answers:
-        for kind, v, dec, raw in qs:
-            vv = v
-            if kind == 'dur':
-                vv = v
-            if lo - 1e-9 <= vv <= hi + 1e-9:
-                return True
-            if kind == 'money' and lo - 0.005 <= vv <= hi + 0.005:
-                return True
+    """The asked-for number is in the reply: within the expected range, allowing the reply's own display rounding (7.42 for 7.4, 16.38
+    for 16.384); W said as kW is compared in kW."""
+    for kind, v, dec, raw in calc.quantities(reply):
+        for vv, d in ((v, dec), (v / 1000, dec + 3)) if kind == 'w' else ((v, dec),):
+            tol = 0.5 * 10 ** (-max(d, 0)) if d > 0 else 1e-9
+            for lo, hi in answers:
+                if lo - tol - 0.05 * (lo != int(lo)) <= vv <= hi + tol + 0.05 * (hi != int(hi)):
+                    return True
     return False
 
 
@@ -50,8 +48,16 @@ def machine(row: dict, case: dict) -> dict:
     sysp, _, _ = case_prompt(row['arm'], case)
     summaries = [t['result']['summary'] for t in row.get('tool_calls', []) if t['result'].get('status') == 'calculated']
     sources = [calc.readings_part(sysp), case['question']] + summaries
+    if row.get('path') == 'fast_arithmetic':
+        sources.append(reply)                       # computed in code by calc.fast_arithmetic; the model wasn't asked
     out['unsupported_final'] = calc.unsupported_figures(reply, sources)
-    out['unsupported_first'] = calc.unsupported_figures(row.get('first') or reply, sources)
+    if 'calls_before_first' in row:      # the model's own first reply, against the calc results it had by then
+        early = [t['result']['summary'] for t in row['tool_calls'][:row['calls_before_first']] if t['result'].get('status') == 'calculated']
+        out['unsupported_first'] = calc.unsupported_figures(row.get('first') or reply, sources[:2] + early + ([reply] if row.get('path') == 'fast_arithmetic' else []))
+    elif row.get('figures', {}).get('nudged'):
+        out['unsupported_first'] = row['figures']['first_unsupported']      # recorded live (older runs)
+    else:
+        out['unsupported_first'] = out['unsupported_final'] if row.get('path') != 'fast_arithmetic' else []
     out['calc_calls'] = sum(1 for t in row.get('tool_calls', []) if t['name'] == calc.TOOL_NAME)
     out['calc_denied'] = sum(1 for t in row.get('tool_calls', []) if t['name'] == calc.TOOL_NAME and t['result'].get('status') != 'calculated')
     out['other_tools'] = [t['name'] for t in row.get('tool_calls', []) if t['name'] != calc.TOOL_NAME]

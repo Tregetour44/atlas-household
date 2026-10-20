@@ -327,6 +327,7 @@ class FigureGuard(unittest.TestCase):
     def test_unsupported(self):
         self.assertEqual(self.u('You would have 9.3 kWh left.'), ['9.3 kWh'])
         self.assertEqual(self.u('It costs $1.98.'), ['$1.98'])
+        self.assertEqual(C.unsupported_figures('It costs $1.98.', self.SRC + ['3.6 * 0.55 = 1.98']), [])   # an atlas_calc result backs money
         self.assertEqual(self.u('Battery is at 64%.'), ['64%'])
         self.assertEqual(self.u('It runs until 10:30 pm.'), ['10:30 pm'])
         self.assertEqual(self.u('since 15 October'), ['15 October'])

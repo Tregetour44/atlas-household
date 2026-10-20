@@ -112,6 +112,7 @@ async def one(arm: str, c: dict, repeat: int) -> dict:
         return msg.get('content', '')
 
     first = await ask(c['question'])
+    rec['calls_before_first'] = len(rec['tool_calls'])
     reply, claims = guard_reply(first, evidence)
     rec['first'], rec['claims'] = first, claims
     if arm == 'candidate':
