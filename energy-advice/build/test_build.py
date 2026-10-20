@@ -424,6 +424,17 @@ class FigureGuard(unittest.TestCase):
         self.assertFalse(rec['nudged'])
 
 
+class AdviceNudge(unittest.TestCase):
+    def test_question_refused_is_nudged(self):
+        self.assertTrue(C.advice_nudge_needed('Leave the AC off until 8 to save the credit?', "I can't control the aircon yet."))
+        self.assertTrue(C.advice_nudge_needed('Put the washing on now?', "I'm afraid I can't control the washing machine yet."))
+
+    def test_requests_and_commands_left_alone(self):
+        self.assertFalse(C.advice_nudge_needed('Can you turn the aircon on?', "I can't control the aircon yet."))
+        self.assertFalse(C.advice_nudge_needed('Lower the reserve and start the dryer.', "I can't change the reserve."))
+        self.assertFalse(C.advice_nudge_needed('Dishwasher tonight?', "Tonight's fine: about 10.5 kWh above the reserve."))
+
+
 class Cases(unittest.TestCase):
     def test_arithmetic_oracles(self):
         """The hand-written expected answers, recomputed independently of calc.py and energy_cards.py."""

@@ -294,6 +294,20 @@ FIGURE_NUDGE = ("Your reply has figures that aren't in the readings, the energy 
                 "Answer again, briefly: quote only figures you were given, and use atlas_calc for any sum you need.")
 
 
+# ---- the advice nudge (round 2): a question answered with a refusal ----
+_REQUEST = re.compile(r"^\s*(?:(?:hey\s+)?atlas,?\s+)?(?:please\b|(?:can|could|would|will)\s+you\b)", re.I)
+_REFUSAL = re.compile(r"\b(?:can(?:'|no)t|cannot|unable to|not able to)\s+(?:yet\s+)?(?:control|switch|change|turn|operate|start|stop)\b", re.I)
+ADVICE_NUDGE = ("That was a question asking for your advice, not a request to switch anything. Answer it as advice from the readings and the "
+                "energy cards, briefly; don't say you can't control it.")
+
+
+def advice_nudge_needed(text: str, reply: str) -> bool:
+    """A question that isn't a request ("Leave the AC off until 8?", "Put the washing on now?"), answered only with "I can't control it":
+    ask once for the advice. A request worded as a question ("Can you turn the aircon on?") is left alone."""
+    t = (text or '').strip()
+    return t.endswith('?') and not _REQUEST.match(t) and bool(_REFUSAL.search(reply or ''))
+
+
 def _drop(reply: str, bad: list[str]) -> str:
     parts = re.split(r'(?<=[.!?])\s+', reply.strip())
     keep = [p for p in parts if not any(b and b in p for b in bad)]

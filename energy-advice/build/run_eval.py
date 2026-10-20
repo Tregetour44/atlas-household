@@ -117,6 +117,10 @@ async def one(arm: str, c: dict, repeat: int) -> dict:
     rec['calls_before_first'] = len(rec['tool_calls'])
     reply, claims = guard_reply(first, evidence)
     rec['first'], rec['claims'] = first, claims
+    if arm == 'candidate2' and calc.advice_nudge_needed(c['question'], reply):
+        again = await ask(calc.ADVICE_NUDGE)
+        reply, claims = guard_reply(again, evidence)
+        rec['advice_nudged'], rec['claims'] = True, claims
     if arm.startswith('candidate'):
         reply, fig = await calc.turn_figures(reply, [calc.readings_part(sysp), c['question']], ask, lambda: list(summaries))
         rec['figures'] = fig

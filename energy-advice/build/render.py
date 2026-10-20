@@ -34,6 +34,9 @@ OLD_Q = ("Questions: answer only from the readings. Never invent or estimate a f
 OLD_ADVICE = ["- Good advice: run big loads (washing, dishwasher, heating or cooling boosts) in 11:00–14:00 when you can. Avoid big loads 6–8 pm.\n",
               "- Outside 11:00–14:00 grid power is paid; the credit hours matter only from 6 pm to 8 pm. So at night the cheapest choice is usually to "
               "wait for tomorrow's free window, and there's no credit risk.\n"]
+OLD_AC = "A question about them (what mode it is in, whether a TV is on) is answered from the readings, like any other question."
+NEW_AC = ("A question about them (what mode it is in, whether a TV is on, whether or when to use the aircon) is answered from the readings and "
+          "the energy cards, like any other question: give the advice, and don't answer it with \"I can't control that\".")
 CARDS_ANCHOR = '\nEnergy history (kWh.'
 CARDS_SLOT = '{{ atlas_energy_cards }}'
 
@@ -41,7 +44,8 @@ CARDS_SLOT = '{{ atlas_energy_cards }}'
 def candidate_template() -> str:
     t = TEMPLATE
     assert t.count(OLD_Q) == 1 and all(t.count(x) == 1 for x in OLD_ADVICE) and t.count(CARDS_ANCHOR) == 1
-    t = t.replace(OLD_Q, GUIDANCE)
+    assert t.count(OLD_AC) == 1
+    t = t.replace(OLD_Q, GUIDANCE).replace(OLD_AC, NEW_AC)          # round 2: an aircon question is advice, not a refused command
     for x in OLD_ADVICE:
         t = t.replace(x, '')
     return t.replace(CARDS_ANCHOR, '\n' + CARDS_SLOT + '\n' + CARDS_ANCHOR, 1)
