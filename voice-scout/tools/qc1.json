@@ -1,0 +1,42 @@
+{
+ "qc06-cbfable": {
+  "model": "0.6B",
+  "ref": "<work>/refs/chatterbox-kokoro-fable-ref-1.mp3",
+  "ref_text": "Good evening. The house is in order: battery at eighty percent, solar's done for the day, and the evening credit looks safe. I'd hold off on the dryer until eight, unless you're feeling reckless."
+ },
+ "qc06-cbfable-x50B": {
+  "model": "0.6B",
+  "ref": "<work>/refs/chatterbox-kokoro-fable-ref-1.mp3",
+  "ref_text": "Good evening. The house is in order: battery at eighty percent, solar's done for the day, and the evening credit looks safe. I'd hold off on the dryer until eight, unless you're feeling reckless.",
+  "xvec": [
+   [
+    "<work>/refs/chatterbox-kokoro-fable-ref-1.mp3",
+    0.5
+   ],
+   [
+    "<work>/out/qd1/qdB-L09.wav",
+    0.5
+   ]
+  ]
+ },
+ "qc06-cbfable-x50A": {
+  "model": "0.6B",
+  "ref": "<work>/refs/chatterbox-kokoro-fable-ref-1.mp3",
+  "ref_text": "Good evening. The house is in order: battery at eighty percent, solar's done for the day, and the evening credit looks safe. I'd hold off on the dryer until eight, unless you're feeling reckless.",
+  "xvec": [
+   [
+    "<work>/refs/chatterbox-kokoro-fable-ref-1.mp3",
+    0.5
+   ],
+   [
+    "<work>/out/qd1/qdA-L09.wav",
+    0.5
+   ]
+  ]
+ },
+ "qc17-cbfable": {
+  "model": "1.7B",
+  "ref": "<work>/refs/chatterbox-kokoro-fable-ref-1.mp3",
+  "ref_text": "Good evening. The house is in order: battery at eighty percent, solar's done for the day, and the evening credit looks safe. I'd hold off on the dryer until eight, unless you're feeling reckless."
+ }
+}

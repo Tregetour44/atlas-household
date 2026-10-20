@@ -1,0 +1,69 @@
+{
+ "kok-inno-m3": {
+  "dec": [
+   [
+    "<work>/out/qc4/inno-m3.pt",
+    1
+   ]
+  ]
+ },
+ "kok-hyb-fi": {
+  "dec": [
+   [
+    "bm_fable",
+    0.5
+   ],
+   [
+    "<work>/out/qc4/inno-m3.pt",
+    0.5
+   ]
+  ],
+  "pred": [
+   [
+    "bm_fable",
+    1
+   ]
+  ]
+ },
+ "kok-hyb-fl": {
+  "dec": [
+   [
+    "bm_fable",
+    0.6
+   ],
+   [
+    "bm_lewis",
+    0.4
+   ]
+  ],
+  "pred": [
+   [
+    "bm_fable",
+    1
+   ]
+  ]
+ },
+ "kok-hyb-fi-s95": {
+  "dec": [
+   [
+    "bm_fable",
+    0.5
+   ],
+   [
+    "<work>/out/qc4/inno-m3.pt",
+    0.5
+   ]
+  ],
+  "pred": [
+   [
+    "bm_fable",
+    0.7
+   ],
+   [
+    "<work>/out/qc4/inno-m3.pt",
+    0.3
+   ]
+  ],
+  "speed": 0.95
+ }
+}

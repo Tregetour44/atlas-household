@@ -1,0 +1,12 @@
+{
+ "qc06-m3-a0.95": {
+  "model": "0.6B",
+  "ref": "<work>/refs/deep/cbfable1-m3-a0.95.wav",
+  "ref_text": "Good evening. The house is in order: battery at eighty percent, solar's done for the day, and the evening credit looks safe. I'd hold off on the dryer until eight, unless you're feeling reckless."
+ },
+ "qc06-m2-a0.97": {
+  "model": "0.6B",
+  "ref": "<work>/refs/deep/cbfable1-m2-a0.97.wav",
+  "ref_text": "Good evening. The house is in order: battery at eighty percent, solar's done for the day, and the evening credit looks safe. I'd hold off on the dryer until eight, unless you're feeling reckless."
+ }
+}

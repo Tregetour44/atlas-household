@@ -1,0 +1,24 @@
+Prefill: 223 positions (instruct=0, role=3, codec=6, icl_text=83, icl_codes=131)
+  Prefill: 223 tokens, hidden=1024
+  Prefill: 3307 ms
+  Talker step: 9000 ms (90.0 ms/f), Code Predictor: 13669 ms (136.7 ms/f)
+  Speech decoder: 10139 ms total (783 ms drain after gen)
+Audio: 7.8s generated in 92.3s (RTF 11.77)
+Prefill: 209 positions (instruct=0, role=3, codec=6, icl_text=69, icl_codes=131)
+  Prefill: 209 tokens, hidden=1024
+  Prefill: 2885 ms
+  Talker step: 5793 ms (73.3 ms/f), Code Predictor: 7941 ms (100.5 ms/f)
+  Speech decoder: 6487 ms total (515 ms drain after gen)
+Audio: 6.2s generated in 80.9s (RTF 13.13)
+Prefill: 223 positions (instruct=0, role=3, codec=6, icl_text=83, icl_codes=131)
+  Prefill: 223 tokens, hidden=1024
+  Prefill: 3571 ms
+  Talker step: 8215 ms (82.1 ms/f), Code Predictor: 10731 ms (107.3 ms/f)
+  Speech decoder: 8680 ms total (587 ms drain after gen)
+Audio: 7.8s generated in 90.0s (RTF 11.48)
+Prefill: 210 positions (instruct=0, role=3, codec=6, icl_text=70, icl_codes=131)
+  Prefill: 210 tokens, hidden=1024
+  Prefill: 3080 ms
+  Talker step: 5177 ms (75.0 ms/f), Code Predictor: 7230 ms (104.8 ms/f)
+  Speech decoder: 5656 ms total (550 ms drain after gen)
+Audio: 5.4s generated in 84.2s (RTF 15.71)

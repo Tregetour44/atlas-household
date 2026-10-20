@@ -1,0 +1,26 @@
+diff --git a/utilities/fitness_scorer.py b/utilities/fitness_scorer.py
+index 4dc9561..35c645b 100644
+--- a/utilities/fitness_scorer.py
++++ b/utilities/fitness_scorer.py
+@@ -154,7 +154,7 @@ class FitnessScorer:
+ 
+         # Rhythm features - tempo and beat strength
+         tempo, beat_frames = librosa.beat.beat_track(y=audio, sr=sr)
+-        features["tempo"] = float(tempo)
++        features["tempo"] = float(np.asarray(tempo).reshape(-1)[0])
+ 
+         if len(beat_frames) > 0:
+             # Calculate beat_stats only if beats are detected
+diff --git a/utilities/speech_generator.py b/utilities/speech_generator.py
+index 375f203..6e6c35f 100644
+--- a/utilities/speech_generator.py
++++ b/utilities/speech_generator.py
+@@ -11,7 +11,7 @@ class SpeechGenerator:
+     def __init__(self, device: str = "auto"):
+         surpressWarnings()
+         self.device = resolve_device(device)
+-        self.pipeline = KPipeline(lang_code="a", repo_id="hexgrad/Kokoro-82M", device=self.device)
++        self.pipeline = KPipeline(lang_code="b", repo_id="hexgrad/Kokoro-82M", device=self.device)
+ 
+     def generate_audio(self, text: str, voice: torch.Tensor | str, speed: float = 1.0) -> np.typing.NDArray[np.float32]:
+         voice_arg = voice
