@@ -18,17 +18,18 @@ import time
 import unittest
 from array import array
 from pathlib import Path
+from typing import Any
 
 HERE = Path(__file__).resolve().parent
 sys.path.insert(0, str(HERE))
-import kokoro_backend as kb  # noqa: E402
+import kokoro_backend as kb
 
 MODEL_DIR = Path(os.environ.get("ATLAS_KOKORO_DIR", HERE / "model"))
 HAVE_BUNDLE = all((MODEL_DIR / name).is_file() for name in kb.BUNDLE)
 SECRET = "Quixotic marmalade zeppelin"  # must never appear in any output stream
 
 
-def samples(pcm: bytes) -> array:
+def samples(pcm: bytes) -> array[int]:
     a = array("h")
     a.frombytes(pcm)
     if sys.byteorder == "big":
@@ -39,6 +40,8 @@ def samples(pcm: bytes) -> array:
 @unittest.skipUnless(HAVE_BUNDLE, f"no verified bundle in {MODEL_DIR}; run fetch_bundle.py or set ATLAS_KOKORO_DIR")
 class KokoroBackendTest(unittest.TestCase):
     synth: kb.SynthFn
+    rate: int
+    g2p: Any
 
     @classmethod
     def setUpClass(cls) -> None:
@@ -67,8 +70,10 @@ class KokoroBackendTest(unittest.TestCase):
 
     def test_chunks_at_sentences(self) -> None:
         text = "Done: Wall Light off. Checked. The back of the house looks rather theatrical tonight, I must say."
-        self.assertEqual(len(self.render(text)), len(kb.plan_chunks(self.g2p, text)))
-        self.assertGreaterEqual(len(self.render(text)), 2)
+        plan = kb.plan_chunks(self.g2p, text)
+        self.assertEqual(len(self.render(text)), len(plan))
+        self.assertEqual(len(plan), 2)  # the one-word "Checked." rides with its sentence
+        self.assertTrue(plan[0].endswith("ʧˈɛkt."))
 
     def test_first_audio_before_the_rest(self) -> None:
         text = "Lights off. " + "The battery is at sixty percent and the solar is still going strong this afternoon. " * 4
@@ -118,6 +123,9 @@ class KokoroBackendTest(unittest.TestCase):
     def test_house_word_fixes(self) -> None:
         g2p = self.g2p
         self.assertIn("ɒnswˈiːt", kb.phonemize(g2p, "The ensuite light is off."))
+        self.assertIn("ɒnswˈiːt", kb.phonemize(g2p, "Ensuite light off."))  # capitalised entries too
+        self.assertIn("tˈImˌə", kb.phonemize(g2p, "Timer set: Porch lights off."))
+        self.assertIn("ˈɛːkɒn", kb.phonemize(g2p, "I can't control the aircon yet."))
         self.assertIn("wˈInd", kb.phonemize(g2p, "Shall I run Wind Down now?"))
         self.assertIn("ˌAˈɛm", kb.phonemize(g2p, "Lights on at seven a m."))
         self.assertTrue(kb.phonemize(g2p, "It ran at eleven p m.").endswith("."))
@@ -211,7 +219,7 @@ class IsolationTest(unittest.TestCase):
         env["HTTPS_PROXY"] = env["HTTP_PROXY"] = "http://127.0.0.1:9"  # a dead proxy, should anything try
         proc = subprocess.run(
             [sys.executable, "-I", "-c", self.CHILD, str(HERE), str(MODEL_DIR), SECRET],
-            capture_output=True, text=True, timeout=300, env=env,
+            capture_output=True, text=True, timeout=300, env=env, check=False,
         )
         self.assertEqual(proc.returncode, 0, proc.stderr[-2000:])
         self.assertIn("BLOCKED [] ", proc.stdout)  # no connect, DNS lookup, send, URL open or child process

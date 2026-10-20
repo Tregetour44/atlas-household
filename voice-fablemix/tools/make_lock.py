@@ -14,8 +14,8 @@ TAGS = (
     + ["py312-none-win_amd64", "py3-none-win_amd64", "cp312-none-any", "py312-none-any", "py3-none-any", "py2.py3-none-any"]
 )
 DIRECT = {
-    "en-core-web-sm": ("3.8.0", "https://github.com/explosion/spacy-models/releases/download/en_core_web_sm-3.8.0/"
-                       "en_core_web_sm-3.8.0-py3-none-any.whl",
+    "en-core-web-sm": ("3.8.0", ("https://github.com/explosion/spacy-models/releases/download/en_core_web_sm-3.8.0/"
+                                 "en_core_web_sm-3.8.0-py3-none-any.whl"),
                        "1932429db727d4bff3deed6b34cfc05df17794f4a52eeb26cf8928f7c1a0fb85", 12806118),
 }
 
@@ -44,12 +44,13 @@ def pick(name: str, version: str) -> tuple[str, str, int, str]:
 
 
 def main() -> None:
-    pins = [l.split("==") for l in open(sys.argv[1]).read().split() if "==" in l]
+    with open(sys.argv[1]) as f:
+        pins = [p.split("==") for p in f.read().split() if "==" in p]
     rows, total = [], 0
     for name, version in sorted(pins, key=lambda p: p[0].lower()):
         key = name.lower().replace("_", "-")
         if key in DIRECT:
-            v, url, sha, size = DIRECT[key]
+            _, url, sha, size = DIRECT[key]
             rows.append(f"en_core_web_sm @ {url} \\\n    --hash=sha256:{sha}\n    # not on PyPI: spaCy's own GitHub release asset, {size} bytes")
         else:
             fn, sha, size, _ = pick(name, version)
@@ -62,7 +63,8 @@ def main() -> None:
             "# Install:  py -3.12 -m pip install --require-hashes --no-deps --only-binary :all: -r requirements.lock\n"
             "# Left out on purpose: docopt (num2words' command-line script only; sdist-only, never imported by the\n"
             "#   library), and misaki's [en] extra (spacy-curated-transformers pulls in torch; not used).\n\n")
-    open(sys.argv[2], "w", newline="\n").write(head + "\n".join(rows) + "\n")
+    with open(sys.argv[2], "w", newline="\n") as f:
+        f.write(head + "\n".join(rows) + "\n")
     print(f"{len(rows)} wheels, {total} bytes", file=sys.stderr)
 
 

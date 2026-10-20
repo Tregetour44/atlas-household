@@ -12,12 +12,14 @@ import soundfile as sf
 spec = json.load(open(sys.argv[1])); lines = [l.rstrip("\n").split("\t", 1) for l in open(sys.argv[2]) if l.strip()]
 out = sys.argv[3]; os.makedirs(out, exist_ok=True)
 MODEL = os.environ.get("MODEL_DIR", "/home/user/atlas-household/voice-fablemix/model")
-defaults = {k: getattr(kb, k) for k in ("MERGE_BELOW", "CLAUSE_SPLIT", "LEXICON", "REWRITES", "OUTPUT_GAIN", "SHORT_FULL", "SHORT_NONE", "EDGE_KEEP_S", "FINAL_PAUSE_S", "CLAUSE_PAUSE_S", "PAUSE_S")}
+defaults = {k: getattr(kb, k) for k in ("MERGE_WORDS", "ONE_WORD_ROW", "CLAUSE_SPLIT", "LEXICON", "REWRITES", "OUTPUT_GAIN", "SHORT_FULL", "SHORT_NONE", "EDGE_KEEP_S", "FINAL_PAUSE_S", "CLAUSE_PAUSE_S", "PAUSE_S")}
 for tag, c in spec.items():
     for k, v in defaults.items():
         setattr(kb, k, v)
     for k, v in c.get("set", {}).items():
         setattr(kb, k, () if v == "none" else v)
+    if c.get("drop_timer_rewrite"):
+        kb.REWRITES = tuple(r for r in kb.REWRITES if "Timer" not in r[0].pattern)
     synth, rate = kb.kokoro_synth(MODEL, speed=c.get("speed", 0.95), threads=int(os.environ.get("THREADS", "4")))
     g2p = kb.build_g2p()
     for lid, text in lines:

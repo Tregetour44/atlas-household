@@ -36,7 +36,8 @@ def main() -> None:
     for name, arr in (("en_GB-fablemix.npy", mix.astype(np.float32)), ("en_GB-fablemix-short.npy", short)):
         assert arr.shape == (510, 1, 256)
         np.save(f"{out}/{name}", arr, allow_pickle=False)
-        print(name, hashlib.sha256(open(f"{out}/{name}", "rb").read()).hexdigest())
+        with open(f"{out}/{name}", "rb") as f:
+            print(name, hashlib.sha256(f.read()).hexdigest())
 
 
 if __name__ == "__main__":

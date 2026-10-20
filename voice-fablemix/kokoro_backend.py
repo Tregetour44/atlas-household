@@ -52,8 +52,11 @@ BUNDLE: Mapping[str, str] = {
 }
 
 MAX_PHONEMES = 510  # Kokoro's limit per inference; the voice pack holds one style row per phoneme length
-CLAUSE_SPLIT = 200  # a sentence longer than this (in phonemes) is rendered clause by clause, for faster first audio
-MERGE_BELOW = 30  # a sentence shorter than this is rendered together with its neighbour (short pieces sound sing-song)
+CLAUSE_SPLIT = 150  # a sentence longer than this (in phonemes) is rendered clause by clause, for faster first audio
+# A one-word sentence ("Done.", "Checked.") rendered on its own gets a spurious onset ("It's done", "I'm checked"),
+# so it is rendered together with its neighbour. Two words and more render cleanly on their own.
+MERGE_WORDS = 1
+ONE_WORD_ROW = 80  # a one-word reply that cannot be merged ("Done.") renders cleanest from this short-pack row
 OUTPUT_GAIN = 0.678  # this ONNX export is 3.4 dB louder than Kokoro's PyTorch reference; restores level and headroom
 # Short pieces sound sing-song. Up to SHORT_FULL phonemes the style comes from the short-reply pack (same timbre,
 # flatter prosody) at row SHORT_FULL; from there it fades linearly to the Fable-mix pack itself at SHORT_NONE.
@@ -76,11 +79,12 @@ REWRITES: tuple[tuple[re.Pattern[str], str | Callable[[re.Match[str]], str]], ..
     # "seven a m" was read "seven uh em", and "p.m." swallowed a sentence's full stop; "AM" / "PM" read cleanly.
     (re.compile(r"\b([aApP])(?: |\. ?)[mM](\.?)(?=[\s,;:!?\"')]|$)"), _am_pm),
     (re.compile(r"\bwind down\b", re.IGNORECASE), "[Wind](/wˈInd/) Down"),  # the scene; as a name misaki says "wɪnd"
-    (re.compile(r"(?:^|(?<=[.!?] ))Timer set\b"), "Timer's set"),  # "Timer set:" was heard as "Time a set" (4 of 8)
 )
 # Word pronunciations (misaki British phonemes), merged into misaki's gold lexicon at load.
 LEXICON: Mapping[str, str] = {
     "ensuite": "ɒnswˈiːt",  # misaki: "ɛnsˈuːt" (Whisper heard "N-suit")
+    "aircon": "ˈɛːkɒn",  # misaki: "ˈAəkən" (Whisper heard "ayakin")
+    "timer": "tˈImˌə",  # misaki: "tˈImə", heard as "time a" ("Timer set:" 4 of 8 lines, "Timer cancelled.")
 }
 
 _SENTENCE = re.compile(r"(?<=[.!?…])[\"')\]]*\s+")
@@ -121,7 +125,8 @@ def build_g2p() -> Any:
 
     logging.getLogger("phonemizer").disabled = True
     g2p = en.G2P(british=True, fallback=espeak.EspeakFallback(british=True), unk="")
-    g2p.lexicon.golds.update(LEXICON)
+    for word, phonemes in LEXICON.items():  # misaki keeps a separate entry for the capitalised form
+        g2p.lexicon.golds[word] = g2p.lexicon.golds[word.capitalize()] = phonemes
     return g2p
 
 
@@ -169,9 +174,12 @@ def plan_chunks(g2p: Any, text: str, vocab: Mapping[str, int] | None = None) -> 
                 part = part[cut:].strip()
             if any(p.isalpha() for p in part):  # punctuation alone renders as a breath or a click; skip it
                 pieces.append(part)
+    def words(piece: str) -> int:
+        return len(piece.split())
+
     merged: list[str] = []
     for piece in pieces:
-        if merged and (len(merged[-1]) < MERGE_BELOW or len(piece) < MERGE_BELOW) and \
+        if merged and (words(merged[-1]) <= MERGE_WORDS or words(piece) <= MERGE_WORDS) and \
                 len(merged[-1]) + 1 + len(piece) <= CLAUSE_SPLIT:
             merged[-1] = f"{merged[-1]} {piece}"
         else:
@@ -242,17 +250,21 @@ def kokoro_synth(
     session = ort.InferenceSession(files.pop(MODEL_FILE), options, providers=["CPUExecutionProvider"])
     speed_in = np.array([speed], dtype=np.float32)
 
-    def style(n: int) -> Any:
+    def style(phonemes: str) -> Any:
+        if ONE_WORD_ROW and len(phonemes.split()) == 1:
+            return short[ONE_WORD_ROW - 1]
+        n = len(phonemes)
         w = min(max((SHORT_NONE - n) / (SHORT_NONE - SHORT_FULL), 0.0), 1.0)
         return pack[n - 1] if w == 0 else (1 - w) * pack[n - 1] + w * short[max(n, SHORT_FULL) - 1]
 
     def render(phonemes: str, last: bool) -> bytes:
         ids = np.array([[0, *(vocab[p] for p in phonemes), 0]], dtype=np.int64)
-        audio = session.run(None, {"input_ids": ids, "style": style(len(phonemes)), "speed": speed_in})[0]
+        audio = session.run(None, {"input_ids": ids, "style": style(phonemes), "speed": speed_in})[0]
         audio = trim_edges(audio.reshape(-1) * OUTPUT_GAIN, phonemes.rstrip("“”\"")[-1:], last)
         if not np.isfinite(audio).all():
             raise SynthesisError("synthesis failed: non-finite audio")
-        return (np.clip(audio, -1.0, 1.0) * 32767.0).round().astype("<i2").tobytes()
+        pcm: bytes = (np.clip(audio, -1.0, 1.0) * 32767.0).round().astype("<i2").tobytes()
+        return pcm
 
     def synth(text: str) -> Iterator[bytes]:
         try:
@@ -261,7 +273,7 @@ def kokoro_synth(
                 yield render(phonemes, last=i == len(chunks) - 1)
         except SynthesisError:
             raise
-        except Exception as exc:  # never let text or phonemes reach the server's logs through an exception message
+        except Exception as exc:  # noqa: BLE001 -- never let text or phonemes reach the server's logs through an exception message
             raise SynthesisError(f"synthesis failed: {type(exc).__name__}") from None
 
     return synth, SAMPLE_RATE

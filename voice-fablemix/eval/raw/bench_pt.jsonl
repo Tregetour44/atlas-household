@@ -1,0 +1,2 @@
+{"engine": "pytorch", "threads": 4, "load_s": 5.91, "rss_after_load_mb": 1246, "cold_medium": {"first_s": 1.671, "total_s": 1.671}, "short": {"first_s": 0.528, "rtf": 0.246}, "medium": {"first_s": 1.36, "rtf": 0.265}, "long": {"first_s": 1.585, "rtf": 0.252}, "peak_rss_mb": 1577}
+{"engine": "pytorch", "threads": 2, "load_s": 6.26, "rss_after_load_mb": 1245, "cold_medium": {"first_s": 2.193, "total_s": 2.193}, "short": {"first_s": 0.903, "rtf": 0.42}, "medium": {"first_s": 1.993, "rtf": 0.389}, "long": {"first_s": 2.524, "rtf": 0.411}, "peak_rss_mb": 1583}
