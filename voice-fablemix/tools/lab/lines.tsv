@@ -1,0 +1,38 @@
+L01	Done. Kitchen lights off.
+L02	Would you like the blinds down as well, or shall I leave them?
+L03	It's twenty-three degrees outside, the battery's at sixty-eight percent, and the dishwasher finishes at quarter past nine.
+L04	The garage door, I'm told, is beyond my reach. Which is probably for the best.
+L05	Good night. Everything's switched off, the doors are your department, and tomorrow looks sunny.
+L06	Solar did rather well today: you made just over thirty kilowatt hours, used about half of it, and sent the rest to the grid while the battery filled up by early afternoon.
+L07	Careful. There's a storm warning from six this evening, with gusts up to ninety kilometres an hour.
+L08	I'm sorry, I can't do that one yet. Shall I ask Claude instead?
+L09	Rather a grey afternoon, I'm afraid. The forecast can't make up its mind, so I'd take a jacket.
+L10	Good morning. Coffee weather, I'd say.
+H01	Done: Fountain Spotlight on. Checked.
+H02	I've dimmed the mirror ambiance to thirty percent.
+H03	Timer set: Robe Downlight off in ten minutes. Say "cancel that" to stop it.
+H04	The ensuite downlight is already off. I didn't change anything.
+H05	Wall floodlight on. The back of the house looks rather theatrical.
+H06	Done: Wall Light off. Checked.
+H07	Pergola Floodlight Three is already on at full brightness. I didn't change anything.
+H08	I've turned living room chandelier six on at fifty percent.
+A01	Done: Study lights on. Checked.
+A02	Done: Kitchen Downlight Left off. Checked.
+A03	I've turned the hallway lights off for you.
+A04	I have turned the dining room pendant on at seventy percent.
+A05	I've brightened the guest bedroom lamp to eighty percent.
+A06	Timer set: Porch lights off at ten fifteen p m. Say "cancel that" to stop it.
+A07	Timer set: Kitchen lights on in twenty-five minutes. Say "cancel that" to stop it.
+A08	Close the atrium blind at eight twenty p m?
+A09	Cancelled: the study lights timer.
+A10	You have one timer: the porch lights go off at eleven thirty p m.
+A11	Garage lights are already on. I didn't change anything.
+A12	I can't control the aircon yet. It's currently set to off.
+A13	I can't control the speakers yet.
+A14	What time would you like the porch lights turned off?
+A15	How bright would you like the dining room lights, as a percentage?
+A16	The home battery is at sixty-three point four percent.
+A17	You've made fourteen point six kilowatt hours of solar today.
+A18	It's twenty-three degrees outside, heading for a low of fourteen degrees overnight.
+A19	It's nineteen point five degrees in the study.
+A20	Porch lights on. Visitors will at least see where they're going.

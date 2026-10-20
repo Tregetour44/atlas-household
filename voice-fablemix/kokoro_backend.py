@@ -8,17 +8,20 @@ Drop-in for the server's ``piper_synth`` factory::
 
 What this module does, and nothing more:
 
-* Loads only from ``model_dir``. Every file in ``BUNDLE`` is read into memory, its SHA-256 checked against the
-  constant below, and only those verified bytes are used (no second read, so no swap between check and use).
-  Any missing file or mismatch raises ``BundleError`` before a model is built.
-* Never touches the network: it sets the Hugging Face offline flags, refuses to start if the spaCy English model
-  is not installed (misaki would otherwise try to download it), and has no download code of its own.
-* Never logs or prints text. Errors raised from ``synth`` carry no text or phonemes.
-* Splits a reply at sentence ends (and very long sentences at clause marks) and yields each piece's PCM as soon
-  as it is rendered, so the first audio arrives after the first sentence, not the whole reply.
-* Deterministic: the ONNX graph has no random operators, and ONNX Runtime runs with deterministic compute.
+* Loads only from ``model_dir``. Each file in ``BUNDLE`` is read into memory once, its SHA-256 checked against the
+  constant below, and only those verified bytes are used, so nothing can be swapped between the check and the use.
+  A missing or altered file raises ``BundleError`` before any model is built.
+* Never touches the network. It sets the Hugging Face offline flags, turns off ONNX Runtime's telemetry events,
+  refuses to start if the spaCy English model is not installed (misaki would otherwise download it), and has no
+  download code of its own.
+* Never logs or prints text. Errors raised from ``synth`` name only the exception type.
+* Splits a reply into sentences (very long ones at clause marks) and yields each piece's PCM as soon as it is
+  rendered, so the first audio arrives after the first sentence rather than the whole reply.
+* Deterministic: the ONNX graph has no random operators and ONNX Runtime runs with deterministic compute.
 
-The server keeps everything else (admission, caps, one synthesis at a time, watchdog, text normalisation).
+The server keeps everything else: admission, size and time caps, one synthesis at a time, the watchdog and text
+normalisation. The few Kokoro-specific text fixes below (``REWRITES``, ``LEXICON``) are applied here because they
+are written in misaki's phoneme alphabet, which the normaliser should not have to know.
 """
 
 from __future__ import annotations
@@ -36,21 +39,40 @@ from typing import Any
 
 SAMPLE_RATE = 24000
 VOICE_NAME = "en_GB-fablemix"
+SynthFn = Callable[[str], Iterator[bytes]]
 
-# File name in model_dir -> SHA-256 of its exact bytes. See bundle/manifest.json for sources and licences.
-BUNDLE: Mapping[str, str] = {
-    "kokoro-v1.0.onnx": "PENDING",
-    "config.json": "PENDING",
-    "en_GB-fablemix.npy": "5de2db9de4510efd4b3dd9f64bf0cf03530089b2220aec95f43f3b27636fbf80",
-}
 MODEL_FILE, CONFIG_FILE, VOICE_FILE = "kokoro-v1.0.onnx", "config.json", "en_GB-fablemix.npy"
+# File name in model_dir -> SHA-256 of its exact bytes. bundle/manifest.json gives each one's source and licence.
+BUNDLE: Mapping[str, str] = {
+    MODEL_FILE: "8fbea51ea711f2af382e88c833d9e288c6dc82ce5e98421ea61c058ce21a34cb",
+    CONFIG_FILE: "5abb01e2403b072bf03d04fde160443e209d7a0dad49a423be15196b9b43c17f",
+    VOICE_FILE: "5de2db9de4510efd4b3dd9f64bf0cf03530089b2220aec95f43f3b27636fbf80",
+}
 
-MAX_PHONEMES = 510  # Kokoro's context limit per inference (the voice pack has one style row per length)
-CLAUSE_SPLIT = 120  # a sentence longer than this many phonemes is split at its commas, colons and semicolons
-SENTENCE_GAP_S = 0.0  # extra silence after each sentence; Kokoro already ends a sentence with its own pause
+MAX_PHONEMES = 510  # Kokoro's limit per inference; the voice pack holds one style row per phoneme length
+CLAUSE_SPLIT = 200  # a sentence longer than this (in phonemes) is rendered clause by clause, for faster first audio
+MERGE_BELOW = 30  # a sentence shorter than this is rendered together with its neighbour (short pieces sound sing-song)
+OUTPUT_GAIN = 0.678  # this ONNX export is 3.4 dB louder than Kokoro's PyTorch reference; restores level and headroom
 
-# House-word pronunciations (misaki phonemes), merged into misaki's British gold lexicon at load.
-LEXICON: Mapping[str, str] = {}
+
+
+def _am_pm(m: re.Match[str]) -> str:
+    """ "a m", "p.m." etc. -> "AM" / "PM", keeping a full stop only where it also ends the sentence."""
+    ends_sentence = m.group(2) and re.match(r"\s*$|\s+[A-Z\"']", m.string[m.end():])
+    return m.group(1).upper() + "M" + ("." if ends_sentence else "")
+
+
+# Text fixes applied before G2P, in order. Square brackets in the reply are neutralised first, so misaki's inline
+# phoneme syntax "[word](/phonemes/)" can only come from this reviewed table, never from the reply.
+REWRITES: tuple[tuple[re.Pattern[str], str | Callable[[re.Match[str]], str]], ...] = (
+    # "seven a m" was read "seven uh em", and "p.m." swallowed a sentence's full stop; "AM" / "PM" read cleanly.
+    (re.compile(r"\b([aApP])(?: |\. ?)[mM](\.?)(?=[\s,;:!?\"')]|$)"), _am_pm),
+    (re.compile(r"\bwind down\b", re.IGNORECASE), "[Wind](/wˈInd/) Down"),  # the scene; as a name misaki says "wɪnd"
+)
+# Word pronunciations (misaki British phonemes), merged into misaki's gold lexicon at load.
+LEXICON: Mapping[str, str] = {
+    "ensuite": "ɒnswˈiːt",  # misaki: "ɛnsˈuːt" (Whisper heard "N-suit")
+}
 
 _SENTENCE = re.compile(r"(?<=[.!?…])[\"')\]]*\s+")
 _CLAUSE = re.compile(r"(?<=[,;:—])\s+")
@@ -65,45 +87,106 @@ class SynthesisError(RuntimeError):
     """A reply could not be rendered. Carries no text."""
 
 
-def _read_verified(model_dir: Path, name: str) -> bytes:
-    path = model_dir / name
-    try:
-        data = path.read_bytes()
-    except OSError as exc:
-        raise BundleError(f"cannot read bundle file {name}: {type(exc).__name__}") from None
-    digest = hashlib.sha256(data).hexdigest()
-    if digest != BUNDLE[name]:
-        raise BundleError(f"sha256 mismatch for {name}: got {digest}")
-    return data
+def verify_bundle(model_dir: str | os.PathLike[str]) -> dict[str, bytes]:
+    """Read every bundle file once and return its bytes, or raise ``BundleError`` on any missing or altered file."""
+    root, verified = Path(model_dir), {}
+    for name, expected in BUNDLE.items():
+        try:
+            data = (root / name).read_bytes()
+        except OSError as exc:
+            raise BundleError(f"cannot read bundle file {name}: {type(exc).__name__}") from None
+        digest = hashlib.sha256(data).hexdigest()
+        if digest != expected:
+            raise BundleError(f"sha256 mismatch for {name}: expected {expected}, got {digest}")
+        verified[name] = data
+    return verified
 
 
-def split_text(text: str) -> list[str]:
-    """Sentences, in order; the caller re-splits any that are too long once their phonemes are known."""
-    return [s.strip() for s in _SENTENCE.split(text.strip()) if s.strip()]
+def build_g2p() -> Any:
+    """misaki's British G2P with the espeak-ng fallback (bundled DLL) for unknown words and the house lexicon."""
+    import spacy.util
+
+    if not spacy.util.is_package("en_core_web_sm"):
+        raise BundleError("spaCy model en_core_web_sm is not installed (install it from requirements.lock)")
+    from misaki import en, espeak
+
+    logging.getLogger("phonemizer").disabled = True
+    g2p = en.G2P(british=True, fallback=espeak.EspeakFallback(british=True), unk="")
+    g2p.lexicon.golds.update(LEXICON)
+    return g2p
 
 
-def _pcm16(audio: Any) -> bytes:
-    import numpy as np
+def prepare(text: str) -> str:
+    """Kokoro-specific text fixes; see REWRITES."""
+    text = text.replace("[", "(").replace("]", ")")
+    for pattern, repl in REWRITES:
+        text = pattern.sub(repl, text)
+    return text
 
-    return (np.clip(audio, -1.0, 1.0) * 32767.0).round().astype("<i2").tobytes()
+
+def _phonemes(g2p: Any, prepared: str, vocab: Mapping[str, int] | None) -> str:
+    with warnings.catch_warnings():
+        warnings.simplefilter("ignore")
+        phonemes: str = g2p(prepared)[0].strip()
+    end = prepared.rstrip(" \"')")[-1:]  # misaki sometimes drops a closing full stop (after "PM.", for one)
+    if end in ".!?" and phonemes and phonemes[-1] not in ".!?…":
+        phonemes += end
+    return "".join(p for p in phonemes if vocab is None or p in vocab)
+
+
+def phonemize(g2p: Any, text: str, vocab: Mapping[str, int] | None = None) -> str:
+    """misaki phonemes for a piece of text, after ``prepare``. For checking pronunciations; ``synth`` uses
+    ``plan_chunks``."""
+    return _phonemes(g2p, prepare(text), vocab)
+
+
+def plan_chunks(g2p: Any, text: str, vocab: Mapping[str, int] | None = None) -> list[str]:
+    """The phoneme strings ``synth`` renders, in order: one per sentence, short sentences merged with a neighbour,
+    long ones split at clause marks and then at word gaps so that none exceeds ``MAX_PHONEMES``."""
+    pieces: list[str] = []
+    for sentence in _SENTENCE.split(prepare(text).strip()):
+        if not sentence.strip():
+            continue
+        phonemes = _phonemes(g2p, sentence, vocab)
+        if len(phonemes) > CLAUSE_SPLIT:
+            parts = [_phonemes(g2p, c, vocab) for c in _CLAUSE.split(sentence) if c.strip()]
+        else:
+            parts = [phonemes]
+        for part in parts:
+            while len(part) > MAX_PHONEMES:
+                cut = part.rfind(" ", 0, MAX_PHONEMES)
+                cut = cut if cut > 0 else MAX_PHONEMES
+                pieces.append(part[:cut].strip())
+                part = part[cut:].strip()
+            if any(p.isalpha() for p in part):  # punctuation alone renders as a breath or a click; skip it
+                pieces.append(part)
+    merged: list[str] = []
+    for piece in pieces:
+        if merged and (len(merged[-1]) < MERGE_BELOW or len(piece) < MERGE_BELOW) and \
+                len(merged[-1]) + 1 + len(piece) <= CLAUSE_SPLIT:
+            merged[-1] = f"{merged[-1]} {piece}"
+        else:
+            merged.append(piece)
+    return merged
 
 
 def kokoro_synth(
     model_dir: str | os.PathLike[str], speed: float = 0.95, threads: int | None = None
-) -> tuple[Callable[[str], Iterator[bytes]], int]:
+) -> tuple[SynthFn, int]:
     """Build the Fable-mix synthesiser from a verified bundle.
 
     Args:
-        model_dir: folder holding exactly the files named in ``BUNDLE`` (extra files are ignored).
+        model_dir: folder holding the files named in ``BUNDLE`` (other files are ignored).
         speed: Kokoro speed factor; 0.95 is the voice-scout setting.
         threads: ONNX Runtime intra-op threads; ``None`` lets ONNX Runtime use one per physical core.
 
     Returns:
-        ``(synth, 24000)``. ``synth(text)`` yields 16-bit mono PCM bytes, one piece per sentence or clause, and
-        yields nothing for empty or whitespace-only text.
+        ``(synth, 24000)``. ``synth(text)`` yields 16-bit mono PCM bytes, one piece per sentence (or clause of a
+        long sentence), and yields nothing for empty or whitespace-only text.
 
     Raises:
         BundleError: a bundle file is missing or altered, or the spaCy English model is not installed.
+        ValueError: ``speed`` or ``threads`` is out of range.
     """
     if not 0.5 <= speed <= 2.0:
         raise ValueError("speed must be between 0.5 and 2.0")
@@ -112,80 +195,42 @@ def kokoro_synth(
     for flag in _OFFLINE_FLAGS:
         os.environ[flag] = "1"
 
-    root = Path(model_dir)
-    model_bytes = _read_verified(root, MODEL_FILE)
-    config_bytes = _read_verified(root, CONFIG_FILE)
-    voice_bytes = _read_verified(root, VOICE_FILE)
+    files = verify_bundle(model_dir)
 
     import numpy as np
     import onnxruntime as ort
-    import spacy.util
 
-    if not spacy.util.is_package("en_core_web_sm"):
-        raise BundleError("spaCy model en_core_web_sm is not installed (install it from requirements.lock)")
-    from misaki import en, espeak
-
-    vocab: dict[str, int] = json.loads(config_bytes)["vocab"]
-    pack = np.load(io.BytesIO(voice_bytes), allow_pickle=False)
+    vocab: dict[str, int] = json.loads(files[CONFIG_FILE])["vocab"]
+    pack = np.load(io.BytesIO(files[VOICE_FILE]), allow_pickle=False)
     if pack.shape != (MAX_PHONEMES, 1, 256) or pack.dtype != np.float32:
         raise BundleError("voice pack has the wrong shape or type")
+    g2p = build_g2p()
 
-    logging.getLogger("phonemizer").disabled = True
-    g2p = en.G2P(british=True, fallback=espeak.EspeakFallback(british=True), unk="")
-    g2p.lexicon.golds.update(LEXICON)
-
+    ort.disable_telemetry_events()
     options = ort.SessionOptions()
     options.use_deterministic_compute = True
     options.log_severity_level = 3
     options.inter_op_num_threads = 1
     if threads is not None:
         options.intra_op_num_threads = threads
-    session = ort.InferenceSession(model_bytes, options, providers=["CPUExecutionProvider"])
-    del model_bytes
+    session = ort.InferenceSession(files.pop(MODEL_FILE), options, providers=["CPUExecutionProvider"])
     speed_in = np.array([speed], dtype=np.float32)
-
-    def phonemize(text: str) -> str:
-        with warnings.catch_warnings():
-            warnings.simplefilter("ignore")
-            phonemes: str = g2p(text)[0]
-        return "".join(p for p in phonemes if p in vocab).strip()
-
-    def pieces(sentence: str) -> Iterator[str]:
-        """Phonemes for one sentence, split at clause marks, then at spaces, until each piece fits."""
-        phonemes = phonemize(sentence)
-        if len(phonemes) <= CLAUSE_SPLIT:
-            if phonemes:
-                yield phonemes
-            return
-        clauses = [c for c in _CLAUSE.split(sentence) if c.strip()]
-        if len(clauses) > 1:
-            for clause in clauses:
-                yield from pieces(clause)
-            return
-        while len(phonemes) > MAX_PHONEMES:
-            cut = phonemes.rfind(" ", 0, MAX_PHONEMES)
-            cut = cut if cut > 0 else MAX_PHONEMES
-            yield phonemes[:cut].strip()
-            phonemes = phonemes[cut:].strip()
-        if phonemes:
-            yield phonemes
 
     def render(phonemes: str) -> bytes:
         ids = np.array([[0, *(vocab[p] for p in phonemes), 0]], dtype=np.int64)
-        style = pack[len(phonemes) - 1]
-        audio = session.run(None, {"input_ids": ids, "style": style, "speed": speed_in})[0].reshape(-1)
-        if SENTENCE_GAP_S:
-            audio = np.concatenate([audio, np.zeros(int(SENTENCE_GAP_S * SAMPLE_RATE), np.float32)])
-        return _pcm16(audio)
+        audio = session.run(None, {"input_ids": ids, "style": pack[len(phonemes) - 1], "speed": speed_in})[0]
+        audio = audio.reshape(-1) * OUTPUT_GAIN
+        if not np.isfinite(audio).all():
+            raise SynthesisError("synthesis failed: non-finite audio")
+        return (np.clip(audio, -1.0, 1.0) * 32767.0).round().astype("<i2").tobytes()
 
     def synth(text: str) -> Iterator[bytes]:
         try:
-            for sentence in split_text(text):
-                for phonemes in pieces(sentence):
-                    yield render(phonemes)
-        except (BundleError, SynthesisError):
+            for phonemes in plan_chunks(g2p, text, vocab):
+                yield render(phonemes)
+        except SynthesisError:
             raise
-        except Exception as exc:  # never let text or phonemes reach the server's logs via an exception message
+        except Exception as exc:  # never let text or phonemes reach the server's logs through an exception message
             raise SynthesisError(f"synthesis failed: {type(exc).__name__}") from None
 
     return synth, SAMPLE_RATE

@@ -1,0 +1,6 @@
+{"base": {}, "sent": {"mode": "sent"}, "merge30": {"mode": "merge", "merge_min": 30},
+ "floor40": {"floor": 40}, "floor80": {"floor": 80}, "floor120": {"floor": 120},
+ "spd090": {"short_speed": 0.90}, "spd100": {"short_speed": 1.0},
+ "pflat": {"short_pred": {"fable": 0.5, "inno": 0.5}}, "pinno": {"short_pred": {"fable": 0.3, "inno": 0.7}},
+ "pgeorge": {"short_pred": {"fable": 0.6, "inno": 0.25, "george": 0.15}},
+ "pgeorge30": {"short_pred": {"fable": 0.5, "inno": 0.2, "george": 0.3}}}

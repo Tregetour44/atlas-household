@@ -1,0 +1,7 @@
+{"tbase": {"mode": "sent"},
+ "tposs": {"mode": "sent", "sub": [["^Timer set\\b", "Timer's set"]]},
+ "tstop": {"mode": "sent", "sub": [["^Timer set:", "Timer set."]]},
+ "tive": {"mode": "sent", "sub": [["^Timer set:", "I've set a timer:"], ["^Timer set for", "I've set a timer for"]]},
+ "tdash": {"mode": "sent", "sub": [["^Timer set:", "Timer set —"]]},
+ "tlex": {"mode": "sent", "sub": [["^Timer set\\b", "[Timer](/tˈImə/) [set](/sˈɛt/)"]]},
+ "tok": {"mode": "sent", "sub": [["^Timer set:", "Right, timer set:"], ["^Timer set for", "Right, timer set for"]]}}
