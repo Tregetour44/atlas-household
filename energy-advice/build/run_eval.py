@@ -39,6 +39,18 @@ def chat(messages, tools, seed):
         return json.load(r)
 
 
+def unload():
+    """Free the model after each case: llama.cpp keeps prompt-cache snapshots (about 0.4 GB each) that otherwise exhaust RAM (OOM seen 10:39).
+    Within a case the model stays loaded, so tool rounds and the figure nudge reuse the conversation's cache."""
+    req = urllib.request.Request('http://127.0.0.1:11434/api/generate', data=json.dumps({'model': MODEL, 'keep_alive': 0}).encode(),
+                                 headers={'Content-Type': 'application/json'})
+    try:
+        urllib.request.urlopen(req, timeout=120).read()
+    except Exception:  # noqa: BLE001
+        pass
+    time.sleep(2)
+
+
 def case_prompt(arm: str, c: dict) -> tuple[str, str, dict | None]:
     """(system prompt, cards text, cards) for a case. Codex 49 cases carry text facts (both arms); own cases carry structured inputs (cards
     for the candidate arm only: the current arm is the live prompt, which has no cards)."""
@@ -129,15 +141,20 @@ def main():
     if out.exists():
         for line in out.read_text().splitlines():
             r = json.loads(line)
-            done.add((r['id'], r['repeat']))
+            if not r.get('error'):
+                done.add((r['id'], r['repeat']))
     for rep in range(1, a.repeats + 1):
         for c in cases:
             if (c['id'], rep) in done:
                 continue
-            try:
-                r = asyncio.run(one(a.arm, c, rep))
-            except Exception as ex:  # noqa: BLE001  a failed trial stays in the denominator
-                r = {'id': c['id'], 'arm': a.arm, 'repeat': rep, 'question': c['question'], 'error': f'{type(ex).__name__}: {ex}', 'reply': ''}
+            for attempt in (1, 2):
+                try:
+                    r = asyncio.run(one(a.arm, c, rep))
+                    break
+                except Exception as ex:  # noqa: BLE001  a failed trial stays in the denominator (after one retry)
+                    r = {'id': c['id'], 'arm': a.arm, 'repeat': rep, 'question': c['question'], 'error': f'{type(ex).__name__}: {ex}', 'reply': ''}
+                    unload()
+            unload()
             with out.open('a') as f:
                 f.write(json.dumps(r, ensure_ascii=False, default=str) + '\n')
             print(f"{r['id']} r{rep} {r.get('seconds')}s {r.get('path')} | {r.get('reply', '')[:160]}", flush=True)

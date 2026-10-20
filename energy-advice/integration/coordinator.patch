@@ -1,0 +1,1161 @@
+diff -ruN a/custom_components/atlas_household/__init__.py b/custom_components/atlas_household/__init__.py
+--- a/custom_components/atlas_household/__init__.py	2026-10-20 10:41:41.793723869 +0000
++++ b/custom_components/atlas_household/__init__.py	2026-10-20 10:46:49.734436568 +0000
+@@ -30,13 +30,13 @@
+         self.hass, self.coord, self.backend = hass, coord, backend
+         self.unsub_timer = None
+ 
+-    async def call(self, tool, args, conversation_id, user_text, turn, last_reply, llm_context, request_id=None):
++    async def call(self, tool, args, conversation_id, user_text, turn, last_reply, llm_context, request_id=None, sources=None):
+         from homeassistant.core import Context  # noqa: PLC0415
+         parent = getattr(llm_context, 'context', None)
+         self.backend.context = Context(user_id=getattr(parent, 'user_id', None), parent_id=getattr(parent, 'id', None))
+         try:
+             return await self.coord.call_tool(tool, args, conversation_id=conversation_id, user_text=user_text, turn=turn,
+-                                              last_reply=last_reply, request_id=request_id)
++                                              last_reply=last_reply, request_id=request_id, sources=sources)
+         finally:
+             self.backend.context = None
+             self.arm()
+diff -ruN a/custom_components/atlas_household/api.py b/custom_components/atlas_household/api.py
+--- a/custom_components/atlas_household/api.py	2026-10-20 10:41:41.793862781 +0000
++++ b/custom_components/atlas_household/api.py	2026-10-20 10:46:49.730425123 +0000
+@@ -71,13 +71,14 @@
+         # The person's own words this turn, for the plain-yes check (never a flag from the model) and the conversation id.
+         from homeassistant.components.conversation.chat_log import AssistantContent, UserContent, current_chat_log  # noqa: PLC0415
+         chat = current_chat_log.get()
+-        user_text, conversation_id, turn, last_reply = '', None, None, None
++        user_text, conversation_id, turn, last_reply, sources = '', None, None, None, []
+         if chat is None and tool_input.tool_name in NEVER_SCOPE:
+             # no conversation means no words: the never-list and every other check of what the person said would pass vacuously [cloud review 1, M12]
+             return {'status': 'denied', 'reason': 'no_conversation', 'summary': "I can only make changes from a conversation, where I can check what was asked."}
+         if chat is not None:
+             conversation_id = chat.conversation_id
+             content = list(chat.content)
++            sources = [c.content for c in content[:1] if type(c).__name__ == 'SystemContent' and c.content]   # the rendered prompt: readings and cards
+             from .turn import NUDGE  # noqa: PLC0415
+             for i in range(len(content) - 1, -1, -1):
+                 if isinstance(content[i], UserContent) and content[i].content == NUDGE:
+@@ -93,7 +94,7 @@
+                             break
+                     break
+         return await self.runtime.call(tool_input.tool_name, dict(tool_input.tool_args), conversation_id, user_text, turn, last_reply,
+-                                       llm_context, tool_input.id)
++                                       llm_context, tool_input.id, sources=sources)
+ 
+ 
+ class AtlasAPI(llm.API):
+diff -ruN a/custom_components/atlas_household/calc.py b/custom_components/atlas_household/calc.py
+--- a/custom_components/atlas_household/calc.py	1970-01-01 00:00:00.000000000 +0000
++++ b/custom_components/atlas_household/calc.py	2026-10-20 10:46:49.684212449 +0000
+@@ -0,0 +1,312 @@
++"""Atlas arithmetic in code (energy-advice-build; the owner, 20 Oct: "it couldnt even do basic arithmatic"). Pure Python, no HA import.
++
++Three pieces, so no figure Atlas says comes from the model's own arithmetic:
++  1. fast_arithmetic(text): a whole-utterance sum ("what's 2 + 8?", "17% of 340", "100 divided by 8") is answered here, the model is not
++     asked (like fastpath.parse_timer: strict grammar, whole utterance only, anything else returns None).
++  2. atlas_calc, a read-only tool: pure arithmetic over numbers ALREADY IN THE TURN (the person's words, the readings and energy cards in the
++     prompt, earlier atlas_calc results), or the time from one clock time to the next. No device access, no state reads, no side effects;
++     an operand that isn't in the turn is refused, so the tool can't launder a made-up number into a "computed" one.
++  3. unsupported_figures(reply, sources): the figure guard. Every quantity in a reply must match one in the turn's sources (same kind of
++     unit, within the reply's own rounding). turn_figures() applies it like core.guard_reply: one nudge, then unsupported sentences dropped.
++Evaluation is an AST walk over + - * / and brackets only (no eval, no names, no powers), bounded in length and size.
++"""
++from __future__ import annotations
++
++import ast
++import math
++import re
++
++TOOL_NAME = 'atlas_calc'
++CONSTANTS = {100.0, 60.0, 1000.0, 24.0}          # unit conversions the tool may use without a source: %, minutes, W<->kW, hours
++_MAX_LEN, _MAX_NUMBERS, _MAX_ABS = 200, 12, 1e9
++
++TOOL_SPEC = (TOOL_NAME,
++             'Arithmetic in code. Use it for ANY sum, difference, product, share, percentage, cost or time span you need: never work a figure '
++             'out yourself. Give expression (numbers from the readings, the energy cards or the person\'s words, with + - * / and brackets; '
++             'a percentage p of x is x * p / 100), OR from_time and to_time (24-hour HH:MM) for how long from one clock time to the next.',
++             {'expression': {'type': 'string', 'description': 'For example (25.6 * (61 - 20) / 100) - 4.0'},
++              'from_time': {'type': 'string', 'description': '24-hour HH:MM'},
++              'to_time': {'type': 'string', 'description': '24-hour HH:MM'}},
++             [])
++
++NUMBER_WORDS = {'zero': 0, 'one': 1, 'two': 2, 'three': 3, 'four': 4, 'five': 5, 'six': 6, 'seven': 7, 'eight': 8, 'nine': 9, 'ten': 10,
++                'eleven': 11, 'twelve': 12, 'thirteen': 13, 'fourteen': 14, 'fifteen': 15, 'sixteen': 16, 'seventeen': 17, 'eighteen': 18,
++                'nineteen': 19, 'twenty': 20, 'thirty': 30, 'forty': 40, 'fifty': 50, 'sixty': 60, 'seventy': 70, 'eighty': 80, 'ninety': 90,
++                'hundred': 100, 'half': 0.5, 'quarter': 0.25, 'double': 2, 'twice': 2, 'triple': 3}
++
++
++class CalcError(ValueError):
++    pass
++
++
++def _walk(node, seen: list[float]) -> float:
++    if isinstance(node, ast.Expression):
++        return _walk(node.body, seen)
++    if isinstance(node, ast.Constant) and type(node.value) in (int, float):
++        seen.append(float(node.value))
++        return float(node.value)
++    if isinstance(node, ast.UnaryOp) and isinstance(node.op, (ast.USub, ast.UAdd)):
++        v = _walk(node.operand, seen)
++        return -v if isinstance(node.op, ast.USub) else v
++    if isinstance(node, ast.BinOp) and isinstance(node.op, (ast.Add, ast.Sub, ast.Mult, ast.Div)):
++        a, b = _walk(node.left, seen), _walk(node.right, seen)
++        if isinstance(node.op, ast.Div):
++            if b == 0:
++                raise CalcError('division by zero')
++            r = a / b
++        else:
++            r = a + b if isinstance(node.op, ast.Add) else a - b if isinstance(node.op, ast.Sub) else a * b
++        if not math.isfinite(r) or abs(r) > _MAX_ABS:
++            raise CalcError('result out of range')
++        return r
++    raise CalcError('only numbers, + - * / and brackets are allowed')
++
++
++def evaluate(expression: str) -> tuple[float, list[float]]:
++    """(value, operands). Raises CalcError for anything but plain arithmetic."""
++    if not isinstance(expression, str) or not expression.strip():
++        raise CalcError('expression must be text')
++    e = expression.replace('×', '*').replace('÷', '/').replace('−', '-').replace('–', '-').replace(',', '')
++    e = re.sub(r'(?<=\d)\s*x\s*(?=[\d(])', '*', e)
++    if len(e) > _MAX_LEN:
++        raise CalcError('expression too long')
++    if re.search(r'\*\*|//|[A-Za-z_=;:\[\]{}\'"]', e):
++        raise CalcError('only numbers, + - * / and brackets are allowed')
++    try:
++        tree = ast.parse(e, mode='eval')
++    except SyntaxError:
++        raise CalcError('not a valid sum') from None
++    seen: list[float] = []
++    v = _walk(tree, seen)
++    if len(seen) > _MAX_NUMBERS:
++        raise CalcError('too many numbers')
++    return v, seen
++
++
++def say(v: float) -> str:
++    """Display only: whole numbers bare, otherwise up to 2 decimals (4 for small values), trailing zeros dropped."""
++    if abs(v - round(v)) < 1e-9:
++        return f'{round(v):,}'.replace(',', '')
++    d = 4 if abs(v) < 0.1 else 2
++    return f'{v:.{d}f}'.rstrip('0').rstrip('.')
++
++
++# ---- quantities in text (shared by the tool's operand check and the figure guard) ----
++
++_MONTHS = r'(?:jan(?:uary)?|feb(?:ruary)?|mar(?:ch)?|apr(?:il)?|may|june?|july?|aug(?:ust)?|sep(?:t(?:ember)?)?|oct(?:ober)?|nov(?:ember)?|dec(?:ember)?)'
++_NUM = r'(\d+(?:\.\d+)?)'
++_Q = re.compile(
++    r'(?P<range>\b(?P<r1>\d{1,2})(?::(?P<r1m>\d{2}))?\s*(?:[–-]|to)\s*(?P<r2>\d{1,2})(?::(?P<r2m>\d{2}))?\s*(?P<rap>am|pm|a\.m\.|p\.m\.))'
++    r'|(?P<tod>\b(?P<th>\d{1,2})(?::(?P<tm>\d{2}))?\s*(?P<ap>am|pm|a\.m\.|p\.m\.)(?![a-z]))'
++    r'|(?P<tod24>\b(?P<h24>[01]?\d|2[0-3]):(?P<m24>[0-5]\d)\b)'
++    r'|(?P<named>\b(?:noon|midday|midnight)\b)'
++    r'|(?P<dur>\b(?P<dh>\d+(?:\.\d+)?)\s*(?:h|hrs?|hours?)\b(?:\s*(?:and\s*)?(?P<dm>\d+)\s*(?:min|mins|minutes?)\b)?)'
++    r'|(?P<durm>\b(?P<mm>\d+)\s*(?:min|mins|minutes?)\b)'
++    r'|(?P<date>\b(?P<dd>\d{1,2})(?:st|nd|rd|th)?\s+' + _MONTHS + r'\b)'
++    r'|(?P<money>\$\s?(?P<dol>\d+(?:\.\d+)?)|\b(?P<cents>\d+(?:\.\d+)?)\s?(?:c|cents?)\b)'
++    r'|(?P<qty>(?<![\w.])(?P<qv>[+-]?\d+(?:\.\d+)?)\s*(?P<qu>kWh|Wh|kW|W\b|%|per ?cent\b|percent\b|points?\b|°\s?C|degrees?\b|days?\b|nights?\b)?)',
++    re.I)
++
++
++def _dec(s: str) -> int:
++    return len(s.split('.')[1]) if '.' in s else 0
++
++
++def _ap(h: int, ap: str | None) -> list[int]:
++    if ap is None:
++        return [h % 24]
++    pm = ap.lower().startswith('p')
++    return [(h % 12) + (12 if pm else 0)]
++
++
++def quantities(text: str) -> list[tuple[str, float, int, str]]:
++    """(kind, value, decimals, text) for each quantity: kinds tod (minutes of the day), dur (minutes), date (day of month), money ($),
++    kwh, w, pct, temp, count, plain. A year (2020-2039) and list numbering are not quantities."""
++    out = []
++    text = (text or '').replace('’', "'")
++    for m in _Q.finditer(text):
++        g = m.group
++        if g('range'):
++            ap = g('rap')
++            for h, mi in ((g('r1'), g('r1m')), (g('r2'), g('r2m'))):
++                for hh in _ap(int(h), ap):
++                    out.append(('tod', hh * 60 + int(mi or 0), 0, m[0]))
++        elif g('tod'):
++            for hh in _ap(int(g('th')), g('ap')):
++                out.append(('tod', hh * 60 + int(g('tm') or 0), 0, m[0]))
++        elif g('tod24'):
++            out.append(('tod', int(g('h24')) * 60 + int(g('m24')), 0, m[0]))
++        elif g('named'):
++            out.append(('tod', 0 if g('named').lower() == 'midnight' else 720, 0, m[0]))
++        elif g('dur'):
++            mins = float(g('dh')) * 60 + float(g('dm') or 0)
++            out.append(('dur', mins, 0 if g('dm') or '.' not in g('dh') else _dec(g('dh')) + 1, m[0]))
++        elif g('durm'):
++            out.append(('dur', float(g('mm')), 0, m[0]))
++        elif g('date'):
++            out.append(('date', float(g('dd')), 0, m[0]))
++        elif g('money'):
++            if g('dol') is not None:
++                out.append(('money', float(g('dol')), _dec(g('dol')), m[0]))
++            else:
++                out.append(('money', float(g('cents')) / 100, _dec(g('cents')) + 2, m[0]))
++        else:
++            v, u = float(g('qv')), (g('qu') or '').lower().replace(' ', '')
++            if not u and 2020 <= v <= 2039 and '.' not in g('qv'):
++                continue
++            kind = {'kwh': 'kwh', 'wh': 'kwh', 'kw': 'w', 'w': 'w', '%': 'pct', 'percent': 'pct', 'percent': 'pct', 'point': 'pct',
++                    'points': 'pct', 'degree': 'temp', 'degrees': 'temp', 'day': 'count', 'days': 'count', 'night': 'count',
++                    'nights': 'count'}.get(u, 'temp' if u.startswith('°') else 'plain')
++            if u == 'wh':
++                v, dec = v / 1000, _dec(g('qv')) + 3
++            elif u == 'kw':
++                v, dec = v * 1000, _dec(g('qv')) - 3
++            else:
++                dec = _dec(g('qv'))
++            out.append((kind, v, dec, m[0]))
++    return out
++
++
++def _words(text: str) -> list[float]:
++    return [float(NUMBER_WORDS[w]) for w in re.findall(r'[a-z]+', (text or '').lower()) if w in NUMBER_WORDS]
++
++
++def source_numbers(sources: list[str]) -> set[float]:
++    """Every number literal in the sources (and number words in them), for the tool's operand check; money in cents also as dollars."""
++    out: set[float] = set()
++    for s in sources:
++        for k, v, _, raw in quantities(s):
++            out.add(round(v, 6))
++            for lit in re.findall(r'\d+(?:\.\d+)?', raw):
++                out.add(round(float(lit), 6))
++        for lit in re.findall(r'(?<![\w.])\d+(?:\.\d+)?', (s or '').replace(',', '')):
++            out.add(round(float(lit), 6))
++        out.update(round(w, 6) for w in _words(s))
++    return out
++
++
++def calc_tool(args: dict, sources: list[str], prior_results: list[float] | None = None) -> dict:
++    """The atlas_calc tool. args are checked like tools.validate_args (unknown fields rejected). Never touches the house."""
++    if not isinstance(args, dict) or any(k not in ('expression', 'from_time', 'to_time') for k in args):
++        return {'status': 'denied', 'reason': 'unknown field', 'summary': 'Only expression, or from_time and to_time.'}
++    if 'expression' in args and ('from_time' in args or 'to_time' in args):
++        return {'status': 'denied', 'reason': 'both modes', 'summary': 'Give an expression, or from_time and to_time, not both.'}
++    if 'expression' in args:
++        try:
++            v, operands = evaluate(args['expression'])
++        except CalcError as ex:
++            return {'status': 'denied', 'reason': str(ex), 'summary': f"I couldn't work that out: {ex}."}
++        allowed = source_numbers(sources) | CONSTANTS | {round(x, 6) for x in (prior_results or [])}
++        stray = [x for x in operands if round(x, 6) not in allowed]
++        if stray:
++            return {'status': 'denied', 'reason': 'number_not_in_turn', 'summary':
++                    f"{say(stray[0])} isn't in the readings, the energy cards or the person's words; use only figures you were given."}
++        return {'status': 'calculated', 'expression': args['expression'], 'result': v, 'say': say(v),
++                'summary': f"{args['expression']} = {say(v)}"}
++    if 'from_time' in args and 'to_time' in args:
++        a, b = args['from_time'], args['to_time']
++        if not all(isinstance(x, str) and re.fullmatch(r'([01]\d|2[0-3]):[0-5]\d', x) for x in (a, b)):
++            return {'status': 'denied', 'reason': 'bad time', 'summary': 'Times must be 24-hour HH:MM.'}
++        m = (int(b[:2]) * 60 + int(b[3:]) - int(a[:2]) * 60 - int(a[3:])) % 1440
++        text = f'{m // 60} h' + (f' {m % 60} min' if m % 60 else '') if m >= 60 else f'{m} min'
++        return {'status': 'calculated', 'from_time': a, 'to_time': b, 'minutes': m, 'result': m, 'say': text,
++                'summary': f'From {a} to the next {b} is {text}.'}
++    return {'status': 'denied', 'reason': 'missing', 'summary': 'Give an expression, or from_time and to_time.'}
++
++
++# ---- 1. whole-utterance arithmetic, answered without the model ----
++
++_OPS = [(r'\bmultiplied by\b|\btimes\b|×|\*|(?<=\d)\s*x\s*(?=\d)', '*'), (r'\bdivided by\b|\bover\b|÷|/', '/'),
++        (r'\bplus\b|\+|\band\b', '+'), (r'\bminus\b|\btake away\b|−|–', '-')]
++_FAST = re.compile(r"^\s*(?:(?:hey\s+)?atlas,?\s+)?(?:what(?:'s| is)|whats|calculate|work out|how much is)?\s*(?P<e>[\d\s.,()+\-*/×÷x−–]+|"
++                   r"[\d.,]+(?:\s*(?:plus|minus|times|multiplied by|divided by|over|take away|and|[+\-*/×÷x−–])\s*[\d.,]+)+)\s*[?.!]?\s*$", re.I)
++_PCT = re.compile(r"^\s*(?:(?:hey\s+)?atlas,?\s+)?(?:what(?:'s| is)|whats|calculate|work out)?\s*(?P<p>\d+(?:\.\d+)?)\s*(?:%|percent|per cent)\s+of\s+"
++                  r"(?P<x>\d+(?:\.\d+)?)\s*[?.!]?\s*$", re.I)
++
++
++def fast_arithmetic(text: str) -> str | None:
++    """A reply for a whole utterance that is plain arithmetic, else None (the turn goes to the model as before)."""
++    t = (text or '').strip()
++    m = _PCT.match(t)
++    if m:
++        v = float(m['x']) * float(m['p']) / 100
++        return f"{m['p']}% of {m['x']} is {say(v)}."
++    m = _FAST.match(t)
++    if not m or not re.search(r'\d.*(?:[+\-*/×÷x−–]|plus|minus|times|multiplied|divided|over|take away|and).*\d', m['e'], re.I):
++        return None
++    e = m['e']
++    for pat, op in _OPS:
++        e = re.sub(pat, f' {op} ', e, flags=re.I)
++    try:
++        v, _ = evaluate(e)
++    except CalcError:
++        return None
++    shown = re.sub(r'\s+', ' ', e).strip().replace('*', '×').replace('/', '÷')
++    return f'{shown} is {say(v)}.'
++
++
++# ---- 3. the figure guard ----
++
++_COMPATIBLE = {'plain': None}
++
++
++def _match(kind: str, v: float, dec: int, src: list[tuple[str, float, int, str]]) -> bool:
++    tol = 0.5 * 10 ** (-dec) + 1e-9
++    if kind == 'tod':
++        return any(k == 'tod' and (abs(s - v) < 1e-9 or abs((s - v) % 720) < 1e-9) for k, s, _, _ in src)   # 9 pm said as 9:00 or 21:00
++    if kind == 'dur':
++        tol = max(tol, 0.5)
++        return any(k == 'dur' and (abs(s - v) <= tol or (dec == 0 and v % 60 == 0 and abs(s - v) < 60)) for k, s, _, _ in src)
++    if kind == 'plain' and dec == 0 and any(k == 'tod' and s % 60 == 0 and (s // 60) % 12 == v % 12 for k, s, _, _ in src):
++        return True                                   # "between 6 and 8 pm": the 6 is a clock hour given in the sources
++    for k, s, _, _ in src:
++        if kind != 'plain' and k != 'plain' and k != kind:
++            continue
++        if kind == 'money' and k == 'plain':
++            continue
++        if abs(s - v) <= tol:
++            return True
++    return False
++
++
++def unsupported_figures(reply: str, sources: list[str]) -> list[str]:
++    """The quantities in reply that no source supports (same kind of unit, within the reply's own rounding: 10.24 may be said as 10.2 or 10,
++    never as 10.3). A bare number may match any kind. Number words are not checked here (the judge reads them)."""
++    src = [q for s in sources for q in quantities(s)]
++    src += [('plain', float(w), 0, '') for s in sources for w in _words(s)]
++    bad = []
++    for kind, v, dec, raw in quantities(reply):
++        if kind == 'date':
++            if not any(k == 'date' and s == v for k, s, _, _ in src):
++                bad.append(raw)
++            continue
++        if not _match(kind, v, dec, src):
++            bad.append(raw.strip())
++    return bad
++
++
++FIGURE_NUDGE = ("Your reply has figures that aren't in the readings, the energy cards, the person's words or an atlas_calc result: {figs}. "
++                "Answer again, briefly: quote only figures you were given, and use atlas_calc for any sum you need.")
++
++
++def _drop(reply: str, bad: list[str]) -> str:
++    parts = re.split(r'(?<=[.!?])\s+', reply.strip())
++    keep = [p for p in parts if not any(b and b in p for b in bad)]
++    return ' '.join(keep).strip()
++
++
++async def turn_figures(reply: str, sources: list[str], ask_model, tool_summaries=lambda: []) -> tuple[str, dict]:
++    """Applied after core.guard_reply: (final reply, record). Unsupported figures -> one nudge -> re-check -> unsupported sentences dropped;
++    if nothing is left, a plain line instead of a guess. tool_summaries() returns this turn's atlas_calc summaries (they are sources)."""
++    rec = {'first_unsupported': unsupported_figures(reply, sources + tool_summaries()), 'nudged': False, 'dropped': []}
++    if not rec['first_unsupported']:
++        return reply, rec
++    rec['nudged'] = True
++    second = await ask_model(FIGURE_NUDGE.format(figs=', '.join(rec['first_unsupported'])))
++    bad = unsupported_figures(second, sources + tool_summaries())
++    rec['second_unsupported'] = bad
++    if not bad:
++        return second, rec
++    kept = _drop(second, bad)
++    rec['dropped'] = bad
++    return (kept or "I can't give that figure reliably from what I have."), rec
+diff -ruN a/custom_components/atlas_household/conversation.py b/custom_components/atlas_household/conversation.py
+--- a/custom_components/atlas_household/conversation.py	2026-10-20 10:41:41.794026565 +0000
++++ b/custom_components/atlas_household/conversation.py	2026-10-20 10:46:49.738433887 +0000
+@@ -78,7 +78,9 @@
+             return await rt.call(name, args, chat_log.conversation_id, user_input.text, None, None, SimpleNamespace(context=user_input.context))
+ 
+         # one turn, in the order the household hears it (turn.run_turn; the Atlas-side project's runners call the same function)
+-        out = await run_turn(rt.coord, user_input.text, chat_log.conversation_id, ask, other_tools=other_tools, call_tool=call_tool)
++        def sources():                            # the underlying agent's rendered prompt (readings and energy cards), for the figure guard
++            return [c.content for c in chat_log.content[:1] if type(c).__name__ == 'SystemContent' and c.content]
++        out = await run_turn(rt.coord, user_input.text, chat_log.conversation_id, ask, other_tools=other_tools, call_tool=call_tool, sources=sources)
+         if out['path'] == 'fast':
+             speech = out['reply']
+             chat_log.async_add_assistant_content_without_tools(AssistantContent(agent_id=self.entity_id, content=speech))
+diff -ruN a/custom_components/atlas_household/core.py b/custom_components/atlas_household/core.py
+--- a/custom_components/atlas_household/core.py	2026-10-20 10:41:41.794056256 +0000
++++ b/custom_components/atlas_household/core.py	2026-10-20 10:46:49.722568622 +0000
+@@ -621,16 +621,18 @@
+ 
+     # ---------- tool entry ----------
+     async def call_tool(self, name: str, args: dict, *, conversation_id: str | None = None, user_text: str = '', turn: str | None = None,
+-                        last_reply: str | None = None, request_id: str | None = None, principal: str = 'household') -> dict:
++                        last_reply: str | None = None, request_id: str | None = None, principal: str = 'household',
++                        sources: list[str] | None = None) -> dict:
+         key = (conversation_id or 'none', request_id)
+         if request_id and key in self.requests:
+             return self.requests[key][1]
+         fn = {'atlas_lights': self._lights, 'atlas_scene': self._scene, 'atlas_blind': self._blind, 'atlas_media': self._media,
+               'atlas_confirm': self._confirm, 'atlas_schedule': self._schedule, 'atlas_scheduled': self._scheduled,
+-              'atlas_cancel': self._cancel, 'atlas_undo': self._undo}.get(name)
++              'atlas_cancel': self._cancel, 'atlas_undo': self._undo, 'atlas_calc': self._calc}.get(name)
+         from .tools import validate_args       # local import keeps tools.py and core.py independent at load time
+         err = None if fn is None else validate_args(name, args, self.handles, self.timer_blinds)
+-        ctx = {'conversation_id': conversation_id or 'none', 'user_text': user_text or '', 'turn': turn, 'last_reply': last_reply, 'principal': principal}
++        ctx = {'conversation_id': conversation_id or 'none', 'user_text': user_text or '', 'turn': turn, 'last_reply': last_reply, 'principal': principal,
++               'sources': list(sources or [])}
+         if fn is None:
+             res = _deny('unknown_tool', "I can't do that.")
+         elif err:
+@@ -674,6 +676,14 @@
+             self.requests[key] = (self.now(), res)
+         return res
+ 
++    async def _calc(self, a: dict, ctx: dict) -> dict:
++        """atlas_calc: arithmetic over numbers already in the turn (the prompt's readings and energy cards, the person's words, this conversation's
++        earlier results). Pure: no state read, no send. A number that isn't in the turn is refused (calc.calc_tool)."""
++        from .calc import calc_tool  # noqa: PLC0415
++        prior = [r.get('result') for _, cid, n, _, r in self.recent_results if n == 'atlas_calc' and cid == ctx['conversation_id'] and r.get('status') == 'calculated']
++        summaries = [r['summary'] for _, cid, n, _, r in self.recent_results if n == 'atlas_calc' and cid == ctx['conversation_id'] and r.get('status') == 'calculated']
++        return calc_tool(a, ctx['sources'] + [ctx['user_text']] + summaries, [p for p in prior if isinstance(p, (int, float))])
++
+     def _in_scope(self, handle: str, text: str) -> bool:
+         """False when a floor-wide or whole-outside group is asked for in words that name neither its scope nor all the lights [M11]."""
+         t = self.handles.get(handle) or {}
+diff -ruN a/custom_components/atlas_household/energy_cards.py b/custom_components/atlas_household/energy_cards.py
+--- a/custom_components/atlas_household/energy_cards.py	1970-01-01 00:00:00.000000000 +0000
++++ b/custom_components/atlas_household/energy_cards.py	2026-10-20 10:46:49.684073846 +0000
+@@ -0,0 +1,529 @@
++"""Atlas energy fact cards (energy-advice-build; Codex 49 FACT-CARDS, directive 20261018-2225 + am. 1). Pure Python, no HA import, read-only.
++
++Every energy figure Atlas may say is computed here and handed to the model as finished text: the model quotes, it never adds, subtracts,
++multiplies or divides (the owner, 20 Oct: "it couldnt even do basic arithmatic"). The cards are evidence for a tactical answer, not a script:
++they compare running a named load tonight / now with the next free window, from the battery, the history of similar nights, the solar outlook
++and the tariff and credit rules, and they say which way the estimate leans and why (the owner: "it should consider history, forecast, trends").
++
++Inputs are plain values the HA adapter has already read (states, recorder statistics, the forecast helper). Rules that keep the figures honest:
++  - missing, invalid or stale is None with a reason, never 0; a true 0 stays 0 [Codex 49 FACT-CARDS, "Bad input"];
++  - booleans, numeric strings, NaN/inf, negative energy and SOC outside 0-100 are invalid;
++  - percentage POINTS for the SOC trend; the battery budget is nominal (25.6 kWh recorded, not calibrated delivery) and says so;
++  - the reserve (20%) and the export floor (35%) are different limits; neither is "empty";
++  - tomorrow's solar never counts as energy tonight; whole-day means are never evening demand;
++  - the credit is per hour, gross import strictly below 0.030 kWh in EACH of 18-19 and 19-20; export never offsets; HA indicates, the bill decides;
++  - estimates are labelled as estimates, with their basis (days, range); rounding is for display only, after every comparison.
++Nothing here reads or changes the battery, the inverter or the controller, and no card ever suggests changing them.
++"""
++from __future__ import annotations
++
++import math
++import re
++from datetime import datetime, timedelta, timezone
++from zoneinfo import ZoneInfo
++
++SYDNEY = ZoneInfo('Australia/Sydney')
++RULES = {'free_start': 11 * 60, 'free_end': 14 * 60, 'credit_start': 18 * 60, 'credit_end': 20 * 60, 'credit_limit_kwh': 0.030,
++         'credit_dollars': 1, 'paid_rate': 0.55, 'capacity_kwh': 25.6, 'reserve_pct': 20, 'export_floor_pct': 35}
++# Freshness for advice (Codex 49 FACT-CARDS "Freshness"; the display limits in fact-cards.mjs): minutes since the reading last reported.
++FRESH_MINUTES = {'power': 15, 'soc': 120, 'forecast': 120}
++# DRAFT policy values for Energy's review (not owner preferences): the buffer that makes a margin "comfortable", and the matched-day minimum.
++COMFORT_BUFFER_KWH = 1.0
++MIN_MATCHED_DAYS = 5
++HOT_DAY_C = 30          # a forecast high at or above this matches history days of the same band (within HOT_BAND_C)
++HOT_BAND_C = 4
++
++# Appliance programmes. 'typical' figures are general knowledge for common Australian appliances, NOT measured in this house; a measured
++# profile (from HA's history or the person's own words) replaces them and is labelled measured. Each is (low kWh, high kWh, minutes).
++PROFILES = {
++    'dishwasher': (1.0, 1.5, 120),
++    'washing machine': (0.5, 1.0, 90),
++    'dryer': (2.0, 3.5, 120),
++    'oven': (1.5, 2.5, 60),
++    'pool pump': (1.5, 3.0, 240),
++}
++_LOAD_WORDS = [('dishwasher', r'dish ?washer|dishes'), ('washing machine', r'washing machine|(?<!dish)(?<!dish )washer\b|(the |a |some )?washing\b|a wash\b|load of washing'),
++               ('dryer', r'dryer|drier|tumble'), ('oven', r'\boven\b'), ('pool pump', r'pool pump|pool filter')]
++
++
++class Value:
++    """A checked reading: value (or None) and, when None, the reason (missing / invalid / stale)."""
++    __slots__ = ('value', 'reason', 'at', 'last')
++
++    def __init__(self, value, reason: str | None = None, at: datetime | None = None, last: float | None = None) -> None:
++        self.value, self.reason, self.at, self.last = value, reason, at, last   # last: a stale reading's value, never used as current
++
++    def __bool__(self) -> bool:
++        return self.value is not None
++
++
++def number(v, *, lo: float | None = 0.0, hi: float | None = None) -> float | None:
++    """A finite real number within [lo, hi], else None. Booleans and strings are not numbers (upstream normalises units)."""
++    if isinstance(v, bool) or not isinstance(v, (int, float)) or not math.isfinite(v):
++        return None
++    if (lo is not None and v < lo) or (hi is not None and v > hi):
++        return None
++    return float(v)
++
++
++def reading(r, now: datetime, kind: str, *, lo: float | None = 0.0, hi: float | None = None) -> Value:
++    """r is {'value': x, 'at': aware datetime or ISO text} (or None). Freshness by FRESH_MINUTES[kind]; kind None = no freshness limit
++    (a daily total changes only when energy flows, so an unchanged total is not stale)."""
++    if r is None or r.get('value') is None:
++        return Value(None, 'not available')
++    v = number(r['value'], lo=lo, hi=hi)
++    if v is None:
++        return Value(None, 'invalid reading')
++    at = r.get('at')
++    if isinstance(at, str):
++        at = datetime.fromisoformat(at)
++    if at is not None:
++        if at.tzinfo is None:
++            return Value(None, 'invalid reading (no time zone)')
++        age = _mins(at, now)
++        if age < -1:
++            return Value(None, 'invalid reading (time in the future)')
++        if kind and age > FRESH_MINUTES[kind]:
++            return Value(None, f'stale (last reported {clock(at.astimezone(SYDNEY))})', at, v)
++    return Value(v, None, at)
++
++
++# ---- display (rounding happens here only, after every comparison) ----
++
++def clock(t: datetime) -> str:
++    """'9:40 pm', '11 am'."""
++    h, m = t.hour, t.minute
++    return f"{h % 12 or 12}{'' if m == 0 else f':{m:02d}'} {'am' if h < 12 else 'pm'}"
++
++
++def hm(minutes: float) -> str:
++    """A duration: '13 h 20 min', '45 min', '2 h'."""
++    m = int(round(minutes))
++    if m < 60:
++        return f'{m} min'
++    return f'{m // 60} h' + (f' {m % 60} min' if m % 60 else '')
++
++
++def kwh(x: float) -> str:
++    return f'{x:.2f} kWh' if 0 < abs(x) < 0.1 else f'{x:.1f} kWh'
++
++
++def money(x: float) -> str:
++    return f'${x:.2f}'
++
++
++# ---- cards ----
++
++def _mins(a: datetime, b: datetime) -> float:
++    """Minutes from a to b, through UTC: Python subtracts same-zone datetimes as wall clock, which is wrong across a DST change."""
++    return (b.astimezone(timezone.utc) - a.astimezone(timezone.utc)).total_seconds() / 60
++
++
++def _minute(t: datetime) -> int:
++    return t.hour * 60 + t.minute
++
++
++def _at_minute(now: datetime, minute_of_day: int, days_ahead: int = 0) -> datetime:
++    d = (now + timedelta(days=days_ahead)).date()
++    return datetime(d.year, d.month, d.day, minute_of_day // 60, minute_of_day % 60, tzinfo=SYDNEY)
++
++
++def clock_card(now: datetime, rules: dict = RULES) -> dict:
++    """Where now sits against the free window [11:00,14:00) and the credit hours [18:00,20:00), Sydney civil time (DST-safe: wall-clock
++    datetimes in Australia/Sydney, differences taken on aware datetimes)."""
++    now = now.astimezone(SYDNEY)
++    m = _minute(now)
++    fs, fe, cs, ce = rules['free_start'], rules['free_end'], rules['credit_start'], rules['credit_end']
++    in_free = fs <= m < fe
++    next_free = _at_minute(now, fs, 0 if m < fs else 1)
++    out = {'now': now, 'in_free': in_free, 'next_free_start': next_free if not in_free else _at_minute(now, fs, 1),
++           'minutes_to_free': 0 if in_free else _mins(now, next_free),
++           'free_minutes_left': _mins(now, _at_minute(now, fe)) if in_free else 0,
++           'credit': 'before' if m < cs else 'during' if m < ce else 'after'}
++    out['minutes_to_credit'] = _mins(now, _at_minute(now, cs)) if m < cs else None
++    out['credit_minutes_left'] = _mins(now, _at_minute(now, ce)) if cs <= m < ce else None
++    return out
++
++
++def battery_card(soc: Value, soc_earlier: Value | None = None, rules: dict = RULES) -> dict:
++    """Nominal budget from the recorded capacity: stored, above the 20% reserve, above the 35% export floor; trend in percentage points per
++    hour from an earlier valid sample (at least 20 minutes back, at most 3 hours). Nominal is not calibrated delivered energy."""
++    if not soc:
++        return {'soc': None, 'reason': soc.reason}
++    c, s = rules['capacity_kwh'], soc.value
++    out = {'soc': s, 'stored_kwh': c * s / 100, 'above_reserve_kwh': c * max(0.0, s - rules['reserve_pct']) / 100,
++           'above_floor_kwh': c * max(0.0, s - rules['export_floor_pct']) / 100, 'below_reserve': s < rules['reserve_pct'],
++           'trend_pp_per_h': None, 'trend_reason': 'no earlier reading'}
++    if soc_earlier is not None and soc_earlier and soc.at and soc_earlier.at:
++        hours = _mins(soc_earlier.at, soc.at) / 60
++        if 1 / 3 <= hours <= 3:
++            out['trend_pp_per_h'], out['trend_reason'] = (s - soc_earlier.value) / hours, None
++        else:
++            out['trend_reason'] = 'earlier reading too close or too old for a trend'
++    return out
++
++
++def _nearest_rank(sorted_vals: list[float], p: float) -> float:
++    return sorted_vals[max(0, math.ceil(p / 100 * len(sorted_vals)) - 1)]
++
++
++def _span(day: dict, nxt: dict | None, start_h: float, end_h: float) -> float | None:
++    """House kWh on a history day from fractional hour start_h to end_h (end_h > 24 runs into the next day). Any missing hour -> None."""
++    total, h = 0.0, start_h
++    while h < end_h - 1e-9:
++        src, idx = (day, int(h)) if h < 24 else (nxt, int(h) - 24)
++        if src is None:
++            return None
++        hours = src.get('hours') or []
++        v = number(hours[idx]) if idx < len(hours) else None
++        if v is None:
++            return None
++        step = min(math.floor(h) + 1, end_h) - h
++        total += v * step
++        h += step
++    return total
++
++
++def demand_card(now: datetime, history: list[dict] | None, forecast_high: float | None = None, rules: dict = RULES) -> dict:
++    """Expected house use from history of complete same-regime days: now -> next 11:00 (when grid power is free again), now -> 18:00 and the
++    credit hours 18-20 (only while still ahead). history: [{'date': 'YYYY-MM-DD', 'hours': [24 kWh], 'high': °C or None}], hourly house energy
++    from HA's recorder statistics. A hot forecast matches hot days when at least MIN_MATCHED_DAYS exist. Fewer than MIN_MATCHED_DAYS: a rough
++    min-max with the count, never percentiles."""
++    now = now.astimezone(SYDNEY)
++    days = {}
++    for d in history or []:
++        try:
++            date = datetime.fromisoformat(d['date']).date()
++        except (KeyError, TypeError, ValueError):
++            continue
++        if date < now.date() and date not in days:
++            days[date] = d
++    if not days:
++        return {'n': 0, 'reason': 'no hourly house history'}
++    chosen, basis = sorted(days), 'recent days'
++    if forecast_high is not None and forecast_high >= HOT_DAY_C:
++        hot = [k for k in chosen if number(days[k].get('high'), lo=None) is not None and abs(days[k]['high'] - forecast_high) <= HOT_BAND_C]
++        if len(hot) >= MIN_MATCHED_DAYS:
++            chosen, basis = hot, f'similar hot days (highs within {HOT_BAND_C}°C of tomorrow\'s {forecast_high:g}°C)'
++        else:
++            basis = f'recent days (only {len(hot)} similar hot days recorded, so this may be low for a hot night)'
++    chosen = chosen[-14:]
++    m = now.hour + now.minute / 60
++    hfree = rules['free_start'] / 60 + (24 if m >= rules['free_start'] / 60 else 0)
++    spans = {'to_free': (m, hfree)}
++    if m < rules['credit_start'] / 60:
++        spans['to_credit'] = (m, rules['credit_start'] / 60)
++    if m < rules['credit_end'] / 60:
++        spans['credit_hours'] = (max(m, rules['credit_start'] / 60), rules['credit_end'] / 60)
++    out = {'basis': basis, 'reason': None}
++    for name, (a, b) in spans.items():
++        vals = []
++        for k in chosen:
++            v = _span(days[k], days.get(k + timedelta(days=1)), a, b)
++            if v is not None:
++                vals.append(v)
++        vals.sort()
++        if not vals:
++            out[name] = None
++            continue
++        e = {'n': len(vals), 'median': _nearest_rank(vals, 50) if len(vals) % 2 else (vals[len(vals) // 2 - 1] + vals[len(vals) // 2]) / 2,
++             'low': vals[0], 'high': vals[-1], 'rough': len(vals) < MIN_MATCHED_DAYS}
++        if not e['rough']:
++            e['low'], e['high'] = _nearest_rank(vals, 10), _nearest_rank(vals, 90)
++        out[name] = e
++    out['n'] = max((out[k]['n'] for k in spans if out.get(k)), default=0)
++    if not out['n']:
++        out['reason'] = 'history days incomplete for this part of the day'
++    return out
++
++
++def credit_card(now: datetime, hour1: Value, hour2: Value, rules: dict = RULES) -> dict:
++    """Tonight's credit from gross grid import per hour. A valid hour at or above the limit is conclusive (missed); both complete and below:
++    met; otherwise pending (hours still to run) or NO DATA. Headroom only within an hour, never carried across hours."""
++    lim, m = rules['credit_limit_kwh'], _minute(now.astimezone(SYDNEY))
++    done1, done2 = m >= rules['credit_start'] + 60, m >= rules['credit_end']
++    started1, started2 = m >= rules['credit_start'], m >= rules['credit_start'] + 60
++    out = {'limit': lim, 'hour1': hour1.value, 'hour2': hour2.value}
++    if (hour1 and hour1.value >= lim) or (hour2 and hour2.value >= lim):
++        out['status'] = 'missed'
++    elif done2 and hour1 and hour2:
++        out['status'] = 'met'
++    elif not started1:
++        out['status'] = 'ahead'
++    elif (started1 and not hour1) or (started2 and not hour2):
++        out['status'] = 'no data'
++    else:
++        out['status'] = 'pending'
++    if out['status'] == 'pending':
++        cur = hour2 if started2 else hour1
++        out['current_hour'] = 2 if started2 else 1
++        out['headroom'] = lim - cur.value
++        out['first_hour_done'] = done1
++    return out
++
++
++def loads_in(question: str) -> list[str]:
++    q = (question or '').lower()
++    return [name for name, pat in _LOAD_WORDS if re.search(pat, q)]
++
++
++def load_from_question(question: str) -> str | None:
++    n = loads_in(question)
++    return n[0] if n else None
++
++
++def _typical_use(history, a: datetime, b: datetime) -> float | None:
++    """Median house kWh between two times on the same evening (a < b, within 24 h), from the history days; None if no usable days."""
++    ha = a.hour + a.minute / 60
++    hb = ha + _mins(a, b) / 60
++    days = sorted((datetime.fromisoformat(d['date']).date(), d) for d in history or [] if d.get('date'))
++    idx = {k: d for k, d in days}
++    vals = sorted(v for k, d in days if (v := _span(d, idx.get(k + timedelta(days=1)), ha, hb)) is not None)
++    if not vals:
++        return None
++    n = len(vals)
++    return vals[n // 2] if n % 2 else (vals[n // 2 - 1] + vals[n // 2]) / 2
++
++
++def load_profile(name: str, measured: dict | None = None) -> dict | None:
++    """measured: {'kwh': x or [lo, hi], 'minutes': m} from HA's measured history or the person's own words; else the typical figure."""
++    if measured and measured.get('kwh') is not None:
++        k = measured['kwh']
++        lo, hi = (k, k) if not isinstance(k, (list, tuple)) else (k[0], k[1])
++        lo, hi = number(lo), number(hi)
++        if lo is not None and hi is not None and lo <= hi:
++            mins = number(measured.get('minutes')) or (PROFILES.get(name, (0, 0, None))[2])
++            return {'name': name, 'low': lo, 'high': hi, 'minutes': mins, 'source': measured.get('source', 'measured')}
++    if name in PROFILES:
++        lo, hi, mins = PROFILES[name]
++        return {'name': name, 'low': lo, 'high': hi, 'minutes': mins, 'source': 'typical'}
++    return None
++
++
++def _overlap(a0: datetime, a1: datetime, b0: datetime, b1: datetime) -> float:
++    return max(0.0, _mins(max(a0, b0), min(a1, b1)))
++
++
++def load_card(now: datetime, load: dict, batt: dict, demand: dict, clk: dict, credit: dict | None, solar_rest_kwh: tuple | None,
++              rules: dict = RULES) -> dict:
++    """Compare running the load now (or tonight) with the next free window. Energy: battery above reserve + the low solar estimate for the
++    rest of today (never tomorrow's) - the expected use until the next 11:00 - the load, on a heavy night (P90 / max) and a typical one.
++    Any shortfall below the reserve is grid import at the paid rate. Power: a cycle overlapping 18-20 risks a short grid draw even when the
++    energy is there. Returns the figures and a code-chosen lean with its reason; the lean is an estimate, never a promise."""
++    now = now.astimezone(SYDNEY)
++    rate = rules['paid_rate']
++    out = {'load': load, 'paid_cost_low': load['low'] * rate, 'paid_cost_high': load['high'] * rate}
++    end = now + timedelta(minutes=load['minutes'] or 0)
++    cs, ce = _at_minute(now, rules['credit_start']), _at_minute(now, rules['credit_end'])
++    out['credit_overlap_now'] = _overlap(now, end, cs, ce) if load['minutes'] else None
++    if clk['credit'] == 'before' and load['minutes'] and _minute(now) >= rules['free_end']:
++        latest = cs - timedelta(minutes=load['minutes'])
++        out['latest_start_before_credit'] = latest if latest > now else None
++    fs, fe = _at_minute(now, rules['free_start']), _at_minute(now, rules['free_end'])
++    if clk['in_free'] and load['minutes']:
++        out['free_part_now'] = _overlap(now, end, fs, fe)
++    out['next_free'] = clk['next_free_start']
++    out['minutes_to_free'] = clk['minutes_to_free']
++    need = demand.get('to_free') if demand else None
++    if batt.get('soc') is None:
++        out['lean'], out['why'] = 'unknown', f"battery charge {batt.get('reason', 'not available')}"
++        return out
++    avail = batt['above_reserve_kwh']
++    sol_lo = sol_mid = 0.0
++    if solar_rest_kwh and rules['free_end'] <= _minute(now) < 19 * 60:
++        # the morning's solar mostly comes after 11 am, so it isn't counted before then; after 7 pm there is none to count (and a forecast
++        # handed over then could only be tomorrow's, which never counts tonight)
++        sol_lo, sol_mid = solar_rest_kwh[0], (solar_rest_kwh[0] + solar_rest_kwh[1]) / 2
++    out['available_kwh'] = avail
++    out['after_load_now'] = (avail - load['high'], avail - load['low'])      # "how much is left after X", before any other use
++    out['solar_rest_low'] = sol_lo if solar_rest_kwh else None
++    if clk['in_free']:
++        out['lean'] = 'now'
++        out['why'] = 'grid power is free now' + ('' if (out.get('free_part_now') or 0) >= load['minutes'] else
++                                                  f", though the cycle runs {hm(load['minutes'] - out['free_part_now'])} past 2 pm")
++        return out
++    if need is None:
++        share = load['high'] / avail if avail > 0 else None
++        out['share_of_available'] = share
++        out['lean'] = 'unknown_need'
++        out['why'] = 'no usable history of night-time use'
++        return out
++    out['need_typical'], out['need_heavy'], out['need_low'] = need['median'], need['high'], need['low']
++    out['need_n'], out['need_rough'] = need['n'], need['rough']
++    out['margin_typical'] = avail + sol_mid - need['median'] - (load['low'] + load['high']) / 2
++    out['margin_heavy'] = avail + sol_lo - need['high'] - load['high']
++    out['margin_before_load_typical'] = avail + sol_mid - need['median']
++    # paid grid caused by the load itself (the part of it the battery can't cover above the reserve), typical and heavy night
++    def caused(margin_before, load_kwh):
++        return min(load_kwh, max(0.0, load_kwh - max(0.0, margin_before)))
++    out['paid_kwh_typical'] = caused(avail + sol_mid - need['median'], (load['low'] + load['high']) / 2)
++    out['paid_kwh_heavy'] = caused(avail + sol_lo - need['high'], load['high'])
++    if out['margin_heavy'] >= COMFORT_BUFFER_KWH:
++        lean, why = 'tonight_fine', 'the battery covers the load and the heavy end of use until 11 am with room to spare'
++    elif out['margin_typical'] >= 0:
++        lean, why = 'either_tight', 'it fits with typical use, but the heavy end could dip into paid grid before 11 am'
++    else:
++        lean, why = 'free_window', 'even typical use would run the battery down to the reserve before 11 am and need paid grid'
++    overlap = out.get('credit_overlap_now') or 0
++    out['minutes_to_credit_end'] = _mins(now, ce) if now < ce else None
++    if lean != 'free_window' and overlap and credit and credit.get('status') in ('pending', 'ahead'):
++        if clk['credit'] == 'during':
++            lean, why = 'after_credit', 'the cycle would run in the credit hours, when a load spike can pull from the grid; after 8 pm the energy is fine'
++        elif out.get('latest_start_before_credit'):
++            lean, why = 'before_credit', 'the energy is fine, and finishing before 6 pm keeps it clear of the credit hours'
++        else:
++            lean, why = 'after_credit', 'started now it would run into the credit hours; after 8 pm the energy is fine'
++    out['lean'], out['why'] = lean, why
++    return out
++
++
++# ---- the prompt text ----
++
++def _range(a: float, b: float) -> str:
++    return kwh(a) if kwh(a) == kwh(b) else f'{kwh(a)} to {kwh(b)}'
++
++
++def _need_text(e: dict, what: str) -> str:
++    if e['rough']:
++        return f"{what}: {kwh(e['median'])} typical, {_range(e['low'], e['high'])} across only {e['n']} recorded days (rough)"
++    return f"{what}: {kwh(e['median'])} typical, {_range(e['low'], e['high'])} on most days ({e['n']} days)"
++
++
++def render(c: dict) -> str:
++    """The cards as prompt lines (figures already rounded for speech; the model uses them as given)."""
++    L = ['Energy cards (worked out by Home Assistant from the readings; use these figures as given and never work out new ones):']
++    k, b, d, cr = c['clock'], c['battery'], c['demand'], c['credit']
++    if k['in_free']:
++        L.append(f"- Free grid power: on now, for another {hm(k['free_minutes_left'])} (until 2 pm).")
++    else:
++        L.append(f"- Free grid power: next from 11 am {'today' if k['next_free_start'].date() == k['now'].date() else 'tomorrow'}, in {hm(k['minutes_to_free'])}.")
++    if k['credit'] == 'before':
++        L.append(f"- Evening credit hours (6-8 pm): start in {hm(k['minutes_to_credit'])}.")
++    elif k['credit'] == 'during':
++        L.append(f"- Evening credit hours (6-8 pm): on now, {hm(k['credit_minutes_left'])} to go.")
++    else:
++        L.append('- Evening credit hours (6-8 pm): over for today.')
++    st = cr['status']
++    if st == 'missed':
++        L.append("- Tonight's credit: missed on Home Assistant's meter (an hour reached 0.03 kWh of grid import; that can't be undone). The bill decides.")
++    elif st == 'met':
++        L.append(f"- Tonight's credit: met on Home Assistant's meter (both hours under 0.03 kWh: {cr['hour1']:.3f} and {cr['hour2']:.3f}). The bill decides.")
++    elif st == 'pending':
++        hrs = f"first hour {cr['hour1']:.3f} kWh" + (f", second hour {cr['hour2']:.3f} kWh so far" if cr['current_hour'] == 2 else ' so far')
++        L.append(f"- Tonight's credit: on track so far ({hrs}; each hour must stay under 0.03 kWh). Not settled until 8 pm.")
++    elif st == 'no data':
++        L.append("- Tonight's credit: no meter reading for the credit hours, so it can't be told.")
++    if b.get('estimated_from'):
++        last, at, used = b['estimated_from']
++        L.append(f"- Battery: no current reading (the last was {last:.0f}% at {clock(at)}). Estimate from typical use since then: about {b['soc']:.0f}% now,"
++                 f" about {kwh(b['above_reserve_kwh'])} above the 20% reserve (estimate; a fresh battery reading would firm it up).")
++    elif b['soc'] is None:
++        L.append(f"- Battery: charge {b['reason']}, so no battery figures.")
++    else:
++        t = b['trend_pp_per_h']
++        trend = '' if t is None else (' and steady' if abs(t) < 1 else f", {'up' if t > 0 else 'down'} {abs(t):.0f} points in the last hour")
++        L.append(f"- Battery: {b['soc']:.0f}%{trend}; that's about {kwh(b['stored_kwh'])} stored, {kwh(b['above_reserve_kwh'])} above the 20% reserve"
++                 f" (nominal, from the 25.6 kWh capacity).")
++    if c.get('solar_rest'):
++        lo, hi = c['solar_rest']
++        L.append(f"- Solar still to come today (forecast): {kwh(lo)} to {kwh(hi)}.")
++    if c.get('solar_tomorrow'):
++        L.append(f"- Tomorrow: {c['solar_tomorrow']}. Tomorrow's solar doesn't help tonight; the battery's normal top-up is in the free window.")
++    if d.get('n'):
++        if d.get('to_free') and not k['in_free']:
++            L.append('- ' + _need_text(d['to_free'], f"Expected house use from now until 11 am ({d['basis']})"))
++        if d.get('credit_hours') and k['credit'] != 'after':
++            e = d['credit_hours']
++            L.append(f"- Expected house use in the credit hours: {kwh(e['median'])} typical ({_range(e['low'], e['high'])}).")
++    else:
++        L.append(f"- Expected house use tonight: no estimate ({d.get('reason', 'no history')}).")
++    ld = c.get('load_card')
++    if ld:
++        p = ld['load']
++        src = ('typical for a ' + p['name'] + ', not measured here') if p['source'] == 'typical' else p['source']
++        rng = kwh(p['low']) if p['low'] == p['high'] else f"{p['low']:.1f} to {kwh(p['high'])}"
++        L.append(f"- {p['name'].capitalize()}: {rng} a cycle, about {hm(p['minutes'])} ({src}). From paid grid it would cost "
++                 + (f"{money(ld['paid_cost_low'])}" if p['low'] == p['high'] else f"{money(ld['paid_cost_low'])} to {money(ld['paid_cost_high'])}")
++                 + '; in the free window, nothing.')
++        if ld.get('latest_start_before_credit'):
++            L.append(f"- To finish before 6 pm it needs to start by {clock(ld['latest_start_before_credit'])}.")
++        elif ld.get('credit_overlap_now'):
++            L.append(f"- Started now it would run {hm(ld['credit_overlap_now'])} in the credit hours; started after 8 pm (in "
++                     f"{hm(ld['minutes_to_credit_end'])}) it wouldn't.")
++        when = 'tonight' if k['now'].hour >= 17 or k['now'].hour < 4 else 'now'
++        if ld.get('after_load_now') and ld['after_load_now'][0] >= 0:
++            a0, a1 = ld['after_load_now']
++            L.append(f"- Above the reserve after the {p['name']} alone (before any other use): about {_range(a0, a1)}.")
++        if 'margin_heavy' in ld:
++            def left(x):
++                return f"about {kwh(x)} left above the reserve" if x >= 0 else f"about {kwh(-x)} short (paid grid)"
++            L.append(f"- If it runs {when}: {left(ld['margin_typical'])} by 11 am typically, {left(ld['margin_heavy'])} at the heavy end (estimate).")
++            pt, ph = ld['paid_kwh_typical'], ld['paid_kwh_heavy']
++            r = RULES['paid_rate']
++            if ph > 0 and pt > 0:
++                L.append(f"- Paid grid the {p['name']} itself would cause {when}: {kwh(pt)} to {kwh(ph)}, about {money(pt * r)} to {money(ph * r)} (estimate).")
++            elif ph > 0:
++                L.append(f"- Paid grid the {p['name']} itself would cause {when}: none typically, up to {kwh(ph)} (about {money(ph * r)}) at the heavy end (estimate).")
++            else:
++                L.append(f"- Paid grid the {p['name']} itself would cause {when}: none expected; what it takes from the battery is normally topped up in the free window (estimate).")
++        elif ld.get('share_of_available') is not None:
++            L.append(f"- The {p['name']} is about {ld['share_of_available'] * 100:.0f}% of the {kwh(ld['available_kwh'])} above the reserve (no night-use history to compare).")
++        lean = {'tonight_fine': f'{when} is fine', 'either_tight': 'either works; the free window is the safer bet',
++                'free_window': "the next free window", 'after_credit': 'start it after 8 pm',
++                'before_credit': 'start it now, so it finishes before 6 pm', 'now': 'run it now',
++                'unknown_need': 'probably fine tonight, but not firm', 'unknown': 'no firm lean'}[ld['lean']]
++        L.append(f"- Lean (estimate{', on the estimated charge' if b.get('estimated_from') else ''}): {lean}, because {ld['why']}.")
++    for g in c.get('gaps', []):
++        L.append(f'- Not known: {g}.')
++    return '\n'.join(L)
++
++
++def build(now: datetime, inp: dict, question: str = '', rules: dict = RULES) -> dict:
++    """All cards for one turn. inp keys (each optional): soc, soc_earlier ({'value','at'}), history (demand_card), forecast_high (tomorrow, °C),
++    solar_rest_kwh ([lo, hi] forecast for the rest of today), solar_tomorrow (text, e.g. 'sunny, 18 to 24 kWh forecast'), credit_hour1/2
++    ({'value','at'} gross import kWh), load ({'name', 'kwh', 'minutes', 'source'} measured or said by the person)."""
++    now = now.astimezone(SYDNEY)
++    gaps = []
++    soc = reading(inp.get('soc'), now, 'soc', hi=100)
++    earlier = reading(inp.get('soc_earlier'), now, None, hi=100) if inp.get('soc_earlier') else None
++    clk = clock_card(now, rules)
++    batt = battery_card(soc, earlier, rules)
++    fh = number(inp.get('forecast_high'), lo=None)
++    dem = demand_card(now, inp.get('history'), fh, rules)
++    if not soc and soc.last is not None and soc.at is not None and (now - soc.at) <= timedelta(hours=12):
++        # stale: an ESTIMATE from typical use since the last reading (no solar counted, so on the low side), labelled as such
++        a = soc.at.astimezone(SYDNEY)
++        used = _typical_use(inp.get('history'), a, now)
++        if used is not None:
++            est = max(0.0, soc.last - used / rules['capacity_kwh'] * 100)
++            batt = battery_card(Value(est, None, now), None, rules)
++            batt['estimated_from'] = (soc.last, a, used)
++    h1 = reading(inp.get('credit_hour1'), now, None)
++    h2 = reading(inp.get('credit_hour2'), now, None)
++    cr = credit_card(now, h1, h2, rules)
++    sr = inp.get('solar_rest_kwh')
++    solar_rest = None
++    if sr is not None:
++        lo, hi = (number(sr[0]), number(sr[1])) if isinstance(sr, (list, tuple)) and len(sr) == 2 else (None, None)
++        if lo is not None and hi is not None and lo <= hi:
++            solar_rest = (lo, hi)
++        else:
++            gaps.append('solar forecast for the rest of today (invalid)')
++    elif _minute(now) < 17 * 60 and not clk['in_free']:
++        gaps.append('solar forecast for the rest of today')
++    cards = {'clock': clk, 'battery': batt, 'demand': dem, 'credit': cr, 'solar_rest': solar_rest,
++             'solar_tomorrow': inp.get('solar_tomorrow'), 'gaps': gaps}
++    named = loads_in(question)
++    name = (inp.get('load') or {}).get('name') or (named[0] if len(named) == 1 else None)
++    measured = inp.get('load')
++    figs = re.findall(r'(\d+(?:\.\d+)?)\s*kwh', (question or '').lower())
++    if name and not measured and len(figs) == 1:
++        measured = {'name': name, 'kwh': float(figs[0]), 'source': 'your figure'}
++    if len(named) > 1 and not inp.get('load'):
++        gaps.append(f"a combined figure for {' and '.join(named)} (use atlas_calc with the figures above)")
++    if name:
++        prof = load_profile(name, measured)
++        if prof:
++            cards['load_card'] = load_card(now, prof, batt, dem, clk, cr, solar_rest, rules)
++    cards['text'] = render(cards)
++    return cards
+diff -ruN a/custom_components/atlas_household/tools.py b/custom_components/atlas_household/tools.py
+--- a/custom_components/atlas_household/tools.py	2026-10-20 10:41:41.794566237 +0000
++++ b/custom_components/atlas_household/tools.py	2026-10-20 10:46:49.718138667 +0000
+@@ -9,6 +9,8 @@
+ 
+ import re
+ 
++from .calc import TOOL_SPEC as CALC_SPEC
++
+ API_ID = 'atlas_household'
+ API_NAME = 'Atlas household'
+ 
+@@ -47,6 +49,7 @@
+         ('atlas_undo', 'Undo the last action ("undo that"), within 10 minutes.',
+          {'receipt': {'type': 'string', 'description': 'Optional receipt code; leave out for the latest action.'}}, []),
+     ]
++    out.append(CALC_SPEC)   # read-only arithmetic over numbers already in the turn (calc.py); never acts, never on the never-list
+     if not scenes:     # no reviewed scene yet: don't offer a scene tool with an empty list
+         out = [x for x in out if x[0] != 'atlas_scene']
+     if not blinds:     # no enabled blind (phase 1, lights only): don't offer a blind tool with an empty list either
+@@ -112,6 +115,7 @@
+ - "needs_confirmation": ask the tool's question exactly, then stop. Only if the person's next reply is a yes, call atlas_confirm with the code.
+ - "needs_choice": ask which one.
+ - Timers: "in 10 minutes" or "at 9:30" goes to atlas_schedule (up to 24 hours ahead). "Now" is not a timer: do it straight away. A vague time such as "tomorrow morning" needs a clock time: ask. "This time tomorrow" is in_minutes 1440. "What's scheduled?" is atlas_scheduled. "Cancel that" is atlas_cancel. "Undo that" is atlas_undo.
++- Arithmetic: any sum, difference, percentage, cost or time span goes to atlas_calc, with numbers from the readings, the energy cards or the person's words; say its result. Never work a figure out yourself.
+ - Never mention handles, codes or tool names to the person.
+ Handles you can use:
+ {handles}"""
+diff -ruN a/custom_components/atlas_household/turn.py b/custom_components/atlas_household/turn.py
+--- a/custom_components/atlas_household/turn.py	2026-10-20 10:41:41.794696591 +0000
++++ b/custom_components/atlas_household/turn.py	2026-10-20 10:46:49.726429633 +0000
+@@ -14,13 +14,14 @@
+ """
+ from __future__ import annotations
+ 
++from .calc import FIGURE_NUDGE, _drop, fast_arithmetic, unsupported_figures
+ from .core import NEVER_WORDS, guard_reply
+ from .fastpath import parse_timer
+ 
+ NUDGE = "You didn't call a tool. If the request needs one, call the right atlas_ tool now; otherwise say plainly that you can't do it."
+ 
+ 
+-async def run_turn(coord, text: str, conversation_id: str, ask_model, *, other_tools=None, call_tool=None, now_local=None) -> dict:
++async def run_turn(coord, text: str, conversation_id: str, ask_model, *, other_tools=None, call_tool=None, now_local=None, sources=None) -> dict:
+     """Returns {'reply', 'path' ('fast' | 'model' | 'nudged'), 'claims' (unbacked claim kinds left after the guard), 'statuses', 'first',
+     'tool_results'}: tool_results lists (tool, args, result) for every atlas_ call the coordinator handled in this conversation during the turn
+     (the fast path's own call included), e.g. a timer's due_local and handle for the Atlas-side project's scorer."""
+@@ -40,6 +41,11 @@
+         return {'reply': reply, 'path': 'fast', 'claims': [], 'statuses': [res.get('status')], 'first': None, 'args': fast,
+                 'tool_results': coord.results_since(t0, conversation_id) or [('atlas_schedule', fast, res)]}
+ 
++    maths = fast_arithmetic(text)
++    if maths is not None:      # a whole-utterance sum ("what's 2 + 8?"): answered in code, the model is not asked (energy-advice-build)
++        coord._log('fast_arithmetic', 'answered', conversation=conversation_id)
++        return {'reply': maths, 'path': 'fast_arithmetic', 'claims': [], 'statuses': [], 'first': None, 'tool_results': []}
++
+     def evidence():
+         # (tool, status) pairs, so a lights result can't back a blind claim [cloud review 1, M8]
+         ev = coord.evidence_since(t0, conversation_id)
+@@ -64,5 +70,22 @@
+         coord._log('claim_guard', 'nudged once', conversation=conversation_id, first=first[:300], second=second[:300], claims=bad)
+     elif bad:
+         coord._log('claim_guard', 'reply rewritten', conversation=conversation_id, claims=bad, original=first[:300])
+-    return {'reply': reply, 'path': path, 'claims': bad, 'statuses': statuses, 'evidence': ev, 'first': first,
++    # The figure guard (energy-advice-build): every quantity in the reply must be in the turn's sources (the prompt's readings and energy
++    # cards, the person's words, this turn's atlas_calc results). Otherwise ONE nudge (only if no nudge yet), then unsupported sentences go.
++    figures = None
++    if sources is not None:
++        def src():
++            return list(sources()) + [text] + [r.get('summary', '') for n, _, r in coord.results_since(t0, conversation_id) if n == 'atlas_calc']
++        figures = unsupported_figures(reply, src())
++        if figures and path == 'model':
++            again = await ask_model(FIGURE_NUDGE.format(figs=', '.join(figures)))
++            ev = evidence()
++            statuses = [st for _, st in ev]
++            reply, bad = guard_reply(again, ev)
++            path = 'figure_nudged'
++            figures = unsupported_figures(reply, src())
++        if figures:
++            reply = _drop(reply, figures) or "I can't give that figure reliably from what I have."
++            coord._log('figure_guard', 'dropped', conversation=conversation_id, figures=figures)
++    return {'reply': reply, 'path': path, 'claims': bad, 'statuses': statuses, 'evidence': ev, 'first': first, 'figures': figures,
+             'tool_results': coord.results_since(t0, conversation_id)}
+diff -ruN a/tests/test_core.py b/tests/test_core.py
+--- a/tests/test_core.py	2026-10-20 10:41:41.797374675 +0000
++++ b/tests/test_core.py	2026-10-20 10:48:18.598458526 +0000
+@@ -901,7 +901,8 @@
+     def test_ha_tool_format(self):
+         specs = tool_specs(REAL['handles'])
+         names = [s['function']['name'] for s in specs]
+-        self.assertEqual(names, ['atlas_lights', 'atlas_blind', 'atlas_confirm', 'atlas_schedule', 'atlas_scheduled', 'atlas_cancel', 'atlas_undo'])
++        self.assertEqual(names, ['atlas_lights', 'atlas_blind', 'atlas_confirm', 'atlas_schedule', 'atlas_scheduled', 'atlas_cancel', 'atlas_undo',
++                                 'atlas_calc'])   # energy-advice-build: read-only arithmetic
+         self.assertIn('atlas_scene', [s['function']['name'] for s in tool_specs(scene_targets()['handles'])])
+         for s in specs:
+             self.assertEqual(s['type'], 'function')
+diff -ruN a/tests/test_energy_advice.py b/tests/test_energy_advice.py
+--- a/tests/test_energy_advice.py	1970-01-01 00:00:00.000000000 +0000
++++ b/tests/test_energy_advice.py	2026-10-20 10:49:53.720288276 +0000
+@@ -0,0 +1,111 @@
++"""energy-advice-build in the coordinator: atlas_calc (read-only), whole-utterance arithmetic in run_turn, the figure guard, and the energy
++cards' honesty rules. A scripted model stands in for Atlas; nothing contacts Home Assistant."""
++import pathlib
++import sys
++import unittest
++from datetime import datetime
++
++sys.path.insert(0, str(pathlib.Path(__file__).resolve().parents[1] / 'custom_components'))
++from atlas_household import energy_cards as E  # noqa: E402
++from atlas_household.calc import FIGURE_NUDGE  # noqa: E402
++from atlas_household.core import STATUSES, guard_reply  # noqa: E402
++from atlas_household.fake import SYDNEY, FakeHouse  # noqa: E402
++from atlas_household.turn import run_turn  # noqa: E402
++
++PROMPT = ("Battery: 61%; that's about 15.6 kWh stored, 10.5 kWh above the 20% reserve. Free grid power: next from 11 am tomorrow, in 14 h 13 min. "
++          "Grid import at other times is paid, about 55c/kWh.")
++NIGHT = datetime(2026, 10, 20, 20, 47, tzinfo=SYDNEY)
++
++
++class Calc(unittest.TestCase):
++    def call(self, h, args, text='how much is left after the dishwasher at 0.9 kWh?', sources=(PROMPT,)):
++        return h.loop.run_until_complete(h.coord.call_tool('atlas_calc', args, conversation_id='c1', user_text=text, sources=list(sources)))
++
++    def test_calculates_from_the_turn(self):
++        h = FakeHouse(start=NIGHT)
++        r = self.call(h, {'expression': '10.5 - 0.9'})
++        self.assertEqual((r['status'], r['say']), ('calculated', '9.6'))
++        self.assertEqual(h.backend.calls, [])                      # nothing sent
++
++    def test_refuses_a_number_not_in_the_turn(self):
++        r = self.call(FakeHouse(start=NIGHT), {'expression': '10.5 - 3.3'})
++        self.assertEqual((r['status'], r['reason']), ('denied', 'number_not_in_turn'))
++
++    def test_no_sources_means_only_the_persons_words(self):
++        r = self.call(FakeHouse(start=NIGHT), {'expression': '10.5 - 0.9'}, sources=())
++        self.assertEqual(r['status'], 'denied')
++        r = self.call(FakeHouse(start=NIGHT), {'expression': '45 - 17'}, text="what's 45 minus 17, roughly?", sources=())
++        self.assertEqual(r['say'], '28')
++
++    def test_not_blocked_by_never_list_and_never_acts(self):
++        # "battery" and "kWh" are on the never-list for ACTING tools; a sum about them is still fine, and changes nothing
++        h = FakeHouse(start=NIGHT)
++        r = self.call(h, {'expression': '10.5 - 0.9'}, text='how much battery is left above the reserve after 0.9 kWh?')
++        self.assertEqual(r['status'], 'calculated')
++        self.assertNotIn('calculated', STATUSES)
++        self.assertEqual(guard_reply("I've worked it out: about 9.6 kWh.", [('atlas_calc', 'calculated')])[1], [])
++
++    def test_unknown_fields_rejected(self):
++        r = self.call(FakeHouse(start=NIGHT), {'expression': '1 + 1', 'entity_id': 'sensor.x'})
++        self.assertEqual(r['status'], 'denied')
++
++    def test_earlier_result_is_usable(self):
++        h = FakeHouse(start=NIGHT)
++        self.call(h, {'expression': '10.5 - 0.9'})
++        r = self.call(h, {'expression': '9.6 * 0.5'}, text='and half of that?')
++        self.assertEqual(r['say'], '4.8')
++
++
++class Turn(unittest.TestCase):
++    def run_turn(self, h, text, script, sources=lambda: [PROMPT]):
++        asked = []
++
++        async def ask(t):
++            asked.append(t)
++            return script[len(asked) - 1]
++        return h.loop.run_until_complete(run_turn(h.coord, text, 'conv-1', ask, sources=sources)), asked
++
++    def test_plain_sum_never_asks_the_model(self):
++        out, asked = self.run_turn(FakeHouse(start=NIGHT), "What's 2 + 8?", [])
++        self.assertEqual((out['path'], out['reply'], asked), ('fast_arithmetic', '2 + 8 is 10.', []))
++
++    def test_supported_figures_pass(self):
++        out, asked = self.run_turn(FakeHouse(start=NIGHT), 'Dishwasher tonight?', ["Tonight's fine: about 10.5 kWh above the reserve."])
++        self.assertEqual((out['path'], len(asked)), ('model', 1))
++
++    def test_made_up_figure_nudged_once_then_dropped(self):
++        out, asked = self.run_turn(FakeHouse(start=NIGHT), 'Dishwasher tonight?',
++                                   ["Tonight's fine. You'd have 9.3 kWh left.", "Tonight's fine. About 9.3 kWh left."])
++        self.assertEqual(asked[1], FIGURE_NUDGE.format(figs='9.3 kWh'))
++        self.assertEqual((out['path'], out['reply'], out['figures']), ('figure_nudged', "Tonight's fine.", ['9.3 kWh']))
++
++    def test_nudge_fixes_it(self):
++        out, _ = self.run_turn(FakeHouse(start=NIGHT), 'Dishwasher tonight?', ["You'd have 9.3 kWh left.", 'About 10.5 kWh above the reserve, so yes.'])
++        self.assertEqual((out['reply'], out['figures']), ('About 10.5 kWh above the reserve, so yes.', []))
++
++    def test_without_sources_the_guard_is_off(self):
++        out, _ = self.run_turn(FakeHouse(start=NIGHT), 'Dishwasher tonight?', ["You'd have 9.3 kWh left."], sources=None)
++        self.assertEqual(out['reply'], "You'd have 9.3 kWh left.")
++
++    def test_timer_fast_path_first(self):
++        out, asked = self.run_turn(FakeHouse(start=NIGHT), 'turn the office lights off in 10 minutes', [])
++        self.assertEqual((out['path'], asked), ('fast', []))
++
++
++class Cards(unittest.TestCase):
++    def test_owner_case_reasoned_not_a_stock_line(self):
++        hist = [{'date': f'2026-10-{d:02d}', 'hours': [0.3] * 24} for d in range(6, 20)]
++        c = E.build(NIGHT, {'soc': {'value': 61, 'at': NIGHT}, 'history': hist,
++                            'load': {'name': 'dishwasher', 'kwh': 0.9, 'minutes': 90, 'source': 'your estimate'}}, 'dishwasher tonight or morning?')
++        self.assertEqual(c['load_card']['lean'], 'tonight_fine')
++        self.assertIn('10.5 kWh above the 20% reserve', c['text'])
++        self.assertNotRegex(c['text'].lower(), r'(lower|change|raise) (the )?(reserve|controller|export)')
++
++    def test_missing_never_zero(self):
++        c = E.build(NIGHT, {}, 'dishwasher tonight?')
++        self.assertIsNone(c['battery']['soc'])
++        self.assertIn('no battery figures', c['text'])
++
++
++if __name__ == '__main__':
++    unittest.main()
