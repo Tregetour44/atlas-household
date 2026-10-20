@@ -2,9 +2,14 @@
 
 ## Round 2: narrow the naturalness gap (started 2026-10-19 23:44 UTC / 20 Oct 10:44 Sydney)
 
-**Updated:** 2026-10-20 10:20 UTC | **elapsed round 2:** 10 h 36 m
+**Updated:** 2026-10-20 12:35 UTC | **elapsed round 2:** 12 h 51 m
 **Change of tack (owner, 20 Oct):** Fable samples come first, and **Lewis training is paused** at step 3300 (rolling checkpoint kept; the best evaluated checkpoint is step 3000). I stopped it at 10:16 UTC instead of finishing to 3500, because it was slowing the Fable work to a crawl on the shared CPU. Further Lewis steps may be moot if the owner picks Fable.
-**Now:** (1) `fable-deeper/`: Chatterbox with the bm_fable reference pitch-shifted −1, −2 and −3 st (formants preserved, Rubber Band), plus −4 and a "mature" variant (−2 st pitch, formants about 4% lower), with the 4 sample lines and the 10 audition lines. Rendering started 10:16; about 1 h. (2) `audition-ready/`: ready-made open voices with no training: Kokoro blends, Piper alan, northern_english_male and VCTK southern English males, and others where feasible. Kokoro and Piper are rendering now.
+**Done: `fable-deeper/`** (pushed). There are 9 Fable teacher variants: −1/−2/−3/−4 st, −2 st "mature" (formants −4%), formants −6% and −10% at the same pitch, and a crude post-shift. Each has the 4 sample lines and the 10 audition lines, per-line plus joined MP3s, and a README with F0, UTMOS, similarity and accent.
+- Key finding: Lewis and Fable already share the same median pitch on the sample lines (115 Hz). Chatterbox only partly follows a deeper reference, and similarity to Fable falls fast with depth.
+- Suggested listening: −2 st mature, −3 st, formants −6%.
+
+**In progress: `audition-ready/`.** MP3s for 21 ready-made voices are pushed; scoring and the top 3 follow in about 1 h.
+**Waiting on the owner:** which Fable depth to distil. No big generation run starts until then.
 **Earlier, Lewis round 2, step 3000:** First round-2 result (59 eval-only lines: the 42 from round 1 plus 17 new):
 
 | model | UTMOS | WER | sim → teacher | MCD |
