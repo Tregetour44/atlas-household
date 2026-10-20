@@ -143,10 +143,10 @@ def main():
             r = json.loads(line)
             if not r.get('error'):
                 done.add((r['id'], r['repeat']))
+    since_unload = 0
     for rep in range(1, a.repeats + 1):
-        for c in cases:
-            if (c['id'], rep) in done:
-                continue
+        todo = [c for c in cases if (c['id'], rep) not in done]
+        for i, c in enumerate(todo):
             for attempt in (1, 2):
                 try:
                     r = asyncio.run(one(a.arm, c, rep))
@@ -154,7 +154,13 @@ def main():
                 except Exception as ex:  # noqa: BLE001  a failed trial stays in the denominator (after one retry)
                     r = {'id': c['id'], 'arm': a.arm, 'repeat': rep, 'question': c['question'], 'error': f'{type(ex).__name__}: {ex}', 'reply': ''}
                     unload()
-            unload()
+                    since_unload = 0
+            # unload between cases (memory), except when the next case has the identical system prompt (its cache is then reused); at most 6 in a row
+            nxt = todo[i + 1] if i + 1 < len(todo) else None
+            since_unload += 1
+            if nxt is None or since_unload >= 6 or case_prompt(a.arm, nxt)[0] != case_prompt(a.arm, c)[0]:
+                unload()
+                since_unload = 0
             with out.open('a') as f:
                 f.write(json.dumps(r, ensure_ascii=False, default=str) + '\n')
             print(f"{r['id']} r{rep} {r.get('seconds')}s {r.get('path')} | {r.get('reply', '')[:160]}", flush=True)
