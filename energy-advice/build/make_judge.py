@@ -70,11 +70,19 @@ def main():
     ap.add_argument('--cases', required=True)
     ap.add_argument('--out', required=True)
     ap.add_argument('--batch', type=int, default=20)
+    ap.add_argument('--single', action='store_true', help='score --b alone (answer X only; no preference)')
     x = ap.parse_args()
     cases = {c['id']: c for c in json.loads(Path(x.cases).read_text())['cases']}
     load = lambda f: {(r['id'], r['repeat']): r for r in map(json.loads, Path(f).read_text().splitlines())}
     A, B = load(x.a), load(x.b)
     items, key = [], {}
+    if x.single:
+        for k in sorted(B):
+            c = cases[k[0]]
+            kk = f'{k[0]}#{k[1]}'
+            key[kk] = {'X': B[k]['arm']}
+            items.append({'key': kk, 'question': c['question'], 'situation': situation(c), 'X': B[k].get('reply') or '(no answer)'})
+        A = {}
     for k in sorted(set(A) & set(B)):
         a, b = A[k], B[k]
         flip = int(hashlib.sha256(f'{k}'.encode()).hexdigest(), 16) % 2 == 1
@@ -86,7 +94,8 @@ def main():
     out = Path(x.out)
     out.parent.mkdir(parents=True, exist_ok=True)
     for i in range(0, len(items), x.batch):
-        Path(f'{out}-batch{i // x.batch + 1}.json').write_text(json.dumps({'rubric': RUBRIC, 'items': items[i:i + x.batch]}, indent=1, ensure_ascii=False) + '\n')
+        rub = RUBRIC + ('\nSINGLE MODE: each item has only answer X; score X and omit Y and preferred.' if x.single else '')
+        Path(f'{out}-batch{i // x.batch + 1}.json').write_text(json.dumps({'rubric': rub, 'items': items[i:i + x.batch]}, indent=1, ensure_ascii=False) + '\n')
     Path(f'{out}-key.json').write_text(json.dumps(key, indent=1) + '\n')
     print(len(items), 'items in', (len(items) + x.batch - 1) // x.batch, 'batches')
 
