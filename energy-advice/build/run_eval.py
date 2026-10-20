@@ -58,7 +58,9 @@ def case_prompt(arm: str, c: dict) -> tuple[str, str, dict | None]:
     cards = None
     if c.get('codex_facts'):
         text = 'Energy cards (worked out by Home Assistant; use these as given):\n' + '\n'.join(f'- {k}: {v}' for k, v in c['codex_facts'].items())
-    elif arm == 'candidate':
+        if arm == 'candidate2':          # round 2: the code-computed credit and clock cards from the same facts, as HA would add them
+            text += '\n' + E.credit_text(now, c.get('energy', {}), c['question'])
+    elif arm.startswith('candidate'):
         cards = E.build(now, c.get('energy', {}), c['question'])
         text = cards['text']
     else:
@@ -73,7 +75,7 @@ async def one(arm: str, c: dict, repeat: int) -> dict:
     rec = {'id': c['id'], 'arm': arm, 'repeat': repeat, 'question': c['question'], 'prompt_sha256': hashlib.sha256(sysp.encode()).hexdigest(),
            'tool_calls': [], 'path': 'model'}
     t0 = time.time()
-    if arm == 'candidate':
+    if arm.startswith('candidate'):
         fast = calc.fast_arithmetic(c['question'])
         if fast:
             rec.update(first=fast, reply=fast, path='fast_arithmetic', seconds=round(time.time() - t0, 2), evidence=[], figures={})
@@ -99,7 +101,7 @@ async def one(arm: str, c: dict, repeat: int) -> dict:
             for call in calls:
                 fn = call['function']
                 name, args = fn['name'], fn.get('arguments') or {}
-                if name == calc.TOOL_NAME and arm == 'candidate':
+                if name == calc.TOOL_NAME and arm.startswith('candidate'):
                     res = calc.calc_tool(args, [calc.readings_part(sysp), c['question']] + summaries, calc_results)
                     if res['status'] == 'calculated':
                         calc_results.append(res['result'])
@@ -115,7 +117,7 @@ async def one(arm: str, c: dict, repeat: int) -> dict:
     rec['calls_before_first'] = len(rec['tool_calls'])
     reply, claims = guard_reply(first, evidence)
     rec['first'], rec['claims'] = first, claims
-    if arm == 'candidate':
+    if arm.startswith('candidate'):
         reply, fig = await calc.turn_figures(reply, [calc.readings_part(sysp), c['question']], ask, lambda: list(summaries))
         rec['figures'] = fig
         if fig.get('nudged'):
@@ -126,7 +128,7 @@ async def one(arm: str, c: dict, repeat: int) -> dict:
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument('--arm', required=True, choices=['current', 'candidate'])
+    ap.add_argument('--arm', required=True, choices=['current', 'candidate', 'candidate2'])
     ap.add_argument('--cases', required=True)
     ap.add_argument('--out', required=True)
     ap.add_argument('--repeats', type=int, default=1)

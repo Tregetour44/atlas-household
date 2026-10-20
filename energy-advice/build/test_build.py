@@ -173,6 +173,68 @@ class Credit(unittest.TestCase):
         self.assertEqual(E.credit_card(at(17), self.V(None), self.V(None))['status'], 'ahead')
 
 
+class CreditStatus(unittest.TestCase):
+    V = E.Value
+
+    def st(self, h, m, a=None, b=None, **kw):
+        return E.credit_status(at(h, m), self.V(a), self.V(b), **kw)
+
+    def test_exactly_limit_is_missed(self):
+        c = self.st(20, 1, 0.030, 0.001)
+        self.assertEqual((c['tonight'], c['hours'][0]['status']), ('MISSED', 'MISSED'))
+
+    def test_both_029_met_not_added(self):
+        self.assertEqual(self.st(20, 1, 0.029, 0.029)['tonight'], 'MET')
+
+    def test_partial_hour_over_limit_is_final(self):
+        c = self.st(18, 40, 0.041, load={'name': 'dishwasher'})
+        self.assertEqual(c['tonight'], 'MISSED')
+        self.assertIn('already missed', '\n'.join(E.credit_lines(c)))
+
+    def test_missing_hour(self):
+        self.assertEqual(self.st(20, 2, None, 0.004)['tonight'], 'NO DATA')
+        self.assertEqual(self.st(20, 2, None, 0.040)['tonight'], 'MISSED')
+        self.assertEqual(self.st(23, 30)['tonight'], 'NOT SUPPLIED')
+
+    def test_at_risk_and_safe(self):
+        c = self.st(19, 5, 0.010, 0.026, load={'name': 'dishwasher'})
+        self.assertEqual((c['tonight'], c['current'], round(c['hours'][1]['headroom'], 6), c['hours'][1]['minutes_left']), ('AT RISK', 2, 0.004, 55))
+        self.assertIn('after 8 pm (in 55 min)', '\n'.join(E.credit_lines(c)))
+        self.assertEqual(self.st(18, 30, 0.016)['tonight'], 'SAFE')        # above the 0.015 engineering target, still under the limit
+        self.assertEqual(self.st(18, 20, 0.024)['tonight'], 'AT RISK')
+
+    def test_stale_meter_or_no_protection_is_at_risk(self):
+        self.assertEqual(self.st(18, 30, 0.008, meter_age_min=12)['tonight'], 'AT RISK')
+        self.assertEqual(self.st(18, 30, 0.008, protection=False)['tonight'], 'AT RISK')
+
+    def test_not_in_window(self):
+        c = self.st(17, 0)
+        self.assertEqual((c['tonight'], c['minutes_to_window']), ('NOT IN WINDOW', 60))
+
+    def test_load_overlap_and_start_by(self):
+        c = self.st(15, 40, load={'name': 'dishwasher', 'minutes': 120})
+        self.assertEqual((c['load']['overlap'], c['load']['latest_start']), (0.0, at(16)))
+        self.assertIn('starts by 4 pm', '\n'.join(E.credit_lines(c)))
+        c = self.st(16, 45, load={'name': 'dishwasher', 'minutes': 120})
+        self.assertEqual(c['load']['overlap'], 45)
+        self.assertIn('after 8 pm', '\n'.join(E.credit_lines(c)))
+
+    def test_import_from_battery_limit_or_cant_rule_out(self):
+        c = self.st(18, 10, 0.006, load={'name': 'dryer', 'peak_kw': 6.0}, house_kw=0.8, battery_limit_kw=5.0)
+        self.assertAlmostEqual(c['load']['import_kw'], 1.8)
+        c = self.st(18, 10, 0.006, load={'name': 'dryer', 'peak_kw': 6.0})
+        self.assertIn("can't be ruled out", '\n'.join(E.credit_lines(c)))
+
+    def test_comfort_not_deferred(self):
+        t = '\n'.join(E.credit_lines(self.st(19, 10, 0.005, 0.003, load={'name': 'aircon (cooling)'})))
+        self.assertIn('comfort comes first', t)
+        self.assertNotIn('start it after 8 pm', t)
+
+    def test_export_noted_never_offsets(self):
+        t = '\n'.join(E.credit_lines(self.st(19, 15, 0.035, export_kwh=0.8)))
+        self.assertIn('never cancels', t)
+
+
 class Load(unittest.TestCase):
     def cards(self, now, soc, q='Should I run the dishwasher tonight?', **kw):
         inp = {'soc': {'value': soc, 'at': now}, 'history': flat(0.45, n=14)}

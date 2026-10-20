@@ -168,6 +168,45 @@ def arithmetic_cases():
             for i, q, a, k in rows]
 
 
+# Codex 49's credit and load facts as HA would hand them to the cards (meter values per credit hour, meter age, controller protection,
+# export, the named load). Taken from each fixture's own text; nothing added. Hours not given are missing (None) only where the fixture
+# says missing; otherwise not supplied (the card then says no meter reading only once the hour has started).
+CODEX_ENERGY = {
+    'EN001': {'load': {'name': 'dryer', 'minutes': 90}},
+    'EN003': {'load': {'name': 'dishwasher', 'minutes': 100, 'peak_kw': 1.7}},
+    'EN004': {'credit_hour1': 0.005, 'credit_hour2': 0.003, 'load': {'name': 'aircon (cooling)'}},
+    'EN010': {'load': {'name': 'aircon (cooling)'}},
+    'EN013': {'load': {'name': 'dishwasher', 'minutes': 90}},
+    'EN014': {'load': {'name': 'dishwasher', 'minutes': 90}},
+    'EN015': {'credit_hour1': 0.024, 'load': {'name': 'dryer'}},
+    'EN016': {'credit_hour1': 0.041, 'load': {'name': 'dishwasher'}},
+    'EN017': {'credit_hour1': 0.030, 'credit_hour2': 0.001},
+    'EN018': {'credit_hour1': 0.029, 'credit_hour2': 0.029},
+    'EN019': {'credit_hour1': 0.035, 'export_kwh': 0.8},
+    'EN020': {'credit_hour2': 0.004},
+    'EN021': {'credit_hour2': 0.040},
+    'EN022': {'meter_age_min': 12, 'load': {'name': 'dryer'}},
+    'EN023': {'credit_hour1': 0.006, 'load': {'name': 'the combined loads', 'peak_kw': 6.0}},
+    'EN025': {'credit_hour1': 0.008, 'credit_protection': False},
+    'EN026': {'credit_hour1': 0.010},
+    'EN029': {'final_pending': True, 'load': {'name': 'dryer', 'minutes': 90}},
+    'EN030': {'load': {'name': 'dishwasher', 'minutes': 180}},
+    'EN035': {'load': {'name': 'dryer'}},
+    'EN036': {'load': {'name': 'dryer, dishwasher and aircon'}},
+    'EN038': {'credit_hour1': 0.010, 'credit_hour2': 0.026, 'load': {'name': 'dishwasher'}},
+    'EN039': {'credit_hour1': 0.016},
+    'EN040': {'load': {'name': 'dryer'}},
+}
+
+
+def codex_energy(cid: str, now: str) -> dict:
+    e = dict(CODEX_ENERGY.get(cid, {}))
+    for k in ('credit_hour1', 'credit_hour2'):
+        if k in e:
+            e[k] = {'value': e[k], 'at': now}
+    return e
+
+
 def codex_cases():
     sc = json.loads((CODEX / 'scenarios.json').read_text())['cases']
     out = []
@@ -178,7 +217,7 @@ def codex_cases():
             house['soc'] = int(m.group(1))
         out.append({'id': c['id'], 'group': 'codex49-' + c['group'], 'split': c['split'], 'now': c['snapshot']['as_of'], 'question': c['question'],
                     'house': house, 'codex_facts': c['facts'], 'expect': c['expected_advice'], 'reasoning': c['reasoning'], 'forbidden': c['forbidden'],
-                    'gap': c['gap'], 'input_sha256': c['input_sha256']})
+                    'gap': c['gap'], 'input_sha256': c['input_sha256'], 'energy': codex_energy(c['id'], c['snapshot']['as_of'])})
     return out
 
 

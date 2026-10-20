@@ -267,6 +267,148 @@ def loads_in(question: str) -> list[str]:
     return [name for name, pat in _LOAD_WORDS if re.search(pat, q)]
 
 
+# ---- the credit-status card (round 2, PC Steward 21 Oct: "the model never judges the credit from raw numbers") ----
+# DRAFT policy values for Energy's review: a current hour with less headroom than this is AT RISK; a meter report older than this is not
+# fresh enough to call the hour SAFE.
+AT_RISK_HEADROOM_KWH = 0.010
+CREDIT_METER_FRESH_MIN = 5
+
+
+def credit_status(now: datetime, h1: Value, h2: Value, *, meter_age_min: float | None = 0, protection: bool | None = None,
+                  export_kwh: float | None = None, load: dict | None = None, house_kw: float | None = None,
+                  battery_limit_kw: float | None = None, final_pending: bool = False, rules: dict = RULES) -> dict:
+    """The evening credit, judged in code. Each hour [18,19) and [19,20) on its own: gross import strictly below 0.030 kWh passes, exactly
+    0.030 fails, export never offsets, hours are never added. Per hour: PASSED / MISSED / SAFE (so far) / AT RISK / NO DATA / AHEAD.
+    Tonight: MISSED (any hour reached the limit, final), MET (both hours passed), PENDING (in the window: the current hour's status),
+    NO DATA, or NOT IN WINDOW (before 6 pm). A named load: overlap with the credit hours if started now, its likely grid import when the
+    battery's output limit is known, otherwise "can't be ruled out", and the advice line (after 8 pm) the model must use."""
+    now = now.astimezone(SYDNEY)
+    lim, m = rules['credit_limit_kwh'], _minute(now)
+    cs, ce = rules['credit_start'], rules['credit_end']
+    starts = (cs, cs + 60)
+    stale = meter_age_min is None or meter_age_min > CREDIT_METER_FRESH_MIN
+    hours = []
+    for i, (v, st) in enumerate(((h1, starts[0]), (h2, starts[1]))):
+        end = st + 60
+        h = {'n': i + 1, 'start': st, 'value': v.value, 'complete': m >= end, 'started': m >= st, 'minutes_left': max(0, end - m) if st <= m < end else None}
+        if v and v.value >= lim:
+            h['status'] = 'MISSED'                      # conclusive, even part-way through the hour (a valid meter only counts up)
+        elif not h['started']:
+            h['status'] = 'AHEAD'
+        elif not v:
+            h['status'] = 'NO DATA'
+        elif h['complete']:
+            h['status'] = 'PASSED'
+        else:
+            h['headroom'] = lim - v.value
+            h['status'] = 'AT RISK' if (stale or h['headroom'] < AT_RISK_HEADROOM_KWH or protection is False) else 'SAFE'
+        hours.append(h)
+    out = {'limit': lim, 'hours': hours, 'stale': stale and cs <= m < ce, 'meter_age_min': meter_age_min, 'protection': protection,
+           'export_kwh': export_kwh}
+    st = [h['status'] for h in hours]
+    if 'MISSED' in st:
+        out['tonight'] = 'MISSED'
+    elif m >= ce:
+        out['tonight'] = ('MET' if st == ['PASSED', 'PASSED'] else 'PENDING FINAL' if final_pending else
+                          'NOT SUPPLIED' if h1.value is None and h2.value is None else 'NO DATA')
+    elif m < cs:
+        out['tonight'] = 'NOT IN WINDOW'
+    else:
+        cur = hours[0] if m < starts[1] else hours[1]
+        out['current'] = cur['n']
+        out['tonight'] = 'NO DATA' if 'NO DATA' in st else cur['status']        # SAFE or AT RISK (so far)
+    out['window'] = 'before' if m < cs else 'during' if m < ce else 'after'
+    out['minutes_to_window'] = _mins(now, _at_minute(now, cs)) if m < cs else None
+    out['minutes_to_end'] = _mins(now, _at_minute(now, ce)) if m < ce else None
+    if load:
+        nm = load.get('name', 'the load')
+        ld = {'name': nm, 'minutes': number(load.get('minutes')), 'peak_kw': number(load.get('peak_kw')),
+              'comfort': bool(re.search(r'aircon|air ?con|\bac\b|cooling|heating|heater', nm, re.I)),
+              'mixed': bool(re.search(r',| and ', nm))}
+        c0, c1 = _at_minute(now, cs), _at_minute(now, ce)
+        if m >= ce:
+            ld['overlap'] = 0.0
+        elif ld['minutes']:
+            ld['overlap'] = _overlap(now, now + timedelta(minutes=ld['minutes']), c0, c1)
+        else:
+            ld['overlap'] = _mins(now, c1) if m >= cs else None           # in the window: at least the rest of it; before: unknown
+        if ld['minutes'] and m < cs:
+            latest = c0 - timedelta(minutes=ld['minutes'])
+            ld['latest_start'] = latest if latest > now else None
+        ld['import_kw'] = None
+        if ld.get('overlap') and battery_limit_kw is not None and ld['peak_kw'] is not None and house_kw is not None:
+            ld['import_kw'] = max(0.0, house_kw + ld['peak_kw'] - battery_limit_kw)
+        out['load'] = ld
+    return out
+
+
+def credit_lines(c: dict) -> list[str]:
+    """The credit card as prompt lines. The status words are Home Assistant's verdict; the model uses them as given."""
+    L, hrs = [], c['hours']
+    lim = f"{c['limit']:.3f}"
+
+    def hour_text(h):
+        name = ('first hour (6-7 pm)', 'second hour (7-8 pm)')[h['n'] - 1]
+        if h['status'] == 'AHEAD':
+            return f'{name}: not started'
+        if h['status'] == 'NO DATA':
+            return f'{name}: no meter reading'
+        v = f"{h['value']:.3f} kWh"
+        if h['status'] == 'MISSED':
+            return f'{name}: {v}, MISSED (not under {lim}; exactly {lim} also misses)'
+        if h['status'] == 'PASSED':
+            return f'{name}: {v}, passed (under {lim})'
+        return f"{name}: {v} so far, {h['headroom']:.3f} kWh of headroom left, {h['minutes_left']} min to go, {h['status']}"
+    t = c['tonight']
+    head = {'MISSED': "MISSED on Home Assistant's meter. That is final for tonight: waiting or exporting can't recover it",
+            'MET': "MET on Home Assistant's meter (both hours under the limit)",
+            'PENDING FINAL': 'the hours are over; the final meter reading is not in yet, so the result is still pending',
+            'NOT SUPPLIED': "the credit hours are over for today; tonight's result isn't in these readings",
+            'NO DATA': "NO DATA: a credit-hour meter reading is missing, so the result can't be confirmed",
+            'SAFE': 'SAFE so far (not settled until 8 pm)', 'AT RISK': 'AT RISK (not settled until 8 pm)',
+            'NOT IN WINDOW': f"NOT IN WINDOW: the credit hours start in {hm(c['minutes_to_window'] or 0)}"}[t]
+    L.append(f'- Evening credit status (worked out by Home Assistant; use it as given): {head}. The bill decides the actual credit.')
+    if (c['window'] != 'before' or any(h['value'] is not None for h in hrs)) and t != 'NOT SUPPLIED':
+        L.append('- Credit hours: ' + '; '.join(hour_text(h) for h in hrs) + '.')
+    if c['window'] == 'during' and t != 'MISSED':
+        L.append(f"- The credit hours end in {hm(c['minutes_to_end'])} (8 pm).")
+    if c.get('stale'):
+        L.append(f"- The grid meter's last report is {c['meter_age_min']:.0f} min old, too old to call this hour safe.")
+    if c.get('protection') is False:
+        L.append("- The controller's credit protection is shown as not active tonight, so the usual export margin can't be counted on.")
+    if c.get('export_kwh'):
+        L.append(f"- Export ({c['export_kwh']:.1f} kWh) never cancels grid import for the credit.")
+    ld = c.get('load')
+    if ld:
+        n = ld['name']
+        if t == 'MISSED':
+            L.append(f'- {n.capitalize()} and the credit: tonight\'s credit is already missed, so waiting for it no longer helps; decide on the energy alone.')
+        elif c['window'] == 'after' or ld.get('overlap') == 0:
+            L.append(f'- {n.capitalize()} and the credit: started now it would not run in the credit hours'
+                     + (f" (it finishes before 6 pm if it starts by {clock(ld['latest_start'])})." if ld.get('latest_start') else '.'))
+        else:
+            if ld.get('overlap'):
+                L.append(f"- {n.capitalize()} started now would run {hm(ld['overlap'])} in the credit hours.")
+            else:
+                L.append(f'- {n.capitalize()}: its run time is not known, so it may run into the credit hours.')
+            if ld.get('import_kw') is not None:
+                kw = ld['import_kw']
+                L.append('- Likely grid import from it in the credit hours: ' + ('none on these figures.' if kw == 0 else f'about {kw:.1f} kW above what the battery can supply.'))
+            else:
+                L.append("- Its grid import in the credit hours can't be ruled out: a load step can pull from the grid before the battery catches up, and the battery's output limit isn't in the readings.")
+            if ld['comfort'] and ld['mixed']:
+                L.append(f"- Credit advice: keep the cooling or heating you need (comfort comes first); start the optional loads after 8 pm"
+                         f" (in {hm(c['minutes_to_end'])}).")
+            elif ld['comfort']:
+                L.append("- Credit advice: comfort comes first, so use the cooling or heating you need; the credit is a dollar. A load spike could"
+                         " still affect it, so leave optional big loads until after 8 pm.")
+            elif ld.get('latest_start'):
+                L.append(f"- Credit advice: start it by {clock(ld['latest_start'])} so it finishes before 6 pm, or after 8 pm.")
+            else:
+                L.append(f"- Credit advice: start it after 8 pm (in {hm(c['minutes_to_end'])}), so it doesn't run in the credit hours.")
+    return L
+
+
 def load_from_question(question: str) -> str | None:
     n = loads_in(question)
     return n[0] if n else None
@@ -397,22 +539,7 @@ def render(c: dict) -> str:
         L.append(f"- Free grid power: on now, for another {hm(k['free_minutes_left'])} (until 2 pm).")
     else:
         L.append(f"- Free grid power: next from 11 am {'today' if k['next_free_start'].date() == k['now'].date() else 'tomorrow'}, in {hm(k['minutes_to_free'])}.")
-    if k['credit'] == 'before':
-        L.append(f"- Evening credit hours (6-8 pm): start in {hm(k['minutes_to_credit'])}.")
-    elif k['credit'] == 'during':
-        L.append(f"- Evening credit hours (6-8 pm): on now, {hm(k['credit_minutes_left'])} to go.")
-    else:
-        L.append('- Evening credit hours (6-8 pm): over for today.')
-    st = cr['status']
-    if st == 'missed':
-        L.append("- Tonight's credit: missed on Home Assistant's meter (an hour reached 0.03 kWh of grid import; that can't be undone). The bill decides.")
-    elif st == 'met':
-        L.append(f"- Tonight's credit: met on Home Assistant's meter (both hours under 0.03 kWh: {cr['hour1']:.3f} and {cr['hour2']:.3f}). The bill decides.")
-    elif st == 'pending':
-        hrs = f"first hour {cr['hour1']:.3f} kWh" + (f", second hour {cr['hour2']:.3f} kWh so far" if cr['current_hour'] == 2 else ' so far')
-        L.append(f"- Tonight's credit: on track so far ({hrs}; each hour must stay under 0.03 kWh). Not settled until 8 pm.")
-    elif st == 'no data':
-        L.append("- Tonight's credit: no meter reading for the credit hours, so it can't be told.")
+    L += credit_lines(c['credit_status'])
     if b.get('estimated_from'):
         last, at, used = b['estimated_from']
         L.append(f"- Battery: no current reading (the last was {last:.0f}% at {clock(at)}). Estimate from typical use since then: about {b['soc']:.0f}% now,"
@@ -445,11 +572,6 @@ def render(c: dict) -> str:
         L.append(f"- {p['name'].capitalize()}: {rng} a cycle, about {hm(p['minutes'])} ({src}). From paid grid it would cost "
                  + (f"{money(ld['paid_cost_low'])}" if p['low'] == p['high'] else f"{money(ld['paid_cost_low'])} to {money(ld['paid_cost_high'])}")
                  + '; in the free window, nothing.')
-        if ld.get('latest_start_before_credit'):
-            L.append(f"- To finish before 6 pm it needs to start by {clock(ld['latest_start_before_credit'])}.")
-        elif ld.get('credit_overlap_now'):
-            L.append(f"- Started now it would run {hm(ld['credit_overlap_now'])} in the credit hours; started after 8 pm (in "
-                     f"{hm(ld['minutes_to_credit_end'])}) it wouldn't.")
         when = 'tonight' if k['now'].hour >= 17 or k['now'].hour < 4 else 'now'
         if ld.get('after_load_now') and ld['after_load_now'][0] >= 0:
             a0, a1 = ld['after_load_now']
@@ -475,6 +597,17 @@ def render(c: dict) -> str:
         L.append(f"- Lean (estimate{', on the estimated charge' if b.get('estimated_from') else ''}): {lean}, because {ld['why']}.")
     for g in c.get('gaps', []):
         L.append(f'- Not known: {g}.')
+    return '\n'.join(L)
+
+
+def credit_text(now: datetime, inp: dict, question: str = '', rules: dict = RULES) -> str:
+    """Only the clock and credit cards (for evidence that arrives as other cards, as in Codex 49's fixtures)."""
+    c = build(now, inp, question, rules)
+    k = c['clock']
+    L = ['Credit and clock cards (worked out by Home Assistant from the meter; use these as given):']
+    L.append(f"- Free grid power: on now, for another {hm(k['free_minutes_left'])} (until 2 pm)." if k['in_free'] else
+             f"- Free grid power: not on now; next from 11 am {'today' if k['next_free_start'].date() == k['now'].date() else 'tomorrow'}, in {hm(k['minutes_to_free'])}.")
+    L += credit_lines(c['credit_status'])
     return '\n'.join(L)
 
 
@@ -511,7 +644,17 @@ def build(now: datetime, inp: dict, question: str = '', rules: dict = RULES) -> 
             gaps.append('solar forecast for the rest of today (invalid)')
     elif _minute(now) < 17 * 60 and not clk['in_free']:
         gaps.append('solar forecast for the rest of today')
-    cards = {'clock': clk, 'battery': batt, 'demand': dem, 'credit': cr, 'solar_rest': solar_rest,
+    named0 = loads_in(question)
+    lname = (inp.get('load') or {}).get('name') or (named0[0] if len(named0) == 1 else ' and '.join(named0) if named0 else None)
+    lprof = load_profile(lname, inp.get('load')) if lname else None
+    cl = dict(inp.get('load') or {}, name=lname) if lname else None
+    if cl is not None and not cl.get('minutes') and lprof:
+        cl['minutes'] = lprof['minutes']
+    house = reading(inp.get('house_w'), now, 'power') if inp.get('house_w') is not None else Value(None)
+    credit_st = credit_status(now, h1, h2, meter_age_min=inp.get('meter_age_min', 0), protection=inp.get('credit_protection'),
+                              export_kwh=inp.get('export_kwh'), load=cl, house_kw=house.value / 1000 if house else None,
+                              battery_limit_kw=number(inp.get('battery_limit_kw')), final_pending=bool(inp.get('final_pending')), rules=rules)
+    cards = {'clock': clk, 'battery': batt, 'demand': dem, 'credit': cr, 'credit_status': credit_st, 'solar_rest': solar_rest,
              'solar_tomorrow': inp.get('solar_tomorrow'), 'gaps': gaps}
     named = loads_in(question)
     name = (inp.get('load') or {}).get('name') or (named[0] if len(named) == 1 else None)

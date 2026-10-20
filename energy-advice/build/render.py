@@ -165,7 +165,7 @@ def env(now: datetime, S: dict) -> ImmutableSandboxedEnvironment:
 
 
 def render(arm: str, now: datetime, house: dict, cards_text: str = '') -> str:
-    tpl = candidate_template() if arm == 'candidate' else current_template()
+    tpl = candidate_template() if arm.startswith('candidate') else current_template()
     out = env(now, house_states(now, house)).from_string(tpl).render(atlas_energy_cards=cards_text)
     return out.rstrip('\n')
 
@@ -178,7 +178,7 @@ def system_prompt(arm: str, now: datetime, house: dict, cards_text: str = '') ->
 def tool_specs(arm: str) -> list[dict]:
     import calc  # noqa: PLC0415
     specs = T.tool_specs(HANDLES, timer_blinds=False)
-    if arm == 'candidate':
+    if arm.startswith('candidate'):
         n, d, p, r = calc.TOOL_SPEC
         specs.append({'type': 'function', 'function': {'name': n, 'description': d, 'parameters': {'type': 'object', 'properties': p, 'required': r}}})
     return specs
