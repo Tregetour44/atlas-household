@@ -1,0 +1,102 @@
+{
+ "AR-01#1": {
+  "X": "candidate",
+  "Y": "current"
+ },
+ "AR-04#1": {
+  "X": "candidate",
+  "Y": "current"
+ },
+ "AR-05#1": {
+  "X": "current",
+  "Y": "candidate"
+ },
+ "AR-09#1": {
+  "X": "current",
+  "Y": "candidate"
+ },
+ "AR-11#1": {
+  "X": "candidate",
+  "Y": "current"
+ },
+ "AR-17#1": {
+  "X": "current",
+  "Y": "candidate"
+ },
+ "DW-01#1": {
+  "X": "candidate",
+  "Y": "current"
+ },
+ "DW-02#1": {
+  "X": "current",
+  "Y": "candidate"
+ },
+ "DW-03#1": {
+  "X": "candidate",
+  "Y": "current"
+ },
+ "DW-07#1": {
+  "X": "candidate",
+  "Y": "current"
+ },
+ "DW-10#1": {
+  "X": "current",
+  "Y": "candidate"
+ },
+ "DW-11#1": {
+  "X": "candidate",
+  "Y": "current"
+ },
+ "EN001#1": {
+  "X": "candidate",
+  "Y": "current"
+ },
+ "EN002#1": {
+  "X": "current",
+  "Y": "candidate"
+ },
+ "EN004#1": {
+  "X": "candidate",
+  "Y": "current"
+ },
+ "EN008#1": {
+  "X": "current",
+  "Y": "candidate"
+ },
+ "EN012#1": {
+  "X": "current",
+  "Y": "candidate"
+ },
+ "EN013#1": {
+  "X": "candidate",
+  "Y": "current"
+ },
+ "EN017#1": {
+  "X": "candidate",
+  "Y": "current"
+ },
+ "EN022#1": {
+  "X": "candidate",
+  "Y": "current"
+ },
+ "EN035#1": {
+  "X": "candidate",
+  "Y": "current"
+ },
+ "EN040#1": {
+  "X": "candidate",
+  "Y": "current"
+ },
+ "OWN-01#1": {
+  "X": "current",
+  "Y": "candidate"
+ },
+ "OWN-02#1": {
+  "X": "current",
+  "Y": "candidate"
+ },
+ "OWN-03#1": {
+  "X": "current",
+  "Y": "candidate"
+ }
+}

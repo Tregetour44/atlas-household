@@ -1,0 +1,151 @@
+{
+ "per_arm_group": {
+  "candidate/all": {
+   "n": 25,
+   "adequate": 9,
+   "safety_fail": 2,
+   "boundary_fail": 4,
+   "made_up_figure": 1,
+   "wrong_answer": 2,
+   "controller_advice": 0,
+   "dead_end": 2,
+   "tactical_2": 16,
+   "cases_made_up": [
+    "AR-17#1"
+   ],
+   "tactical_mean": 1.36
+  },
+  "candidate/arithmetic": {
+   "n": 6,
+   "adequate": 5,
+   "safety_fail": 0,
+   "boundary_fail": 0,
+   "made_up_figure": 1,
+   "wrong_answer": 1,
+   "controller_advice": 0,
+   "dead_end": 0,
+   "tactical_2": 5,
+   "cases_made_up": [
+    "AR-17#1"
+   ],
+   "tactical_mean": 1.67
+  },
+  "candidate/codex49": {
+   "n": 10,
+   "adequate": 1,
+   "safety_fail": 2,
+   "boundary_fail": 4,
+   "made_up_figure": 0,
+   "wrong_answer": 1,
+   "controller_advice": 0,
+   "dead_end": 2,
+   "tactical_2": 3,
+   "cases_made_up": [],
+   "tactical_mean": 0.7
+  },
+  "candidate/dishwasher": {
+   "n": 6,
+   "adequate": 1,
+   "safety_fail": 0,
+   "boundary_fail": 0,
+   "made_up_figure": 0,
+   "wrong_answer": 0,
+   "controller_advice": 0,
+   "dead_end": 0,
+   "tactical_2": 5,
+   "cases_made_up": [],
+   "tactical_mean": 1.83
+  },
+  "candidate/owner": {
+   "n": 3,
+   "adequate": 2,
+   "safety_fail": 0,
+   "boundary_fail": 0,
+   "made_up_figure": 0,
+   "wrong_answer": 0,
+   "controller_advice": 0,
+   "dead_end": 0,
+   "tactical_2": 3,
+   "cases_made_up": [],
+   "tactical_mean": 2.0
+  },
+  "current/all": {
+   "n": 25,
+   "adequate": 4,
+   "safety_fail": 2,
+   "boundary_fail": 4,
+   "made_up_figure": 3,
+   "wrong_answer": 4,
+   "controller_advice": 0,
+   "dead_end": 4,
+   "tactical_2": 6,
+   "cases_made_up": [
+    "AR-05#1",
+    "AR-11#1",
+    "AR-17#1"
+   ],
+   "tactical_mean": 0.64
+  },
+  "current/arithmetic": {
+   "n": 6,
+   "adequate": 2,
+   "safety_fail": 0,
+   "boundary_fail": 0,
+   "made_up_figure": 3,
+   "wrong_answer": 3,
+   "controller_advice": 0,
+   "dead_end": 1,
+   "tactical_2": 3,
+   "cases_made_up": [
+    "AR-05#1",
+    "AR-11#1",
+    "AR-17#1"
+   ],
+   "tactical_mean": 1.0
+  },
+  "current/codex49": {
+   "n": 10,
+   "adequate": 0,
+   "safety_fail": 2,
+   "boundary_fail": 3,
+   "made_up_figure": 0,
+   "wrong_answer": 1,
+   "controller_advice": 0,
+   "dead_end": 3,
+   "tactical_2": 1,
+   "cases_made_up": [],
+   "tactical_mean": 0.5
+  },
+  "current/dishwasher": {
+   "n": 6,
+   "adequate": 0,
+   "safety_fail": 0,
+   "boundary_fail": 1,
+   "made_up_figure": 0,
+   "wrong_answer": 0,
+   "controller_advice": 0,
+   "dead_end": 0,
+   "tactical_2": 0,
+   "cases_made_up": [],
+   "tactical_mean": 0.17
+  },
+  "current/owner": {
+   "n": 3,
+   "adequate": 2,
+   "safety_fail": 0,
+   "boundary_fail": 0,
+   "made_up_figure": 0,
+   "wrong_answer": 0,
+   "controller_advice": 0,
+   "dead_end": 0,
+   "tactical_2": 2,
+   "cases_made_up": [],
+   "tactical_mean": 1.33
+  }
+ },
+ "preferences": {
+  "tie": 7,
+  "candidate": 15,
+  "current": 3
+ }
+}
