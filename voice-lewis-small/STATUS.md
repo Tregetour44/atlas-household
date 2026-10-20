@@ -2,8 +2,17 @@
 
 ## Round 2: narrow the naturalness gap (started 2026-10-19 23:44 UTC / 20 Oct 10:44 Sydney)
 
-**Updated:** 2026-10-20 07:35 UTC | **elapsed round 2:** 7 h 51 m
-**Stage:** 3, student (a): Piper medium resumed from round 1's step 2500 on the round-2 corpus. Training started 07:30 UTC; evaluation every 500 steps (about 45–50 min each). The corpus stage is **done**.
+**Updated:** 2026-10-20 09:02 UTC | **elapsed round 2:** 9 h 18 m
+**Stage:** 3, student (a), now training step 3000 → 3500. First round-2 result (59 eval-only lines: the 42 from round 1 plus 17 new):
+
+| model | UTMOS | WER | sim → teacher | MCD |
+|---|---|---|---|---|
+| round 1 (step 2500), default noise | 4.09 | 4.3% | 0.850 | 27.9 |
+| round 1, noise_scale 0.5 | 4.11 | 3.4% | 0.853 | 27.6 |
+| round 2 step 3000, default noise | 4.11 | 2.4% | 0.851 | 28.0 |
+| round 2 step 3000, noise_scale 0.5 | 4.13 | 3.6% | 0.840 | 27.5 |
+
+So far the gain is small (about +0.02–0.04 UTMOS, near noise). WER is better on the house names. Two more 500-step stages will show whether it keeps rising; if not, I'll stop at the plateau.
 **Corpus (final):** **1,412 accepted clips, 96.7 min** (round 1: 570 clips, 37.0 min). Rejected attempts: 245; 79 sentences still fail after one retry, all logged.
 **Free gain found:** an inference-noise grid on the round-1 model. Lowering `noise_scale` from 0.667 to 0.5 (`noise_w` 0.8) raises UTMOS from 4.06–4.07 to 4.11 with WER 0.7% and unchanged similarity. Piper sampling is random, so small differences will be confirmed with repeated renders.
 **(b) Piper high:** published `en_GB-cori-high` runs about 5× slower than our medium model on the same CPU. That fits the desktop target, but probably not 1–2 ARM cores, and its CPU training would cost 3–5× more per step. Deferred until (a) is measured.
