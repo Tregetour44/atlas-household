@@ -1,0 +1,13 @@
+
+{%- macro ft(id) -%}{%- set s = states(id) -%}{%- set st = states[id] if id in states | map(attribute='entity_id') | list else none -%}{%- set age = ((now() - st.last_updated).total_seconds() / 60) if st else 9999 -%}{{ s if (s not in ['unknown', 'unavailable', ''] and age <= 120) else 'not available' }}{%- endmacro %}
+{%- macro rt(id) -%}{%- set s = states(id) -%}{{ (s | float | round(1)) ~ ' °C' if is_number(s) else 'not available' }}{%- endmacro %}
+
+Forecast (Met.no, refreshed every 30 minutes):
+- Today is {{ now().strftime('%A %-d %B') }}. Tomorrow is {{ (now() + timedelta(days=1)).strftime('%A %-d %B') }}. The days below are labelled by weekday and date; use these two lines to decide which is today and which is tomorrow.
+- Next days (condition, high / low, rain): {{ ft('input_text.example_03') }}
+- Next 24 hours (every 3 hours): {{ ft('input_text.example_30') }}
+
+Room highs and lows over the last 24 hours:
+- Loft (aircon return air): high {{ rt('sensor.example_14') }}, low {{ rt('sensor.example_15') }}
+- Master bedroom (wardrobe): high {{ rt('sensor.example_16') }}, low {{ rt('sensor.example_33') }}
+- Garage: high {{ rt('sensor.example_34') }}, low {{ rt('sensor.example_35') }}

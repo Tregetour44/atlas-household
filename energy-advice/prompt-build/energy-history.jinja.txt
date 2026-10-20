@@ -1,0 +1,35 @@
+
+House energy rules (facts for advice; you can't change anything, and the owner decides):
+- Grid power is free 11:00–14:00 every day. Grid import at other times is paid, about 55c/kWh.
+- Evening credit: $1 a night if grid import stays under 0.03 kWh in each hour, 6–7 pm and 7–8 pm. Home Assistant's battery controller exports a little then to protect it. The retailer's bill decides the actual credit.
+- Battery: Sungrow SBR256, about 25.6 kWh. It charges to 100% in the free window, keeps a 20% reserve, and never exports on purpose at or below 35%.
+- Good advice: run big loads (washing, dishwasher, heating or cooling boosts) in 11:00–14:00 when you can. Avoid big loads 6–8 pm.
+- It is now {{ now().strftime('%-I:%M %p, %A') }}.
+- Outside 11:00–14:00 grid power is paid; the credit hours matter only from 6 pm to 8 pm. So at night the cheapest choice is usually to wait for tomorrow's free window, and there's no credit risk.
+
+Energy history (kWh. house = total household use; solar = solar made; export = sent to the grid; paid = grid import outside 11:00–14:00; free = grid import 11:00–14:00. The cloud figures can lag about 5 minutes. Use these totals as given; never add up or estimate figures yourself):
+{%- set F = ['house','solar','export','paid','free'] %}
+{%- set ids = {'house':'sensor.example_06','solar':'sensor.example_07','export':'sensor.example_08','paid':'sensor.example_09','free':'sensor.example_10'} %}
+{%- set days = state_attr('sensor.example_31','days') %}{% set days = days if days is list else [] %}
+{%- set td = now().date() %}{% set mon = td - timedelta(days=td.weekday()) %}{% set lmon = mon - timedelta(days=7) %}{% set start = '2026-10-17' %}
+{%- macro fmt(rows, extra) -%}
+{%- for f in F -%}{%- set dp = 2 if f == 'paid' else 1 -%}{%- set vals = rows | map(attribute=f) | reject('none') | list -%}{%- set ex = extra[f] if extra and extra[f] is number else none -%}{%- if vals | count == 0 and ex is not number -%}{{ f }} not recorded{%- else -%}{{ f }} {{ ((vals | sum) + (ex if ex is number else 0)) | round(dp) }}{{ ' (' ~ (rows | count - vals | count) ~ ' day(s) missing this figure)' if (rows | count - vals | count) > 0 else '' }}{%- endif -%}{{ ', ' if not loop.last else '' }}{%- endfor -%}
+{%- endmacro %}
+{%- macro dl(rows) -%}{%- for n in rows -%}{{ as_datetime(n.date).strftime('%-d %b') }}{{ ', ' if not loop.last else '' }}{%- endfor -%}{%- endmacro %}
+{%- set ns = namespace(now={}) %}{% for f in F %}{% set s = states(ids[f]) %}{% set ns.now = dict(ns.now.items() | list + [(f, (s | float) if is_number(s) else none)]) %}{% endfor %}
+- Today so far: {% for f in F %}{{ f }} {{ ns.now[f] | round(2 if f == 'paid' else 1) if ns.now[f] is number else 'not available' }}{{ ', ' if not loop.last else '' }}{% endfor %}
+{%- set y = (td - timedelta(days=1)).isoformat() %}{% set yr = days | selectattr('date','eq',y) | list %}
+- Yesterday ({{ (td - timedelta(days=1)).strftime('%a %-d %b') }}): {% if yr | count %}{{ fmt(yr, none) }}{% elif y >= start %}not recorded{% else %}not recorded (the record started on 17 October 2026){% endif %}
+{%- set wk = days | selectattr('date','ge',mon.isoformat()) | selectattr('date','lt',td.isoformat()) | list %}
+- This week (Mon {{ mon.strftime('%-d %b') }} to now): {{ wk | count }} of {{ td.weekday() }} completed day(s) recorded, plus today so far. Totals: {{ fmt(wk, ns.now) }}
+{%- set lw = days | selectattr('date','ge',lmon.isoformat()) | selectattr('date','lt',mon.isoformat()) | list %}
+- Last week (Mon {{ lmon.strftime('%-d %b') }} to Sun {{ (mon - timedelta(days=1)).strftime('%-d %b') }}): {% if lw | count == 7 %}all 7 days recorded. Totals: {{ fmt(lw, none) }}{% elif lw | count %}only {{ lw | count }} of 7 days recorded ({{ 7 - lw | count }} missing). Totals of the recorded days only: {{ fmt(lw, none) }}{% elif (mon - timedelta(days=1)).isoformat() >= start %}not recorded{% else %}not recorded (the record started on 17 October 2026){% endif %}
+{%- set rec = (days | sort(attribute='date', reverse=true))[:7] %}
+- Recorded days (newest first; the record started 17 October 2026): {% if rec | count %}{% for r in rec %}{{ as_datetime(r.date).strftime('%a %-d %b') }}: {{ fmt([r], none) }}{{ '; ' if not loop.last else '' }}{% endfor %}{% else %}no completed day yet (today is "so far" above){% endif %}
+- Total of those recorded days ({{ rec | count }} day(s)): {% if rec | count %}{{ fmt(rec, none) }}{% else %}none yet{% endif %}
+{%- set nights = state_attr('sensor.example_32','nights') %}{% set nights = nights if (nights is list and state_attr('sensor.example_32','month') == now().strftime('%Y-%m')) else [] %}
+{%- set before2001 = now().hour < 20 or (now().hour == 20 and now().minute < 1) %}
+{%- set pend = nights | selectattr('date','eq',td.isoformat()) | selectattr('result','eq','no data') | list if before2001 else [] %}
+{%- set counted = nights | rejectattr('date','in', pend | map(attribute='date') | list) | list %}
+{%- set met = counted | selectattr('result','eq','met') | list %}{% set missed = counted | selectattr('result','eq','missed') | list %}{% set nod = counted | selectattr('result','eq','no data') | list %}
+- Evening credit this month (an indicator from Home Assistant's own meter; the bill decides): {% if counted | count %}{{ met | count }} of {{ counted | count }} nights met (about ${{ met | count }}){% if missed | count %}; missed: {{ dl(missed) }}{% endif %}{% if nod | count %}; no data: {{ dl(nod) }}{% endif %}{% if pend | count %}; tonight: pending{% endif %}{% elif pend | count %}no nights finished yet; tonight: pending{% else %}no nights recorded yet (the record starts on 18 October 2026){% endif %}

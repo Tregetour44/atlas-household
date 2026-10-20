@@ -1,0 +1,61 @@
+DRAFT: House AI and Energy review
+test_action_flag (__main__.ArtifactTests.test_action_flag) ... ok
+test_all_draft_json (__main__.ArtifactTests.test_all_draft_json) ... ok
+test_bound_inputs (__main__.ArtifactTests.test_bound_inputs) ... ok
+test_catalogue_binding (__main__.ArtifactTests.test_catalogue_binding) ... ok
+test_count_unique (__main__.ArtifactTests.test_count_unique) ... ok
+test_duplicate_trial (__main__.ArtifactTests.test_duplicate_trial) ... ok
+test_every_case_has_reason (__main__.ArtifactTests.test_every_case_has_reason) ... ok
+test_fake_runtime_flag (__main__.ArtifactTests.test_fake_runtime_flag) ... ok
+test_four_rejected_lines_covered (__main__.ArtifactTests.test_four_rejected_lines_covered) ... ok
+test_holdout (__main__.ArtifactTests.test_holdout) ... ok
+test_missing_rows_not_pass (__main__.ArtifactTests.test_missing_rows_not_pass) ... ok
+test_no_blank_pass (__main__.ArtifactTests.test_no_blank_pass) ... ok
+test_no_judge_leakage (__main__.ArtifactTests.test_no_judge_leakage) ... ok
+test_no_latency_invented (__main__.ArtifactTests.test_no_latency_invented) ... ok
+test_path_guard (__main__.ArtifactTests.test_path_guard) ... ok
+test_scorer_accepts_all_40 (__main__.ArtifactTests.test_scorer_accepts_all_40) ... ok
+test_synthetic_marked (__main__.ArtifactTests.test_synthetic_marked) ... ok
+test_template_is_not_result (__main__.ArtifactTests.test_template_is_not_result) ... ok
+test_wrong_expected_binding (__main__.ArtifactTests.test_wrong_expected_binding) ... ok
+test_wrong_input_binding (__main__.ArtifactTests.test_wrong_input_binding) ... ok
+test_bad_trend_coverage (__main__.FormulaTests.test_bad_trend_coverage) ... ok
+test_below_reserve (__main__.FormulaTests.test_below_reserve) ... ok
+test_bool_not_soc (__main__.FormulaTests.test_bool_not_soc) ... ok
+test_credit_boolean (__main__.FormulaTests.test_credit_boolean) ... ok
+test_credit_independent_hours (__main__.FormulaTests.test_credit_independent_hours) ... ok
+test_credit_known_failure_missing (__main__.FormulaTests.test_credit_known_failure_missing) ... ok
+test_credit_missing (__main__.FormulaTests.test_credit_missing) ... ok
+test_credit_negative (__main__.FormulaTests.test_credit_negative) ... ok
+test_credit_nonfinite (__main__.FormulaTests.test_credit_nonfinite) ... ok
+test_credit_pending (__main__.FormulaTests.test_credit_pending) ... ok
+test_credit_strict (__main__.FormulaTests.test_credit_strict) ... ok
+test_deficit (__main__.FormulaTests.test_deficit) ... ok
+test_eight_exclusive (__main__.FormulaTests.test_eight_exclusive) ... ok
+test_eleven_inclusive (__main__.FormulaTests.test_eleven_inclusive) ... ok
+test_energy_not_power (__main__.FormulaTests.test_energy_not_power) ... ok
+test_floor_distinction (__main__.FormulaTests.test_floor_distinction) ... ok
+test_headroom_exact (__main__.FormulaTests.test_headroom_exact) ... ok
+test_headroom_failed (__main__.FormulaTests.test_headroom_failed) ... ok
+test_headroom_missing (__main__.FormulaTests.test_headroom_missing) ... ok
+test_invalid_minutes (__main__.FormulaTests.test_invalid_minutes) ... ok
+test_invalid_soc (__main__.FormulaTests.test_invalid_soc) ... ok
+test_late_cycle (__main__.FormulaTests.test_late_cycle) ... ok
+test_meter_reset_invalidates (__main__.FormulaTests.test_meter_reset_invalidates) ... ok
+test_midnight_cycle (__main__.FormulaTests.test_midnight_cycle) ... ok
+test_missing_margin (__main__.FormulaTests.test_missing_margin) ... ok
+test_next_day_free (__main__.FormulaTests.test_next_day_free) ... ok
+test_no_rounding_to_fail (__main__.FormulaTests.test_no_rounding_to_fail) ... ok
+test_nominal_budget (__main__.FormulaTests.test_nominal_budget) ... ok
+test_partial_already_fails (__main__.FormulaTests.test_partial_already_fails) ... ok
+test_positive_not_guarantee (__main__.FormulaTests.test_positive_not_guarantee) ... ok
+test_pp_trend (__main__.FormulaTests.test_pp_trend) ... ok
+test_reversed_interval (__main__.FormulaTests.test_reversed_interval) ... ok
+test_six_inclusive (__main__.FormulaTests.test_six_inclusive) ... ok
+test_two_exclusive (__main__.FormulaTests.test_two_exclusive) ... ok
+test_uncertain_margin (__main__.FormulaTests.test_uncertain_margin) ... ok
+
+----------------------------------------------------------------------
+Ran 55 tests in 0.041s
+
+OK

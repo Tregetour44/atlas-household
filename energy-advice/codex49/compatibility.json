@@ -1,0 +1,17 @@
+{
+  "notice": "DRAFT: House AI and Energy review",
+  "source": "Codex-Inbox/2026-10-18-run42/kit.py",
+  "unchanged_functions": {
+    "score": true,
+    "check_answer": true,
+    "compare_reports": true,
+    "digest": true,
+    "number": true,
+    "canonical_unit": true
+  },
+  "changes": [
+    "Draft notice",
+    "Directory error wording"
+  ],
+  "generate_for_run49": "Use build.py; original generator stays frozen to 120 cases"
+}

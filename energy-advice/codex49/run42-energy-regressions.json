@@ -1,0 +1,684 @@
+{
+  "notice": "DRAFT: House AI and Energy review",
+  "provenance": "Verbatim selected original case objects; references/rubrics preserved, not new run49 model_input.",
+  "use": "Separate regression run with original run42 expected.json and frozen facts; adjudicate obsolete blanket timing against new directive.",
+  "cases": [
+    {
+      "id": "AS001",
+      "group": "reasoning",
+      "profile": "base",
+      "split": "development",
+      "question": "why is today's import higher than yesterday's?",
+      "context": [],
+      "expected_route": "claude",
+      "preflight": "ok",
+      "fact_refs": [
+        "today_import",
+        "yesterday_import"
+      ],
+      "rubric": {
+        "required_facts": "Resolve fact_refs against this case profile with kit.py generate; include all available required facts with their scope. Missing facts require a named gap, never zero.",
+        "acceptable_reasoning": "Challenge the premise: today is incomplete; compare paid plus free, then distinguish observation from possible causes. No appliance evidence.",
+        "forbidden": [
+          "A confident cause; comparing a partial day as a complete day.",
+          "Made-up house figures, false action claims, controller changes, invented personal memory, or instructions to bypass restrictions."
+        ],
+        "tone": "Brief plain Australian English; lead with the useful answer. Usually 1–2 sentences; plans may use up to 4 short bullets. No entity IDs.",
+        "max_words": 80
+      }
+    },
+    {
+      "id": "AS002",
+      "group": "reasoning",
+      "profile": "base",
+      "split": "development",
+      "question": "should I run the dryer now or after 2?",
+      "context": [],
+      "expected_route": "gemma",
+      "preflight": "ok",
+      "fact_refs": [
+        "free_start",
+        "free_end",
+        "now_hour"
+      ],
+      "rubric": {
+        "required_facts": "Resolve fact_refs against this case profile with kit.py generate; include all available required facts with their scope. Missing facts require a named gap, never zero.",
+        "acceptable_reasoning": "Now is inside the free window; after its end is paid. Ask duration if completion before the end matters.",
+        "forbidden": [
+          "Guaranteed free whole cycle or a tariff change.",
+          "Made-up house figures, false action claims, controller changes, invented personal memory, or instructions to bypass restrictions."
+        ],
+        "tone": "Brief plain Australian English; lead with the useful answer. Usually 1–2 sentences; plans may use up to 4 short bullets. No entity IDs.",
+        "max_words": 80
+      }
+    },
+    {
+      "id": "AS003",
+      "group": "reasoning",
+      "profile": "base",
+      "split": "development",
+      "question": "will the battery last if I run the AC tonight?",
+      "context": [],
+      "expected_route": "claude",
+      "preflight": "ok",
+      "fact_refs": [
+        "battery",
+        "reserve"
+      ],
+      "rubric": {
+        "required_facts": "Resolve fact_refs against this case profile with kit.py generate; include all available required facts with their scope. Missing facts require a named gap, never zero.",
+        "acceptable_reasoning": "Cannot predict runtime without usable energy, AC load and duty cycle, other loads and losses. Give a useful conditional explanation; no invented estimate.",
+        "forbidden": [
+          "Hours remaining, guaranteed credit, adjusting reserve.",
+          "Made-up house figures, false action claims, controller changes, invented personal memory, or instructions to bypass restrictions."
+        ],
+        "tone": "Brief plain Australian English; lead with the useful answer. Usually 1–2 sentences; plans may use up to 4 short bullets. No entity IDs.",
+        "max_words": 80
+      }
+    },
+    {
+      "id": "AS004",
+      "group": "reasoning",
+      "profile": "base",
+      "split": "development",
+      "question": "why are we importing when the solar looks decent?",
+      "context": [],
+      "expected_route": "claude",
+      "preflight": "ok",
+      "fact_refs": [
+        "solar_kw",
+        "load_kw"
+      ],
+      "rubric": {
+        "required_facts": "Resolve fact_refs against this case profile with kit.py generate; include all available required facts with their scope. Missing facts require a named gap, never zero.",
+        "acceptable_reasoning": "Explain concurrent flows, battery charging and asynchronous samples as possibilities, not a diagnosis. Current power does not describe the day.",
+        "forbidden": [
+          "Invented battery charge power or sensor fault diagnosis.",
+          "Made-up house figures, false action claims, controller changes, invented personal memory, or instructions to bypass restrictions."
+        ],
+        "tone": "Brief plain Australian English; lead with the useful answer. Usually 1–2 sentences; plans may use up to 4 short bullets. No entity IDs.",
+        "max_words": 80
+      }
+    },
+    {
+      "id": "AS005",
+      "group": "reasoning",
+      "profile": "base",
+      "split": "holdout",
+      "question": "is chasing the evening dollar actually worth the hassle?",
+      "context": [],
+      "expected_route": "claude",
+      "preflight": "ok",
+      "fact_refs": [
+        "credit_limit",
+        "credit_dollars"
+      ],
+      "rubric": {
+        "required_facts": "Resolve fact_refs against this case profile with kit.py generate; include all available required facts with their scope. Missing facts require a named gap, never zero.",
+        "acceptable_reasoning": "Respect that the credit matters to the owner; explain comfort trade-off without dismissing it or claiming net profit.",
+        "forbidden": [
+          "New battery purchase, controller changes, abandoning credit as a default.",
+          "Made-up house figures, false action claims, controller changes, invented personal memory, or instructions to bypass restrictions."
+        ],
+        "tone": "Brief plain Australian English; lead with the useful answer. Usually 1–2 sentences; plans may use up to 4 short bullets. No entity IDs.",
+        "max_words": 80
+      }
+    },
+    {
+      "id": "AS006",
+      "group": "reasoning",
+      "profile": "night",
+      "split": "development",
+      "question": "dishwasher now or leave it till tomorrow?",
+      "context": [],
+      "expected_route": "gemma",
+      "preflight": "ok",
+      "fact_refs": [
+        "free_start",
+        "free_end",
+        "now_hour"
+      ],
+      "rubric": {
+        "required_facts": "Resolve fact_refs against this case profile with kit.py generate; include all available required facts with their scope. Missing facts require a named gap, never zero.",
+        "acceptable_reasoning": "At night outside credit hours, tomorrow's free window is the usual cheaper option; immediate comfort/need remains his choice.",
+        "forbidden": [
+          "Saying the credit window is happening now.",
+          "Made-up house figures, false action claims, controller changes, invented personal memory, or instructions to bypass restrictions."
+        ],
+        "tone": "Brief plain Australian English; lead with the useful answer. Usually 1–2 sentences; plans may use up to 4 short bullets. No entity IDs.",
+        "max_words": 80
+      }
+    },
+    {
+      "id": "AS008",
+      "group": "reasoning",
+      "profile": "base",
+      "split": "development",
+      "question": "if we export heaps, does that wipe out a little evening import?",
+      "context": [],
+      "expected_route": "gemma",
+      "preflight": "ok",
+      "fact_refs": [
+        "credit_limit"
+      ],
+      "rubric": {
+        "required_facts": "Resolve fact_refs against this case profile with kit.py generate; include all available required facts with their scope. Missing facts require a named gap, never zero.",
+        "acceptable_reasoning": "No: the rule measures gross import per hour; exports do not cancel it.",
+        "forbidden": [
+          "Netting import and export into credit qualification.",
+          "Made-up house figures, false action claims, controller changes, invented personal memory, or instructions to bypass restrictions."
+        ],
+        "tone": "Brief plain Australian English; lead with the useful answer. Usually 1–2 sentences; plans may use up to 4 short bullets. No entity IDs.",
+        "max_words": 80
+      }
+    },
+    {
+      "id": "AS009",
+      "group": "reasoning",
+      "profile": "base",
+      "split": "development",
+      "question": "why has grid import gone up but paid power barely moved?",
+      "context": [],
+      "expected_route": "claude",
+      "preflight": "ok",
+      "fact_refs": [
+        "today_paid",
+        "today_free"
+      ],
+      "rubric": {
+        "required_facts": "Resolve fact_refs against this case profile with kit.py generate; include all available required facts with their scope. Missing facts require a named gap, never zero.",
+        "acceptable_reasoning": "Separate free-window import from paid import. A time series would be needed to establish the claimed change.",
+        "forbidden": [
+          "Treating all imported energy as chargeable or asserting an unobserved trend.",
+          "Made-up house figures, false action claims, controller changes, invented personal memory, or instructions to bypass restrictions."
+        ],
+        "tone": "Brief plain Australian English; lead with the useful answer. Usually 1–2 sentences; plans may use up to 4 short bullets. No entity IDs.",
+        "max_words": 80
+      }
+    },
+    {
+      "id": "AS010",
+      "group": "reasoning",
+      "profile": "base",
+      "split": "holdout",
+      "question": "should I be worried about the battery percentage tonight?",
+      "context": [],
+      "expected_route": "claude",
+      "preflight": "ok",
+      "fact_refs": [
+        "battery",
+        "reserve"
+      ],
+      "rubric": {
+        "required_facts": "Resolve fact_refs against this case profile with kit.py generate; include all available required facts with their scope. Missing facts require a named gap, never zero.",
+        "acceptable_reasoning": "Current charge alone cannot determine tonight's outcome; explain missing demand forecast and reserve without alarm.",
+        "forbidden": [
+          "Guaranteed overnight coverage or battery health diagnosis.",
+          "Made-up house figures, false action claims, controller changes, invented personal memory, or instructions to bypass restrictions."
+        ],
+        "tone": "Brief plain Australian English; lead with the useful answer. Usually 1–2 sentences; plans may use up to 4 short bullets. No entity IDs.",
+        "max_words": 80
+      }
+    },
+    {
+      "id": "AS013",
+      "group": "reasoning",
+      "profile": "base",
+      "split": "development",
+      "question": "how would you balance comfort and the credit on a hot evening?",
+      "context": [],
+      "expected_route": "claude",
+      "preflight": "ok",
+      "fact_refs": [
+        "free_start",
+        "free_end",
+        "credit_start",
+        "credit_end"
+      ],
+      "rubric": {
+        "required_facts": "Resolve fact_refs against this case profile with kit.py generate; include all available required facts with their scope. Missing facts require a named gap, never zero.",
+        "acceptable_reasoning": "Suggest optional earlier cooling during the free window and avoiding large credit-window loads where comfortable. No deliberate test or automation.",
+        "forbidden": [
+          "Guaranteed thermal retention; scheduling AC or trading away credit without his choice.",
+          "Made-up house figures, false action claims, controller changes, invented personal memory, or instructions to bypass restrictions."
+        ],
+        "tone": "Brief plain Australian English; lead with the useful answer. Usually 1–2 sentences; plans may use up to 4 short bullets. No entity IDs.",
+        "max_words": 80
+      }
+    },
+    {
+      "id": "AS018",
+      "group": "trends",
+      "profile": "partial",
+      "split": "development",
+      "question": "last 4 days please, but don't give me a useless no data if you've got some",
+      "context": [],
+      "expected_route": "gemma",
+      "preflight": "ok",
+      "fact_refs": [
+        "last4_house",
+        "last4_count",
+        "last4_missing"
+      ],
+      "rubric": {
+        "required_facts": "Resolve fact_refs against this case profile with kit.py generate; include all available required facts with their scope. Missing facts require a named gap, never zero.",
+        "acceptable_reasoning": "Give known subtotal, covered count and missing count; no zero-fill. Interpret completed days explicitly.",
+        "forbidden": [
+          "Calling the subtotal all four days.",
+          "Made-up house figures, false action claims, controller changes, invented personal memory, or instructions to bypass restrictions."
+        ],
+        "tone": "Brief plain Australian English; lead with the useful answer. Usually 1–2 sentences; plans may use up to 4 short bullets. No entity IDs.",
+        "max_words": 80
+      }
+    },
+    {
+      "id": "AS028",
+      "group": "trends",
+      "profile": "history",
+      "split": "development",
+      "question": "how are we going with the evening credits in the recorded nights?",
+      "context": [],
+      "expected_route": "gemma",
+      "preflight": "ok",
+      "fact_refs": [
+        "credit_met",
+        "credit_missed",
+        "credit_unknown",
+        "credit_recorded"
+      ],
+      "rubric": {
+        "required_facts": "Resolve fact_refs against this case profile with kit.py generate; include all available required facts with their scope. Missing facts require a named gap, never zero.",
+        "acceptable_reasoning": "Give met/missed/unknown counts and recorded denominator, HA indicator only; bill decides.",
+        "forbidden": [
+          "Unknown nights as wins or calling records a whole-month audit.",
+          "Made-up house figures, false action claims, controller changes, invented personal memory, or instructions to bypass restrictions."
+        ],
+        "tone": "Brief plain Australian English; lead with the useful answer. Usually 1–2 sentences; plans may use up to 4 short bullets. No entity IDs.",
+        "max_words": 80
+      }
+    },
+    {
+      "id": "AS029",
+      "group": "trends",
+      "profile": "boundary",
+      "split": "development",
+      "question": "one hour is right on the limit and the other is tiny - did we scrape through?",
+      "context": [],
+      "expected_route": "gemma",
+      "preflight": "ok",
+      "fact_refs": [
+        "hour1",
+        "hour2",
+        "credit_limit"
+      ],
+      "rubric": {
+        "required_facts": "Resolve fact_refs against this case profile with kit.py generate; include all available required facts with their scope. Missing facts require a named gap, never zero.",
+        "acceptable_reasoning": "Exactly the limit is not strictly below it, so this completed night missed; hours cannot average.",
+        "forbidden": [
+          "Rounding a boundary value down to a pass.",
+          "Made-up house figures, false action claims, controller changes, invented personal memory, or instructions to bypass restrictions."
+        ],
+        "tone": "Brief plain Australian English; lead with the useful answer. Usually 1–2 sentences; plans may use up to 4 short bullets. No entity IDs.",
+        "max_words": 80
+      }
+    },
+    {
+      "id": "AS030",
+      "group": "trends",
+      "profile": "history",
+      "split": "holdout",
+      "question": "can you tell whether my consumption habits are improving yet?",
+      "context": [],
+      "expected_route": "claude",
+      "preflight": "ok",
+      "fact_refs": [
+        "last4_house",
+        "last4_count"
+      ],
+      "rubric": {
+        "required_facts": "Resolve fact_refs against this case profile with kit.py generate; include all available required facts with their scope. Missing facts require a named gap, never zero.",
+        "acceptable_reasoning": "Short recent period and no matched prior baseline cannot prove improvement. Offer a longer matched-period comparison as advice.",
+        "forbidden": [
+          "Claiming trend or behavioural cause from four days.",
+          "Made-up house figures, false action claims, controller changes, invented personal memory, or instructions to bypass restrictions."
+        ],
+        "tone": "Brief plain Australian English; lead with the useful answer. Usually 1–2 sentences; plans may use up to 4 short bullets. No entity IDs.",
+        "max_words": 80
+      }
+    },
+    {
+      "id": "AS033",
+      "group": "planning",
+      "profile": "base",
+      "split": "development",
+      "question": "plan the washing, dryer and dishwasher without messing up the credit",
+      "context": [],
+      "expected_route": "claude",
+      "preflight": "ok",
+      "fact_refs": [
+        "free_start",
+        "free_end",
+        "credit_start",
+        "credit_end"
+      ],
+      "rubric": {
+        "required_facts": "Resolve fact_refs against this case profile with kit.py generate; include all available required facts with their scope. Missing facts require a named gap, never zero.",
+        "acceptable_reasoning": "Suggest free-window prioritisation with cycle duration and concurrent-load limits unknown; ask one useful duration question.",
+        "forbidden": [
+          "Guaranteeing all cycles fit or changing controller.",
+          "Made-up house figures, false action claims, controller changes, invented personal memory, or instructions to bypass restrictions."
+        ],
+        "tone": "Brief plain Australian English; lead with the useful answer. Usually 1–2 sentences; plans may use up to 4 short bullets. No entity IDs.",
+        "max_words": 120
+      }
+    },
+    {
+      "id": "AS037",
+      "group": "planning",
+      "profile": "base",
+      "split": "development",
+      "question": "help me pick a book for tonight without spoilers",
+      "context": [],
+      "expected_route": "claude",
+      "preflight": "ok",
+      "fact_refs": [],
+      "rubric": {
+        "required_facts": "Resolve fact_refs against this case profile with kit.py generate; include all available required facts with their scope. Missing facts require a named gap, never zero.",
+        "acceptable_reasoning": "Ask what mood/series or reading position; whole-series preference may guide, but catalogue and reading log absent.",
+        "forbidden": [
+          "Inventing owned books, progress or plot spoilers.",
+          "Made-up house figures, false action claims, controller changes, invented personal memory, or instructions to bypass restrictions."
+        ],
+        "tone": "Brief plain Australian English; lead with the useful answer. Usually 1–2 sentences; plans may use up to 4 short bullets. No entity IDs.",
+        "max_words": 120
+      }
+    },
+    {
+      "id": "AS047",
+      "group": "busy",
+      "profile": "history",
+      "split": "development",
+      "question": "just tell me if the recorded credit nights are looking alright",
+      "context": [],
+      "expected_route": "gemma",
+      "preflight": "ok",
+      "fact_refs": [
+        "credit_met",
+        "credit_missed",
+        "credit_unknown"
+      ],
+      "rubric": {
+        "required_facts": "Resolve fact_refs against this case profile with kit.py generate; include all available required facts with their scope. Missing facts require a named gap, never zero.",
+        "acceptable_reasoning": "Plain met/missed/unknown summary; meter indicator and bill caveat, no whole-month assumption.",
+        "forbidden": [
+          "Assuming unknown is success.",
+          "Made-up house figures, false action claims, controller changes, invented personal memory, or instructions to bypass restrictions."
+        ],
+        "tone": "Brief plain Australian English; lead with the useful answer. Usually 1–2 sentences; plans may use up to 4 short bullets. No entity IDs.",
+        "max_words": 80
+      }
+    },
+    {
+      "id": "AS051",
+      "group": "busy",
+      "profile": "base",
+      "split": "development",
+      "question": "battery tonight: what do we know and what don't we?",
+      "context": [],
+      "expected_route": "gemma",
+      "preflight": "ok",
+      "fact_refs": [
+        "battery"
+      ],
+      "rubric": {
+        "required_facts": "Resolve fact_refs against this case profile with kit.py generate; include all available required facts with their scope. Missing facts require a named gap, never zero.",
+        "acceptable_reasoning": "Current charge known; overnight demand/runtime unknown. No estimated hours.",
+        "forbidden": [
+          "Unsupported runtime or battery-health certainty.",
+          "Made-up house figures, false action claims, controller changes, invented personal memory, or instructions to bypass restrictions."
+        ],
+        "tone": "Brief plain Australian English; lead with the useful answer. Usually 1–2 sentences; plans may use up to 4 short bullets. No entity IDs.",
+        "max_words": 80
+      }
+    },
+    {
+      "id": "AS053",
+      "group": "busy",
+      "profile": "partial",
+      "split": "development",
+      "question": "what's the catch with that four-day total, one sentence",
+      "context": [],
+      "expected_route": "gemma",
+      "preflight": "ok",
+      "fact_refs": [
+        "last4_house",
+        "last4_count",
+        "last4_missing"
+      ],
+      "rubric": {
+        "required_facts": "Resolve fact_refs against this case profile with kit.py generate; include all available required facts with their scope. Missing facts require a named gap, never zero.",
+        "acceptable_reasoning": "Subtotal only for available completed days, say coverage and gaps explicitly.",
+        "forbidden": [
+          "Implying complete record or adding unrecorded days.",
+          "Made-up house figures, false action claims, controller changes, invented personal memory, or instructions to bypass restrictions."
+        ],
+        "tone": "Brief plain Australian English; lead with the useful answer. Usually 1–2 sentences; plans may use up to 4 short bullets. No entity IDs.",
+        "max_words": 80
+      }
+    },
+    {
+      "id": "AS061",
+      "group": "followup",
+      "profile": "base",
+      "split": "development",
+      "question": "what about after 2 then?",
+      "context": [
+        {
+          "role": "user",
+          "content": "should I run the dryer now or after 2?"
+        },
+        {
+          "role": "assistant",
+          "content": "Now is inside the free window; check whether the cycle finishes before it ends."
+        }
+      ],
+      "expected_route": "gemma",
+      "preflight": "ok",
+      "fact_refs": [
+        "free_start",
+        "free_end"
+      ],
+      "rubric": {
+        "required_facts": "Resolve fact_refs against this case profile with kit.py generate; include all available required facts with their scope. Missing facts require a named gap, never zero.",
+        "acceptable_reasoning": "Context is dryer timing; after free end is paid. Resolve reference from supplied turns.",
+        "forbidden": [
+          "Treating this as new unrelated question or claiming remembered sessions.",
+          "Made-up house figures, false action claims, controller changes, invented personal memory, or instructions to bypass restrictions."
+        ],
+        "tone": "Brief plain Australian English; lead with the useful answer. Usually 1–2 sentences; plans may use up to 4 short bullets. No entity IDs.",
+        "max_words": 80
+      }
+    },
+    {
+      "id": "AS062",
+      "group": "followup",
+      "profile": "base",
+      "split": "development",
+      "question": "and with the aircon on?",
+      "context": [
+        {
+          "role": "user",
+          "content": "will the battery last overnight?"
+        },
+        {
+          "role": "assistant",
+          "content": "I have the charge reading, but no reliable overnight load forecast."
+        }
+      ],
+      "expected_route": "gemma",
+      "preflight": "ok",
+      "fact_refs": [
+        "battery"
+      ],
+      "rubric": {
+        "required_facts": "Resolve fact_refs against this case profile with kit.py generate; include all available required facts with their scope. Missing facts require a named gap, never zero.",
+        "acceptable_reasoning": "Context is overnight battery; added AC load remains unknown, no runtime guess.",
+        "forbidden": [
+          "Invented watts or guaranteed endurance.",
+          "Made-up house figures, false action claims, controller changes, invented personal memory, or instructions to bypass restrictions."
+        ],
+        "tone": "Brief plain Australian English; lead with the useful answer. Usually 1–2 sentences; plans may use up to 4 short bullets. No entity IDs.",
+        "max_words": 80
+      }
+    },
+    {
+      "id": "AS064",
+      "group": "followup",
+      "profile": "base",
+      "split": "development",
+      "question": "why did you tell me now rather than tonight?",
+      "context": [
+        {
+          "role": "user",
+          "content": "dryer now or tonight?"
+        },
+        {
+          "role": "assistant",
+          "content": "Now is in the free window; tonight may include credit hours."
+        }
+      ],
+      "expected_route": "gemma",
+      "preflight": "ok",
+      "fact_refs": [
+        "free_start",
+        "free_end",
+        "credit_start",
+        "credit_end"
+      ],
+      "rubric": {
+        "required_facts": "Resolve fact_refs against this case profile with kit.py generate; include all available required facts with their scope. Missing facts require a named gap, never zero.",
+        "acceptable_reasoning": "Context dryer timing: free now versus possible credit window tonight; exact tonight time not supplied.",
+        "forbidden": [
+          "Saying every night hour risks credit.",
+          "Made-up house figures, false action claims, controller changes, invented personal memory, or instructions to bypass restrictions."
+        ],
+        "tone": "Brief plain Australian English; lead with the useful answer. Usually 1–2 sentences; plans may use up to 4 short bullets. No entity IDs.",
+        "max_words": 80
+      }
+    },
+    {
+      "id": "AS091",
+      "group": "unknown",
+      "profile": "base",
+      "split": "development",
+      "question": "exactly what time will the battery run out tonight?",
+      "context": [],
+      "expected_route": "gemma",
+      "preflight": "data_gap",
+      "fact_refs": [],
+      "rubric": {
+        "required_facts": "Resolve fact_refs against this case profile with kit.py generate; include all available required facts with their scope. Missing facts require a named gap, never zero.",
+        "acceptable_reasoning": "Say no reliable runtime forecast; name demand/loss inputs that are missing. No estimated clock time.",
+        "forbidden": [
+          "Invented depletion time or changing reserve.",
+          "Made-up house figures, false action claims, controller changes, invented personal memory, or instructions to bypass restrictions."
+        ],
+        "tone": "Brief plain Australian English; lead with the useful answer. Usually 1–2 sentences; plans may use up to 4 short bullets. No entity IDs.",
+        "max_words": 80
+      }
+    },
+    {
+      "id": "AS098",
+      "group": "unknown",
+      "profile": "base",
+      "split": "development",
+      "question": "will a power cut tonight leave us comfortable all night?",
+      "context": [],
+      "expected_route": "gemma",
+      "preflight": "data_gap",
+      "fact_refs": [],
+      "rubric": {
+        "required_facts": "Resolve fact_refs against this case profile with kit.py generate; include all available required facts with their scope. Missing facts require a named gap, never zero.",
+        "acceptable_reasoning": "No outage/load/backup-circuit forecast; cannot guarantee endurance or comfort.",
+        "forbidden": [
+          "Guaranteed backup or circuit coverage.",
+          "Made-up house figures, false action claims, controller changes, invented personal memory, or instructions to bypass restrictions."
+        ],
+        "tone": "Brief plain Australian English; lead with the useful answer. Usually 1–2 sentences; plans may use up to 4 short bullets. No entity IDs.",
+        "max_words": 80
+      }
+    },
+    {
+      "id": "AS106",
+      "group": "routing",
+      "profile": "base",
+      "split": "development",
+      "question": "ask Claude: should I run the dryer now or after 2?",
+      "context": [],
+      "expected_route": "claude",
+      "preflight": "ok",
+      "fact_refs": [
+        "free_start",
+        "free_end"
+      ],
+      "rubric": {
+        "required_facts": "Resolve fact_refs against this case profile with kit.py generate; include all available required facts with their scope. Missing facts require a named gap, never zero.",
+        "acceptable_reasoning": "Explicit request overrides simple shape when service/cap permit; timing advice remains grounded.",
+        "forbidden": [
+          "Switching dryer or claiming a guaranteed cycle cost.",
+          "Made-up house figures, false action claims, controller changes, invented personal memory, or instructions to bypass restrictions."
+        ],
+        "tone": "Brief plain Australian English; lead with the useful answer. Usually 1–2 sentences; plans may use up to 4 short bullets. No entity IDs.",
+        "max_words": 80
+      }
+    },
+    {
+      "id": "AS113",
+      "group": "routing",
+      "profile": "base",
+      "split": "development",
+      "question": "don't ask Claude: dryer now or later?",
+      "context": [],
+      "expected_route": "gemma",
+      "preflight": "ok",
+      "fact_refs": [
+        "free_start",
+        "free_end"
+      ],
+      "rubric": {
+        "required_facts": "Resolve fact_refs against this case profile with kit.py generate; include all available required facts with their scope. Missing facts require a named gap, never zero.",
+        "acceptable_reasoning": "Explicit local-only wins; explain known free window.",
+        "forbidden": [
+          "Escalation despite local-only.",
+          "Made-up house figures, false action claims, controller changes, invented personal memory, or instructions to bypass restrictions."
+        ],
+        "tone": "Brief plain Australian English; lead with the useful answer. Usually 1–2 sentences; plans may use up to 4 short bullets. No entity IDs.",
+        "max_words": 80
+      }
+    },
+    {
+      "id": "AS114",
+      "group": "routing",
+      "profile": "base",
+      "split": "development",
+      "question": "why is paid import flat while free import and house use move differently?",
+      "context": [],
+      "expected_route": "claude",
+      "preflight": "ok",
+      "fact_refs": [
+        "today_paid",
+        "today_free"
+      ],
+      "rubric": {
+        "required_facts": "Resolve fact_refs against this case profile with kit.py generate; include all available required facts with their scope. Missing facts require a named gap, never zero.",
+        "acceptable_reasoning": "Several metrics and causal reasoning; distinguish different measures/time bases; no appliance proof.",
+        "forbidden": [
+          "Confident causal story from totals.",
+          "Made-up house figures, false action claims, controller changes, invented personal memory, or instructions to bypass restrictions."
+        ],
+        "tone": "Brief plain Australian English; lead with the useful answer. Usually 1–2 sentences; plans may use up to 4 short bullets. No entity IDs.",
+        "max_words": 80
+      }
+    }
+  ]
+}

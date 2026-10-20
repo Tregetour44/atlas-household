@@ -1,0 +1,11 @@
+{%- macro cover(label, d0, n) -%}
+{%- set c = namespace(rec=[], mis=[], pre=[], tot=0) -%}
+{%- for i in range(n) -%}{%- set d = d0 + timedelta(days=i) -%}{%- set r = days | selectattr('date','eq',d.isoformat()) | list -%}
+{%- if r | count and r[0].house is number -%}{%- set c.rec = c.rec + [d.strftime('%a %-d')] -%}{%- set c.tot = c.tot + r[0].house -%}
+{%- elif d.isoformat() < start -%}{%- set c.pre = c.pre + [d.strftime('%a %-d')] -%}{%- else -%}{%- set c.mis = c.mis + [d.strftime('%a %-d')] -%}{%- endif -%}{%- endfor -%}
+- {{ label }} ({{ d0.strftime('%a %-d %b') }} – {{ (d0 + timedelta(days=n - 1)).strftime('%a %-d %b') }}): house use recorded on {{ c.rec | count }} day{{ '' if c.rec | count == 1 else 's' }}{% if c.rec %} ({{ c.rec | join(', ') }}){% endif %}, missing on {{ c.mis | count }} day{{ '' if c.mis | count == 1 else 's' }}{% if c.mis %} ({{ c.mis | join(', ') }}){% endif %}{% if c.pre %}, and {{ c.pre | count }} day{{ '' if c.pre | count == 1 else 's' }} before the record started on 17 October 2026 ({{ c.pre | join(', ') }}){% endif %}.{% if c.rec %} Total house use of the {{ c.rec | count }} recorded day{{ '' if c.rec | count == 1 else 's' }}: {{ c.tot | round(1) }} kWh.{% endif %}
+{%- endmacro %}
+{{ cover('Record coverage, last 4 completed days', td - timedelta(days=4), 4) }}
+{%- if td.weekday() > 0 %}
+{{ cover('Record coverage, this week (completed days)', mon, td.weekday()) }}{% endif %}
+{{ cover('Record coverage, last week', lmon, 7) }}

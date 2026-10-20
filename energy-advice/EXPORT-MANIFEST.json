@@ -1,0 +1,162 @@
+{
+ "note": "Clean export for the energy-advice cloud session (directive PCSteward 20261018-2225 + amendment 1). Personal names replaced by roles; entity ids not already in this repo replaced by synthetic example ids (same mapping across all files); the builder's real-data inputs (entities.json, assist-names-*.json) are NOT included. Codex 49 files are cleaned copies: their bytes differ from run 49's SUMMARY hashes wherever a name or id was replaced (both hashes below). Further cleaning (PC Steward check, 20 Oct 21:0x): kit.py pet-medication key renamed to pet_reminder_due, the personal owner_context lines and their citation removed, and the one daily-history row given invented values; the go-live template's pet reminder lines made a generic household reminder.",
+ "ha_build_commit": "d498150",
+ "files": {
+  "energy-advice/codex49/DESIGN.md": {
+   "source_sha256": "ad4a5281e05ea3e0c82e1a3303e338c9197a1f5f609903220f29efa6aa9d4525",
+   "export_sha256": "32dfdef6b328c891c80aef4b5287416c6903d7fc8474aaf87ab9638f1182eb99",
+   "cleaned": true
+  },
+  "energy-advice/codex49/EVALUATION.md": {
+   "source_sha256": "18de9243b0f55ef7d08b0c92ed51e914e37e7247754a6ed48a9f638163b61ab1",
+   "export_sha256": "18de9243b0f55ef7d08b0c92ed51e914e37e7247754a6ed48a9f638163b61ab1",
+   "cleaned": false
+  },
+  "energy-advice/codex49/FACT-CARDS.md": {
+   "source_sha256": "bdec5321eaff0dbedec05b63253a9d3a1275d272c4f3c49a20fbb79fd532bad2",
+   "export_sha256": "b7e12164ebad521b5e03c071fb948e6155db8d656fbdb0c582ad39d3c64b658f",
+   "cleaned": true
+  },
+  "energy-advice/codex49/PROMPT.md": {
+   "source_sha256": "39ebce16d845b2218c685abbde6943fa220d6020a0cbccf42e4a04292e2d7c87",
+   "export_sha256": "39ebce16d845b2218c685abbde6943fa220d6020a0cbccf42e4a04292e2d7c87",
+   "cleaned": false
+  },
+  "energy-advice/codex49/SAMPLES.md": {
+   "source_sha256": "b9c06f6974c78d3de0fdeceb63429e1664f09466e35c3fe824dc8914c0053e70",
+   "export_sha256": "b9c06f6974c78d3de0fdeceb63429e1664f09466e35c3fe824dc8914c0053e70",
+   "cleaned": false
+  },
+  "energy-advice/codex49/SCENARIOS.md": {
+   "source_sha256": "bd6080d8240bdeb865bffbac25b441cd76a413cda7536969073e84b212053a09",
+   "export_sha256": "bd6080d8240bdeb865bffbac25b441cd76a413cda7536969073e84b212053a09",
+   "cleaned": false
+  },
+  "energy-advice/codex49/SOURCES.md": {
+   "source_sha256": "2611eea8e8ffaaf32350ab14a643f4cac8f0c60b08e87a85debc87aa0369669d",
+   "export_sha256": "2611eea8e8ffaaf32350ab14a643f4cac8f0c60b08e87a85debc87aa0369669d",
+   "cleaned": false
+  },
+  "energy-advice/codex49/SUMMARY.md": {
+   "source_sha256": "dbad9522f3a8a8c47f63bc6440e74e03cfd87fdd3009feccd1a118988527c580",
+   "export_sha256": "dbad9522f3a8a8c47f63bc6440e74e03cfd87fdd3009feccd1a118988527c580",
+   "cleaned": false
+  },
+  "energy-advice/codex49/build.py": {
+   "source_sha256": "15c64c969a80183a43c86b3bf75e544ea719757547be9479c30e671666804a83",
+   "export_sha256": "15c64c969a80183a43c86b3bf75e544ea719757547be9479c30e671666804a83",
+   "cleaned": false
+  },
+  "energy-advice/codex49/compatibility.json": {
+   "source_sha256": "5a65a1e1c75061146c56b1755fd1aa32d5b77c6b1d942ea0f6b80c84a6898734",
+   "export_sha256": "5a65a1e1c75061146c56b1755fd1aa32d5b77c6b1d942ea0f6b80c84a6898734",
+   "cleaned": false
+  },
+  "energy-advice/codex49/expected.json": {
+   "source_sha256": "bb67b61fae21ce96e997c2c3888fd2294c78148767ad95df6a21dd38362cece8",
+   "export_sha256": "bb67b61fae21ce96e997c2c3888fd2294c78148767ad95df6a21dd38362cece8",
+   "cleaned": false
+  },
+  "energy-advice/codex49/judge-template.json": {
+   "source_sha256": "94b3159aa390f04a090506e7efbc7c7e8e41fdcfb13af09199a522b1d7ad3797",
+   "export_sha256": "94b3159aa390f04a090506e7efbc7c7e8e41fdcfb13af09199a522b1d7ad3797",
+   "cleaned": false
+  },
+  "energy-advice/codex49/kit.py": {
+   "source_sha256": "67a9726b8ec3ac9b0913ded01aedb2f6da71b94e8221d138418af70220f0825c",
+   "export_sha256": "28ee59427dc159c1514894049c6385eb920b83d93bddaea8e1028a58feb63a3f",
+   "cleaned": true
+  },
+  "energy-advice/codex49/prepare_sources.py": {
+   "source_sha256": "75a12a6a7aecbf9ea1c0bad5d80566dcdec22229e16e745e5e6f1879fc65d9fe",
+   "export_sha256": "a45c8b4be0e7199b1cd083b99239102a1ce56b9785b22d3259e2292629eebdae",
+   "cleaned": true
+  },
+  "energy-advice/codex49/reference.py": {
+   "source_sha256": "c4f55438ddc59a6b44d5e1d189fe5713ad292983f5013f33bea75eeee731ce63",
+   "export_sha256": "c4f55438ddc59a6b44d5e1d189fe5713ad292983f5013f33bea75eeee731ce63",
+   "cleaned": false
+  },
+  "energy-advice/codex49/run42-energy-regressions.json": {
+   "source_sha256": "22b9029f1a8fd7e20d4efcdb9dca4ecd38a9acf3705bb494ad613484084f66d6",
+   "export_sha256": "fd717c15b08c6114af5e765020c88d4681a30280db08745c1d820ef1432e12d0",
+   "cleaned": true
+  },
+  "energy-advice/codex49/scenarios.json": {
+   "source_sha256": "541da7bff9b43e8767f20c32133a93b520cb138715a52d0631ce0208cad400d7",
+   "export_sha256": "541da7bff9b43e8767f20c32133a93b520cb138715a52d0631ce0208cad400d7",
+   "cleaned": false
+  },
+  "energy-advice/codex49/seal.py": {
+   "source_sha256": "86e44df2a3cdbc83851d792c23aa8698e8bc8b7b4a09a225f98b9cfa69182943",
+   "export_sha256": "86e44df2a3cdbc83851d792c23aa8698e8bc8b7b4a09a225f98b9cfa69182943",
+   "cleaned": false
+  },
+  "energy-advice/codex49/self-test-results.txt": {
+   "source_sha256": "aa7a330d200ad144ceab223bf261308c2ec22175bc9ff047ef2c629cacc4c1af",
+   "export_sha256": "aa7a330d200ad144ceab223bf261308c2ec22175bc9ff047ef2c629cacc4c1af",
+   "cleaned": false
+  },
+  "energy-advice/codex49/source-index.json": {
+   "source_sha256": "b477eabb52392cebb0ea926a0bbc766318d7f10e535bb7b5a432c007e140b80c",
+   "export_sha256": "dd692e65cb49e6a7c88d28aa5452c2465e2818327e8114051714dc698b4f6aff",
+   "cleaned": true
+  },
+  "energy-advice/codex49/test_offline.py": {
+   "source_sha256": "c0b9c2fe778d7587f224b86ef0f4834879b723d5128c6774fa88ff5ecf427f80",
+   "export_sha256": "c0b9c2fe778d7587f224b86ef0f4834879b723d5128c6774fa88ff5ecf427f80",
+   "cleaned": false
+  },
+  "energy-advice/codex49/transcript-template.json": {
+   "source_sha256": "764218d5b06c79a2d93a3b3ffd3c1e0d6d2f2e34dbff65b57ad11b9b2f90360e",
+   "export_sha256": "764218d5b06c79a2d93a3b3ffd3c1e0d6d2f2e34dbff65b57ad11b9b2f90360e",
+   "cleaned": false
+  },
+  "energy-advice/codex49/validation.json": {
+   "source_sha256": "20e7430ce4a50abaa09a2f08a4bf35b8092f9066656db8147593a1d1268fb7d4",
+   "export_sha256": "20e7430ce4a50abaa09a2f08a4bf35b8092f9066656db8147593a1d1268fb7d4",
+   "cleaned": false
+  },
+  "energy-advice/directive-20261018-2225-atlas-energy-advice-reasoned.md": {
+   "source_sha256": "6b7ff69520c7d4376fdc1f8a6f180187dd63883633140b256b5fa68b408accd1",
+   "export_sha256": "7f003d7205eec74edc573635847860ec169ec98b103bea5827f1546353ec191a",
+   "cleaned": true
+  },
+  "energy-advice/prompt-build/Build-Prompt.mjs": {
+   "source_sha256": "c41cd640f68324518a2c2ad179f0bb37fe5de467b1aa7d486fa93942da0f51a8",
+   "export_sha256": "8b482d18f7acf4f46c60d4663f82c047adc9726e1cfd77cf2e750d62535b3801",
+   "cleaned": true
+  },
+  "energy-advice/prompt-build/coverage-card.jinja.txt": {
+   "source_sha256": "ac04a4e12b328dd88f9b912892a1385496aaeacde1d8ae81211ced1e074c0453",
+   "export_sha256": "ac04a4e12b328dd88f9b912892a1385496aaeacde1d8ae81211ced1e074c0453",
+   "cleaned": false
+  },
+  "energy-advice/prompt-build/energy-history.jinja.txt": {
+   "source_sha256": "ad5f83046ac6bace2c142b74f73fe659f7d7859132c5c3cd01de069c39beb646",
+   "export_sha256": "f0e6c4422c47bec936e7385670095c634fb6c278fb6c4c7d2dd0ab512ad4493c",
+   "cleaned": true
+  },
+  "energy-advice/prompt-build/fact-cards.mjs": {
+   "source_sha256": "366440cd869d8aa7110e1a6326d5b00b81c0832f4044580c37086c92987b6f4d",
+   "export_sha256": "19c74683a12a4c08e4aa59ac4355d80a308a0b8a3272e4c20efc9ec5d81c7489",
+   "cleaned": true
+  },
+  "energy-advice/prompt-build/forecast-rooms.jinja.txt": {
+   "source_sha256": "ee267bbfcb213f565dc8610303cce62613a482abab69e6568f58091a00559da3",
+   "export_sha256": "df3631441b4c9269ac9a97778dcd185d9a6ac627df9f893ca2a9869c3246de28",
+   "cleaned": true
+  },
+  "energy-advice/prompt-build/prompt-template.golive.jinja": {
+   "source_sha256": "d299ad89a4be37a1c82a6d80206042fcf4f14a1795cecf37d0ab0333278e0f90",
+   "export_sha256": "ecf6f85d1514e237e37e7963924a58bd8751ebebb331253450949b7d5f4937ae",
+   "cleaned": true
+  },
+  "energy-advice/owner-cases.json": {
+   "source_sha256": null,
+   "export_sha256": "4e98116dfd70fc8effaeb824c21af5114f88c6b2da50de8de92ba9b69226aa11",
+   "cleaned": false,
+   "note": "real owner turns (20 Oct, via PC Steward), garbled part omitted; readings made up"
+  }
+ }
+}

@@ -1,0 +1,179 @@
+{
+  "notice": "DRAFT: House AI and Energy review",
+  "sources": [
+    {
+      "path": "<projects>/PCSteward/Directives/20261018-2225-atlas-energy-advice-reasoned.md",
+      "sha256": "a3d5fcd6909d21c56010469a289f73f8a7e3c5b49fa6a42c8135d73e966c16b9",
+      "bytes": 2237,
+      "status": "Read-only local record; not a live service verification"
+    },
+    {
+      "path": "<projects>/HomeAssistant/Scripts/HouseAiAssist/prompt-template.jinja",
+      "sha256": "8176da5a1d9f8279bfd41fbe2f7e719b771b2aa2b641e91fb99618a6547a425f",
+      "bytes": 20602,
+      "status": "Read-only local record; not a live service verification"
+    },
+    {
+      "path": "<projects>/HomeAssistant/Scripts/HouseAiAssist/fact-cards.mjs",
+      "sha256": "366440cd869d8aa7110e1a6326d5b00b81c0832f4044580c37086c92987b6f4d",
+      "bytes": 6863,
+      "status": "Read-only local record; not a live service verification"
+    },
+    {
+      "path": "<projects>/HomeAssistant/Scripts/HouseAiAssist/energy-history.jinja.txt",
+      "sha256": "ad5f83046ac6bace2c142b74f73fe659f7d7859132c5c3cd01de069c39beb646",
+      "bytes": 5747,
+      "status": "Read-only local record; not a live service verification"
+    },
+    {
+      "path": "<projects>/HomeAssistant/Scripts/HouseAiAssist/energy-input-20261017-1645.md",
+      "sha256": "9e206b3bef35883485c5f328093d0af82e7d42c5f722a7f9e889cb027d0f2c0e",
+      "bytes": 4855,
+      "status": "Read-only local record; not a live service verification"
+    },
+    {
+      "path": "<projects>/HouseAI/Smarts/FACT-CARDS-SPEC.md",
+      "sha256": "96172290c3d0922fe695b6562d90494013c893c9bf7e80fe7a762eabf3973dae",
+      "bytes": 3211,
+      "status": "Read-only local record; not a live service verification"
+    },
+    {
+      "path": "<projects>/HouseAI/Smarts/RESULTS-T2-CARDS-20261018.md",
+      "sha256": "092ca89798efe1804fecc4a31c4a3ea5632570e8ea5858a408dfd782ea95a9c0",
+      "bytes": 3807,
+      "status": "Read-only local record; not a live service verification"
+    },
+    {
+      "path": "<projects>/HouseAI/TestSuite/README.md",
+      "sha256": "a3125d22834091ff54bb31568359f8ca0d3c91a365030691cd90e8a544ca1467",
+      "bytes": 10627,
+      "status": "Read-only local record; not a live service verification"
+    },
+    {
+      "path": "<projects>/HouseAI/TestSuite/helper-contracts.md",
+      "sha256": "b2eb88978961078fe0d3e43222d16e185a02362e5ea67738395afecf2d4ecb68",
+      "bytes": 7538,
+      "status": "Read-only local record; not a live service verification"
+    },
+    {
+      "path": "<projects>/HouseAI/TestSuite/ADOPTED.md",
+      "sha256": "63165c08ce4c353ef82e57074c10b19ced3eb9c914170a5e422f4bcdd96e841c",
+      "bytes": 2365,
+      "status": "Read-only local record; not a live service verification"
+    },
+    {
+      "path": "<projects>/HouseAI/TestSuite/scenarios.md",
+      "sha256": "e34ad18de3c583b271facf2082139c91e273c704cb1ccb32cd6c55dc02e61456",
+      "bytes": 3732,
+      "status": "Read-only local record; not a live service verification"
+    },
+    {
+      "path": "<projects>/Codex-Inbox/2026-10-18-run42/README.md",
+      "sha256": "42eebfcf21be024b5717fc778052695d3e04ba1e2c4c935e6787554a0e8bce46",
+      "bytes": 7883,
+      "status": "Read-only local record; not a live service verification"
+    },
+    {
+      "path": "<projects>/Codex-Inbox/2026-10-18-run42/FACTS-CONTRACT.md",
+      "sha256": "dedf9eb235e7593fe716892b24003c5f037e8c50e0f8ed68aaadb372e02735ae",
+      "bytes": 7817,
+      "status": "Read-only local record; not a live service verification"
+    },
+    {
+      "path": "<projects>/Codex-Inbox/2026-10-18-run42/JUDGE.md",
+      "sha256": "a1967c9c6d2ea817d92e906a98757bdfc2a5ea2a6fd56c358257f10fc5a09b00",
+      "bytes": 8681,
+      "status": "Read-only local record; not a live service verification"
+    },
+    {
+      "path": "<projects>/Codex-Inbox/2026-10-18-run42/kit.py",
+      "sha256": "8d2559533e33c7bcd6511b301e25be3b0abc760446d9fc8c30c9731b20491a8a",
+      "bytes": 31582,
+      "status": "Read-only local record; not a live service verification"
+    },
+    {
+      "path": "<projects>/Codex-Inbox/2026-10-18-run42/benchmark.json",
+      "sha256": "16463451d6e12e52a2a7b19f63b6727f1bac00249b035c0164f418597a9cfdca",
+      "bytes": 137401,
+      "status": "Read-only local record; not a live service verification"
+    },
+    {
+      "path": "<projects>/Codex-Inbox/2026-10-18-run42/expected.json",
+      "sha256": "5b355b1a09950fb43ad72c19b0959ef2bf7267b890c0fd6c90a305cb7f0f1960",
+      "bytes": 3080728,
+      "status": "Read-only local record; not a live service verification"
+    },
+    {
+      "path": "<projects>/Codex-Inbox/2026-10-18-run42/seal_summary.py",
+      "sha256": "ad3caa6ff405717ec84f792116fb0efc81176be969ca7f6bd69c373d1ac040f9",
+      "bytes": 4763,
+      "status": "Read-only local record; not a live service verification"
+    },
+    {
+      "path": "<projects>/EnergyCommandCentre/CURRENT-STATE.md",
+      "sha256": "551c6806c2c18128cbf27dd0dbd8aebd1a5ad862ac47385f119014762f8a544f",
+      "bytes": 4109,
+      "status": "Read-only local record; not a live service verification"
+    },
+    {
+      "path": "<projects>/EnergyCommandCentre/README.md",
+      "sha256": "c3b612a9104fa132c8533b4848b708fc48dee2b511526e7e8a631bf540a05331",
+      "bytes": 17752,
+      "status": "Read-only local record; not a live service verification"
+    },
+    {
+      "path": "<projects>/PCSteward/Reviews/Energy-Economics-2026-10.md",
+      "sha256": "2e9311cd214dc35f46098cd861773e87558cdd376721666eda3d5ef7eb05ce75",
+      "bytes": 4075,
+      "status": "Read-only local record; not a live service verification"
+    },
+    {
+      "path": "<projects>/EnergyCommandCentre/Rules/authority-and-never-lists.md",
+      "sha256": "f5ff38e12a9ee58f92311bfa453ee8af3f05c8218729846df3b37c56b16a7188",
+      "bytes": 6255,
+      "status": "Read-only local record; not a live service verification"
+    },
+    {
+      "path": "<projects>/EnergyCommandCentre/Rules/candidate-design.md",
+      "sha256": "b9e5d6583ccc0b716d2df91d3963d6f9e3e38fabcd14abab16c057006b94f9d8",
+      "bytes": 1971,
+      "status": "Read-only local record; not a live service verification"
+    },
+    {
+      "path": "<projects>/EnergyCommandCentre/Rules/controls-faults-restarts.md",
+      "sha256": "7260fe19a436fe8ab3e96a3293ed46391583efe5f663fb933562db27417a25fd",
+      "bytes": 3940,
+      "status": "Read-only local record; not a live service verification"
+    },
+    {
+      "path": "<projects>/EnergyCommandCentre/Rules/incidents.md",
+      "sha256": "3eceae5faf47fda6f18decdbe1731bf8ceb8db711a21052fb8d8fcceb943bb7e",
+      "bytes": 2545,
+      "status": "Read-only local record; not a live service verification"
+    },
+    {
+      "path": "<projects>/EnergyCommandCentre/Rules/live-change-method.md",
+      "sha256": "0dac06add1e7d9f96d24a087912ccadbc62ae46e4ebe3548471eaa464053e7d6",
+      "bytes": 5153,
+      "status": "Read-only local record; not a live service verification"
+    },
+    {
+      "path": "<projects>/EnergyCommandCentre/Rules/paths-and-records.md",
+      "sha256": "23783404e1cc4b5c1b8970cbeec4d05e8dd532c466fc9f1ba9e87a4242403da7",
+      "bytes": 3225,
+      "status": "Read-only local record; not a live service verification"
+    },
+    {
+      "path": "<projects>/EnergyCommandCentre/Rules/protected-time.md",
+      "sha256": "ac8dbf626e7ed4c5c2ffe64374b4cdb608d51e5c4edb1d2630a5562f2d6ed3ab",
+      "bytes": 2463,
+      "status": "Read-only local record; not a live service verification"
+    },
+    {
+      "path": "<projects>/EnergyCommandCentre/Rules/tool-use.md",
+      "sha256": "f808f18b1c28b31208e3dcbd95e66be7ebd83917e34f4d951db877e958ff26fa",
+      "bytes": 2594,
+      "status": "Read-only local record; not a live service verification"
+    }
+  ]
+}

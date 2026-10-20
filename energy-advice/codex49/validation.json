@@ -1,0 +1,14 @@
+{
+  "notice": "DRAFT: House AI and Energy review",
+  "tests_run": 55,
+  "failures": 0,
+  "errors": 0,
+  "passed": true,
+  "scope": "Offline formula/fixture/scorer checks only; not production HA template or model tests",
+  "model_quality": "NO DATA",
+  "latency": "NO DATA",
+  "forecast_calibration": "NO DATA",
+  "live_card_existence": "NO DATA",
+  "independent_review": "NO DATA",
+  "owner_sample_preference": "NO DATA"
+}
