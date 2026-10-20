@@ -1,7 +1,9 @@
 # voice-fablemix: status
 
-**Updated:** 2026-10-20 14:20 UTC | **elapsed:** 0 h 05 m
-**Stage:** 0, setup. Branch created from `main`; inputs read (`voice-scout/README.md`, the Fable-mix pack sha256 `cadc5c98…6d79`, `voice-lewis-small` corpora and metrics).
-**Plan:** 1 engine comparison (kokoro PyTorch vs ONNX Runtime, both with misaki British G2P) → 2 backend + tests → 3 bundle + fetch → 4 Windows lock → 5 weak-spot fixes → 6 speed/memory → 7 samples, integration notes, report.
-**Sandbox:** 4 vCPU Intel Xeon @ 2.1 GHz, 15 GB RAM, no GPU. Desktop numbers will be scaled estimates, labelled as such.
+**Updated:** 2026-10-20 15:00 UTC | **elapsed:** 0 h 45 m
+**Stage:** 1, engine comparison (in progress).
+- Kokoro PyTorch (kokoro 0.9.4, misaki 0.9.4 `lang_code="b"`) reproduces the scout's Fable-mix render (L01: UTMOS 4.415 vs the scout's 4.413, ECAPA similarity to the scout's clip 0.992).
+- ONNX route under test: onnx-community `Kokoro-82M-v1.0-ONNX` (fp32 / fp16 / int8) in onnxruntime 1.31, fed the **same misaki British phonemes** (not kokoro-onnx's espeak G2P). Its graph has no random operators, so it is deterministic.
+- Windows lock drafted for the ONNX route: 75 wheels, 93.4 MiB, every hash from PyPI's JSON, and `pip download --platform win_amd64 --python-version 3.12 --only-binary :all: --no-deps --require-hashes` fetched and verified all 75. One wheel (spaCy's `en_core_web_sm` 3.8.0) is not on PyPI; it is pinned by URL + sha256 to spaCy's GitHub release. `docopt` (sdist-only) is left out: only num2words' CLI script uses it.
+**Next:** parity scores on 38 lines, then the backend, tests and weak spots.
 **Blockers:** none.
