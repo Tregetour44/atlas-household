@@ -108,13 +108,13 @@ Keep the normaliser as it is: it already turns times, money and units into words
 * The backend sets `HF_HUB_OFFLINE`, `TRANSFORMERS_OFFLINE`, `HF_DATASETS_OFFLINE` and `HF_HUB_DISABLE_TELEMETRY` to `1` in its own process, and turns off ONNX Runtime's telemetry events. No library in this stack downloads at runtime; these are belt and braces.
 * **espeak-ng DLL copy.** For words misaki doesn't know, it falls back to espeak-ng through `phonemizer`. At load, `phonemizer` copies `espeak-ng.dll` from the `espeakng-loader` package into a fresh `tempfile.mkdtemp()` folder under `%TEMP%`, loads it from there and deletes it at exit. Give the server user a private `TEMP`, for example `set TEMP=C:\AtlasVoice\tmp` with an ACL for that user only, so no other account can plant a DLL there.
 * **What touches sockets.** `urllib3` (imported by spaCy through `requests`) creates a socket and binds it to `::1` port 0 once at import to probe for IPv6. Nothing connects and nothing is sent. The isolation test records this and blocks every connect, DNS lookup, send and URL open. If the server's firewall rule is per-program, no outbound rule is needed for the voice.
-* Memory: about 0.9 GB resident after load, about 1.0 GB peak (measured on Linux; see `README.md`).
+* Memory: about 1.0 GB resident after load and 1.34 GB peak (measured on Linux; see `README.md` §7).
 
 ## 3. What does not change
 
 * Wyoming protocol handling, admission and per-client limits.
 * One synthesis at a time. The ONNX session isn't shared across threads, and `synth` is a plain generator, so keep the lock.
-* The watchdog and the time cap per request. On the desktop a reply renders at about a tenth of real time (README), so existing caps sized for Piper (RTF ~0.04) still allow for long replies. Check the cap covers a 600-character reply in about 6 s.
+* The watchdog and the time cap per request. On the desktop a reply renders at about a tenth of real time (README), so existing caps sized for Piper (RTF ~0.04) still allow for long replies. A 600-character reply (about 40 s of speech) should render in about 5 s on the desktop.
 * The rule that no text goes to logs. The backend prints and logs nothing.
 * The text normaliser, apart from the optional rewrites in `PRONUNCIATION.md`.
 

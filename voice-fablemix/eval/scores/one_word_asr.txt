@@ -1,0 +1,42 @@
+p120-cancelled.wav | ...cancelled...
+p120-certainly.wav | Certainly.
+p120-checked.wav | I'm checked, uh...
+p120-done.wav | Done
+p120-okay.wav | Okay.
+p120-sorry.wav | Sorry.
+p80-cancelled.wav | ...cancelled.
+p80-certainly.wav | certainly
+p80-checked.wav | I'm checked.
+p80-done.wav | Done
+p80-okay.wav | It was okay.
+p80-sorry.wav | Sorry.
+p80sp-cancelled.wav | ...cancelled.
+p80sp-certainly.wav | Certainly.
+p80sp-checked.wav | I checked.
+p80sp-done.wav | Done.
+p80sp-okay.wav | It's okay.
+p80sp-sorry.wav | Sorry.
+s39-cancelled.wav | Cancelled.
+s39-certainly.wav | Certainly.
+s39-checked.wav | I'm checked.
+s39-done.wav | It's done.
+s39-okay.wav | That's okay.
+s39-sorry.wav | Sorry.
+s39slow-cancelled.wav | ...Cancelled.
+s39slow-certainly.wav | Certainly.
+s39slow-checked.wav | I'll check to...
+s39slow-done.wav | They're done.
+s39slow-okay.wav | I'm okay.
+s39slow-sorry.wav | Sorry.
+s39sp-cancelled.wav | ...cancelled.
+s39sp-certainly.wav | Certainly.
+s39sp-checked.wav | Unchecked.
+s39sp-done.wav | Done.
+s39sp-okay.wav | Zou Kei
+s39sp-sorry.wav | Sorry.
+s80-cancelled.wav | ...Cancelled.
+s80-certainly.wav | Certainly.
+s80-checked.wav | I'm checked.
+s80-done.wav | Done.
+s80-okay.wav | That's okay.
+s80-sorry.wav | Sorry.

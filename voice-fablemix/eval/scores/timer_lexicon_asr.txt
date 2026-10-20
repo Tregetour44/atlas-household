@@ -1,0 +1,18 @@
+lexonly-T01.wav | Timer set, robe downlight off in 10 minutes. Say cancel that to stop it.
+lexonly-T02.wav | Timer set. Porch lights off at 10.15pm. Say cancel that to stop it.
+lexonly-T03.wav | timer set, kitchen lights on in 25 minutes. say cancel that to stop it.
+lexonly-T04.wav | Timer set. Atrium lights off at 7.45pm. Say cancel that to stop it.
+lexonly-T05.wav | Timer set. Laundry downlight on at 9.20 am. Say cancel that to stop it.
+lexonly-T06.wav | Timer set, loft lamp off at 9.05pm. Say cancel that to stop it.
+lexonly-T07.wav | timer set for 10.50pm. I shall remember, so you needn't.
+lexonly-T08.wav | Timer set garden spotlight on at 7.30pm. Say cancel that to stop it.
+lexonly-X01.wav | Timer cancelled.
+lexrw-T01.wav | Timers set, robe downlight off in 10 minutes. Say cancel that to stop it.
+lexrw-T02.wav | Timers set, porch lights off at 10.15pm. Say cancel that to stop it.
+lexrw-T03.wav | Timers set, kitchen lights on in 25 minutes. Say cancel that to stop it.
+lexrw-T04.wav | Timers set. Atrium lights off at 7.45pm. Say cancel that to stop it.
+lexrw-T05.wav | Timers set. Laundry downlight on at 9.20am. Say cancel that to stop it.
+lexrw-T06.wav | Timers set. Loft lamp off at 9.05pm. Say cancel that to stop it.
+lexrw-T07.wav | Timers set for 10.50 p.m. I shall remember so you needn't
+lexrw-T08.wav | Timers set Garden Spotlight on at 7.30pm. Say cancel that to stop it.
+lexrw-X01.wav | Timer cancelled.
