@@ -98,7 +98,7 @@ The existing startup hash check of Piper's `.onnx` can be removed along with Pip
 
 ### Text
 
-Keep the normaliser as it is: it already turns times, money and units into words, which is what Kokoro needs too. The backend applies three Kokoro-only fixes itself (see `PRONUNCIATION.md`): "a m"/"p m" → "AM"/"PM", "Timer set" → "Timer's set", and the "Wind Down" scene name. It also has one lexicon entry, "ensuite". Two rules to keep in the normaliser:
+Keep the normaliser as it is: it already turns times, money and units into words, which is what Kokoro needs too. The backend applies the Kokoro-only fixes itself (see `PRONUNCIATION.md`). There are two rewrites: "a m"/"p m" → "AM"/"PM", and the "Wind Down" scene name. There are three lexicon entries: "timer", "ensuite" and "aircon". Atlas's wording is never changed. Two rules to keep in the normaliser:
 
 * **Don't pass digits with colons** ("9:05"). misaki reads them as "nine: zero five". The normaliser already spells times out.
 * Square brackets in a reply are turned into parentheses by the backend before G2P. That way misaki's inline phoneme syntax `[word](/phonemes/)` can only come from the backend's own reviewed table. Nothing for the normaliser to do; it's noted here so the reviewer knows.
