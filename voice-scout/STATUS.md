@@ -1,14 +1,18 @@
 # voice-scout: status
 
-**Updated:** 2026-10-20 10:48 UTC | **elapsed:** 1 h 05 m
-**Stage:** 2, shortlist screening (one line, L09 British vowels, per candidate), then full auditions.
-**Findings so far** (sandbox 4 vCPU; UTMOS / median F0 / accent-classifier verdict):
-- **Qwen3-TTS VoiceDesign 1.7B** (Apache-2.0): five text descriptions of a mature RP male gave UTMOS 4.27–4.42 and F0 84–117 Hz, but the accent classifier calls **all five American**. Useful as a timbre source, not as the voice.
-- **Qwen3-TTS 0.6B Base, cloning the household's liked Chatterbox-on-Kokoro-bm_fable clip** (in-context mode): UTMOS **4.50**, England, 116 Hz. Mixing 50 % of a designed voice's speaker x-vector into the prompt: UTMOS 4.50, England, **103 Hz**. The best "evolve" lever so far. CPU RTF ~8 here (slow).
-- **Chatterbox-Nano** (new, 110M, MIT) cloning the same clip: UTMOS 4.45, England, RTF **1.7 here** (likely ~real time or better on the 9700X).
-- **KittenTTS 2** (new 1.7B ternary, Stellon community licence) cloning the same clip: UTMOS 4.41–4.44, British/Australian, but fast and sing-song (3.8 words/s, 6.5 st pitch spread). RTF ~10 here in PyTorch; there's a llama.cpp fork. All 19 of its built-in male voices score American.
-- **Pocket TTS** built-ins (CC-BY-4.0 model, CC0 Voice-Zero LibriVox voices): `peter_yearsley` England, UTMOS 4.38, **92 Hz**, expressive; `stuart_bell` England, 4.37, 130 Hz. CPU-fast, Wyoming server exists. Note: these are real (consenting, CC0) LibriVox readers, not synthetic.
-- **NeuTTS Air / Nano: NO DATA** (gated on Hugging Face; needs a token).
-**Next:** x-vector grid for the Qwen-Fable evolution; Kokoro voice fitted to the evolved target; then full 10-line auditions of 5 voices.
-**ETA:** auditions done ~15:00 UTC; report ~17:00 UTC.
+**Updated:** 2026-10-20 11:55 UTC | **elapsed:** 2 h 10 m
+**Stage:** 4, evolving the top two (Qwen-Fable, Kokoro fable-mix). Stage 3 auditions done (5 voices × 10 lines).
+**Audition averages over the 10 lines** (sandbox 4 vCPU; UTMOS / median F0 / accent-classifier lines England-or-Australia vs US):
+
+| voice | UTMOS | F0 | pitch spread | WER | British / US lines | RTF here |
+|---|---|---|---|---|---|---|
+| Qwen3-TTS 0.6B cloning the liked Chatterbox-Fable clip | 4.45 | 116 Hz | 4.0 st | 0.7 % | 10 / 0 | ~8.5 |
+| Kokoro "fable-mix" (Fable prosody half; timbre half 50 % Fable + 50 % a pack fitted to the mature-Fable target) | 4.47 | 108 Hz | 5.5 st | 0 % | 8 / 2 | ~0.4 |
+| KittenTTS 2 cloning the same clip | 4.44 | 119 Hz | 5.7 st (sing-song on short lines) | 1.3 % | 10 / 0 | ~10.5 |
+| Pocket TTS `peter_yearsley` (CC0 LibriVox reader, built-in) | 4.32 | 94 Hz | 4.0 st | 0.7 % | 10 / 0 | to be measured |
+| Chatterbox-Nano cloning the same clip | 4.43 | 125 Hz | 6.2 st | 3 % | 4 / 6 (drifts American) | ~1.7 |
+
+**Deeper/mature lever that works:** lower the liked clip's pitch 3 semitones and its formants 5 % with the WORLD vocoder, then let Qwen clone it. Qwen cleans up the vocoder texture (UTMOS 3.8 → 4.45), F0 drops to ~95–100 Hz, and the accent stays English.
+**Next:** evolved renders; KVoiceWalk for Kokoro; Qwen C-engine (int8) CPU timing; held-out house lines for the top 2; MP3s; README.
+**ETA:** report ~16:00 UTC.
 **Blockers:** none.
