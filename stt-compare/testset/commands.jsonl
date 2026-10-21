@@ -1,0 +1,151 @@
+{"id": "C001", "cat": "lights", "text": "Turn on the atrium lights.", "say": "Turn on the atrium lights.", "slots": ["atrium", "on"], "tricky": ["atrium"]}
+{"id": "C002", "cat": "lights", "text": "Turn off the atrium spotlight left.", "say": "Turn off the atrium spotlight left.", "slots": ["atrium spotlight left", "off"], "tricky": ["atrium"]}
+{"id": "C003", "cat": "lights", "text": "Switch on the pergola floodlight two.", "say": "Switch on the pergola floodlight two.", "slots": ["pergola floodlight 2", "on"], "tricky": ["number", "pergola"]}
+{"id": "C004", "cat": "lights", "text": "Turn the pergola spotlights off.", "say": "Turn the pergola spotlights off.", "slots": ["pergola spotlight", "off"], "tricky": ["pergola"]}
+{"id": "C005", "cat": "lights", "text": "Turn on the ensuite downlight.", "say": "Turn on the ensuite downlight.", "slots": ["ensuite downlight", "on"], "tricky": ["ensuite"]}
+{"id": "C006", "cat": "lights", "text": "Turn off the loft lamp.", "say": "Turn off the loft lamp.", "slots": ["loft lamp", "off"], "tricky": ["loft"]}
+{"id": "C007", "cat": "lights", "text": "Loft lights on.", "say": "Loft lights on.", "slots": ["loft light", "on"], "tricky": ["loft"]}
+{"id": "C008", "cat": "lights", "text": "Turn the laundry lights off.", "say": "Turn the laundry lights off.", "slots": ["laundry light", "off"], "tricky": ["laundry"]}
+{"id": "C009", "cat": "lights", "text": "Turn on the laundry downlight.", "say": "Turn on the laundry downlight.", "slots": ["laundry downlight", "on"], "tricky": ["laundry"]}
+{"id": "C010", "cat": "lights", "text": "Switch off the garage ceiling right.", "say": "Switch off the garage ceiling right.", "slots": ["garage ceiling right", "off"], "tricky": []}
+{"id": "C011", "cat": "lights", "text": "Turn on porch downlight three.", "say": "Turn on porch downlight three.", "slots": ["porch downlight 3", "on"], "tricky": ["number"]}
+{"id": "C012", "cat": "lights", "text": "Turn off the patio lights.", "say": "Turn off the patio lights.", "slots": ["patio light", "off"], "tricky": []}
+{"id": "C013", "cat": "lights", "text": "Turn on the fountain spotlight.", "say": "Turn on the fountain spotlight.", "slots": ["fountain spotlight", "on"], "tricky": []}
+{"id": "C014", "cat": "lights", "text": "Turn the mirror ambiance on.", "say": "Turn the mirror ambiance on.", "slots": ["mirror ambiance|mirror ambience", "on"], "tricky": []}
+{"id": "C015", "cat": "lights", "text": "Turn off the robe downlight.", "say": "Turn off the robe downlight.", "slots": ["robe downlight", "off"], "tricky": []}
+{"id": "C016", "cat": "lights", "text": "Turn on the wall floodlight.", "say": "Turn on the wall floodlight.", "slots": ["wall floodlight", "on"], "tricky": []}
+{"id": "C017", "cat": "lights", "text": "Wall light off, please.", "say": "Wall light off, please.", "slots": ["wall light", "off"], "tricky": []}
+{"id": "C018", "cat": "lights", "text": "Turn on kitchen chandelier two.", "say": "Turn on kitchen chandelier two.", "slots": ["kitchen chandelier 2", "on"], "tricky": ["number"]}
+{"id": "C019", "cat": "lights", "text": "Turn off living room chandelier six.", "say": "Turn off living room chandelier six.", "slots": ["living room chandelier 6", "off"], "tricky": ["number"]}
+{"id": "C020", "cat": "lights", "text": "Turn on range hood one.", "say": "Turn on range hood one.", "slots": ["range hood 1", "on"], "tricky": ["number"]}
+{"id": "C021", "cat": "lights", "text": "Turn off all the lights upstairs.", "say": "Turn off all the lights upstairs.", "slots": ["upstairs", "off"], "tricky": []}
+{"id": "C022", "cat": "lights", "text": "Turn off the downstairs lights.", "say": "Turn off the downstairs lights.", "slots": ["downstairs", "off"], "tricky": []}
+{"id": "C023", "cat": "lights", "text": "Turn on the ground floor lights.", "say": "Turn on the ground floor lights.", "slots": ["ground floor", "on"], "tricky": []}
+{"id": "C024", "cat": "lights", "text": "Turn on the hallway downlight front.", "say": "Turn on the hallway downlight front.", "slots": ["hallway downlight front", "on"], "tricky": []}
+{"id": "C025", "cat": "lights", "text": "Switch off the dining room pendant.", "say": "Switch off the dining room pendant.", "slots": ["dining room pendant", "off"], "tricky": []}
+{"id": "C026", "cat": "lights", "text": "Turn on the guest bedroom lamp.", "say": "Turn on the guest bedroom lamp.", "slots": ["guest bedroom lamp", "on"], "tricky": []}
+{"id": "C027", "cat": "lights", "text": "Turn off the master bedroom ceiling.", "say": "Turn off the master bedroom ceiling.", "slots": ["master bedroom ceiling", "off"], "tricky": []}
+{"id": "C028", "cat": "lights", "text": "Turn on the study ceiling.", "say": "Turn on the study ceiling.", "slots": ["study ceiling", "on"], "tricky": []}
+{"id": "C029", "cat": "lights", "text": "Turn off the kitchen downlight left.", "say": "Turn off the kitchen downlight left.", "slots": ["kitchen downlight left", "off"], "tricky": []}
+{"id": "C030", "cat": "lights", "text": "Turn the outside lights on.", "say": "Turn the outside lights on.", "slots": ["outside light", "on"], "tricky": []}
+{"id": "C031", "cat": "brightness", "text": "Set the atrium spotlight right to forty percent.", "say": "Set the atrium spotlight right to forty percent.", "slots": ["atrium spotlight right", "40 percent"], "tricky": ["atrium", "number"]}
+{"id": "C032", "cat": "brightness", "text": "Dim the loft lamp to twenty percent.", "say": "Dim the loft lamp to twenty percent.", "slots": ["loft lamp", "20 percent"], "tricky": ["loft", "number"]}
+{"id": "C033", "cat": "brightness", "text": "Dim the living room lamp to thirty-five percent.", "say": "Dim the living room lamp to thirty-five percent.", "slots": ["living room lamp", "35 percent"], "tricky": ["number"]}
+{"id": "C034", "cat": "brightness", "text": "Brighten the kitchen ceiling to eighty percent.", "say": "Brighten the kitchen ceiling to eighty percent.", "slots": ["kitchen ceiling", "80 percent"], "tricky": ["number"]}
+{"id": "C035", "cat": "brightness", "text": "Set the pergola floodlights to fifty percent.", "say": "Set the pergola floodlights to fifty percent.", "slots": ["pergola floodlight", "50 percent"], "tricky": ["number", "pergola"]}
+{"id": "C036", "cat": "brightness", "text": "Make the dining room pendant seventy-five percent.", "say": "Make the dining room pendant seventy-five percent.", "slots": ["dining room pendant", "75 percent"], "tricky": ["number"]}
+{"id": "C037", "cat": "brightness", "text": "Dim the master bedroom lamp to ten percent.", "say": "Dim the master bedroom lamp to ten percent.", "slots": ["master bedroom lamp", "10 percent"], "tricky": ["number"]}
+{"id": "C038", "cat": "brightness", "text": "Set the ensuite downlight to fifteen percent.", "say": "Set the ensuite downlight to fifteen percent.", "slots": ["ensuite downlight", "15 percent"], "tricky": ["ensuite", "number"]}
+{"id": "C039", "cat": "brightness", "text": "Turn the hallway downlight back up to sixty percent.", "say": "Turn the hallway downlight back up to sixty percent.", "slots": ["hallway downlight back|hallway downlight", "60 percent"], "tricky": ["number"]}
+{"id": "C040", "cat": "brightness", "text": "Put the guest bedroom ceiling on at forty-five percent.", "say": "Put the guest bedroom ceiling on at forty-five percent.", "slots": ["guest bedroom ceiling", "45 percent"], "tricky": ["number"]}
+{"id": "C041", "cat": "brightness", "text": "Can you dim the atrium lights a bit?", "say": "Can you dim the atrium lights a bit?", "slots": ["dim", "atrium"], "tricky": ["atrium"]}
+{"id": "C042", "cat": "brightness", "text": "Make the loft brighter.", "say": "Make the loft brighter.", "slots": ["loft", "brighter"], "tricky": ["loft"]}
+{"id": "C043", "cat": "brightness", "text": "Set the laundry downlight to full brightness.", "say": "Set the laundry downlight to full brightness.", "slots": ["laundry downlight", "full"], "tricky": ["laundry"]}
+{"id": "C044", "cat": "brightness", "text": "Set the porch lights to five percent.", "say": "Set the porch lights to five percent.", "slots": ["porch light", "5 percent"], "tricky": ["number"]}
+{"id": "C045", "cat": "brightness", "text": "Dim living room chandelier three to twenty-five percent.", "say": "Dim living room chandelier three to twenty-five percent.", "slots": ["living room chandelier 3", "25 percent"], "tricky": ["number"]}
+{"id": "C046", "cat": "timers", "text": "Turn the porch lights off at 10:15 pm.", "say": "Turn the porch lights off at ten fifteen p m.", "slots": ["porch light", "off", "1015 pm"], "tricky": ["number"]}
+{"id": "C047", "cat": "timers", "text": "Turn off the loft lamp in twenty-five minutes.", "say": "Turn off the loft lamp in twenty-five minutes.", "slots": ["loft lamp", "off", "25 minute"], "tricky": ["loft", "number"]}
+{"id": "C048", "cat": "timers", "text": "Turn the atrium lights off at 11:30.", "say": "Turn the atrium lights off at eleven thirty.", "slots": ["atrium", "off", "1130"], "tricky": ["atrium", "number"]}
+{"id": "C049", "cat": "timers", "text": "Switch on the garden spotlight at 7:30 pm.", "say": "Switch on the garden spotlight at seven thirty p m.", "slots": ["garden spotlight", "on", "730 pm"], "tricky": ["number"]}
+{"id": "C050", "cat": "timers", "text": "Turn the kitchen lights off in half an hour.", "say": "Turn the kitchen lights off in half an hour.", "slots": ["kitchen light", "off", "half hour|30 minute"], "tricky": []}
+{"id": "C051", "cat": "timers", "text": "In ten minutes, turn off the laundry lights.", "say": "In ten minutes, turn off the laundry lights.", "slots": ["10 minute", "off", "laundry light"], "tricky": ["laundry", "number"]}
+{"id": "C052", "cat": "timers", "text": "Turn on pergola spotlight one at 6:45.", "say": "Turn on pergola spotlight one at six forty-five.", "slots": ["pergola spotlight 1", "on", "645"], "tricky": ["number", "pergola"]}
+{"id": "C053", "cat": "timers", "text": "Turn the study lights off at 9:05 pm.", "say": "Turn the study lights off at nine oh five p m.", "slots": ["study light", "off", "905 pm"], "tricky": ["number"]}
+{"id": "C054", "cat": "timers", "text": "Turn the garage lights off in an hour.", "say": "Turn the garage lights off in an hour.", "slots": ["garage light", "off", "hour"], "tricky": []}
+{"id": "C055", "cat": "timers", "text": "Turn the living room lamp off at midnight.", "say": "Turn the living room lamp off at midnight.", "slots": ["living room lamp", "off", "midnight"], "tricky": []}
+{"id": "C056", "cat": "timers", "text": "Turn off the master bedroom lamp at 12:40 am.", "say": "Turn off the master bedroom lamp at twelve forty a m.", "slots": ["master bedroom lamp", "off", "1240 am"], "tricky": ["number"]}
+{"id": "C057", "cat": "timers", "text": "Turn the hallway lights on at 6 am tomorrow.", "say": "Turn the hallway lights on at six a m tomorrow.", "slots": ["hallway light", "on", "6 am", "tomorrow"], "tricky": ["number"]}
+{"id": "C058", "cat": "timers", "text": "Turn the ensuite downlight off in five minutes.", "say": "Turn the ensuite downlight off in five minutes.", "slots": ["ensuite downlight", "off", "5 minute"], "tricky": ["ensuite", "number"]}
+{"id": "C059", "cat": "timers", "text": "Turn the outside lights off at quarter past eleven.", "say": "Turn the outside lights off at quarter past eleven.", "slots": ["outside light", "off", "quarter past 11|1115"], "tricky": ["number"]}
+{"id": "C060", "cat": "timers", "text": "Run Good Night at 10:30 pm.", "say": "Run Good Night at ten thirty p m.", "slots": ["goodnight", "1030 pm"], "tricky": ["goodnight", "number"]}
+{"id": "C061", "cat": "timers", "text": "Start Wind Down in fifteen minutes.", "say": "Start Wind Down in fifteen minutes.", "slots": ["wind down", "15 minute"], "tricky": ["number", "wind down"]}
+{"id": "C062", "cat": "timers", "text": "Cancel that.", "say": "Cancel that.", "slots": ["cancel"], "tricky": []}
+{"id": "C063", "cat": "timers", "text": "Cancel the porch lights timer.", "say": "Cancel the porch lights timer.", "slots": ["cancel", "porch light"], "tricky": []}
+{"id": "C064", "cat": "timers", "text": "What timers do I have?", "say": "What timers do I have?", "slots": ["timer"], "tricky": []}
+{"id": "C065", "cat": "timers", "text": "Turn the pergola floodlights on at sunset.", "say": "Turn the pergola floodlights on at sunset.", "slots": ["pergola floodlight", "on", "sunset"], "tricky": ["pergola"]}
+{"id": "C066", "cat": "scenes", "text": "Good night.", "say": "Good night.", "slots": ["goodnight"], "tricky": ["goodnight"]}
+{"id": "C067", "cat": "scenes", "text": "Run Good Night.", "say": "Run Good Night.", "slots": ["goodnight"], "tricky": ["goodnight"]}
+{"id": "C068", "cat": "scenes", "text": "Activate the Good Night scene.", "say": "Activate the Good Night scene.", "slots": ["goodnight"], "tricky": ["goodnight"]}
+{"id": "C069", "cat": "scenes", "text": "Start Wind Down.", "say": "Start Wind Down.", "slots": ["wind down"], "tricky": ["wind down"]}
+{"id": "C070", "cat": "scenes", "text": "Wind Down, please.", "say": "Wind Down, please.", "slots": ["wind down"], "tricky": ["wind down"]}
+{"id": "C071", "cat": "scenes", "text": "Put the Wind Down scene on.", "say": "Put the Wind Down scene on.", "slots": ["wind down"], "tricky": ["wind down"]}
+{"id": "C072", "cat": "scenes", "text": "Set the house to Wind Down.", "say": "Set the house to Wind Down.", "slots": ["wind down"], "tricky": ["wind down"]}
+{"id": "C073", "cat": "scenes", "text": "Undo that.", "say": "Undo that.", "slots": ["undo"], "tricky": []}
+{"id": "C074", "cat": "blinds", "text": "Close the atrium blind.", "say": "Close the atrium blind.", "slots": ["atrium blind", "close"], "tricky": ["atrium"]}
+{"id": "C075", "cat": "blinds", "text": "Open the atrium blind halfway.", "say": "Open the atrium blind halfway.", "slots": ["atrium blind", "open", "halfway|half way|half"], "tricky": ["atrium"]}
+{"id": "C076", "cat": "blinds", "text": "Set the atrium blind to thirty percent.", "say": "Set the atrium blind to thirty percent.", "slots": ["atrium blind", "30 percent"], "tricky": ["atrium", "number"]}
+{"id": "C077", "cat": "blinds", "text": "Close the living room door blind.", "say": "Close the living room door blind.", "slots": ["living room door blind", "close"], "tricky": []}
+{"id": "C078", "cat": "blinds", "text": "Open the living room window blind.", "say": "Open the living room window blind.", "slots": ["living room window blind", "open"], "tricky": []}
+{"id": "C079", "cat": "blinds", "text": "Lower the living room blinds to twenty percent.", "say": "Lower the living room blinds to twenty percent.", "slots": ["living room blind", "20 percent"], "tricky": ["number"]}
+{"id": "C080", "cat": "blinds", "text": "Raise the atrium blind all the way.", "say": "Raise the atrium blind all the way.", "slots": ["atrium blind", "raise"], "tricky": ["atrium"]}
+{"id": "C081", "cat": "blinds", "text": "Close all the blinds.", "say": "Close all the blinds.", "slots": ["close", "blind"], "tricky": []}
+{"id": "C082", "cat": "blinds", "text": "Open the atrium blind at 1 pm.", "say": "Open the atrium blind at one p m.", "slots": ["atrium blind", "open", "1 pm"], "tricky": ["atrium", "number"]}
+{"id": "C083", "cat": "blinds", "text": "Is the atrium blind down?", "say": "Is the atrium blind down?", "slots": ["atrium blind", "down"], "tricky": ["atrium"]}
+{"id": "C084", "cat": "blinds", "text": "Put the living room window blind at seventy percent.", "say": "Put the living room window blind at seventy percent.", "slots": ["living room window blind", "70 percent"], "tricky": ["number"]}
+{"id": "C085", "cat": "blinds", "text": "Yes, close it.", "say": "Yes, close it.", "slots": ["yes", "close"], "tricky": []}
+{"id": "C086", "cat": "energy", "text": "What's the battery at?", "say": "What's the battery at?", "slots": ["battery"], "tricky": []}
+{"id": "C087", "cat": "energy", "text": "How many kilowatt hours have we used today?", "say": "How many kilowatt hours have we used today?", "slots": ["kwh", "today"], "tricky": ["kwh"]}
+{"id": "C088", "cat": "energy", "text": "How many kWh did the solar make yesterday?", "say": "How many K W H did the solar make yesterday?", "slots": ["kwh", "solar", "yesterday"], "tricky": ["kwh"]}
+{"id": "C089", "cat": "energy", "text": "What's the solar doing right now?", "say": "What's the solar doing right now?", "slots": ["solar"], "tricky": []}
+{"id": "C090", "cat": "energy", "text": "Are we exporting to the grid?", "say": "Are we exporting to the grid?", "slots": ["exporting|export", "grid"], "tricky": []}
+{"id": "C091", "cat": "energy", "text": "How much are we selling to the grid?", "say": "How much are we selling to the grid?", "slots": ["selling", "grid"], "tricky": []}
+{"id": "C092", "cat": "energy", "text": "When does ZeroCharge start?", "say": "When does Zero Charge start?", "slots": ["zerocharge", "start"], "tricky": ["zerocharge"]}
+{"id": "C093", "cat": "energy", "text": "Is it ZeroCharge time yet?", "say": "Is it Zero Charge time yet?", "slots": ["zerocharge"], "tricky": ["zerocharge"]}
+{"id": "C094", "cat": "energy", "text": "How long is left in the ZeroCharge window?", "say": "How long is left in the Zero Charge window?", "slots": ["zerocharge", "left"], "tricky": ["zerocharge"]}
+{"id": "C095", "cat": "energy", "text": "Should I run the dishwasher during ZeroCharge?", "say": "Should I run the dishwasher during Zero Charge?", "slots": ["dishwasher", "zerocharge"], "tricky": ["zerocharge"]}
+{"id": "C096", "cat": "energy", "text": "What's the house using right now?", "say": "What's the house using right now?", "slots": ["using"], "tricky": []}
+{"id": "C097", "cat": "energy", "text": "How much power is the house drawing?", "say": "How much power is the house drawing?", "slots": ["power", "drawing"], "tricky": []}
+{"id": "C098", "cat": "energy", "text": "Is the battery charging?", "say": "Is the battery charging?", "slots": ["battery", "charging"], "tricky": []}
+{"id": "C099", "cat": "energy", "text": "What percentage is the battery at?", "say": "What percentage is the battery at?", "slots": ["battery", "percentage"], "tricky": []}
+{"id": "C100", "cat": "energy", "text": "Will the battery last the night?", "say": "Will the battery last the night?", "slots": ["battery", "night"], "tricky": []}
+{"id": "C101", "cat": "energy", "text": "How much did we import from the grid today?", "say": "How much did we import from the grid today?", "slots": ["import", "grid", "today"], "tricky": []}
+{"id": "C102", "cat": "energy", "text": "What's our usage in kilowatt hours this week?", "say": "What's our usage in kilowatt hours this week?", "slots": ["usage", "kwh", "week"], "tricky": ["kwh"]}
+{"id": "C103", "cat": "energy", "text": "How much solar are we getting?", "say": "How much solar are we getting?", "slots": ["solar"], "tricky": []}
+{"id": "C104", "cat": "energy", "text": "Should I run the washing machine now or at eleven?", "say": "Should I run the washing machine now or at eleven?", "slots": ["washing machine", "11"], "tricky": ["number"]}
+{"id": "C105", "cat": "energy", "text": "Can I run the dryer on solar?", "say": "Can I run the dryer on solar?", "slots": ["dryer", "solar"], "tricky": []}
+{"id": "C106", "cat": "energy", "text": "Is it cheaper to run the pool pump at midday?", "say": "Is it cheaper to run the pool pump at midday?", "slots": ["pool pump", "midday"], "tricky": []}
+{"id": "C107", "cat": "energy", "text": "How many kilowatt hours is a full battery?", "say": "How many kilowatt hours is a full battery?", "slots": ["kwh", "full battery"], "tricky": ["kwh"]}
+{"id": "C108", "cat": "climate", "text": "What's the temperature in the atrium?", "say": "What's the temperature in the atrium?", "slots": ["temperature", "atrium"], "tricky": ["atrium"]}
+{"id": "C109", "cat": "climate", "text": "How warm is it in the loft?", "say": "How warm is it in the loft?", "slots": ["warm", "loft"], "tricky": ["loft"]}
+{"id": "C110", "cat": "climate", "text": "What's the temperature outside?", "say": "What's the temperature outside?", "slots": ["temperature", "outside"], "tricky": []}
+{"id": "C111", "cat": "climate", "text": "Is it going to rain today?", "say": "Is it going to rain today?", "slots": ["rain", "today"], "tricky": []}
+{"id": "C112", "cat": "climate", "text": "What's the forecast for the weekend?", "say": "What's the forecast for the weekend?", "slots": ["forecast", "weekend"], "tricky": []}
+{"id": "C113", "cat": "climate", "text": "How hot will it get tomorrow?", "say": "How hot will it get tomorrow?", "slots": ["hot", "tomorrow"], "tricky": []}
+{"id": "C114", "cat": "climate", "text": "What's the UV index?", "say": "What's the U V index?", "slots": ["uv"], "tricky": []}
+{"id": "C115", "cat": "climate", "text": "Is it humid in the laundry?", "say": "Is it humid in the laundry?", "slots": ["humid", "laundry"], "tricky": ["laundry"]}
+{"id": "C116", "cat": "climate", "text": "Should I put the aircon on?", "say": "Should I put the aircon on?", "slots": ["ac", "on"], "tricky": []}
+{"id": "C117", "cat": "climate", "text": "Set the air conditioner to twenty-two degrees.", "say": "Set the air conditioner to twenty-two degrees.", "slots": ["ac", "22 degrees"], "tricky": ["number"]}
+{"id": "C118", "cat": "climate", "text": "Will it be cold tonight?", "say": "Will it be cold tonight?", "slots": ["cold", "tonight"], "tricky": []}
+{"id": "C119", "cat": "climate", "text": "What was the overnight low?", "say": "What was the overnight low?", "slots": ["overnight", "low"], "tricky": []}
+{"id": "C120", "cat": "status", "text": "Which lights are on?", "say": "Which lights are on?", "slots": ["light", "on"], "tricky": []}
+{"id": "C121", "cat": "status", "text": "Are any lights on upstairs?", "say": "Are any lights on upstairs?", "slots": ["light", "upstairs"], "tricky": []}
+{"id": "C122", "cat": "status", "text": "Is the loft lamp on?", "say": "Is the loft lamp on?", "slots": ["loft lamp", "on"], "tricky": ["loft"]}
+{"id": "C123", "cat": "status", "text": "Did the laundry lights go off?", "say": "Did the laundry lights go off?", "slots": ["laundry light", "off"], "tricky": ["laundry"]}
+{"id": "C124", "cat": "status", "text": "Is the pergola lit up?", "say": "Is the pergola lit up?", "slots": ["pergola"], "tricky": ["pergola"]}
+{"id": "C125", "cat": "status", "text": "Is the garage door shut?", "say": "Is the garage door shut?", "slots": ["garage door", "shut"], "tricky": []}
+{"id": "C126", "cat": "status", "text": "What time is it?", "say": "What time is it?", "slots": ["time"], "tricky": []}
+{"id": "C127", "cat": "status", "text": "Thanks, Atlas.", "say": "Thanks, Atlas.", "slots": ["thanks|thank you"], "tricky": []}
+{"id": "C128", "cat": "status", "text": "Never mind.", "say": "Never mind.", "slots": ["never mind"], "tricky": []}
+{"id": "C129", "cat": "status", "text": "Leave the atrium lights on.", "say": "Leave the atrium lights on.", "slots": ["leave", "atrium", "on"], "tricky": ["atrium"]}
+{"id": "C130", "cat": "owner", "text": "How's the battery holding up?", "say": "How's the battery holding up?", "slots": ["battery", "holding up"], "tricky": []}
+{"id": "C131", "cat": "owner", "text": "What kWh is that equal to?", "say": "What kilowatt hours is that equal to?", "slots": ["kwh", "equal"], "tricky": ["kwh"]}
+{"id": "C132", "cat": "owner", "text": "How full is the battery?", "say": "How full is the battery?", "slots": ["full", "battery"], "tricky": []}
+{"id": "C133", "cat": "owner", "text": "What's the weather doing?", "say": "What's the weather doing?", "slots": ["weather"], "tricky": []}
+{"id": "C134", "cat": "owner", "text": "What's the temp?", "say": "What's the temp?", "slots": ["temp|temperature"], "tricky": []}
+{"id": "C135", "cat": "owner", "text": "Should I run the AC?", "say": "Should I run the A C?", "slots": ["ac"], "tricky": []}
+{"id": "C136", "cat": "owner", "text": "What's the weather like tomorrow?", "say": "What's the weather like tomorrow?", "slots": ["weather", "tomorrow"], "tricky": []}
+{"id": "C137", "cat": "owner", "text": "Create an AC plan putting the heat on at 11 am until 12 pm at 22 degrees.", "say": "Create an A C plan putting the heat on at eleven a m until twelve p m at twenty-two degrees.", "slots": ["ac", "heat", "11 am", "12 pm", "22"], "tricky": ["number"]}
+{"id": "C138", "cat": "owner", "text": "Turn on the study light.", "say": "Turn on the study light.", "slots": ["study light", "on"], "tricky": []}
+{"id": "C139", "cat": "owner", "text": "Turn the study light to 100%.", "say": "Turn the study light to one hundred percent.", "slots": ["study light", "100 percent"], "tricky": ["number"]}
+{"id": "C140", "cat": "owner", "text": "Turn off the outside lights.", "say": "Turn off the outside lights.", "slots": ["outside light", "off"], "tricky": []}
+{"id": "C141", "cat": "owner", "text": "Hello.", "say": "Hello.", "slots": ["hello"], "tricky": []}
+{"id": "C142", "cat": "owner", "text": "Can you turn off the living room lights?", "say": "Can you turn off the living room lights?", "slots": ["living room light", "off"], "tricky": []}
+{"id": "C143", "cat": "owner", "text": "Turn on the living room lights.", "say": "Turn on the living room lights.", "slots": ["living room light", "on"], "tricky": []}
+{"id": "C144", "cat": "owner", "text": "How's the battery going?", "say": "How's the battery going?", "slots": ["battery", "going"], "tricky": []}
+{"id": "C145", "cat": "owner", "text": "How is the home?", "say": "How is the home?", "slots": ["home"], "tricky": []}
+{"id": "C146", "cat": "owner", "text": "Shouldn't the atrium blind be down in that case?", "say": "Shouldn't the atrium blind be down in that case?", "slots": ["atrium blind", "down"], "tricky": ["atrium"]}
+{"id": "C147", "cat": "owner", "text": "Why didn't it go down?", "say": "Why didn't it go down?", "slots": ["go down"], "tricky": []}
+{"id": "C148", "cat": "owner", "text": "Close the atrium blind to 30%. Open it completely at 1 pm.", "say": "Close the atrium blind to thirty percent. Open it completely at one p m.", "slots": ["atrium blind", "close", "30 percent", "open", "1 pm"], "tricky": ["atrium", "number"]}
+{"id": "C149", "cat": "owner", "text": "Can you do basic arithmetic?", "say": "Can you do basic arithmetic?", "slots": ["arithmetic"], "tricky": []}
+{"id": "C150", "cat": "owner", "text": "What's 2 + 8?", "say": "What's two plus eight?", "slots": ["2", "8"], "tricky": ["number"]}
+{"id": "C151", "cat": "owner", "text": "I have a small dishwasher load. Will I run it tonight or run it in the morning?", "say": "I have a small dishwasher load. Will I run it tonight or run it in the morning?", "slots": ["dishwasher", "tonight", "morning"], "tricky": []}
