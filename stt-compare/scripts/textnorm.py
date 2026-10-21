@@ -45,6 +45,7 @@ def canon(s: str) -> str:
     s = re.sub(r"(\d)\s*([ap])\.?\s?m\b\.?", r"\1 \2m", s, flags=re.I)        # 1pm -> 1 pm before Whisper's normaliser
     s = re.sub(r"\b(\d{1,2}):(\d\d)\b", r"\1\2", s)                         # 10:15 -> 1015
     s = re.sub(r"\b(\d{1,2})\.(\d\d)(?= ?[ap]m\b)", r"\1\2", s)              # 7.30 pm -> 730 pm
+    s = re.sub(r"\b(at|until|from) (\d{1,2})\.(\d\d)\b", r"\1 \2\3", s)        # at 11.30 -> at 1130
     s = re.sub(r"\b(what|how|where|who|that|it)s\b", r"\1 is", s, flags=re.I)    # typed "whats" = "what's"
     s = _N(s)
     s = re.sub(r"\b(" + "|".join(_SMALL) + r")(?=\.\d)", lambda m: _SMALL[m.group(1)], s)   # Whisper's normaliser: "1.2" -> "one.2"

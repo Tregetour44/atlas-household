@@ -1,0 +1,60 @@
+{"clip": "clean/C002-gb_f_cori.flac", "id": "C002", "cond": "clean", "speaker": "gb_f_cori", "accent": "gb", "dur": 2.78}
+{"clip": "clean/C004-gb_m_northern.flac", "id": "C004", "cond": "clean", "speaker": "gb_m_northern", "accent": "gb", "dur": 2.64}
+{"clip": "clean/C019-au_m_p374.flac", "id": "C019", "cond": "clean", "speaker": "au_m_p374", "accent": "au", "dur": 2.79}
+{"clip": "clean/C019-gb_f_isabella.flac", "id": "C019", "cond": "clean", "speaker": "gb_f_isabella", "accent": "gb", "dur": 2.95}
+{"clip": "clean/C022-gb_m_george.flac", "id": "C022", "cond": "clean", "speaker": "gb_m_george", "accent": "gb", "dur": 2.71}
+{"clip": "clean/C033-gb_f_isabella.flac", "id": "C033", "cond": "clean", "speaker": "gb_f_isabella", "accent": "gb", "dur": 3.61}
+{"clip": "clean/C046-au_f_p225.flac", "id": "C046", "cond": "clean", "speaker": "au_f_p225", "accent": "au", "dur": 2.84}
+{"clip": "clean/C048-gb_f_emma.flac", "id": "C048", "cond": "clean", "speaker": "gb_f_emma", "accent": "gb", "dur": 3.18}
+{"clip": "clean/C053-au_m_p326.flac", "id": "C053", "cond": "clean", "speaker": "au_m_p326", "accent": "au", "dur": 2.92}
+{"clip": "clean/C059-au_m_p374.flac", "id": "C059", "cond": "clean", "speaker": "au_m_p374", "accent": "au", "dur": 3.16}
+{"clip": "clean/C060-au_f_jenny.flac", "id": "C060", "cond": "clean", "speaker": "au_f_jenny", "accent": "au", "dur": 2.93}
+{"clip": "clean/C080-au_f_jenny.flac", "id": "C080", "cond": "clean", "speaker": "au_f_jenny", "accent": "au", "dur": 2.83}
+{"clip": "clean/C080-gb_m_alan.flac", "id": "C080", "cond": "clean", "speaker": "gb_m_alan", "accent": "gb", "dur": 3.44}
+{"clip": "clean/C088-au_f_jenny.flac", "id": "C088", "cond": "clean", "speaker": "au_f_jenny", "accent": "au", "dur": 3.94}
+{"clip": "clean/C093-gb_f_cori.flac", "id": "C093", "cond": "clean", "speaker": "gb_f_cori", "accent": "gb", "dur": 2.71}
+{"clip": "clean/C101-au_m_p326.flac", "id": "C101", "cond": "clean", "speaker": "au_m_p326", "accent": "au", "dur": 2.69}
+{"clip": "clean/C107-au_m_p374.flac", "id": "C107", "cond": "clean", "speaker": "au_m_p374", "accent": "au", "dur": 2.84}
+{"clip": "clean/C117-gb_f_isabella.flac", "id": "C117", "cond": "clean", "speaker": "gb_f_isabella", "accent": "gb", "dur": 3.37}
+{"clip": "clean/C148-au_f_jenny.flac", "id": "C148", "cond": "clean", "speaker": "au_f_jenny", "accent": "au", "dur": 5.2}
+{"clip": "clean/C151-gb_m_northern.flac", "id": "C151", "cond": "clean", "speaker": "gb_m_northern", "accent": "gb", "dur": 4.61}
+{"clip": "far/C010-au_f_p225.flac", "id": "C010", "cond": "far", "speaker": "au_f_p225", "accent": "au", "noise": "hum", "snr_db": 18.1, "rt60_s": 0.7, "distance_m": 3.0, "dur": 2.65}
+{"clip": "far/C015-gb_m_george.flac", "id": "C015", "cond": "far", "speaker": "gb_m_george", "accent": "gb", "noise": "aircon", "snr_db": 15.1, "rt60_s": 0.69, "distance_m": 3.11, "dur": 2.78}
+{"clip": "far/C024-au_f_jenny.flac", "id": "C024", "cond": "far", "speaker": "au_f_jenny", "accent": "au", "noise": "hum", "snr_db": 14.2, "rt60_s": 0.77, "distance_m": 3.96, "dur": 3.0}
+{"clip": "far/C029-gb_m_george.flac", "id": "C029", "cond": "far", "speaker": "gb_m_george", "accent": "gb", "noise": "aircon", "snr_db": 17.4, "rt60_s": 0.77, "distance_m": 4.16, "dur": 3.33}
+{"clip": "far/C036-au_f_jenny.flac", "id": "C036", "cond": "far", "speaker": "au_f_jenny", "accent": "au", "noise": "hum", "snr_db": 19.8, "rt60_s": 0.55, "distance_m": 4.22, "dur": 3.95}
+{"clip": "far/C044-au_f_jenny.flac", "id": "C044", "cond": "far", "speaker": "au_f_jenny", "accent": "au", "noise": "hum", "snr_db": 14.5, "rt60_s": 0.52, "distance_m": 4.18, "dur": 3.2}
+{"clip": "far/C051-gb_f_cori.flac", "id": "C051", "cond": "far", "speaker": "gb_f_cori", "accent": "gb", "noise": "aircon", "snr_db": 10.6, "rt60_s": 0.73, "distance_m": 3.52, "dur": 3.6}
+{"clip": "far/C053-gb_m_northern.flac", "id": "C053", "cond": "far", "speaker": "gb_m_northern", "accent": "gb", "noise": "aircon", "snr_db": 16.4, "rt60_s": 0.76, "distance_m": 2.57, "dur": 3.59}
+{"clip": "far/C054-au_f_p225.flac", "id": "C054", "cond": "far", "speaker": "au_f_p225", "accent": "au", "noise": "hum", "snr_db": 19.3, "rt60_s": 0.78, "distance_m": 2.67, "dur": 2.92}
+{"clip": "far/C057-gb_m_george.flac", "id": "C057", "cond": "far", "speaker": "gb_m_george", "accent": "gb", "noise": "aircon", "snr_db": 17.2, "rt60_s": 0.75, "distance_m": 3.56, "dur": 4.21}
+{"clip": "far/C068-au_f_jenny.flac", "id": "C068", "cond": "far", "speaker": "au_f_jenny", "accent": "au", "noise": "hum", "snr_db": 15.0, "rt60_s": 0.68, "distance_m": 2.65, "dur": 3.01}
+{"clip": "far/C076-au_f_jenny.flac", "id": "C076", "cond": "far", "speaker": "au_f_jenny", "accent": "au", "noise": "hum", "snr_db": 11.0, "rt60_s": 0.59, "distance_m": 2.77, "dur": 3.46}
+{"clip": "far/C079-gb_f_cori.flac", "id": "C079", "cond": "far", "speaker": "gb_f_cori", "accent": "gb", "noise": "aircon", "snr_db": 15.2, "rt60_s": 0.66, "distance_m": 3.82, "dur": 3.46}
+{"clip": "far/C093-gb_f_cori.flac", "id": "C093", "cond": "far", "speaker": "gb_f_cori", "accent": "gb", "noise": "aircon", "snr_db": 13.3, "rt60_s": 0.62, "distance_m": 3.3, "dur": 3.01}
+{"clip": "far/C094-au_f_p225.flac", "id": "C094", "cond": "far", "speaker": "au_f_p225", "accent": "au", "noise": "hum", "snr_db": 15.1, "rt60_s": 0.65, "distance_m": 2.76, "dur": 2.91}
+{"clip": "far/C102-au_f_p225.flac", "id": "C102", "cond": "far", "speaker": "au_f_p225", "accent": "au", "noise": "hum", "snr_db": 11.5, "rt60_s": 0.57, "distance_m": 3.35, "dur": 2.88}
+{"clip": "far/C115-gb_m_alan.flac", "id": "C115", "cond": "far", "speaker": "gb_m_alan", "accent": "gb", "noise": "aircon", "snr_db": 18.9, "rt60_s": 0.79, "distance_m": 3.43, "dur": 2.79}
+{"clip": "far/C129-gb_m_alan.flac", "id": "C129", "cond": "far", "speaker": "gb_m_alan", "accent": "gb", "noise": "aircon", "snr_db": 11.9, "rt60_s": 0.56, "distance_m": 4.32, "dur": 3.07}
+{"clip": "far/C148-au_f_jenny.flac", "id": "C148", "cond": "far", "speaker": "au_f_jenny", "accent": "au", "noise": "hum", "snr_db": 15.2, "rt60_s": 0.52, "distance_m": 3.51, "dur": 5.5}
+{"clip": "far/C151-gb_m_northern.flac", "id": "C151", "cond": "far", "speaker": "gb_m_northern", "accent": "gb", "noise": "aircon", "snr_db": 18.1, "rt60_s": 0.36, "distance_m": 3.64, "dur": 4.9}
+{"clip": "noise/C002-gb_f_cori.flac", "id": "C002", "cond": "noise", "speaker": "gb_f_cori", "accent": "gb", "noise": "hum", "snr_db": 7.3, "dur": 2.78}
+{"clip": "noise/C010-gb_m_alan.flac", "id": "C010", "cond": "noise", "speaker": "gb_m_alan", "accent": "gb", "noise": "hum", "snr_db": 7.4, "dur": 3.18}
+{"clip": "noise/C030-gb_f_cori.flac", "id": "C030", "cond": "noise", "speaker": "gb_f_cori", "accent": "gb", "noise": "hum", "snr_db": 8.1, "dur": 3.7}
+{"clip": "noise/C031-au_m_p374.flac", "id": "C031", "cond": "noise", "speaker": "au_m_p374", "accent": "au", "noise": "tv", "snr_db": 7.9, "dur": 2.98}
+{"clip": "noise/C033-au_m_p326.flac", "id": "C033", "cond": "noise", "speaker": "au_m_p326", "accent": "au", "noise": "aircon", "snr_db": 11.9, "dur": 2.76}
+{"clip": "noise/C035-au_m_p374.flac", "id": "C035", "cond": "noise", "speaker": "au_m_p374", "accent": "au", "noise": "tv", "snr_db": 9.0, "dur": 3.11}
+{"clip": "noise/C038-gb_m_alan.flac", "id": "C038", "cond": "noise", "speaker": "gb_m_alan", "accent": "gb", "noise": "hum", "snr_db": 14.3, "dur": 3.82}
+{"clip": "noise/C039-au_m_p374.flac", "id": "C039", "cond": "noise", "speaker": "au_m_p374", "accent": "au", "noise": "tv", "snr_db": 14.5, "dur": 3.22}
+{"clip": "noise/C043-au_m_p374.flac", "id": "C043", "cond": "noise", "speaker": "au_m_p374", "accent": "au", "noise": "tv", "snr_db": 7.4, "dur": 2.87}
+{"clip": "noise/C049-au_m_p326.flac", "id": "C049", "cond": "noise", "speaker": "au_m_p326", "accent": "au", "noise": "aircon", "snr_db": 7.1, "dur": 3.14}
+{"clip": "noise/C051-au_m_p374.flac", "id": "C051", "cond": "noise", "speaker": "au_m_p374", "accent": "au", "noise": "tv", "snr_db": 10.6, "dur": 2.88}
+{"clip": "noise/C052-gb_m_alan.flac", "id": "C052", "cond": "noise", "speaker": "gb_m_alan", "accent": "gb", "noise": "kitchen", "snr_db": 7.3, "dur": 4.26}
+{"clip": "noise/C053-au_m_p326.flac", "id": "C053", "cond": "noise", "speaker": "au_m_p326", "accent": "au", "noise": "aircon", "snr_db": 14.5, "dur": 2.92}
+{"clip": "noise/C054-gb_f_isabella.flac", "id": "C054", "cond": "noise", "speaker": "gb_f_isabella", "accent": "gb", "noise": "hum", "snr_db": 11.9, "dur": 2.84}
+{"clip": "noise/C076-gb_f_emma.flac", "id": "C076", "cond": "noise", "speaker": "gb_f_emma", "accent": "gb", "noise": "kitchen", "snr_db": 11.2, "dur": 2.84}
+{"clip": "noise/C078-gb_m_george.flac", "id": "C078", "cond": "noise", "speaker": "gb_m_george", "accent": "gb", "noise": "hum", "snr_db": 13.4, "dur": 3.37}
+{"clip": "noise/C079-au_m_p374.flac", "id": "C079", "cond": "noise", "speaker": "au_m_p374", "accent": "au", "noise": "tv", "snr_db": 5.6, "dur": 3.02}
+{"clip": "noise/C101-au_m_p326.flac", "id": "C101", "cond": "noise", "speaker": "au_m_p326", "accent": "au", "noise": "aircon", "snr_db": 12.7, "dur": 2.69}
+{"clip": "noise/C110-gb_f_isabella.flac", "id": "C110", "cond": "noise", "speaker": "gb_f_isabella", "accent": "gb", "noise": "hum", "snr_db": 7.6, "dur": 2.67}
+{"clip": "noise/C146-gb_f_emma.flac", "id": "C146", "cond": "noise", "speaker": "gb_f_emma", "accent": "gb", "noise": "hum", "snr_db": 11.5, "dur": 3.12}

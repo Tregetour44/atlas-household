@@ -107,8 +107,11 @@ def main():
 
     # warm-up: the first request loads the model (HA pays this once, at start-up)
     t_load = time.perf_counter()
-    asyncio.run(transcribe(port, pcm_of(os.path.join(a.audio_dir, clips[0]["clip"])), False))
+    first, _ = asyncio.run(transcribe(port, pcm_of(os.path.join(a.audio_dir, clips[0]["clip"])), False))
     load_s = time.perf_counter() - t_load
+    if not first:
+        proc.terminate()
+        raise SystemExit(f"{a.name}: no transcript for the warm-up clip; see {log.name}")
     asyncio.run(transcribe(port, pcm_of(os.path.join(a.audio_dir, clips[1]["clip"])), False))
     out = open(os.path.join(a.out_dir, a.name + ".jsonl"), "w")
     lat = []

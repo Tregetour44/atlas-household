@@ -16,3 +16,10 @@ Stage 1 (21 Oct): test set done.
 - Voices: Piper VCTK p326/p374/p225 + jenny_dioco with an approximate Australian vowel shift; Kokoro bm_george/bf_emma/bm_lewis/bf_isabella, Piper northern_english_male/cori/alan (British).
 - Harness: candidates run through the real Wyoming server (`wyoming-faster-whisper` 3.8.1, which now also serves Parakeet, Qwen3-ASR and onnx-asr models).
 Next: run the candidate matrix.
+
+Stage 2 (21 Oct, ~04:50 UTC): budget cut received from PC Steward (ceiling ~US$15, was 30). Acknowledged here (this session cannot message other sessions).
+- Already done before the cut: full test set (151 commands, 604 clips, committed); Parakeet TDT 0.6B v2/v3 int8 and Kroko streaming on all 604 clips.
+- Remaining runs trimmed to 80 commands x (AU clean, GB clean, room noise) = 240 clips (`testset/audio/manifest_core.jsonl`): Qwen3-ASR 0.6B (with/without house prompt), faster-whisper small.en / large-v3-turbo (with/without prompt) / distil-large-v3 (int8, CPU), then Speech-to-Phrase v2.2 and whisper.cpp CPU (60 clips). Dropped: medium.en, base.en, far-field for those runs.
+- Early leader: Parakeet TDT 0.6B v2 int8 on CPU (sherpa-onnx through wyoming-faster-whisper 3.8.1): 77% command accuracy on clean clips, 0.29 s p50 per 2-5 s command on this 4-vCPU Xeon.
+- Pushed: `bench/bench_pc.ps1` (owner's PC bench) and a draft README verdict (to be refined).
+Deployment gotchas found so far: faster-whisper 1.2.1 breaks with PyAV >= 17 (pin av==16.1.0); onnxruntime 1.31 rejects Qwen3-ASR's external weights when reached through the HF cache symlinks (use a plain model folder).

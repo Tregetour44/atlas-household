@@ -14,7 +14,9 @@ Conditions (16 kHz mono FLAC):
          aircon/fan, mains hum + fridge, TV babble (other Atlas lines from other voices), kitchen range hood + clatter
   far    the other rendering, through a simulated room (pyroomacoustics image method, 3.5-7 m rooms, RT60 0.35-0.8 s,
          talker 2.5-5 m from the mic), + fan/hum noise at 10-20 dB SNR, + a 120 Hz-7 kHz small-speaker-mic band-pass
-Usage: python -I render_audio.py OUT_DIR   (needs piper-tts, kokoro-onnx, pyroomacoustics, soundfile, scipy; ~10 min on 4 vCPU)
+  au0    control set: the same AU-speaker clean renderings WITHOUT the vowel shift (151 clips, manifest_au0.jsonl), to
+         separate the effect of the approximate accent from the effect of the voices
+Usage: python -I render_audio.py OUT_DIR [--au0-only]   (needs piper-tts, kokoro-onnx, pyroomacoustics, soundfile, scipy; ~10 min on 4 vCPU)
 Model files are looked up in $STT_MODELS (default /home/user/models): piper/*.onnx, kokoro/kokoro-v1.0.int8.onnx, voices-v1.0.bin.
 """
 import json
@@ -53,9 +55,9 @@ def fix(p: str) -> str:
 _piper, _kokoro = {}, None
 
 
-def synth(spk, text, rng):
+def synth(spk, text, rng, shift=True):
     name, engine, model, sub = spk
-    au = name.startswith("au_")
+    au = name.startswith("au_") and shift
     if engine == "piper":
         from piper import PiperVoice, SynthesisConfig
         if model not in _piper:
@@ -136,6 +138,23 @@ def far_field(sig, rng):
     return y, rt60, d, (L, W, H)
 
 
+def main_au0(out):
+    rows = [json.loads(l) for l in open(os.path.join(HERE, "..", "testset", "commands.jsonl"))]
+    os.makedirs(os.path.join(out, "clean_au0"), exist_ok=True)
+    manifest = []
+    for i, r in enumerate(rows):
+        rng = np.random.default_rng(1000 + i)  # same seed and speed as the shifted rendering
+        spk = AU[i % len(AU)]
+        a = synth(spk, r["say"], rng, shift=False)
+        fn = f"clean_au0/{r['id']}-{spk[0]}.flac"
+        sf.write(os.path.join(out, fn), a, SR, subtype="PCM_16")
+        manifest.append({"clip": fn, "id": r["id"], "cond": "clean_au0", "speaker": spk[0], "accent": "au0", "dur": round(len(a) / SR, 2)})
+    with open(os.path.join(out, "manifest_au0.jsonl"), "w") as f:
+        for m in manifest:
+            f.write(json.dumps(m) + "\n")
+    print(f"{len(manifest)} control clips -> {out}/clean_au0")
+
+
 def main(out):
     sys.path.insert(0, HERE)
     rows = [json.loads(l) for l in open(os.path.join(HERE, "..", "testset", "commands.jsonl"))]
@@ -184,4 +203,4 @@ def main(out):
 
 
 if __name__ == "__main__":
-    main(sys.argv[1])
+    main_au0(sys.argv[1]) if "--au0-only" in sys.argv else main(sys.argv[1])
