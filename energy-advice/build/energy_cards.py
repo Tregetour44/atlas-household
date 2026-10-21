@@ -343,7 +343,7 @@ def credit_status(now: datetime, h1: Value, h2: Value, *, meter_age_min: float |
     return out
 
 
-def credit_lines(c: dict) -> list[str]:
+def credit_lines(c: dict, energy_lean: str | None = None) -> list[str]:
     """The credit card as prompt lines. The status words are Home Assistant's verdict; the model uses them as given."""
     L, hrs = [], c['hours']
     lim = f"{c['limit']:.3f}"
@@ -409,6 +409,8 @@ def credit_lines(c: dict) -> list[str]:
             elif ld['comfort']:
                 L.append("- Credit advice: comfort comes first, so use the cooling or heating you need; the credit is a dollar. A load spike could"
                          " still affect it, so leave optional big loads until after 8 pm.")
+            elif energy_lean == 'free_window':
+                L.append("- Credit advice: not before 8 pm; and on the energy (the Lean line below), the next free window is the better time.")
             elif ld.get('latest_start'):
                 L.append(f"- Credit advice: start it by {clock(ld['latest_start'])} so it finishes before 6 pm, or after 8 pm.")
             else:
@@ -546,7 +548,7 @@ def render(c: dict) -> str:
         L.append(f"- Free grid power: on now, for another {hm(k['free_minutes_left'])} (until 2 pm).")
     else:
         L.append(f"- Free grid power: next from 11 am {'today' if k['next_free_start'].date() == k['now'].date() else 'tomorrow'}, in {hm(k['minutes_to_free'])}.")
-    L += credit_lines(c['credit_status'])
+    L += credit_lines(c['credit_status'], (c.get('load_card') or {}).get('lean'))
     if b.get('estimated_from'):
         last, at, used = b['estimated_from']
         L.append(f"- Battery: no current reading (the last was {last:.0f}% at {clock(at)}). Estimate from typical use since then: about {b['soc']:.0f}% now,"

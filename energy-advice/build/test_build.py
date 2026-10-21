@@ -251,6 +251,11 @@ class CreditStatus(unittest.TestCase):
         self.assertIn("Opening up the house isn't an option here", t)
         self.assertNotRegex(t.lower(), r'open (the |a )?(windows?|doors?)')
 
+    def test_credit_advice_defers_to_energy_lean(self):
+        t = '\n'.join(E.credit_lines(self.st(19, 20, 0.006, 0.002, load={'name': 'dishwasher', 'minutes': 120}), 'free_window'))
+        self.assertIn('not before 8 pm', t)
+        self.assertIn('next free window', t)
+
     def test_comfort_not_deferred(self):
         t = '\n'.join(E.credit_lines(self.st(19, 10, 0.005, 0.003, load={'name': 'aircon (cooling)'})))
         self.assertIn('comfort comes first', t)
