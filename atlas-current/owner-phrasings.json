@@ -1,0 +1,27 @@
+{
+ "note": "The owner's real phrasings to Atlas (words only; no names, times or replies), from HA's Atlas pipeline debug-run exports of 18 and 20 Oct 2026 and House AI's live-miss log (20 Oct). Voice entries are as the speech-to-text heard them; a garbled part containing a name is omitted ('…'). Use them for style and as rehearsal inputs; they are not scored cases.",
+ "phrasings": [
+  {"words": "hows the battery holding up", "input": "text"},
+  {"words": "what kwh is that equal to", "input": "text"},
+  {"words": "How full is the battery?", "input": "text"},
+  {"words": "What's the weather doing?", "input": "text"},
+  {"words": "whats the temp", "input": "text"},
+  {"words": "should i run the ac", "input": "text"},
+  {"words": "whats the weather like tomorrow", "input": "text"},
+  {"words": "create an ac plan putting the heat on at 11am until 12pm at 22 degrees", "input": "text"},
+  {"words": "turn on the study light", "input": "text"},
+  {"words": "turn the study light to 100%", "input": "text"},
+  {"words": "turn off the outside lights", "input": "text"},
+  {"words": "Hello.", "input": "voice"},
+  {"words": "Can turn off the living room lights.", "input": "voice"},
+  {"words": "Turn on the living room lights.", "input": "voice"},
+  {"words": "hows the battery going", "input": "text"},
+  {"words": "how is the home", "input": "text"},
+  {"words": "shouldnt the atrium blind be down in that case?", "input": "text"},
+  {"words": "why didnt it go down", "input": "text"},
+  {"words": "close the atrium blind to 30%. Open it completely at 1pm", "input": "text"},
+  {"words": "Can you do basic arithmetic?", "input": "text"},
+  {"words": "What's 2 + 8?", "input": "text"},
+  {"words": "I have a small dishwasher load … Will I run it tonight or run it in the morning?", "input": "voice (part garbled, omitted)"}
+ ]
+}

@@ -23,11 +23,13 @@ class StreamAgent(conversation.ConversationEntity):
     async def _async_handle_message(self, user_input, chat_log):
         async def gen():
             yield {'role': 'assistant'}
-            for i in range(0, len(REPLY), 12):          # small chunks, like a model stream
-                yield {'content': REPLY[i:i + 12]}
+            reply = '' if user_input.text == 'say nothing' else REPLY     # C0g G12: an empty model reply
+            for i in range(0, len(reply), 12):          # small chunks, like a model stream
+                yield {'content': reply[i:i + 12]}
 
         async for _ in chat_log.async_add_delta_content_stream(self.entity_id, gen()):
             pass
         resp = intent.IntentResponse(language=user_input.language)
-        resp.async_set_speech(chat_log.content[-1].content)
+        last = chat_log.content[-1]      # an empty stream adds no assistant entry: speak '' then, never the person's words
+        resp.async_set_speech((last.content or '') if getattr(last, 'role', '') == 'assistant' else '')
         return conversation.ConversationResult(response=resp, conversation_id=chat_log.conversation_id)

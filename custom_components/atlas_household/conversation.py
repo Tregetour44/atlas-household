@@ -96,9 +96,11 @@ class AtlasGuardedAgent(conversation.ConversationEntity):
             result.response.async_set_speech(new)
             result.continue_conversation = new.rstrip().endswith('?')       # the dropped text may have been the question
         said = [i for i in range(n0, len(chat_log.content)) if isinstance(chat_log.content[i], AssistantContent) and chat_log.content[i].content]
+        if not said and new:             # the model said nothing; the history holds the fallback that was spoken (C0g G12)
+            chat_log.content.append(AssistantContent(agent_id=self.entity_id, content=new))
         for i in said:                     # the history holds what was said: the final text as spoken, earlier text guarded the same way
             c = chat_log.content[i]
-            text = new if i == said[-1] else guard_reply(c.content, statuses)[0]
+            text = new if i == said[-1] else guard_reply(c.content, statuses, out.get('tool_results'), out.get('expect'))[0]
             if text != c.content:
                 chat_log.content[i] = dataclasses.replace(c, content=text, native=None, thinking_content=None)   # native data indexes the original
         return result

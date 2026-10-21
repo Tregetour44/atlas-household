@@ -93,6 +93,10 @@ class FakeBackend:
                             ma['color_mode'] = 'hs'
                         if w['state'] != was:
                             self.touch(m)
+                        for leaf in ma.get('entity_id') or []:         # a room light group switches its lights, as HA's group does
+                            if leaf in self.states and self.states[leaf]['state'] != w['state']:
+                                self.states[leaf]['state'] = w['state']
+                                self.touch(leaf)
                 st['state'] = datetime.now(SYDNEY).isoformat()
             if st['state'] != old:
                 self.touch(e)
@@ -210,7 +214,7 @@ class FakeHouse:
 
     @property
     def tools(self) -> list[dict]:
-        return tool_specs(self.coord.handles, self.coord.timer_blinds)
+        return tool_specs(self.coord.handles, self.coord.timer_blinds, self.coord.blind_confirm, self.coord.timer_scenes)
 
     def system_prompt(self, atlas_prompt: str) -> str:
         return system_prompt(atlas_prompt, self.coord.handles)

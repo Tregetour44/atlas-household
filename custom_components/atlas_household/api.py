@@ -77,21 +77,10 @@ class AtlasTool(llm.Tool):
             return {'status': 'denied', 'reason': 'no_conversation', 'summary': "I can only make changes from a conversation, where I can check what was asked."}
         if chat is not None:
             conversation_id = chat.conversation_id
-            content = list(chat.content)
-            from .turn import NUDGE  # noqa: PLC0415
-            for i in range(len(content) - 1, -1, -1):
-                if isinstance(content[i], UserContent) and content[i].content == NUDGE:
-                    continue                 # the claim guard's one nudge is not the person's words: use the turn it belongs to [B16-01]
-                if isinstance(content[i], UserContent):
-                    c = content[i]
-                    user_text, turn = c.content, f'{i}:{c.created.isoformat()}'   # this user turn's identity
-                    for j in range(i - 1, -1, -1):                                  # Atlas's reply just before it (for the yes check)
-                        if isinstance(content[j], AssistantContent) and content[j].content:
-                            last_reply = content[j].content
-                            break
-                        if isinstance(content[j], UserContent):
-                            break
-                    break
+            from .turn import person_turn  # noqa: PLC0415
+            items = [('user' if isinstance(c, UserContent) else 'assistant' if isinstance(c, AssistantContent) else 'other',
+                      c.content, c.created.isoformat() if getattr(c, 'created', None) else '') for c in chat.content]
+            user_text, turn, last_reply = person_turn(items, user_text, turn, last_reply)      # pure, tested offline [R17-05]
         return await self.runtime.call(tool_input.tool_name, dict(tool_input.tool_args), conversation_id, user_text, turn, last_reply,
                                        llm_context, tool_input.id)
 
@@ -103,5 +92,5 @@ class AtlasAPI(llm.API):
 
     async def async_get_api_instance(self, llm_context: llm.LLMContext) -> llm.APIInstance:
         handles = self.runtime.coord.handles
-        tools = [AtlasTool(self.runtime, n, d, p, r) for n, d, p, r in specs(handles, self.runtime.coord.timer_blinds)]
+        tools = [AtlasTool(self.runtime, n, d, p, r) for n, d, p, r in specs(handles, self.runtime.coord.timer_blinds, self.runtime.coord.blind_confirm, self.runtime.coord.timer_scenes)]
         return llm.APIInstance(api=self, api_prompt=api_prompt(handles), llm_context=llm_context, tools=tools)

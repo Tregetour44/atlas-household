@@ -18,10 +18,10 @@ def _enum(handles: dict, kinds: tuple[str, ...]) -> list[str]:
     return sorted(h for h, t in handles.items() if t['kind'] in kinds and t.get('enabled', True) and (t['kind'] != 'scene' or t.get('expect')))
 
 
-def specs(handles: dict, timer_blinds: bool = False) -> list[dict]:
+def specs(handles: dict, timer_blinds: bool = False, blind_confirm: bool = True, timer_scenes: bool = True) -> list[dict]:
     """(name, description, properties, required) per tool. One source for the JSON schemas and the voluptuous ones."""
     lights, scenes, blinds = _enum(handles, ('light',)), _enum(handles, ('scene',)), _enum(handles, ('blind',))
-    timed = _enum(handles, ('light', 'scene', 'blind') if timer_blinds else ('light', 'scene'))   # reviewed scenes only (see _enum); blinds only if the map enables them
+    timed = _enum(handles, ('light',) + (('scene',) if timer_scenes else ()) + (('blind',) if timer_blinds else ()))   # reviewed scenes only (see _enum); blinds only if the map enables them
     media = _enum(handles, ('media',))
     out = [
         ('atlas_lights', 'Turn lights on or off, set their brightness, or dim / brighten them one 20% step. Use one handle: a single light, a room ("<room>_lights"), a floor or outside.',
@@ -31,13 +31,14 @@ def specs(handles: dict, timer_blinds: bool = False) -> list[dict]:
          ['target_handle', 'operation']),
         ('atlas_scene', 'Run a household lighting scene.',
          {'recipe_handle': {'type': 'string', 'enum': scenes}}, ['recipe_handle']),
-        ('atlas_blind', 'Open, close or position a blind. Always returns a question to ask first; nothing moves until the person says yes.',
+        ('atlas_blind', 'Open, close or position a blind. Always returns a question to ask first; nothing moves until the person says yes.' if blind_confirm
+         else 'Open, close or position a blind (or a group of blinds). It moves straight away; if it is unclear which blind, ask which first.',
          {'target_handle': {'type': 'string', 'enum': blinds}, 'operation': {'type': 'string', 'enum': ['open', 'close', 'position']},
           'position_percent': {'type': 'integer', 'minimum': 0, 'maximum': 100, 'description': 'Percent open; only with position.'}},
          ['target_handle', 'operation']),
         ('atlas_confirm', "Use right after the person answers yes to the coordinator's question. Pass the confirmation code you were given.",
          {'confirmation': {'type': 'string'}}, ['confirmation']),
-        ('atlas_schedule', f"Do something later (up to 24 hours ahead): switch lights on or off{', run a scene' if scenes else ''}{', or open or close a blind (asks for a yes now)' if timer_blinds else ''}. Give in_minutes OR at_time.",
+        ('atlas_schedule', f"Do something later (up to 24 hours ahead): switch lights on or off{', run a scene' if scenes and timer_scenes else ''}{', or open or close a blind (asks for a yes now)' if timer_blinds else ''}. Give in_minutes OR at_time.",
          {'target_handle': {'type': 'string', 'enum': timed}, 'operation': {'type': 'string', 'enum': ['on', 'off', 'open', 'close'] if timer_blinds else ['on', 'off'], 'description': 'A scene uses on.'},
           'in_minutes': {'type': 'integer', 'minimum': 1, 'maximum': 1440}, 'at_time': {'type': 'string', 'description': '24-hour HH:MM, Sydney time; the next one within 24 hours.'}},
          ['target_handle', 'operation']),
@@ -58,17 +59,17 @@ def specs(handles: dict, timer_blinds: bool = False) -> list[dict]:
     return out
 
 
-def tool_specs(handles: dict, timer_blinds: bool = False) -> list[dict]:
+def tool_specs(handles: dict, timer_blinds: bool = False, blind_confirm: bool = True, timer_scenes: bool = True) -> list[dict]:
     return [{'type': 'function', 'function': {'name': n, 'description': d,
-             'parameters': {'type': 'object', 'properties': p, 'required': r}}} for n, d, p, r in specs(handles, timer_blinds)]   # HA always emits required, even []
+             'parameters': {'type': 'object', 'properties': p, 'required': r}}} for n, d, p, r in specs(handles, timer_blinds, blind_confirm, timer_scenes)]   # HA always emits required, even []
 
 
 _HHMM = re.compile(r'^([01]\d|2[0-3]):[0-5]\d$')
 
 
-def validate_args(name: str, args: dict, handles: dict, timer_blinds: bool = False) -> str | None:
+def validate_args(name: str, args: dict, handles: dict, timer_blinds: bool = False, timer_scenes: bool = True) -> str | None:
     """None when args fit the schema exactly; otherwise the first problem. Unknown fields are rejected (no entity ids, services or flags)."""
-    spec = next((s for s in specs(handles, timer_blinds) if s[0] == name), None)
+    spec = next((s for s in specs(handles, timer_blinds, True, timer_scenes) if s[0] == name), None)
     if spec is None:
         return f'unknown tool {name}'
     if not isinstance(args, dict):

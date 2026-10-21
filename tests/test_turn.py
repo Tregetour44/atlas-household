@@ -43,8 +43,8 @@ class Turn(unittest.TestCase):
 
     def test_claim_without_a_tool_is_nudged_once(self):
         h = FakeHouse(start=PM)
-        out, asked = self.run_turn(h, 'switch the office lights off', ["I've turned off the office lights.", "Sorry, I can't do that right now."])
-        self.assertEqual((out['path'], asked), ('nudged', ['switch the office lights off', NUDGE]))
+        out, asked = self.run_turn(h, 'get the office lights off for me', ["I've turned off the office lights.", "Sorry, I can't do that right now."])
+        self.assertEqual((out['path'], asked), ('nudged', ['get the office lights off for me', NUDGE]))
         self.assertEqual((out['reply'], out['claims']), ("Sorry, I can't do that right now.", []))
 
     def test_nudge_then_tool_call_is_backed(self):
@@ -54,13 +54,13 @@ class Turn(unittest.TestCase):
         async def call_then_claim():
             await h.coord.call_tool('atlas_lights', {'target_handle': 'office_lights', 'operation': 'off'}, conversation_id='conv-1', user_text=NUDGE)
             return "Done: the office lights are off."
-        out, asked = self.run_turn(h, 'switch the office lights off', ["I've turned off the office lights.", call_then_claim])
+        out, asked = self.run_turn(h, 'get the office lights off for me', ["I've turned off the office lights.", call_then_claim])
         self.assertEqual((out['path'], out['claims'], out['reply']), ('nudged', [], "Done: the office lights are off."))
         self.assertEqual([(n, r['status']) for n, _a, r in out['tool_results']], [('atlas_lights', 'done')])
 
     def test_second_false_claim_is_still_guarded_and_never_a_third_ask(self):
         h = FakeHouse(start=PM)
-        out, asked = self.run_turn(h, 'switch the office lights off', ["I've turned off the office lights.", "Done!"])
+        out, asked = self.run_turn(h, 'get the office lights off for me', ["I've turned off the office lights.", "Done!"])
         self.assertEqual(len(asked), 2)
         self.assertTrue(out['reply'].startswith("I haven't changed anything"), out['reply'])
 
@@ -71,12 +71,12 @@ class Turn(unittest.TestCase):
         async def call_then_claim():
             await h.coord.call_tool('atlas_lights', {'target_handle': 'office_lights', 'operation': 'off'}, conversation_id='conv-1', user_text='x')
             return "I've turned off the office lights."
-        out, asked = self.run_turn(h, 'switch the office lights off', [call_then_claim])
+        out, asked = self.run_turn(h, 'get the office lights off for me', [call_then_claim])
         self.assertEqual((out['path'], len(asked), out['claims']), ('model', 1, []))
 
     def test_another_tool_ran_means_no_nudge_and_no_false_nothing_changed(self):
         h = FakeHouse(start=PM)
-        out, asked = self.run_turn(h, 'switch the office lights off', ["Turned off the light"], other_tools=lambda: True)
+        out, asked = self.run_turn(h, 'get the office lights off for me', ["Turned off the light"], other_tools=lambda: True)
         self.assertEqual((out['path'], len(asked)), ('model', 1))
         self.assertTrue(out['reply'].startswith("I can't confirm all of that"), out['reply'])
 
@@ -128,3 +128,46 @@ class Turn(unittest.TestCase):
 
 if __name__ == '__main__':
     unittest.main()
+
+
+class EmptyReply(unittest.TestCase):
+    """C0g G12 (the Atlas-side project, 18 Oct): the model made a real change, then returned an empty reply. Never silence after a change."""
+    run_turn = Turn.run_turn
+
+    def test_g12_change_then_empty_reply_speaks_the_coordinators_summary(self):
+        h = FakeHouse(start=PM)
+        h.set('light.office_ceiling', 'on')
+        seen = {}
+
+        async def three_calls_then_nothing():
+            c = h.coord.call_tool
+            for args in ({'target_handle': 'office_lights', 'operation': 'brighten', 'brightness_percent': 80},
+                         {'target_handle': 'office_lights', 'operation': 'brightness'},
+                         {'target_handle': 'office_lights', 'operation': 'brightness', 'brightness_percent': 80}):
+                seen.setdefault('res', []).append(await c('atlas_lights', args, conversation_id='conv-1', user_text='office lights a bit brighter'))
+            return ''
+        out, asked = self.run_turn(h, 'office lights a bit brighter', [three_calls_then_nothing])
+        done = [r for r in seen['res'] if r['status'] == 'done']
+        self.assertEqual([r['status'] == 'done' for r in seen['res']], [False, False, True], seen['res'])
+        self.assertEqual(out['reply'], done[0]['summary'].strip())
+        self.assertEqual((out['path'], asked), ('model', ['office lights a bit brighter']))
+
+    def test_empty_reply_with_nothing_run(self):
+        out, _ = self.run_turn(FakeHouse(start=PM), 'hmm', ['  '])
+        self.assertEqual(out['reply'], "Sorry, I didn't catch that.")
+
+    def test_empty_reply_after_only_a_refusal_says_why(self):
+        h = FakeHouse(start=PM)
+
+        async def refused_then_nothing():
+            r = await h.coord.call_tool('atlas_lights', {'target_handle': 'office_lights', 'operation': 'dim', 'brightness_percent': 5},
+                                        conversation_id='conv-1', user_text='dim the office')
+            self.assertTrue(r.get('summary'), r)
+            return ''
+        out, _ = self.run_turn(h, 'dim the office', [refused_then_nothing])
+        self.assertTrue(out['reply'] and out['reply'] != "Sorry, I didn't catch that.", out['reply'])
+        self.assertEqual(h.calls, [])
+
+    def test_a_non_empty_reply_is_untouched(self):
+        out, _ = self.run_turn(FakeHouse(start=PM), 'hello', ['Hello.'])
+        self.assertEqual(out['reply'], 'Hello.')

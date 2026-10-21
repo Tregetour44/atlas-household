@@ -59,11 +59,12 @@ FORBIDDEN = re.compile(r'(battery|inverter|export|sungrow|tariff|solar|grid|ener
 ALLOWED_COVER_CLASSES = {'shade', 'blind', 'curtain', 'awning', 'shutter'}
 # ...and a cover NAMED like a door is refused whatever class it was reviewed with: roller garage doors often report "shutter"
 # [cloud review 1, M4]. "..._door_blind" and "..._roller_blind" stay allowed.
-COVER_FORBIDDEN = re.compile(r'(?<![a-z])(garages?|carports?|driveways?|sheds?|gates?|doors?(?!_?blinds?))', re.I)   # not bare "roller": a roller blind is a blind (the Somfy li_ion_roller); a roller door has "door"
+COVER_FORBIDDEN = re.compile(r'(?<![a-z])(garages?|carports?|driveways?|sheds?|gates?)|door(?!s?_?blinds?)', re.I)   # [R17-04] doors anywhere in a name   # not bare "roller": a roller blind is a blind (the Somfy li_ion_roller); a roller door has "door"
 # Never-list subjects in the person's own words: the whole turn is refused, so nothing is done partly.
-NEVER_WORDS = re.compile(r"\b(un ?lock\w*|lock(s|ed|ing)?|alarm\w*|(garage|front|back|side|roller)[- ]?doors?|door ?locks?|(door )?openers?|"
+_NEVER_CORE = re.compile(r"\b(un ?lock\w*|lock(s|ed|ing)?|alarm\w*|(garage|carport|front|back|side|roller)[- ]?doors?|door ?locks?|(door )?openers?|"
                          r"(open|close|shut|lift|raise|lower|unlatch|release)\s+(the\s+|my\s+|our\s+|a\s+)?([\w-]+\s+){0,2}?(garages?|doors?)\b"
                          r"(?![\s-]*(lights?|lamps?|blinds?|downlights?|spotlights?))|"
+                         # (the bare garage/carport/shed rule is the function NEVER_WORDS below, not a regex) [P2d-01]
                          r"gates?|batter(y|ies)|inverter\w*|export\w*|tariff\w*|reserve|discharg\w*|sungrow|power ?wall|energy|solar|grid|self[- ]?use|"
                          r"feed[- ]?in|backup power|pv|photovoltaic|the panels|disarm\w*|arm\w*\s+(the\s+|my\s+|our\s+)?(house|home|system|security|alarm)|"
                          r"secure (the|my|our) (house|home|place)|away mode|security(?!\s+lights?)|garage\s+(up|down|open|closed)|pop the garage|"
@@ -72,8 +73,71 @@ NEVER_WORDS = re.compile(r"\b(un ?lock\w*|lock(s|ed|ing)?|alarm\w*|(garage|front
                          # cloud review 1, M2: lock hardware, securing, the grid and tariff in other words, energy brands, door strikes
                          r"deadbolt\w*|latch\w*|padlock\w*|keypad\w*|sirens?|intruder\w*|(house|home|place)\s+(is\s+)?secure|garages|"
                          r"electricity|off[- ]?peak|peak\s+(rate|hours?|time|tariff|pricing)|cheap\s+rate|kwh|kilowatt\w*|mains|"
-                         r"power\s+(bill|usage|use|plan|rate|price|company|draw)|tesla|fronius|enphase|solaredge|goodwe|zappi|buzz\s+(\w+\s+){0,2}in)\b",
-                         re.I)   # whole-turn refusal [Codex 43 H2, R12-05, R13-07, cloud review 1]
+                         r"power\s+(bill|usage|use|plan|rate|price|company|draw)|tesla|fronius|enphase|solaredge|goodwe|zappi|buzz\s+(\w+\s+){0,2}in|"
+                         # cloud review 2: lock, alarm, opener, charging, storage, export and tariff intents in other words, and more brands
+                         r"(un|re)?bolt(s|ed|ing)?|re-?lock\w*|secur\w*\s+(the\s+|my\s+|our\s+|all\s+(the\s+)?)?(doors?|house|home|place|premises|garages?|gates?)|"
+                         r"arm(ed|ing)?\s+(stay|night|away|perimeter|zones?|mode|the\s+perimeter)|(to|is|as)\s+armed|dis-arm\w*|"
+                         r"roll(s|ed|ing)?\s+(up|down|open)\s+(the\s+|my\s+|our\s+)?(garages?|doors?|carports?|sheds?|gates?)(?![\s-]*(lights?|lamps?|blinds?))|"
+                         r"(open|close|shut|lift|raise|lower|pop)\s+(up\s+)?(the\s+|my\s+|our\s+)?(carports?|sheds?|driveway)(?![\s-]*(lights?|lamps?|blinds?|downlights?|spotlights?))|"
+                         r"door\s+(strike|release|buzzer)|tilt[- ]?doors?|let\s+(me|us|them|him|her)\s+in|"
+                         r"(stop|start|pause|resume|schedule)\s+(the\s+)?charging|chargers?|home\s+storage|storage\s+(to|mode|system|battery)|power-wall|"
+                         r"sell\w*\s+(the\s+)?(power|electricity|energy)(\s+back)?|time[- ]of[- ]use|shoulder\s+(rate|period|tariff)|smart\s+meter|"
+                         r"photovoltaics|(roof(top)?|my|our)\s+(solar\s+)?panels|\d+\s*kw|sonnen|victron|redback|selectronic|growatt|amber\s+electric|yale|nuki)\b",
+                         re.I | re.S)   # whole-turn refusal [Codex 43 H2, R12-05, R13-07, cloud review 1, cloud review 2]
+# map handle names and labels: the core never-list (a light or scene may be named after the room, e.g. a garage scene) [P2c-01]
+NEVER_NAMES = _NEVER_CORE
+# the person's words: the core list, plus a WHITELIST for places that have doors: once the light phrases ("garage lights", "lights in my
+# garage") are taken out, ANY garage, carport or shed left, or a bare "door" that isn't a door blind, refuses the whole turn [P2d-01]
+_LIGHT_PHRASE = re.compile(r"\b(?:garages?|carports?|sheds?)(?: |-)(?:lights?|lamps?|ceiling|downlights?|spotlights?|lighting)\b|"           # ONE plain space or
+                           r"\b(?:lights?|lamps?|downlights?|spotlights?)(?: (?:on|off))? (?:in|of) (?:the |my |our )?(?:garages?|carports?|sheds?)\b",   # hyphen [P2e-01]
+                           re.I)
+_BARE_PLACE = re.compile(r"\b(?:garage|carport|shed)\w*|\bdoor\w*(?!(?: |-)blinds?\b)", re.I)          # garage2, doorway too [P2e-04]
+# AFTER a place light phrase, a WHITELIST: a word pointing back refuses, and so does ANY moving word unless a blind follows it
+# (or it follows "blind(s)"): "close it", "open up", "close now", ", up," all refuse; "close the blinds", "the blinds closed" act [P2e-02, P2f-01, P2f-R01/R02]
+_MOVE_WORD = r"(?:open\w*|clos\w*|shut\w*|lower\w*|rais\w*|lift\w*|roll\w*|secur\w*|lock\w*|pull\w*|drop\w*|put|bring|get|up|down)"
+_BLIND_OBJECT = r"(?:\s+(?!(?:and|then|or|it|that|this|them|garages?|carports?|sheds?|except|but|other|than|everything|else|apart|besides|excluding|not|no|without|leave|leaving|keep|only|just|save|minus|instead|rather|bar)\b)[a-z']+){0,4}\s+blinds?\b"   # up to 4 plain words, never a joiner [P2g-01]
+_AFTER_PLACE_LIGHT = re.compile(r"\b(?:it|its|that|this|her|one)\b|(?<!of )\bthem\b|"
+                                r"(?<!blinds )(?<!blind )\b" + _MOVE_WORD + r"\b(?!" + _BLIND_OBJECT + r")", re.I)
+_BEFORE_PLACE_LIGHT = re.compile(r"\bit\b(?!['\u2019]s\b)|\bits\b|(?<!cancel )(?<!stop )(?<!undo )\b(?:this|that)\b(?!\s*$)|\b(?:her|one)\b|(?<!of )\bthem\b|"   # BEFORE it: a word
+                                 r"(?<!blinds )(?<!blind )\b" + _MOVE_WORD + r"\b(?!" + _BLIND_OBJECT + r")"                       # pointing at something,
+                                 r"(?!(?:\s+(?:the|my|our|all|both|of|those|these|that|this|on|off))*\s*$)", re.I)                # or a moving word not
+                                                                                      # aimed at the light phrase ("put on the garage lights") [P2g-01]
+_ZERO_WIDTH = re.compile('[\u200b-\u200f\u2060\ufeff\u00ad]')
+
+
+_LOOKALIKE = str.maketrans({'а': 'a', 'е': 'e', 'о': 'o', 'р': 'p', 'с': 'c', 'х': 'x', 'у': 'y', 'і': 'i', 'ѕ': 's', 'ԁ': 'd', 'ɡ': 'g', 'һ': 'h'})
+
+
+def _fold(t):
+    """Common Cyrillic/Latin lookalikes folded to ASCII, a cheap partial check [P2e-03]."""
+    return t.translate(_LOOKALIKE)
+
+
+class _NeverWords:
+    """NEVER_WORDS.search(text): a match when the person's words touch the never-list (the whole turn is refused)."""
+    pattern = _NEVER_CORE.pattern
+
+    def search(self, text):
+        import unicodedata  # noqa: PLC0415
+        t = unicodedata.normalize('NFKC', text or '').replace('_', ' ')         # "garage_door" is two words; fullwidth folded [P2e-03]
+        t = _ZERO_WIDTH.sub('', t)
+        t = re.sub(r'[^\S ]+', ' | ', t)                                      # newline, tab, no-break space: a hard break, never a joiner [P2e-01]
+        if _NEVER_CORE.search(t):
+            return _NEVER_CORE.search(t)
+        marked = _LIGHT_PHRASE.sub(' \x00 ', t)
+        rest = marked.replace('\x00', ' ')
+        if '\x00' in marked:                                                 # a place light phrase was taken out: "open it"/"up" AFTER it
+            after = marked[marked.index('\x00') + 1:].replace('\x00', ' ')
+            after = re.sub(r'^\s*(?:up|down)\b', ' ', after, flags=re.I)        # "garage lights up/down" is about the lights
+            if _AFTER_PLACE_LIGHT.search(after):
+                return _AFTER_PLACE_LIGHT.search(after)
+            before = marked[:marked.index('\x00')]
+            if _BEFORE_PLACE_LIGHT.search(before):
+                return _BEFORE_PLACE_LIGHT.search(before)
+        return _BARE_PLACE.search(rest) or (re.search(r'[^\x00-\x7f]', t) and _BARE_PLACE.search(_fold(t)))
+
+
+NEVER_WORDS = _NeverWords()
 AFFIRMATIVE = re.compile(r"^\s*(yes|yep|yeah|yup|ok|okay|sure|please do|do it|go ahead|confirm(ed)?|yes please|correct)\b[\s.!,]*(please)?[\s.!]*$", re.I)
 STATUSES = ('done', 'skipped_already', 'needs_confirmation', 'denied', 'scheduled', 'cancelled', 'undone', 'not_verified', 'failed',
             'needs_choice', 'scheduled_list')
@@ -112,6 +176,7 @@ _NEG_BEFORE = re.compile(r"\b(can't|cannot|can not|couldn't|could not|didn't|did
 _NONE_AFTER = re.compile(r"^\s+(nothing|none|no\b)", re.I)                                    # "I set nothing."
 _ADV = r"(?:(?:also|now|just|then|already|successfully|quickly|not only|gone ahead and|went ahead and|go ahead and|\w+ly)\s+){0,3}"
 _DID = (r"(turned|switched|set(?!\s+(?:up\s+)?(?:a|an|the|your)\s+(?:timer|reminder))|opened|closed|dimmed|brightened|raised|lowered|activated|enabled|"
+        r"run(?!\s+(?:out|into|late|through|a\s+check))|"                       # "I've run the Daily scene" [cloud review 2]
         r"disabled|started|stopped(?!\s+(?:making|doing|sending|changing|trying))|cranked|put|changed|adjusted|ran|killed|shut|paused|muted|unmuted|played|resumed|skipped|applied|triggered|recalled|restored|moved|"
         r"flicked|flipped|popped|powered)")
 _PP = r"(turned|switched|set|opened|closed|dimmed|brightened|raised|lowered|activated|enabled|changed|adjusted|paused|muted|started|stopped)"
@@ -119,10 +184,13 @@ _DO = r"(turn|switch|open|close|dim|brighten|set|run|put|start|stop|activate|low
 _ING = r"(turning|switching|opening|closing|dimming|brightening|setting|activating|starting|stopping|running|putting|lowering|raising|pausing|muting)"
 _THING = r"(lights?|lamps?|blinds?|downlights?|spotlights?|scene)"
 _OK = r"(?:(?:ok(?:ay)?|sure(?: thing)?|right|alright|all right|great|no problem|got it|on it|cool|yes|yep)\W+)*"
+_OK_ONE = _OK[:-1] + "{1}"                                                                        # at least one acknowledgement word
 _NOT_SUBJECT = r"(?!(?:I|we|you|it|they|he|she|there)\b)"                                    # "I sent the lights on" is not verbless
 _WHEN = (r"\b(?:at\s+\d|at\s+(?:noon|midnight)|in\s+(?:\d+|an?|one|two|three|four|five|six|seven|eight|nine|ten|fifteen|twenty|thirty|forty|"
          r"forty-five|fifty|sixty|half)\b|tomorrow|tonight|this (?:evening|afternoon|morning)|later\b|at that time)")   # [RT106; B16-05: not "automatically", which describes automations]
-_WILL = r"(?:I'll|I will|I'm going to|(?:it|they|[\w ]{0,30}?\b(?:lights?|lamps?|blinds?|scene)) will)\s+" + _ADV + r"(?:" + _DO[1:-1] + r"|go|be turned|be switched)\b"
+# "they'll" / "it'll", any light word ("downlights"), and "will be off" [cloud review 2]
+_WILL = (r"(?:I'll|I will|I'm going to|(?:it|they)(?:'ll|\s+will)|[\w ]{0,30}?(?:lights?|lamps?|blinds?|scenes?)(?:'ll|\s+will))\s+" + _ADV
+         + r"(?:" + _DO[1:-1] + r"|go|be turned|be switched|be\s+(?:on|off|open|closed))\b")
 _SCHED_FUTURE = re.compile(r"\b" + _WILL + r".{0,60}" + _WHEN, re.I)          # "I'll dim the loft at 9 pm", "Your lights will switch off in 10 minutes"
 _SCHED_FUTURE_FIRST = re.compile(_WHEN + r".{0,40}?\b" + _WILL, re.I)          # "In 10 minutes, the lights will turn off" [cloud review 1, m3]
 # exclusions read the words right after the claim, up to a "so/because/as" (R14-04: not "...now so the room isn't too bright")
@@ -136,9 +204,10 @@ _CLAIMS = [
     ('action', False, re.compile(r"\bI did\s+" + _DO + r"\b", re.I), None),
     ('action', False, re.compile(r"\bI'm\s+" + _ADV + _ING + r"\b", re.I), None),
     ('action', False, re.compile(r"^\W*" + _OK + _ING + r"\b", re.I), _FAILED_AFTER),       # "Turning off the lights now." (not "Turning it off failed")
-    ('action', False, re.compile(r"\b(is|are)\s+now\s+(on|off|open|closed|dimmed|brighter|dimmer|set|running|playing|paused|muted|active)\b", re.I), None),
-    ('action', False, re.compile(r"\b(is|are|should be)\s+(on|off|open|closed)\s+now\b(?!\s+in\b)", re.I), None),   # not "on now in the study"
-    ('action', False, re.compile(r"\b(has|have|had)\s+been\s+" + _PP + r"\b", re.I), None),
+    ('action', False, re.compile(r"\b(is|are|'s|'re)\s+now\s+(?:(?:switched|turned)\s+)?(on|off|open|closed|down|lowered|raised|dimmed|brighter|dimmer|set|"
+                                 r"running|playing|paused|muted|active)\b", re.I), None),           # "is now switched off", "is now down" [cloud review 2]
+    ('action', False, re.compile(r"\b(is|are|'s|'re|should be)\s+(on|off|open|closed|closing|opening)\s+now\b(?!\s+in\b)", re.I), None),   # not "on now in the study"
+    ('action', False, re.compile(r"\b(has|have|had)\s+(?:now\s+|just\s+|also\s+|successfully\s+|all\s+)?been\s+" + _PP + r"\b", re.I), None),   # "have now been" [cloud review 2]
     ('action', False, re.compile(r"\b(was|were)\s+(just|now|successfully)\s+" + _PP + r"\b", re.I), None),   # not "were turned off at 9" (history)
     ('action', False, re.compile(r"\b(has|have)\s+gone\s+(off|out)\b|\b(just\s+)?went\s+(off|out)\b", re.I), _PAST_TIME),     # not "went off at 9 pm"
     # an acknowledgement ("Done!", "All set") claims that whatever was asked happened: a timer set or cancelled backs it too [cloud review 1, M7]
@@ -147,10 +216,20 @@ _CLAIMS = [
     ('ack', False, re.compile(r"\bI(?:'ve| have)?\s+taken care of (it|that|this)\b", re.I), None),
     ('action', False, re.compile(r"\bI(?:'ve| have)?\s+" + _ADV + r"got\s+(?:the\s+|your\s+|all\s+the\s+)?(?:[\w']+\s+){0,3}?" + _THING
                                  + r"\s+(?:on|off|open|closed|up|down)\b", re.I), None),       # "I've got the lights off" [m3]
+    ('action', False, re.compile(r"\bI(?:'ve| have)?\s+" + _ADV + r"(?:lit|drawn|drew|toggled|cut|dropped|pulled|rolled|brought)\s+(?:up\s+|down\s+)?"
+                                 r"(?:the\s+|your\s+|all\s+the\s+)?(?:[\w']+\s+){0,3}?" + _THING + r"\b", re.I), None),   # "I've drawn the blinds" [cloud review 2]
     ('action', False, re.compile(r"\bshould\s+now\s+be\s+(on|off|open|closed)\b", re.I), None),  # "The lights should now be off" [m3]
+    ('action', False, re.compile(r"\b(is|are|'s|'re)\s+now\s+(?:on\s+)?(?:at|to)\s+(?:\d{1,3}\s*(?:%|percent)|full(?:\s+brightness)?|half(?:\s+brightness)?|max(?:imum)?)(?!\w)",
+                                 re.I), None),                                                  # "are now at 50%", "now at full" [R18-03, R18b-04]
+    # (no verbless "Lights on at 50%.": after a read it is an honest status reply [R18b-04])
     ('action', False, re.compile(r"^\W*(turned|switched)\s+(on|off)\b", re.I), None),          # "Turned on the light" (HA's own wording)
-    ('action', False, re.compile(r"^\W*" + _OK + _NOT_SUBJECT + r"(the\s+)?([\w']+\s+){0,3}" + _THING + r"\s+(now\s+)?(on|off|open|closed|up|down)(\s+now)?\W*$",
-                                 re.I), None),                                                  # "Lights off." (no verb)
+    ('action', False, re.compile(r"^\W*" + _OK + _NOT_SUBJECT + r"(the\s+)?([\w']+\s+){0,3}" + _THING + r"\s+(now\s+)?(on|off|open|closed|up|down|active|running)(\s+now)?\W*$",
+                                 re.I), None),                                                  # "Lights off." (no verb); "Daily scene running."
+    # a timer acknowledged without a verb ("Got it, office lights off at 9 pm."), or stated as the queue's state ("The lights are set to turn off
+    # at 9 pm.") [cloud review 2]. A bare "Office lights off at 9 pm." is left alone: it reads the same as an item in a choice list.
+    ('scheduled:future', False, re.compile(r"^\W*" + _OK_ONE + _OK + _NOT_SUBJECT + r"(the\s+)?([\w']+\s+){0,3}" + _THING + r"\s+(on|off|open|closed|up|down)\s+"
+                                           + _WHEN, re.I), None),
+    ('scheduled:future', False, re.compile(r"\b(?:is|are|'s|'re)\s+(?:now\s+|all\s+)?(?:set|scheduled|due)\s+to\s+(?:turn|switch|go|come|be|open|close)\b.{0,40}?" + _WHEN, re.I), None),
     ('action', False, re.compile(r"^\W*" + _OK + _NOT_SUBJECT + r"(the\s+)?([\w']+\s+){0,3}" + _THING + r"\s+(dimmed|brightened|lowered|raised|opened|closed|"
                                  r"activated|set|turned (on|off)|switched (on|off))\b", re.I), _PAST_TIME),   # "Lights dimmed to 40%." (not a history answer)
     ('action', True, re.compile(r"\b(?:I'll|I will|I'm going to|let me)\s+" + _ADV + _DO + r"\b", re.I), None),     # "I'll turn off the lights now."
@@ -167,7 +246,8 @@ _CLAIMS = [
     ('already', False, re.compile(r"\b(is|are|was|were)\s+(all\s+)?already\s+(on|off|open|closed|shut|set|at|dimmed|running|playing|paused)\b|"
                                   r"\balready\s+(on|off|open|closed|at full|at the lowest)\b|\bnothing (needed|to) (to )?(change|do)\b", re.I), None),
     ('cancelled', False, re.compile(r"\b(I(?:'ve| have)?\s+" + _ADV + r"(cancell?ed|removed|deleted|cleared|stopped) (the|that|your|those) timers?|"
-                                    r"I(?:'ve| have)?\s+" + _ADV + r"cancell?ed\b|timer(?:'s| is| has)? (been )?cancell?ed|cancell?ed (the|that|your) timer)", re.I), None),
+                                    r"I(?:'ve| have)?\s+" + _ADV + r"cancell?ed\b|timer(?:'s| is| has)? (been )?cancell?ed|cancell?ed (the|that|your|those) (?:[\w:'-]+\s+){0,3}?timers?|"
+                                    r"that(?:'s| is| has)\s+(?:been\s+)?cancell?ed|I'm\s+(?:now\s+)?cancell?ing\b)", re.I), None),   # "That's cancelled." [cloud review 2]
 ]
 # What backs a claim: a same-turn atlas_ result of that kind. A timer list (scheduled_list) backs future-tense timer statements [R13-03], never
 # "I've set a timer" / "Timer set" [cloud review 1, M6].
@@ -180,10 +260,13 @@ _BACKED_BY = {'action': {'done', 'undone'}, 'ack': {'done', 'undone', 'scheduled
 # A bare status (no tool) backs as before.
 _THINGS = {'blind': re.compile(r"\b(blinds?|curtains?|shades?|shutters?)\b", re.I), 'scene': re.compile(r"\bscenes?\b", re.I),
            'light': re.compile(r"\b(lights?|lamps?|downlights?|spotlights?)\b", re.I)}
-_THING_TOOLS = {'blind': {'atlas_confirm', 'atlas_undo'}, 'scene': {'atlas_scene', 'atlas_undo'}, 'light': {'atlas_lights', 'atlas_scene', 'atlas_undo'}}
+_THING_TOOLS = {'blind': {'atlas_blind', 'atlas_confirm', 'atlas_undo'}, 'scene': {'atlas_scene', 'atlas_undo'}, 'light': {'atlas_lights', 'atlas_scene', 'atlas_undo'}}
+# a blind spoken of by pronoun ("I've closed it", "...and lowered them"): only a blind opens, closes, lowers or raises [cloud review 2]
+_BLIND_PRONOUN = re.compile(r"\b(?:opened|closed|lowered|raised|shut|drawn|drew|pulled\s+down|rolled\s+down|put\s+down)\s+(?:it|them|that|those|both)\b", re.I)
 _KIND_TOOLS = {'scheduled': {'atlas_schedule', 'atlas_confirm'}, 'scheduled:future': {'atlas_schedule', 'atlas_confirm', 'atlas_scheduled'},
                'cancelled': {'atlas_cancel'}}
-_TIMER_OBJECT = re.compile(r"^\s*(?:off\s+)?(?:[\w:']+\s+){0,4}?timers?\b", re.I)                # "I've turned off the (9 pm) timer"
+_TIMER_OBJECT = re.compile(r"^\s*(?:off\s+)?(?:[\w:'-]+\s+){0,4}?timers?\b", re.I)                # "I've turned off the (9 pm) timer"
+_TIMER_PHRASE = re.compile(r"\b(?:the|that|your|a|an)\s+(?:[\w:'-]+\s+){0,4}?timers?\b(?:'s|\s+(?:is|has\s+been|was))?(?:\s+(?:now\s+)?(?:been\s+)?(?:cancell?ed|set))?", re.I)
 _TIMER_STOP = re.compile(r"\b(stopped|turned off|switched off|killed|cleared|removed|deleted|cancell?ed)\b", re.I)
 _LATER = re.compile(r"\bto\s+(?:turn|switch|go|come|be)\b.*" + _WHEN, re.I)                      # "I've set the lights to turn off at 9 pm"
 _CAVEAT = re.compile(r"\b(couldn't|could not|can't|cannot|didn't|did not|unable to)\s+(confirm|verify|check|reach)|report(ed)? back|"
@@ -195,7 +278,7 @@ _SENT = {'done', 'undone', 'scheduled', 'cancelled', 'not_verified', 'failed', '
 _QUESTION = re.compile(r"^\W*(shall|should|would|do|does|did|can|could|may|might|want|will|is|are|what|which|when|where|how|who)\b[^?]*\?\W*$", re.I)
 _COND = re.compile(r"\b(if you|if that|would you|do you want|want me|shall I|should I|"
                    r"(?:once|when|after|as soon as) you(?:'ve| have)?\s+(?:say|said|confirm|answer|reply|give|tell|agree|approve|okay|ok)|say yes|just confirm|"
-                   r"confirm and|when confirmed)\b", re.I)                # not "when you go to bed" [cloud review 1, m3]
+                   r"confirm and|when confirmed|I can (?:set|schedule|add|make)\b(?:\s+[\w']+){0,5}?\s+so)\b", re.I)   # [R17-02] an offer                # not "when you go to bed" [cloud review 1, m3]
 _AFTER_THAT = re.compile(r"\b(?:now that|since|after|as|because)\b(.*)$", re.I)                 # "Shall I ..., now that I've turned off the lights?"
 _COND_BEFORE = re.compile(r"\b(if you|would you like me to|do you want me to|shall I|should I)\b(\s+[\w']+){0,3}\s*$", re.I)
 _CLAUSE = re.compile(r"\s*;\s*|\s+[-–—]\s+|,?\s+(?=(?:but|although|though|whereas|yet)\s+\w)|,\s+(?=and\b)|\s+(?=and I\s)|"
@@ -229,27 +312,82 @@ def _claims(clause: str) -> list[str]:
     return kinds
 
 
+_PAIR_BLINDS = re.compile(r"\bdoor and (?:the )?window blinds?\b", re.I)
+
+
 def _backing(kind: str, clause: str, ev: list[tuple[str | None, str]]) -> set[str]:
     """The statuses that may back a claim of this kind in this clause: every result whose tool fits what the clause is about."""
+    if NEVER_WORDS.search(_PAIR_BLINDS.sub('door blind and window blind', clause)):     # "the door and window blinds" is two blinds [C1a K24]
+        return set()                   # "Done, the garage lights are off and the garage is closed": no tool can back a garage claim [P2g-02]
     tools = _KIND_TOOLS.get(kind)
     things = [t for t, rx in _THINGS.items() if rx.search(clause)] if tools is None else []
+    if tools is None and 'blind' not in things and _BLIND_PRONOUN.search(clause):
+        things.append('blind')
+    # an acknowledgement in the same clause as a timer statement ("All set, the office lights will turn off in 10 minutes.") acknowledges
+    # the timer, so the timer's result backs it, but only when every thing named is inside the timer statement: "All set, the lights are off
+    # and the timer is set." still needs a lights result [R17-01, known]
+    timer = set()
+    if kind == 'ack':
+        rest = _TIMER_PHRASE.sub(' ', _SCHED_FUTURE_FIRST.sub(' ', _SCHED_FUTURE.sub(' ', clause)))
+        if rest != clause and not any(rx.search(rest) for rx in _THINGS.values()):
+            timer = _KIND_TOOLS['scheduled'] | _KIND_TOOLS['cancelled']
 
     def fits(tool):
         if tool is None:
             return True
         if tools is not None:
             return tool in tools
-        return all(tool in _THING_TOOLS[t] for t in things)
+        return tool in timer or all(tool in _THING_TOOLS[t] for t in things)
     if tools is None and len(things) > 1:          # "the lights are off and the blind is closed": every thing needs its own result
-        return set.intersection(*[{st for tool, st in ev if tool is None or tool in _THING_TOOLS[t]} for t in things])
+        return set.intersection(*[{st for tool, st in ev if tool is None or tool in timer or tool in _THING_TOOLS[t]} for t in things])
     return {st for tool, st in ev if fits(tool)}
 
 
-def guard_reply(reply: str, statuses: list) -> tuple[str, list[str]]:
+_QTY_IDIOM = re.compile(r"\ball (?:set|done|good|sorted|the way)\b|\bthat'?s all\b|\bat all\b|\ball right\b", re.I)
+_QTY_WORD = re.compile(r"\b(both|all|every|each)\b", re.I)
+_QTY_NUM = re.compile(r"\b(two|three|four|five|six|seven|eight|nine|ten|\d+)\b(?:\s+\w+){0,2}?\s+(?:lights?|lamps?|blinds?|curtains?|shades?|scenes?)\b", re.I)
+_NUM = {'two': 2, 'three': 3, 'four': 4, 'five': 5, 'six': 6, 'seven': 7, 'eight': 8, 'nine': 9, 'ten': 10}
+_OK_RESULT = {'done', 'undone', 'skipped_already', 'scheduled', 'cancelled'}
+
+
+_QTY_ALLNUM = re.compile(r"\b(?:all|both)\s+(two|three|four|five|six|seven|eight|nine|ten|\d+)\b", re.I)
+_QTY_OF = re.compile(r"\b\d+\s+of\s+\d+\b|\([^)]*\)", re.I)        # "3 of 4 in ..." and "(3 lights were off and left off)" are the coordinator's own counts
+
+
+def _has_quantity(clause: str) -> bool:
+    c = _QTY_OF.sub(' ', _QTY_IDIOM.sub(' ', clause))
+    return bool(_QTY_WORD.search(c) or _QTY_NUM.search(c) or _QTY_ALLNUM.search(c))
+
+
+def _quantity_short(clause: str, results: list, expect: dict | None = None) -> bool:
+    """A claim or statement of "both", "all"/"every"/"each" or a number ("turned off two lights", "all four") must be backed by that many
+    successful results of the tools that fit the THING the quantity is about, and by no unsuccessful one (a "which one?" or a refusal):
+    "Done, I've closed both." after one blind moved and the other came back needs_choice is a false done (the lead project, 20 Oct 21:5x).
+    A pair or group result counts its devices (changed + already + unavailable) [GQ-01..04]."""
+    c = _QTY_OF.sub(' ', _QTY_IDIOM.sub(' ', clause))
+    m = _QTY_ALLNUM.search(c) or _QTY_NUM.search(c)
+    word = _QTY_WORD.search(c)
+    if not m and not word:
+        return False
+    k = (int(m.group(1)) if m.group(1).isdigit() else _NUM[m.group(1).lower()]) if m else (2 if word.group(1).lower() == 'both' else None)
+    at = (m or word).start()
+    after = [(rx.search(c, at).start(), t) for t, rx in _THINGS.items() if rx.search(c, at)]
+    things = [min(after)[1]] if after else [t for t, rx in _THINGS.items() if rx.search(c)]     # the thing the quantity is about [GQ-03]
+    if k is None and 'blind' in things and (expect or {}).get('blind'):
+        k = expect['blind']                  # "all the blinds are closed" = every blind the person's words named [GQ-01]
+    fit = [r for n, _a, r in results if not things or any(n in _THING_TOOLS[t] for t in things)]
+    if any(r.get('status') not in _OK_RESULT for r in fit):
+        return True
+    got = sum(max(1, sum(int(r.get(x) or 0) for x in ('changed', 'already', 'unavailable'))) for r in fit)
+    return (k is not None and got < k) or not fit
+
+
+def guard_reply(reply: str, statuses: list, results: list | None = None, expect: dict | None = None) -> tuple[str, list[str]]:
     """Deterministic claim guard. If Atlas's final reply claims an action (done, scheduled, cancelled, undone, past or present action wording,
     or an action promised for now) that no same-turn tool result backs, the claiming clauses are dropped and the reply starts
     "I haven't changed anything." only when nothing at all was sent this turn, else "I can't confirm all of that.", followed by the honest
     clauses. Checked per clause; questions ("Shall I...?") and conditional offers ("I'll close them once you say yes") claim nothing.
+    With results ((tool, args, result) of this turn), a claim of both / all / a number must also be backed by that many [_quantity_short].
     Returns (reply, the unbacked claim kinds); an empty list means the reply passes through unchanged."""
     ev = [(None, x) if isinstance(x, str) else (x[0], x[1]) for x in statuses or []]     # bare statuses, or (tool, status) pairs [M8]
     have = {st for _, st in ev}
@@ -265,7 +403,7 @@ def guard_reply(reply: str, statuses: list) -> tuple[str, list[str]]:
         if _QUESTION.match(s):
             # a question claims nothing, unless it states a claim as its premise ("..., now that I've turned off the lights?") [M5]
             tail = _AFTER_THAT.search(s)
-            unbacked = [k for k in (_claims(tail.group(1)) if tail else []) if not (_BACKED_BY[k] & _backing(k, s, ev_s))]
+            unbacked = [k for k in (_claims(tail.group(1)) if tail else []) if not (_BACKED_BY[k] & _backing(k, tail.group(1), ev_s))]   # [R17-01]
             if unbacked:
                 bad += [k.split(':')[0] for k in unbacked]
             else:
@@ -276,6 +414,8 @@ def guard_reply(reply: str, statuses: list) -> tuple[str, list[str]]:
             # "already" is only checked after a turn that changed something: with no result it is a state statement from the readings [E12]
             unbacked = [k.split(':')[0] for k in _claims(c) if not (_BACKED_BY[k] & _backing(k, c, ev_s))
                         and not (k == 'already' and 'done' not in {st for _, st in ev_s})]
+            if not unbacked and results and (_claims(c) or _has_quantity(c)) and _quantity_short(c, results, expect):    # state wording too [GQ-01]
+                unbacked = ['quantity']                         # "closed both" with one moved [the lead project 20 Oct 21:5x]
             if unbacked:
                 bad += unbacked
                 dropped = True
@@ -456,6 +596,8 @@ class Coordinator:
         self.reviewed_covers = dict(targets.get('reviewed_covers') or {})
         self.restart_policy = targets.get('restart_policy', 'cancel_pending')
         self.timer_blinds = targets.get('timer_blinds') is True
+        self.timer_scenes = targets.get('timer_scenes') is not False      # false in a map that allows activating scenes but not timing them
+        self.blind_confirm = targets.get('blind_confirm') is not False      # phase 2 (directive 0026 am. 1, the owner "I prefer B"): false = move straight away
         self.replaced: dict[str, list[str]] = {}            # conversation -> questions replaced by a newer one (for an ambiguous yes)
         if self.restart_policy not in ('cancel_pending', 'keep_if_unchanged'):
             raise ValueError(f'unknown restart_policy {self.restart_policy!r}')
@@ -468,6 +610,7 @@ class Coordinator:
         self.mono_at: dict[str, float] = {}                  # task id -> monotonic time when set (this run only)
         self.recent: list[tuple[float, str, str, str]] = []  # (monotonic, conversation, tool, status) for the claim guard (memory only)
         self.recent_results: list[tuple[float, str, str, dict, dict]] = []   # (monotonic, conversation, tool, args, result): run_turn's record
+        self.turn_moved: dict[tuple[str, str], tuple[float, set]] = {}      # (conversation, turn) -> (monotonic, entities this turn moved) [C1a K13]
         self.ready = False                                   # false until rebaseline() after HA has started: no timer runs before then
 
     # ---------- map ----------
@@ -506,6 +649,11 @@ class Coordinator:
             for e in t['entity_ids'] + t.get('members', []):
                 if FORBIDDEN.search(e):
                     raise ValueError(f'{h}: {e} matches the never-list')
+            # the names the model and the person use count too: a handle or label (or alias) on the never-list never loads, whatever the
+            # entity id says (a relay exposed as a light can drive a gate; a reviewed "shutter" can be the garage) [cloud review 2]
+            for name in [h.replace('_', ' '), str(t.get('label', ''))] + [str(a) for a in t.get('aliases') or []]:
+                if NEVER_NAMES.search(name) or (t['kind'] == 'blind' and COVER_FORBIDDEN.search(re.sub(r'\W+', '_', name.lower()))):
+                    raise ValueError(f'{h}: the name {name!r} matches the never-list')
         return hs
 
     def _target(self, handle: Any, kinds: tuple[str, ...]) -> tuple[dict | None, dict | None]:
@@ -629,7 +777,7 @@ class Coordinator:
               'atlas_confirm': self._confirm, 'atlas_schedule': self._schedule, 'atlas_scheduled': self._scheduled,
               'atlas_cancel': self._cancel, 'atlas_undo': self._undo}.get(name)
         from .tools import validate_args       # local import keeps tools.py and core.py independent at load time
-        err = None if fn is None else validate_args(name, args, self.handles, self.timer_blinds)
+        err = None if fn is None else validate_args(name, args, self.handles, self.timer_blinds, self.timer_scenes)
         ctx = {'conversation_id': conversation_id or 'none', 'user_text': user_text or '', 'turn': turn, 'last_reply': last_reply, 'principal': principal}
         if fn is None:
             res = _deny('unknown_tool', "I can't do that.")
@@ -655,6 +803,7 @@ class Coordinator:
                 # an unexpected error, perhaps after a send: the guard must not say nothing changed this turn [R14-03]
                 self.recent = [x for x in self.recent if self.mono() - x[0] < 900] + [(self.mono(), conversation_id or 'none', name, 'tool_error')]
                 raise
+        res = await self._moved_this_turn(name, args, res, conversation_id, turn)
         self._log('tool', name, args=args, status=res['status'], reason=res.get('reason'), conversation=conversation_id, request=request_id)
         # the claim guard's evidence: a failed result that had sent something is 'failed_sent' (it may be described with a caveat) [R14-01]
         gst = 'failed_sent' if res['status'] == 'failed' and res.get('receipt') else res['status']
@@ -674,17 +823,66 @@ class Coordinator:
             self.requests[key] = (self.now(), res)
         return res
 
+    async def _moved_this_turn(self, name: str, args: dict, res: dict, conversation_id, turn) -> dict:
+        """C1a K13 (the lead project: a false "already"): within ONE turn, a device this turn already changed is reported as done, never as
+        "already", so a redundant second call can't make Atlas say "the door blind was already closed" seconds after closing it. Nothing is
+        sent again. Only devices this turn really changed count: the receipt's changed_ids (sent, read back as asked, not already so), with
+        room light groups expanded to their lights. Only with HA's turn identity: with none (the fast path, one call), nothing is converted."""
+        if name not in ('atlas_lights', 'atlas_blind', 'atlas_scene') or turn is None:
+            return res
+        now = self.mono()
+        self.turn_moved = {k: v for k, v in self.turn_moved.items() if now - v[0] < 300}
+        key = (conversation_id or 'none', str(turn))
+        rid = res.get('receipt')
+        if rid:
+            r = next((x for x in self.data['receipts'] if x.get('id') == rid), None)
+            changed = set((r or {}).get('changed_ids') or [])
+            for leaf, lb in ((r or {}).get('leaf_befores') or {}).items():   # a group's light counts only if THIS send changed its group and
+                if lb.get('group') not in changed:                              # the light really changed [K13-RR03, RR2-01, RR3-01]
+                    continue
+                now_st = await self.backend.get_state(leaf)
+                if lb.get('before') is not None and now_st is not None and not _same(lb['before'], _snap(now_st)):
+                    changed.add(leaf)
+            if changed:
+                self.turn_moved[key] = (now, self.turn_moved.get(key, (0, set()))[1] | changed)
+            return res
+        t = self.handles.get(res.get('handle') or args.get('target_handle') or args.get('recipe_handle') or '') or {}
+        ids = set(t.get('entity_ids') or []) | set(t.get('members') or [])
+        moved = ids & self.turn_moved.get(key, (0, set()))[1]
+        if res['status'] != 'skipped_already' or not ids or not moved:
+            return res
+        m = re.search(r"\balready ([^.,;:]+?)(?=[.,;:]|$)", res.get('summary') or '')
+        word = m.group(1).strip() if m else 'as asked'
+        label = t.get('label') or res.get('label') or 'That'
+        verb = 'is' if len(ids) == 1 else 'are'
+        if moved == ids:
+            summary = f"{label} {verb} {word}, done a moment ago in this same request, so nothing was sent again."
+        else:
+            rest = len(ids) - len(moved)
+            summary = (f"{label} {verb} {word}: {len(moved)} changed a moment ago in this same request and the other {rest} "
+                       f"{'was' if rest == 1 else 'were'} already {word}, so nothing was sent again.")
+        return _r('done', summary, handle=t.get('handle') or res.get('handle'), label=label, reason='done_earlier_this_turn')
+
     def _in_scope(self, handle: str, text: str) -> bool:
         """False when a floor-wide or whole-outside group is asked for in words that name neither its scope nor all the lights [M11]."""
         t = self.handles.get(handle) or {}
         if t.get('kind') != 'light' or len(set(t.get('entity_ids') or [])) < 2 or (t.get('area') and not t.get('floor')):
             return True
         said = f" {_words(text)} "
-        if ALL_LIGHTS.search(text):
+        if any(f" {w} " in said for w in self._scope_names(t)):
             return True
+        # "all the lights" covers this group only when the words name no other place: not "all the lights upstairs" for the ground floor,
+        # nor "all the lights in my office" for any floor [cloud review 2]
+        others = {w for h, o in self.handles.items() if h != handle and o.get('kind') == 'light' and len(set(o.get('entity_ids') or [])) > 1
+                  and not (o.get('area') and not o.get('floor')) for w in self._scope_names(o)}
+        others |= {_words(o['area']) for o in self.handles.values() if o.get('area')}
+        return bool(ALL_LIGHTS.search(text)) and not any(f" {w} " in said for w in others if w)
+
+    @staticmethod
+    def _scope_names(t: dict) -> set[str]:
+        """The words that name a floor-wide or whole-outside group's scope: its floor (or label) and their synonyms."""
         base = set(_words(t.get('floor') or t['label'].split('(')[0]).split()) - {'lights', 'light', 'floor', 'the', 'and'}
-        names = base | {x for w in base for x in SCOPE_SYNONYMS.get(w, ())}
-        return any(f" {w} " in said for w in names)
+        return base | {x for w in base for x in SCOPE_SYNONYMS.get(w, ())}
 
     # ---------- shared ----------
     @staticmethod
@@ -703,11 +901,12 @@ class Coordinator:
 
     async def _execute(self, t: dict, sends: list[tuple[str, str, list[str], dict]], checks: dict, befores: dict, ctx: dict, description: str,
                        already: list, missing: list, source: str = 'now', verify: bool = True, timeout: float | None = None, parent: str | None = None,
-                       already_note: str = 'already were') -> dict:
+                       already_note: str = 'already were', extra: dict | None = None) -> dict:
         """One durable receipt (phase 'sending', saved BEFORE any send), one transport attempt per service call, then read-back of every entity."""
         rid = 'r_' + uuid.uuid4().hex[:8]
         receipt = {'id': rid, 'at': self.now().isoformat(), 'handle': t['handle'], 'kind': t['kind'], 'label': t['label'], 'description': description,
                    'befores': befores, 'phase': 'sending', 'conversation': ctx['conversation_id'], 'source': source, 'undone': False, 'parent': parent}
+        receipt.update(extra or {})                # e.g. a scene's group lights before it ran (not used by undo) [C1a K13-RR2-01]
         self.data['receipts'].append(receipt)
         try:
             await self._save()
@@ -743,6 +942,8 @@ class Coordinator:
                     task.setdefault('snaps', {})[e] = s
         ok = [e for e, v in results.items() if v]
         bad = [e for e, v in results.items() if not v]
+        was = {x for x in already if isinstance(x, str)} | {x[0] for x in already if isinstance(x, (tuple, list)) and x and isinstance(x[0], str)}
+        receipt['changed_ids'] = [e for e in ok if e in befores and e not in was]   # sent, read back, not already so [C1a K13-RR01]
         base = {'handle': t['handle'], 'label': t['label'], 'changed': len(ok), 'already': len(already) or None, 'unavailable': len(missing) or None, 'receipt': rid}
         if failed_send and ok:
             return _r('failed', f"I couldn't reach all of {t['label']}: {len(ok)} changed and checked, the rest not.", detail=failed_send, **base)
@@ -774,7 +975,10 @@ class Coordinator:
         if op in ('dim', 'brighten'):
             return await self._step(t, op, ctx, source)
         if op == 'brightness' and pct is None:
-            return _deny('bad_argument', 'How bright, as a percentage?', detail='brightness needs brightness_percent')
+            from .fastpath import level_from_words      # R18: the person's own level words ("crank", "half", "right down", "40%")
+            pct = level_from_words(ctx.get('user_text', ''))
+            if pct is None:
+                return _deny('bad_argument', 'How bright, as a percentage?', detail='brightness needs brightness_percent')
         if op == 'brightness':
             op = 'on'
         ok = self._light_ok(op, pct)
@@ -913,7 +1117,13 @@ class Coordinator:
             (already if checks[m](st) else need).append(m)
         if not need:
             return _r('skipped_already', f"{t['label']} is already set. I didn't change anything.", handle=t['handle'], label=t['label'], already=len(already))
-        return await self._execute(t, [('scene', 'turn_on', t['entity_ids'], {})], checks, befores, ctx, f"the {t['label']} scene", already, [], source)
+        leaf_befores = {}                          # each room group's lights before the scene, so "done this turn" counts only those it changed [K13-RR2-01]
+        for m in need:
+            for leaf in ((befores.get(m) and (await self.backend.get_state(m) or {}).get('attributes', {}).get('entity_id')) or []):
+                if isinstance(leaf, str) and leaf not in leaf_befores:
+                    leaf_befores[leaf] = {'group': m, 'before': _snap(await self.backend.get_state(leaf))}
+        return await self._execute(t, [('scene', 'turn_on', t['entity_ids'], {})], checks, befores, ctx, f"the {t['label']} scene", already, [], source,
+                                   extra={'leaf_befores': leaf_befores} if leaf_befores else None)
 
     # ---------- blinds ----------
     async def _blind_plan(self, t: dict, op: str, position: int | None):
@@ -950,14 +1160,102 @@ class Coordinator:
                                    f"{t['label']} {word}", already, [], source, verify=not t.get('assumed_state'),
                                    timeout=LIMITS['blind_readback_timeout_seconds'], parent=parent)
 
+    _BLIND_GENERIC = {'the', 'my', 'our', 'room', 'blind', 'blinds'}
+    _BLIND_SYNONYMS = {'lounge': 'living'}
+    _BLIND_PLURAL = re.compile(r"\bblinds\b|\bevery\s+blind\b|\b(?:both|all|two)\b(?:\s+of)?(?:\s+(?:the|my|our|those))?(?:\s+[a-z]+){0,3}?\s+blinds?\b", re.I)
+    _BLIND_EXCLUDE = re.compile(r"\b(not|no|except|but|leave|leaving|stays?|keep|only|just|without|instead|rather|other\s+than|don'?t|do\s+not|minus|apart|save|"
+                                r"untouched|bar|besides|excluding)\b", re.I)
+    _BLIND_NOT_ALL = re.compile(r"\ball the way\b|\bthat'?s all\b|\bthat is all\b", re.I)
+    # every word a clause about the blinds may use; any other word (another room, a pronoun, "by the ...") makes it unclear, so ask [R3-01, R3-02]
+    _BLIND_VOCAB = set("""hey atlas please can could would will you i id want like to the my our a an now thanks thank in of on set put make move
+        open opened close closed shut lower raise lift roll pull draw bring get up down halfway half way fully full all every both two one ones
+        percent per cent position partly partially blind blinds room living window door d s ll re ve m
+        zero ten twenty thirty forty fifty sixty seventy eighty ninety hundred five fifteen twentyfive seventyfive three four""".split())
+
+    def _blind_scope(self, words: str) -> set[str] | None:
+        """The blinds (entity ids) the person's words name, from the words alone, or None when that is unclear [amendment 2, R2-R4].
+        Judged per clause (split at , ; . ! ? and / then / also); only clauses about the blinds count, and each must use only the blind
+        vocabulary (a WHITELIST: any other word, e.g. another room or a pronoun, is unclear). In a clause: a blind's own word (e.g. its
+        room, or window / door) names it (one per clause unless plural); a group's room word ("living room", "lounge") names its blinds only
+        in plural words; "all/every ... blinds" with no place names them all. An exclusion word anywhere is unclear."""
+        if not words or self._BLIND_EXCLUDE.search(words):
+            return None
+        single = {h: o for h, o in self.handles.items() if o.get('kind') == 'blind' and len(o.get('entity_ids') or []) == 1}
+        groups = {h: o for h, o in self.handles.items() if o.get('kind') == 'blind' and len(o.get('entity_ids') or []) > 1}
+        own = {h: self._blind_words(h) - self._BLIND_GENERIC for h in single}
+        mine = {w for ws in own.values() for w in ws}
+        gown = {g: set(re.findall(r"[a-z]+", o['label'].lower())) - self._BLIND_GENERIC - mine for g, o in groups.items()}
+        places = mine | {w for ws in gown.values() for w in ws}
+        vocab = self._BLIND_VOCAB | {w for o in list(single.values()) + list(groups.values()) for w in re.findall(r"[a-z]+", o['label'].lower())}
+        clauses = [self._BLIND_NOT_ALL.sub(' ', c) for c in re.split(r"[,;.!?]|\b(?:and|then|also)\b", words.lower())]
+        for n in range(len(clauses) - 1):      # "the window and door blinds", "the atrium and lounge blinds": the place before "and" shares "blinds"
+            nxt = [self._BLIND_SYNONYMS.get(w, w) for w in re.findall(r"[a-z]+", clauses[n + 1]) if w not in ('the', 'my', 'our')]
+            if nxt and nxt[0] in places and re.search(r"\bblinds\b", clauses[n + 1]) and not re.search(r"\b(?:blinds?|ones?)\b", clauses[n]):
+                clauses[n] += ' blinds'
+        scope, seen, used_all = set(), False, False
+        verbs = re.compile(r"\b(?:open|close|shut|lower|raise|lift|roll|pull|draw|bring|get|set|put|turn|switch|dim|brighten|make|move|start|stop|play|"
+                           r"run|cancel|lock|unlock|leave|keep|tell|show|what|is|are)\b")
+        for c in clauses:
+            toks = {self._BLIND_SYNONYMS.get(w, w) for w in re.findall(r"[a-z]+", re.sub(r"\bones?\s*(?:%|percent|per\s*cent)", " ", c))}
+            if not toks & {'blind', 'blinds', 'one', 'ones'}:     # "one percent" is a number, not "the window one" [R5-02]
+                if toks - vocab and not verbs.search(c) and seen:
+                    return None                             # "... blinds and curtains in the bedroom": a place carried over, no verb of its own [R5-01]
+                continue                                    # not about the blinds: "turn on the hall light", "open the window" [R4-02]
+            seen = True
+            if toks - vocab or re.search(r"[0-9]", c) and not re.fullmatch(r"[^0-9]*\d{1,3}\s*(?:%|percent|per\s*cent)?[^0-9]*", c):
+                return None
+            plural = bool(self._BLIND_PLURAL.search(c))
+            named = [h for h in single if own[h] and own[h] <= toks]
+            if named:
+                if len(named) > 1:
+                    return None                             # two blinds in one clause, plural or not: "the atrium window blinds" [R4-02]
+                scope |= {e for h in named for e in single[h]['entity_ids']}
+                continue
+            g = [x for x in groups if gown[x] & toks]
+            if g:
+                if not plural:
+                    return None                             # "the living room blind": which one
+                scope |= {e for x in g for e in groups[x]['entity_ids']}
+                continue
+            if plural and re.search(r"\b(?:all|every)\b", c):
+                scope |= {e for o in single.values() for e in o['entity_ids']}
+                used_all = True
+                continue
+            return None
+        if used_all and {self._BLIND_SYNONYMS.get(w, w) for w in re.findall(r"[a-z]+", self._BLIND_NOT_ALL.sub(' ', words.lower()))} - vocab:
+            return None                                     # "all the blinds" only when nothing else in the turn names a place [R4-01]
+        return scope if seen and scope else None
+
+    def _blind_words(self, handle: str) -> set[str]:
+        """The words that tell this single blind from the others: its label's words, less 'blind(s)' and any word another single blind's
+        label shares (e.g. "Den Blind" -> {den}; "Den Window Blind" beside "Den Door Blind" -> {window})."""
+        mine = set(re.findall(r"[a-z]+", self.handles[handle]['label'].lower())) - {'blind', 'blinds'}
+        shared = {w for h, o in self.handles.items() if h != handle and o.get('kind') == 'blind' and len(o.get('entity_ids') or []) == 1
+                  for w in re.findall(r"[a-z]+", o['label'].lower())}
+        return (mine - shared) or mine
+
     async def _blind(self, a: dict, ctx: dict) -> dict:
         t, err = self._target(a.get('target_handle'), ('blind',))
         if err:
             return err
+        if not self.blind_confirm:
+            scope = self._blind_scope(ctx.get('user_text', '') or '')
+            if scope is None or not set(t['entity_ids']) <= scope:
+                # the blinds the person's words name (a whitelist, worked out from the words alone) must include every blind this call would
+                # move, whatever handle the model chose; anything unclear asks [amendment 2, R2: one rule for the pair and the single blinds]
+                single = [h for h, o in self.handles.items() if o.get('kind') == 'blind' and len(o.get('entity_ids') or []) == 1]
+                names = [f"the {self.handles[h]['label'].lower()}" for h in single]
+                which = ', '.join(names[:-1]) + ' or ' + names[-1] if len(names) > 1 else names[0]
+                return _r('needs_choice', f"It isn't clear which blind. Which one: {which}?", reason='which_blind', handle=t['handle'])   # a question for the person [AM2-03]
         plan, res = await self._blind_plan(t, a['operation'], a.get('position_percent'))
         if res:
             return res
         need, _, pos, word = plan
+        if not self.blind_confirm:
+            res = await self._blind_send(t, plan, ctx)                   # no yes step; every other blind check (the plan) has run
+            if res.get('status') == 'done' and t.get('schedule_note'):
+                res['summary'] = f"{res['summary']} {t['schedule_note']}"   # a hand move cancels the schedule's next move [P2-01]
+            return res
         q = (f"{'Open' if pos == 100 else 'Close'} the {t['label'].lower()}?" if pos in (0, 100) else f"Set the {t['label'].lower()} to {pos}% open?")
         return self._ask(ctx, {'kind': 'blind_now', 'args': a, 'preview': {e: s['rev'] for e, s in need}, 'preview_snaps': {e: s for e, s in need}}, q, t)
 
@@ -1052,7 +1350,7 @@ class Coordinator:
         return due, None
 
     async def _schedule(self, a: dict, ctx: dict) -> dict:
-        t, err = self._target(a.get('target_handle'), ('light', 'scene', 'blind') if self.timer_blinds else ('light', 'scene'))
+        t, err = self._target(a.get('target_handle'), ('light',) + (('scene',) if self.timer_scenes else ()) + (('blind',) if self.timer_blinds else ()))
         if err:
             return err
         if t['kind'] == 'scene' and not t.get('expect'):
@@ -1060,6 +1358,21 @@ class Coordinator:
         ok_ops = {'light': ('on', 'off'), 'scene': ('on',), 'blind': ('open', 'close')}[t['kind']]
         if a['operation'] not in ok_ops:
             return _deny('not_allowed_in_schedule', f"A timer can only {' or '.join(ok_ops)} {t['label']}.", handle=t['handle'])
+        from .fastpath import _NUMW      # C0i L01: "chuck the pendant on at 35%" was scheduled for 6:35 pm. A percentage is a level, never a time:
+        words = ctx.get('user_text', '') or ''       # with a percentage in the words, a timer (at_time OR in_minutes) needs a real time said too [R18h-01..03]
+        pct = re.compile(r"(?:\b(?:at|to|on)\s+)?\b(?:\d{1,3}|" + _NUMW + r")\s*(?:%|percent|per\s*cent)", re.I)
+        bare = [int(m.group(1)) for m in re.finditer(r"\bat\s+(\d{2,3})\b(?!\s*(?:[:.%]|am|pm|a\.m|p\.m|percent|per\s*cent|o'?clock|(?:minutes?\s+|mins?\s+)?(?:past|to)\s+(?:[1-9]|1[0-2]|one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve|noon|midnight)\b(?!\s*(?:%|percent|per\s*cent))))", words, re.I)]   # only "(N minutes) past/to <hour>" is a time [P2b-03, P2c-03]
+        if a.get('at_time') and any(25 <= n <= 100 for n in bare) and not re.search(r"\bat\s+\d{1,2}(?:[:.]\d\d)?\s*(?:am|pm)\b|\b\d{1,2}[:.]\d\d\b|o'?clock|\bat\s+(?:noon|midnight|midday)\b", words, re.I):
+            return _r('needs_choice', f"{max(bare)} isn't a clock time. Ask whether they want {t['label']} at {max(bare)}% now, or a timer, and if a timer, what time.",
+                      reason='number_not_time', handle=t['handle'])          # [the Atlas-side project J03: "on at 25" became 12:25 am]
+        if pct.search(words):
+            rest = pct.sub(' ', words)                # the words with every percentage removed: is a time still said?
+            real = re.search(r"\bat\s+(?:\d{1,2}(?:[:.]\d\d)?|" + _NUMW + r"|noon|midnight|midday)\b|\b\d{1,2}[:.]\d\d\b|o'?clock|\bhalf\s+past\b|"
+                             r"\bin\s+(?:[\w-]+\s+){1,3}?(?:minutes?|mins?|hours?|hrs?)\b|\b(?:in\s+)?half\s+an\s+hour\b|\bin\s+an?\s+hour\b", rest, re.I)
+            if not real:                              # "tonight" / "tomorrow" alone are not a time [R18h-01]
+                m = pct.search(words)
+                return _r('needs_choice', f"{m.group(0).strip()} is a brightness, not a time. Ask whether they want {t['label']} at that brightness now, "
+                                          f"or a timer, and if a timer, what time.", reason='percent_not_time', handle=t['handle'])   # [R18h-04]
         due, err = self._due(a)
         if err:
             return err
@@ -1295,7 +1608,7 @@ class Coordinator:
                 return _deny('nothing_to_undo', "There's nothing from the last 10 minutes to undo.")
             mine = [x for x in live if x.get('conversation') == ctx['conversation_id']]      # as cancel [R4-04]: never another room's action [M10]
             if not mine:
-                return _deny('not_here', "The last change wasn't made here, so I can't undo it from here.")
+                return _deny('not_here', "I can only undo a change made in this conversation, and there isn't one from the last 10 minutes.")   # [R17-03]
             r = mine[-1]       # the latest action by creation order (receipts are appended in order; times can tie)
         if r.get('restarted_since'):
             return _deny('restarted', f"Home Assistant restarted since {r['description']}, so I can't undo it safely.", receipt=r['id'])

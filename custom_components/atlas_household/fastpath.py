@@ -1,4 +1,4 @@
-"""Deterministic timer path (the lead project 18 Oct 21:4x, for the owner's timer priority): a strict grammar for
+"""Deterministic paths. The TIMER path (the lead project 18 Oct 21:4x, for the owner's timer priority): a strict grammar for
 
     "<turn|switch> [the] <target> <on|off> in <N> <minutes|hours>"     "<target> <on|off> at <time>"
     "<turn|switch> <on|off> [the] <target> in ..."                     "in <N> <unit>[,] turn [the] <target> <on|off>"
@@ -9,6 +9,14 @@ bracketed note, singular or plural). Then the guarded agent calls the coordinato
 every coordinator check stays: allowed targets, the whole-turn never-list (on the person's own words), the 24-hour cap, read-back, log and
 undo. Anything else returns None and the turn goes to the model as before. Blinds and media are not on this path (lights and scenes first).
 A bare clock time is its NEXT occurrence: "at 11" after midday is 11 pm; "at 8" at 9 am is 8 pm. Pure Python (no HA imports).
+
+The LEVEL path (R18; the Atlas-side project 19 Oct 00:0x, for the lights phase: Gemma doesn't reliably turn level words into numbers): a whole utterance
+naming exactly ONE enabled light handle (a light, a room or a floor) plus a level or on/off, sent as atlas_lights by the coordinator itself:
+    full / max / maximum / all the way (up) / crank (up) -> 100 (the owner: "crank" = full); half / halfway -> 50;
+    right down / low / as low as possible / as low as it goes / dim as possible -> 20; "N%" / "N percent" -> N (1-100);
+    turn / switch / pop ... on|off, kill ... -> on / off.
+"crank it up a bit", any "a bit / a little / slightly", any question, any time word: not this path (the model handles them).
+level_from_words(text) gives the same level from anywhere in the person's words, for a model call of brightness with no number.
 """
 from __future__ import annotations
 
@@ -39,6 +47,7 @@ def _norm(s: str) -> str:
     s = re.sub(r"\([^)]*\)", " ", s.lower())
     s = re.sub(r"[^a-z0-9 ]+", " ", s)
     s = re.sub(r"\b(lights?|lamps?)\b", lambda m: m.group(1).rstrip('s'), s)      # singular and plural alike
+    s = re.sub(r"\blounge(?: room)?\b", "living room", s)                       # "lounge" is a common word for the living room
     return re.sub(r"\s+", " ", s).strip()
 
 
@@ -82,6 +91,8 @@ def _clock(spec: str, now: datetime) -> str | None:
         return None
     if ap:
         h = (h % 12) + (12 if ap == 'pm' else 0)
+    elif m.group(1).startswith('0'):
+        pass                                          # "04:00", "00:30", "0:15": a 24-hour time as written, never flipped to pm [cloud review 2]
     elif h <= 12:
         # a bare hour: its next occurrence (h or h+12), so "at 11" after midday is 11 pm [the lead project]
         cands = sorted({h % 12, h % 12 + 12})
@@ -91,11 +102,13 @@ def _clock(spec: str, now: datetime) -> str | None:
     return f'{h:02d}:{mi:02d}'
 
 
-def parse_timer(text: str, handles: dict, now_local: datetime) -> dict | None:
+def parse_timer(text: str, handles: dict, now_local: datetime, scenes: bool = True) -> dict | None:
     """atlas_schedule args for a strict timer request naming exactly one light or scene handle, else None."""
     text = (text or '').strip()
     if not text or len(text) > 200:
         return None
+    if not scenes:
+        handles = {h: t for h, t in handles.items() if t.get('kind') != 'scene'}     # a map without scene timers [P2-04]
     names = _targets(handles)
     for rx in _FORMS:
         m = rx.match(text)
@@ -122,4 +135,186 @@ def parse_timer(text: str, handles: dict, now_local: datetime) -> dict | None:
             at = _clock(tm.group(1), now_local)
             return {'target_handle': h, 'operation': op, 'at_time': at} if at else None
         return None
+    return None
+
+
+_LVL_WORDS = [
+    (100, r"(?:full(?:\s+brightness)?|max(?:imum)?(?:\s+brightness)?|all\s+the\s+way(?:\s+up)?|as\s+bright\s+as\s+(?:possible|it\s+goes))"),
+    (50, r"(?:half(?:\s+brightness)?|halfway|half\s+way)"),
+    (20, r"(?:right\s+down|low|as\s+low\s+as\s+(?:possible|it\s+goes)|(?:as\s+)?dim\s+as\s+(?:possible|it\s+goes))"),
+]
+_UNITS = ['one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine']
+_TEENS = ['ten', 'eleven', 'twelve', 'thirteen', 'fourteen', 'fifteen', 'sixteen', 'seventeen', 'eighteen', 'nineteen']
+_TENS = ['twenty', 'thirty', 'forty', 'fifty', 'sixty', 'seventy', 'eighty', 'ninety']
+_NUMW = (r"(?:(?:one|a)\s+hundred|hundred|(?:" + "|".join(_TENS) + r")(?:[\s-](?:" + "|".join(_UNITS) + r"))?|"
+         + "|".join(_TEENS) + "|" + "|".join(_UNITS) + r")")                 # spoken numbers 1-100 (C0h H11: "thirty percent")
+
+
+def _num(s: str) -> int | None:
+    """'30' / 'thirty' / 'seventy-five' / 'a hundred' -> int, else None (an exact word list, never a guess)."""
+    s = re.sub(r"[\s-]+", " ", (s or '').strip().lower())
+    if s.isdigit():
+        return int(s)
+    if s in ('hundred', 'a hundred', 'one hundred'):
+        return 100
+    words = s.split()
+    if len(words) == 1 and words[0] in _UNITS:
+        return _UNITS.index(words[0]) + 1
+    if len(words) == 1 and words[0] in _TEENS:
+        return _TEENS.index(words[0]) + 10
+    if words and words[0] in _TENS and (len(words) == 1 or (len(words) == 2 and words[1] in _UNITS)):
+        return (_TENS.index(words[0]) + 2) * 10 + (_UNITS.index(words[1]) + 1 if len(words) == 2 else 0)
+    return None
+
+
+_PCT = r"(?P<pct>\d{1,3}|" + _NUMW + r")\s*(?:%|percent|per\s+cent)"
+_LVL = r"(?:(?:on\s+)?(?:to|at|on)\s+)?(?:" + _PCT + "|" + "|".join(f"(?P<l{n}>{rx})" for n, rx in _LVL_WORDS) + r")"
+_SOFT = re.compile(r"\b(a\s+bit|a\s+little|slightly|a\s+touch|bit\s+more|bit\s+less|tad)\b|\?", re.I)
+_LEVEL_FORMS = [
+    re.compile(_LEAD + r"(?:set|turn|put|take|bring|switch|make|dim|crank|chuck|pop|flick)\s+(?:up\s+|down\s+)?(?:the\s+)?(?P<t>.+?)\s+(?:up\s+|down\s+)?" + _LVL + _TAIL, re.I),
+    re.compile(_LEAD + r"(?:the\s+)?(?P<t>.+?)\s+(?:up\s+|down\s+)?" + _LVL + _TAIL, re.I),
+    re.compile(_LEAD + r"crank\s+(?:up\s+)?(?:the\s+)?(?P<t>.+?)(?:\s+up)?" + _TAIL, re.I),                       # "crank the study lights (up)"
+]
+_ONOFF_FORMS = [
+    re.compile(_LEAD + r"(?:turn|switch|pop|flick|put)\s+(?:the\s+)?(?P<t>.+?)\s+(?P<op>on|off)" + _TAIL, re.I),
+    re.compile(_LEAD + r"(?:turn|switch|pop|flick|put)\s+(?P<op>on|off)\s+(?:the\s+)?(?P<t>.+?)" + _TAIL, re.I),
+    re.compile(_LEAD + r"(?P<op>kill)\s+(?:the\s+)?(?P<t>.+?)" + _TAIL, re.I),
+    re.compile(_LEAD + r"(?:the\s+)?(?P<t>.+?)\s+(?P<op>on|off)" + _TAIL, re.I),                                  # "downstairs lights off"
+]
+_TIMEWORD = re.compile(r"\b(in|at|after|for|until|till|tonight|tomorrow|later|minutes?|mins?|hours?|o'?clock|am|pm)\b", re.I)
+
+
+_CURLY = str.maketrans({'\u2019': "'", '\u2018': "'", '\u02bc': "'"})     # typed smart apostrophes ("don’t") [R18b-02]
+_RELATIVE = re.compile(r"\bby\s+\d|\b(?:up|down|dim|brighten|raise|lower|increase|decrease|reduce|boost)\b", re.I)
+_PCT_TO = re.compile(r"\b(?:to|at)\s+(?:\d{1,3}|" + _NUMW + r")\s*(?:%|percent|per\s+cent)", re.I)
+_WHEN_ANY = re.compile(r"\bin\s+(?:\d+|a|an|half|one|two|three|four|five|ten|fifteen|twenty|thirty|forty|fifty|sixty)\b[^.]{0,20}?\b(?:minutes?|mins?|hours?|hrs?)\b|"
+                       r"\bat\s+\d{1,2}(?::\d\d)?\s*(?:am|pm|a\.m\.|p\.m\.)|\bat\s+(?:noon|midnight|midday)\b|\b\d{1,2}[:.]\d\d\b|"
+                       r"\b(?:tonight|tomorrow|later|o'?clock|when|until|till|after)\b", re.I)
+
+
+def _relative_pct(text: str) -> bool:
+    """"up 10%", "down 20%", "dim it 30%", "by 10%": a change BY an amount, never a level; only "to/at N%" names the level [R18b-01]."""
+    return bool(re.search(_PCT, text, re.I)) and (bool(re.search(r"\bby\s+(?:\d|" + _NUMW + r")", text, re.I)) or (bool(_RELATIVE.search(text)) and not _PCT_TO.search(text)))
+
+
+def _level_of(m: re.Match) -> int | None:
+    gd = m.groupdict()
+    if gd.get('pct'):
+        n = _num(gd['pct'])
+        if n is None:
+            return None
+        return n if 1 <= n <= 100 else None
+    for n, _rx in _LVL_WORDS:
+        if gd.get(f'l{n}'):
+            return n
+    return None
+
+
+def _one_light(names: dict, handles: dict, t: str) -> str | None:
+    hs = names.get(_norm(t))
+    if not hs or len(set(hs)) != 1 or handles[hs[0]]['kind'] != 'light':
+        return None
+    return hs[0]
+
+
+_ASKING = re.compile(r"^\W*(?:(?:hey\s+)?atlas,?\s+)?(?:who|what|why|how|which|where|when|are|is|was|were|did|does|do|has|have|had|keep|leave|left|"
+                     r"stay|stays|still|why's|what's|who's)\b", re.I)      # a question or a statement, said without "?" [R18d-02]; not "left"
+# anywhere: four lights are named "... Left" [R18e-02]
+_DOWN_ANY = re.compile(r"\b(down|dim|dimmer|lower|drop|reduce|darker|decrease|less)\b", re.I)
+_UP_ANY = re.compile(r"\b(up|brighten|brighter|raise|increase|boost|crank\w*|more)\b", re.I)
+
+
+def _level_ok(text: str, n: int, said_pct: bool) -> bool:
+    """The whole sentence must agree with the level it names [R18d-01/02]: exactly one level in it; no word, the verb included, against a level
+    word ("dim it to full", "crank down the lights", "brighten them low"); with "up"/"down" a level word needs "to" ("turn it down half" is a
+    change, like "down 50%"); and never a question or a statement ("are the lights on full", "leave the lights at half")."""
+    if _ASKING.search(text):
+        return False
+    levels = set()
+    for m in _LVL_ANY.finditer(text):
+        w = m.group(0).lower()
+        pm = re.fullmatch(_PCT, w, re.I)
+        levels.add(100 if w.startswith('crank') else _num(pm.group('pct')) if pm else next((k for k, rx in _LVL_WORDS if re.fullmatch(rx, w, re.I)), None))
+    levels.discard(None)
+    if 'crank' in text.lower():
+        levels.discard(100)
+        levels.add(100)
+    if len(levels) > 1:
+        return False
+    if said_pct:
+        return True                                      # a spoken "to N%" is what was said (relative "up N%" is refused before this)
+    rest = _LVL_ANY.sub(' ', text)                       # the words around the level phrase ("right down", "all the way up" are levels)
+    if (n > 50 and _DOWN_ANY.search(rest)) or (n < 50 and _UP_ANY.search(rest)):
+        return False
+    if n == 50 and (_DOWN_ANY.search(rest) or _UP_ANY.search(rest)) and not re.search(r"\b(?:to|at)\s+half", text, re.I):
+        return False                                     # "turn it down half", "dim it half" are changes (like "down 50%"); "dim it to half" is a level [R18e-01]
+    return True
+
+
+def parse_level(text: str, handles: dict) -> dict | None:
+    """atlas_lights args for a strict level or on/off request naming exactly one enabled light handle, else None (the model handles it)."""
+    text = (text or '').translate(_CURLY).strip()
+    if not text or len(text) > 160 or _SOFT.search(text) or _NEG.search(text) or _relative_pct(text):
+        return None                                   # "don't turn the study lights off": never this path [R18-01]
+    names = _targets(handles)
+    for rx in _LEVEL_FORMS:
+        m = rx.match(text)
+        if not m:
+            continue
+        h = _one_light(names, handles, m.group('t'))
+        if not h:
+            continue
+        lvl = _level_of(m) if 'pct' in m.groupdict() else 100      # the bare "crank the X" form is full [the owner]
+        if lvl is None or not _level_ok(text, lvl, bool(m.groupdict().get('pct'))):
+            return None
+        return {'target_handle': h, 'operation': 'brightness', 'brightness_percent': lvl}
+    if _TIMEWORD.search(text) or _ASKING.search(text):
+        return None                                   # "turn the porch lights on at 7" is the timer path's or the model's; "are the porch lights on" asks
+    for rx in _ONOFF_FORMS:
+        m = rx.match(text)
+        if not m:
+            continue
+        h = _one_light(names, handles, m.group('t'))
+        if not h:
+            continue
+        return {'target_handle': h, 'operation': 'off' if m.group('op').lower() in ('off', 'kill') else 'on'}
+    return None
+
+
+_LVL_ANY = re.compile(r"\b(?:crank(?:ed|ing)?|" + _PCT + "|" + "|".join(rx for _n, rx in _LVL_WORDS) + r")(?![\w%])", re.I)   # whole words only:
+# "lower" is not "low" [R18-01]
+_NEG = re.compile(r"\b(not|never|no|too|don'?t|do not|isn'?t|aren'?t|won'?t|stop)\b", re.I)          # "not at full", "too low, turn them up"
+_HALF_TIME = re.compile(r"\bhalf\s+(?:past|an?\b|hour)|\b(?:and a|an?) half\b|\bhalf\s+(?:one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve|\d)", re.I)
+_DOWNWARD = re.compile(r"\b(down|lower|dim(?:mer)?|darker|less|reduce|drop)\b", re.I)
+_UPWARD = re.compile(r"\b(up|raise|brighter|more|increase|boost)\b", re.I)
+
+
+_OBJ = r"(?:it|them|that|those|these|(?:the\s+|all\s+the\s+)?(?:lights?|lamps?))"   # no free words: a named light is the fast path's [R18d-01]
+_WORD_FORMS = [      # the WHOLE utterance, or no level: a whitelist, so a change word ("10% brighter", "drop it 30%") can never become a level [R18c-01]
+    re.compile(_LEAD + r"(?:set|turn|put|take|bring|switch|make|dim|crank)\s+(?P<d1>up\s+|down\s+)?(?P<t>" + _OBJ + r")\s+(?P<d2>up\s+|down\s+)?" + _LVL + _TAIL, re.I),
+    re.compile(_LEAD + r"(?P<t>" + _OBJ + r")\s+(?P<d2>up\s+|down\s+)?" + _LVL + _TAIL, re.I),
+    re.compile(_LEAD + r"crank\s+(?:up\s+)?(?P<t>" + _OBJ + r")(?:\s+up)?" + _TAIL, re.I),        # "crank it (up)" = full [the owner]
+    re.compile(_LEAD + _LVL + _TAIL, re.I),                                                    # the bare answer to "How bright?": "half", "40%"
+]
+_NEG_NT = re.compile(r"\w+n't\b|\bnot\b", re.I)                                              # "I didn't say full", "shouldn't be at 40%" [R18c-02]
+
+
+def level_from_words(text: str) -> int | None:
+    """The level the person's WHOLE utterance names, in one of the strict shapes "<verb> it|them|the … lights [up|down] [to] <level>",
+    "the … lights [to] <level>", "crank it|them|the … lights [up]" (= 100) or a bare "<level>", else None, so the coordinator asks "How bright?".
+    Never for soft words, negation, a time, a relative change ("up 10%", "10% brighter"), or a direction that disagrees with a level word
+    ("crank it down", "turn it up low") [R18-01, R18b-01, R18c-01/02]."""
+    text = (text or '').translate(_CURLY).strip()
+    if (not text or len(text) > 120 or _SOFT.search(text.replace('?', '')) or _NEG.search(text) or _NEG_NT.search(text) or _HALF_TIME.search(text)
+            or _relative_pct(text) or _WHEN_ANY.search(text) or re.search(r"\bat\s+\d{1,2}\b(?!\s*(?:%|percent|per\s+cent))", text, re.I)):
+        return None
+    for i, rx in enumerate(_WORD_FORMS):
+        m = rx.match(text)
+        if not m:
+            continue
+        gd = m.groupdict()
+        n = 100 if i == 2 else _level_of(m)
+        if n is None:
+            return None
+        return n if _level_ok(text, n, bool(gd.get('pct'))) else None
     return None

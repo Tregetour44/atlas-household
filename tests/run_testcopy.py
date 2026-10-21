@@ -213,7 +213,7 @@ def S_at_in_order_across_restart():
     end = time.time() + 300
     while time.time() < end:
         tasks = {t['id']: t for t in store()['data']['tasks']}
-        if tasks[a['task']]['state'] != 'pending' and tasks[b['task']]['state'] != 'pending':
+        if all(tasks[x['task']]['state'] not in ('pending', 'dispatching') for x in (a, b)):   # wait for a finished state, not the transient one
             break
         time.sleep(5)
     eq((tasks[a['task']]['state'], tasks[a['task']].get('result')), ('ran', 'done'), 'at-timer')
@@ -236,7 +236,7 @@ def S_claim_guard():
     # the bed light is already on, so HA's agent says "Turned on the light" but changes nothing
     call('atlas_lights', {'target_handle': 'bed_light', 'operation': 'on'}, 'bed light on')
     before = state('light.bed_light')['last_changed']
-    r = http('POST', '/api/conversation/process', {'text': 'turn on the bed light', 'language': 'en', 'agent_id': guarded})
+    r = http('POST', '/api/conversation/process', {'text': 'activate the bed light', 'language': 'en', 'agent_id': guarded})
     sp = r['response']['speech']['plain']['speech']
     # HA's agent ran its own (non-atlas) intent tool this turn, so the guard can't say nothing changed: "I can't confirm all of that." [R13-06]
     ok(sp.startswith("I can't confirm all of that.") and 'Turned on' not in sp, f'claim not rewritten as expected: {sp!r}')
@@ -272,7 +272,7 @@ def S_stream_guard():
     eq(task['state'], 'pending', 'an options change keeps pending timers (no reload)')
 
     def probe(agent_id, cid):
-        text = 'turn the bed light off in 30 minutes' if cid.endswith('fast') else 'living room lights off'
+        text = 'turn the bed light off in 30 minutes' if cid.endswith('fast') else 'get the living room lights off for me'   # not a fast-path phrase
         return http('POST', '/api/services/atlas_stream_test/probe?return_response',
                     {'text': text, 'conversation_id': cid, 'agent_id': agent_id})['service_response']
 
@@ -296,6 +296,16 @@ def S_stream_guard():
     pend = [x for x in store()['data']['tasks'] if x['state'] == 'pending' and x['handle'] == 'bed_light']
     eq(len(pend), 1, 'one bed-light timer pending')
     ok(not any('turned off' in h for h in g['history']), f'original claim left in history: {g!r}')
+    # R18 level path: a strict level request goes to the coordinator's atlas_lights itself; the (stream) model is not asked
+    lv = http('POST', '/api/services/atlas_stream_test/probe?return_response',
+              {'text': 'turn the bed light to half', 'conversation_id': 'tc-stream-level', 'agent_id': guarded})['service_response']
+    eq(lv['deltas'], [], 'level path: no model output streamed')
+    ok(lv['speech'].startswith('Done'), f'level path not taken: {lv!r}')
+    eq((state('light.bed_light')['state'], state('light.bed_light')['attributes'].get('brightness')), ('on', 128), 'bed light at 50%')
+    # C0g G12: an empty model reply is never passed through; nothing ran, so the fallback, and the history holds what was spoken
+    e = http('POST', '/api/services/atlas_stream_test/probe?return_response',
+             {'text': 'say nothing', 'conversation_id': 'tc-stream-empty', 'agent_id': guarded})['service_response']
+    eq((e['speech'], e['history']), ("Sorry, I didn't catch that.", ["Sorry, I didn't catch that."]), 'empty reply fallback')
     eq(options('').get('type'), 'create_entry', 'back to no guarded agent')
     eq(call('atlas_cancel', {}, 'cancel that')['task'], t['task'])
     for x in [x for x in store()['data']['tasks'] if x['state'] == 'pending']:      # the fast-path timer too
