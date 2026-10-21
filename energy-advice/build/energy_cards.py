@@ -331,12 +331,13 @@ def credit_status(now: datetime, h1: Value, h2: Value, *, meter_age_min: float |
         elif ld['minutes']:
             ld['overlap'] = _overlap(now, now + timedelta(minutes=ld['minutes']), c0, c1)
         else:
-            ld['overlap'] = _mins(now, c1) if m >= cs else None           # in the window: at least the rest of it; before: unknown
+            ld['overlap'] = None                                          # run time unknown: say so, never a run time
+            ld['in_window_now'] = cs <= m < ce
         if ld['minutes'] and m < cs:
             latest = c0 - timedelta(minutes=ld['minutes'])
             ld['latest_start'] = latest if latest > now else None
         ld['import_kw'] = None
-        if ld.get('overlap') and battery_limit_kw is not None and ld['peak_kw'] is not None and house_kw is not None:
+        if (ld.get('overlap') or ld.get('in_window_now')) and battery_limit_kw is not None and ld['peak_kw'] is not None and house_kw is not None:
             ld['import_kw'] = max(0.0, house_kw + ld['peak_kw'] - battery_limit_kw)
         out['load'] = ld
     return out
@@ -365,7 +366,8 @@ def credit_lines(c: dict) -> list[str]:
             'PENDING FINAL': 'the hours are over; the final meter reading is not in yet, so the result is still pending',
             'NOT SUPPLIED': "the credit hours are over for today; tonight's result isn't in these readings",
             'NO DATA': "NO DATA: a credit-hour meter reading is missing, so the result can't be confirmed",
-            'SAFE': 'SAFE so far (not settled until 8 pm)', 'AT RISK': 'AT RISK (not settled until 8 pm)',
+            'SAFE': 'SAFE so far: under the limit with headroom, but nothing is secured until 8 pm; each hour must finish under 0.030 kWh',
+            'AT RISK': 'AT RISK: little headroom or no reliable reading, and nothing is settled until 8 pm',
             'NOT IN WINDOW': f"NOT IN WINDOW: the credit hours start in {hm(c['minutes_to_window'] or 0)}"}[t]
     L.append(f'- Evening credit status (worked out by Home Assistant; use it as given): {head}. The bill decides the actual credit.')
     if (c['window'] != 'before' or any(h['value'] is not None for h in hrs)) and t != 'NOT SUPPLIED':
@@ -389,6 +391,8 @@ def credit_lines(c: dict) -> list[str]:
         else:
             if ld.get('overlap'):
                 L.append(f"- {n.capitalize()} started now would run {hm(ld['overlap'])} in the credit hours.")
+            elif ld.get('in_window_now'):
+                L.append(f"- {n.capitalize()}: its run time isn't known; started now it would run in the credit hours, which have {hm(c['minutes_to_end'])} to go.")
             else:
                 L.append(f'- {n.capitalize()}: its run time is not known, so it may run into the credit hours.')
             if ld.get('import_kw') is not None:

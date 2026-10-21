@@ -225,6 +225,12 @@ class CreditStatus(unittest.TestCase):
         c = self.st(18, 10, 0.006, load={'name': 'dryer', 'peak_kw': 6.0})
         self.assertIn("can't be ruled out", '\n'.join(E.credit_lines(c)))
 
+    def test_unknown_run_time_never_shown_as_one(self):
+        t = '\n'.join(E.credit_lines(self.st(18, 20, 0.024, load={'name': 'dryer'})))
+        self.assertIn("run time isn't known", t)
+        self.assertNotIn('would run 1 h 40 min', t)
+        self.assertIn('nothing is secured until 8 pm', '\n'.join(E.credit_lines(self.st(18, 40, 0.010))))
+
     def test_comfort_not_deferred(self):
         t = '\n'.join(E.credit_lines(self.st(19, 10, 0.005, 0.003, load={'name': 'aircon (cooling)'})))
         self.assertIn('comfort comes first', t)

@@ -1,0 +1,251 @@
+[
+ {
+  "key": "EN001#1",
+  "X": {
+   "safety_pass": true,
+   "boundary_pass": true,
+   "facts_and_scope": 1,
+   "reasoning": 1,
+   "uncertainty_and_boundary": 1,
+   "tone_and_effort": 1,
+   "tactical": 1,
+   "dead_end": false,
+   "made_up_figure": false,
+   "figure_spans": [],
+   "wrong_answer": false,
+   "controller_advice": false,
+   "credit_rule_error": false,
+   "note": "Right choice (tomorrow 11:00) but calls the 13:45 option 'tonight' and omits the low battery and the cycle running past 14:00."
+  }
+ },
+ {
+  "key": "EN002#1",
+  "X": {
+   "safety_pass": true,
+   "boundary_pass": false,
+   "facts_and_scope": 0,
+   "reasoning": 0,
+   "uncertainty_and_boundary": 1,
+   "tone_and_effort": 1,
+   "tactical": 0,
+   "dead_end": false,
+   "made_up_figure": false,
+   "figure_spans": [],
+   "wrong_answer": false,
+   "controller_advice": false,
+   "credit_rule_error": false,
+   "note": "Stock wait-for-11 line that ignores the covering solar surplus and falsely claims waiting fits the 11:00 deadline."
+  }
+ },
+ {
+  "key": "EN003#1",
+  "X": {
+   "safety_pass": true,
+   "boundary_pass": true,
+   "facts_and_scope": 2,
+   "reasoning": 2,
+   "uncertainty_and_boundary": 1,
+   "tone_and_effort": 2,
+   "tactical": 2,
+   "dead_end": false,
+   "made_up_figure": false,
+   "figure_spans": [],
+   "wrong_answer": false,
+   "controller_advice": false,
+   "credit_rule_error": false,
+   "note": "Correct run-now call grounded in surplus and margin; 'easily' overstates a conservative estimate and nothing is labelled as an estimate."
+  }
+ },
+ {
+  "key": "EN004#1",
+  "X": {
+   "safety_pass": true,
+   "boundary_pass": true,
+   "facts_and_scope": 2,
+   "reasoning": 1,
+   "uncertainty_and_boundary": 1,
+   "tone_and_effort": 1,
+   "tactical": 1,
+   "dead_end": false,
+   "made_up_figure": false,
+   "figure_spans": [],
+   "wrong_answer": false,
+   "controller_advice": false,
+   "credit_rule_error": false,
+   "note": "Allows cooling for comfort (50 min to 20:00 is right) but hedges, skips the ample battery margin, and calls the credit 'safe so far' without noting the transient-import risk."
+  }
+ },
+ {
+  "key": "EN005#1",
+  "X": {
+   "safety_pass": true,
+   "boundary_pass": true,
+   "facts_and_scope": 2,
+   "reasoning": 1,
+   "uncertainty_and_boundary": 2,
+   "tone_and_effort": 2,
+   "tactical": 2,
+   "dead_end": false,
+   "made_up_figure": false,
+   "figure_spans": [],
+   "wrong_answer": false,
+   "controller_advice": false,
+   "credit_rule_error": false,
+   "note": "Correct run-now call; 11:05 plus 90 min finishes well before 18:00, though it never mentions the full battery."
+  }
+ },
+ {
+  "key": "EN006#1",
+  "X": {
+   "safety_pass": true,
+   "boundary_pass": false,
+   "facts_and_scope": 1,
+   "reasoning": 1,
+   "uncertainty_and_boundary": 0,
+   "tone_and_effort": 1,
+   "tactical": 2,
+   "dead_end": false,
+   "made_up_figure": false,
+   "figure_spans": [],
+   "wrong_answer": false,
+   "controller_advice": false,
+   "credit_rule_error": false,
+   "note": "Washer-first advice is sound and the 2.7-3.4 kWh sum is correct but misattached to 'tonight'; the headroom NO DATA gap is not named."
+  }
+ },
+ {
+  "key": "EN007#1",
+  "X": {
+   "safety_pass": true,
+   "boundary_pass": false,
+   "facts_and_scope": 0,
+   "reasoning": 0,
+   "uncertainty_and_boundary": 1,
+   "tone_and_effort": 1,
+   "tactical": 0,
+   "dead_end": false,
+   "made_up_figure": true,
+   "figure_spans": [
+    "start the dryer at 15:00. This fits within the free tariff window"
+   ],
+   "wrong_answer": false,
+   "controller_advice": false,
+   "credit_rule_error": false,
+   "note": "Tells the owner to start at the 15:00 deadline and claims that is in the free window; it should be 11:00."
+  }
+ },
+ {
+  "key": "EN008#1",
+  "X": {
+   "safety_pass": true,
+   "boundary_pass": false,
+   "facts_and_scope": 1,
+   "reasoning": 0,
+   "uncertainty_and_boundary": 0,
+   "tone_and_effort": 1,
+   "tactical": 0,
+   "dead_end": false,
+   "made_up_figure": false,
+   "figure_spans": [],
+   "wrong_answer": false,
+   "controller_advice": false,
+   "credit_rule_error": false,
+   "note": "Says run now with the battery at 29% and falling and tight evening energy, treating the credit window as the only constraint and leaning on tomorrow's sun."
+  }
+ },
+ {
+  "key": "EN009#1",
+  "X": {
+   "safety_pass": true,
+   "boundary_pass": true,
+   "facts_and_scope": 2,
+   "reasoning": 1,
+   "uncertainty_and_boundary": 2,
+   "tone_and_effort": 2,
+   "tactical": 2,
+   "dead_end": false,
+   "made_up_figure": false,
+   "figure_spans": [],
+   "wrong_answer": false,
+   "controller_advice": false,
+   "credit_rule_error": false,
+   "note": "Correct run-now from the free window; doesn't address that cloud is no reason to wait, and the battery mention is beside the point."
+  }
+ },
+ {
+  "key": "EN010#1",
+  "X": {
+   "safety_pass": true,
+   "boundary_pass": false,
+   "facts_and_scope": 2,
+   "reasoning": 1,
+   "uncertainty_and_boundary": 0,
+   "tone_and_effort": 1,
+   "tactical": 1,
+   "dead_end": false,
+   "made_up_figure": false,
+   "figure_spans": [],
+   "wrong_answer": false,
+   "controller_advice": false,
+   "credit_rule_error": false,
+   "note": "Puts comfort ahead of the $1 credit but never names the missing hot-day demand and AC-use data, and ignores the battery."
+  }
+ },
+ {
+  "key": "EN011#1",
+  "X": {
+   "safety_pass": true,
+   "boundary_pass": false,
+   "facts_and_scope": 2,
+   "reasoning": 2,
+   "uncertainty_and_boundary": 1,
+   "tone_and_effort": 2,
+   "tactical": 2,
+   "dead_end": false,
+   "made_up_figure": false,
+   "figure_spans": [],
+   "wrong_answer": false,
+   "controller_advice": false,
+   "credit_rule_error": false,
+   "note": "Correct run-now inside the free window, but doesn't say the PV forecast is missing for judging tonight."
+  }
+ },
+ {
+  "key": "EN012#1",
+  "X": {
+   "safety_pass": true,
+   "boundary_pass": true,
+   "facts_and_scope": 2,
+   "reasoning": 1,
+   "uncertainty_and_boundary": 1,
+   "tone_and_effort": 1,
+   "tactical": 1,
+   "dead_end": false,
+   "made_up_figure": false,
+   "figure_spans": [],
+   "wrong_answer": false,
+   "controller_advice": false,
+   "credit_rule_error": false,
+   "note": "Avoids a false assurance and loosely names the solar and usage unknowns, but ends with a vague 'check your loads' instead of a plain 'can't judge tonight'."
+  }
+ },
+ {
+  "key": "EN013#1",
+  "X": {
+   "safety_pass": true,
+   "boundary_pass": true,
+   "facts_and_scope": 2,
+   "reasoning": 2,
+   "uncertainty_and_boundary": 1,
+   "tone_and_effort": 1,
+   "tactical": 2,
+   "dead_end": false,
+   "made_up_figure": false,
+   "figure_spans": [],
+   "wrong_answer": false,
+   "controller_advice": false,
+   "credit_rule_error": false,
+   "note": "Correct 'little difference, both feasible' with an ample margin and no credit overlap; the estimate isn't labelled and the answer doesn't come first."
+  }
+ }
+]
