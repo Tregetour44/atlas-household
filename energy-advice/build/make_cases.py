@@ -110,6 +110,37 @@ def dishwasher_cases():
     ]
 
 
+def cooling_cases():
+    """The owner, 21 Oct: he can't open up the house; he runs the aircon when sun or the free window covers it. Three hot days."""
+    D, today = '2026-10-20', date(2026, 10, 20)
+    hot = history(today, hot=set(range(6, 14)), highs={i: 34 + (i % 3) for i in range(6, 14)})
+    ledger = days_ledger(today, [(1, 24.1, 21.0, 4.2, 0.3, 4.6)])
+
+    def case(cid, hm, q, soc, solar_w, house_w, fc, state, expect, outside, solar_rest=None, weather='sunny'):
+        e = {'soc': {'value': soc, 'at': iso(D, hm)}, 'history': hot, 'forecast_high': 36 if 'hot' in fc[:30] or '36' in fc[:30] else 33,
+             'solar_w': {'value': solar_w, 'at': iso(D, hm)}, 'house_w': {'value': house_w, 'at': iso(D, hm)}, 'solar_tomorrow': 'hot and sunny'}
+        if solar_rest:
+            e['solar_rest_kwh'] = solar_rest
+        h = {'soc': soc, 'solar_w': solar_w, 'house_w': house_w, 'import_w': 0, 'export_w': max(0, solar_w - house_w), 'solar_today': 15.0,
+             'house_today': 9.0, 'paid_today': 0.1, 'free_today': 2.0, 'export_today': 3.0, 'forecast_days': fc, 'forecast_24h': FC24_HOT,
+             'weather': weather, 'outside_c': outside, 'loft': 29.5, 'bedroom': 28.0, 'ac_mode': 'off', 'ac_action': 'off', 'days': ledger,
+             'nights': [{'date': '2026-10-19', 'result': 'met'}]}
+        return {'id': cid, 'group': 'cooling', 'state': state, 'now': iso(D, hm), 'question': q, 'house': h, 'energy': e, 'expect': expect}
+    hot_fc = 'Tue 20 Oct: sunny, 36 / 23 °C, 0 mm; Wed 21 Oct: hot, 35 / 24 °C, 0 mm; Thu 22 Oct: storms, 27 / 19 °C, 8 mm'
+    cloudy_fc = 'Tue 20 Oct: cloudy, 33 / 24 °C, 1 mm; Wed 21 Oct: cloudy, 32 / 23 °C, 2 mm; Thu 22 Oct: showers, 26 / 19 °C, 6 mm'
+    return [
+        case('COOL-01', '15:00', 'Should I put the aircon on now or wait till tonight?', 92, 4300, 1100, hot_fc, 'hot afternoon, strong sun',
+             'now: solar is covering it; pre-cool the house before 6 pm and coast through the credit hours; never suggest opening windows', 33,
+             solar_rest=[4.0, 6.0]),
+        case('COOL-02', '17:35', "It's getting hot in here. Aircon now?", 78, 400, 900, hot_fc, 'hot evening, just before the credit hours',
+             'comfort first: run it if needed; solar is fading so it runs on the battery; keep it steady through 6-8 pm rather than a big pre-cool; '
+             'next time pre-cool while the sun is up; never suggest opening up the house', 31, solar_rest=[0.2, 0.5]),
+        case('COOL-03', '10:15', "Hot and cloudy today. When's the best time to cool the house?", 55, 600, 800, cloudy_fc, 'hot cloudy morning',
+             'pre-cool in the free window from 11 am (in 45 min), since solar is weak; coast through the evening; never suggest opening up', 29,
+             weather='cloudy'),
+    ]
+
+
 def owner_cases():
     D = '2026-10-20'
     today = date(2026, 10, 20)
@@ -222,7 +253,7 @@ def codex_cases():
 
 
 def main():
-    cases = codex_cases() + owner_cases() + dishwasher_cases() + arithmetic_cases()
+    cases = codex_cases() + owner_cases() + dishwasher_cases() + arithmetic_cases() + cooling_cases()
     (HERE / 'cases').mkdir(exist_ok=True)
     (HERE / 'cases' / 'all.json').write_text(json.dumps({'notice': 'SYNTHETIC readings only; see make_cases.py', 'cases': cases}, indent=1, ensure_ascii=False) + '\n')
     print(len(cases), 'cases')

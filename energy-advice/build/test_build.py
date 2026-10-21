@@ -231,6 +231,26 @@ class CreditStatus(unittest.TestCase):
         self.assertNotIn('would run 1 h 40 min', t)
         self.assertIn('nothing is secured until 8 pm', '\n'.join(E.credit_lines(self.st(18, 40, 0.010))))
 
+    def test_typical_duration_is_labelled(self):
+        c = E.build(at(17, 30), {}, 'Dryer tonight?')
+        t = '\n'.join(E.credit_lines(c['credit_status']))
+        self.assertIn('a typical 2 h cycle, not measured here', t)
+
+    def test_cooling_card(self):
+        def cool(h, m, solar, house, q='Aircon now?', fh=36):
+            c = E.build(at(h, m), {'solar_w': {'value': solar, 'at': at(h, m)}, 'house_w': {'value': house, 'at': at(h, m)}, 'forecast_high': fh}, q)
+            return c['cooling'], c['text']
+        self.assertEqual(cool(15, 0, 4300, 1100)[0]['now'], 'solar')
+        self.assertEqual(cool(12, 0, 300, 900)[0]['now'], 'free')
+        self.assertEqual(cool(18, 30, 0, 900)[0]['now'], 'credit')
+        self.assertEqual(cool(10, 15, 600, 800)[0]['now'], 'before_free')
+        self.assertEqual(cool(16, 0, 600, 800)[0]['now'], 'battery_day')
+        self.assertEqual(cool(21, 0, 0, 900)[0]['now'], 'night')
+        self.assertIsNone(cool(15, 0, 4300, 1100, q='Dishwasher now?', fh=24)[0])
+        t = cool(15, 0, 4300, 1100)[1]
+        self.assertIn("Opening up the house isn't an option here", t)
+        self.assertNotRegex(t.lower(), r'open (the |a )?(windows?|doors?)')
+
     def test_comfort_not_deferred(self):
         t = '\n'.join(E.credit_lines(self.st(19, 10, 0.005, 0.003, load={'name': 'aircon (cooling)'})))
         self.assertIn('comfort comes first', t)
@@ -459,7 +479,7 @@ class Cases(unittest.TestCase):
         groups = {}
         for c in cases:
             groups[c['group'].split('-')[0]] = groups.get(c['group'].split('-')[0], 0) + 1
-        self.assertEqual(groups, {'codex49': 40, 'owner': 3, 'dishwasher': 14, 'arithmetic': 20})
+        self.assertEqual(groups, {'codex49': 40, 'owner': 3, 'dishwasher': 14, 'arithmetic': 20, 'cooling': 3})
 
 
 class Prompt(unittest.TestCase):

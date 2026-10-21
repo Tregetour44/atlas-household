@@ -322,7 +322,7 @@ def credit_status(now: datetime, h1: Value, h2: Value, *, meter_age_min: float |
     out['minutes_to_end'] = _mins(now, _at_minute(now, ce)) if m < ce else None
     if load:
         nm = load.get('name', 'the load')
-        ld = {'name': nm, 'minutes': number(load.get('minutes')), 'peak_kw': number(load.get('peak_kw')),
+        ld = {'name': nm, 'minutes': number(load.get('minutes')), 'peak_kw': number(load.get('peak_kw')), 'typical': bool(load.get('minutes_typical')),
               'comfort': bool(re.search(r'aircon|air ?con|\bac\b|cooling|heating|heater', nm, re.I)),
               'mixed': bool(re.search(r',| and ', nm))}
         c0, c1 = _at_minute(now, cs), _at_minute(now, ce)
@@ -389,7 +389,10 @@ def credit_lines(c: dict) -> list[str]:
             L.append(f'- {n.capitalize()} and the credit: started now it would not run in the credit hours'
                      + (f" (it finishes before 6 pm if it starts by {clock(ld['latest_start'])})." if ld.get('latest_start') else '.'))
         else:
-            if ld.get('overlap'):
+            if ld.get('overlap') and ld.get('typical'):
+                L.append(f"- {n.capitalize()} started now (a typical {hm(ld['minutes'])} cycle, not measured here) would run about {hm(ld['overlap'])}"
+                         " in the credit hours (estimate).")
+            elif ld.get('overlap'):
                 L.append(f"- {n.capitalize()} started now would run {hm(ld['overlap'])} in the credit hours.")
             elif ld.get('in_window_now'):
                 L.append(f"- {n.capitalize()}: its run time isn't known; started now it would run in the credit hours, which have {hm(c['minutes_to_end'])} to go.")
@@ -599,9 +602,61 @@ def render(c: dict) -> str:
                 'before_credit': 'start it now, so it finishes before 6 pm', 'now': 'run it now',
                 'unknown_need': 'probably fine tonight, but not firm', 'unknown': 'no firm lean'}[ld['lean']]
         L.append(f"- Lean (estimate{', on the estimated charge' if b.get('estimated_from') else ''}): {lean}, because {ld['why']}.")
+    if c.get('cooling'):
+        L += cooling_lines(c['cooling'], k)
     for g in c.get('gaps', []):
         L.append(f'- Not known: {g}.')
     return '\n'.join(L)
+
+
+# ---- cooling (the owner, 21 Oct: "I cant really 'open up' my house - usually i run the air when it can be subsidised by sun or the free
+# energy") ----
+COOL_SURPLUS_KW = 1.0     # DRAFT: solar beyond the house's own use that counts as "covering" the aircon (a typical split system draws 1-2 kW)
+_COOL_WORDS = re.compile(r'aircon|air ?con|\bac\b|cool(?:ing)?\b|hot\b|heat', re.I)
+
+
+def cooling_card(now: datetime, clk: dict, solar: Value, house: Value, forecast_high: float | None, question: str, rules: dict = RULES) -> dict | None:
+    """When cooling matters (a hot forecast, or the question is about the aircon or heat): when cooling is cheapest. Run it while solar covers
+    it or in the free window (pre-cool before 2 pm), then coast through 6-8 pm; at night it runs on the battery. Never "open up the house"."""
+    hot = forecast_high is not None and forecast_high >= HOT_DAY_C
+    if not (hot or _COOL_WORDS.search(question or '')):
+        return None
+    m = _minute(now.astimezone(SYDNEY))
+    out = {'hot': hot, 'high': forecast_high, 'surplus_kw': None}
+    if solar and house:
+        out['surplus_kw'] = (solar.value - house.value) / 1000
+    if clk['in_free']:
+        out['now'] = 'free'
+    elif rules['credit_start'] <= m < rules['credit_end']:
+        out['now'] = 'credit'
+    elif m >= rules['credit_end'] or m < 7 * 60:
+        out['now'] = 'night'
+    elif out['surplus_kw'] is not None and out['surplus_kw'] >= COOL_SURPLUS_KW:
+        out['now'] = 'solar'
+    elif m < rules['free_start']:
+        out['now'] = 'before_free'
+    else:
+        out['now'] = 'battery_day'
+    return out
+
+
+def cooling_lines(c: dict, clk: dict) -> list[str]:
+    L = []
+    hi = f" (forecast high {c['high']:g}°C)" if c.get('high') is not None else ''
+    sur = c.get('surplus_kw')
+    sur_t = f' (solar is {sur:.1f} kW more than the house is using)' if sur is not None and sur > 0 else ''
+    now = {'free': f"grid power is free now for another {hm(clk['free_minutes_left'])}, the cheapest time to cool or pre-cool the house",
+           'solar': 'solar can cover it, a good time to cool or pre-cool the house before 6 pm',
+           'credit': "it's the credit hours: keep the aircon steady for comfort rather than starting a big pre-cool now",
+           'night': 'at night it runs on the battery and adds to the night\'s use',
+           'before_free': f"the free window starts in {hm(clk['minutes_to_free'])}, the cheapest time to pre-cool",
+           'battery_day': 'solar is not covering it, so it would mostly run on the battery'}[c['now']]
+    soon = clk.get('minutes_to_credit')
+    if c['now'] in ('battery_day', 'solar') and soon is not None and soon <= 90:
+        now += f'; the credit hours start in {hm(soon)}, so keep it steady through them rather than a big burst'
+    L.append(f"- Cooling{hi}: the cheap way here is to run the aircon while solar covers it or in the free window (11 am-2 pm), pre-cool,"
+             f" then coast through 6-8 pm. Right now {now}{sur_t}. Opening up the house isn't an option here.")
+    return L
 
 
 def credit_text(now: datetime, inp: dict, question: str = '', rules: dict = RULES) -> str:
@@ -653,12 +708,14 @@ def build(now: datetime, inp: dict, question: str = '', rules: dict = RULES) -> 
     lprof = load_profile(lname, inp.get('load')) if lname else None
     cl = dict(inp.get('load') or {}, name=lname) if lname else None
     if cl is not None and not cl.get('minutes') and lprof:
-        cl['minutes'] = lprof['minutes']
+        cl['minutes'], cl['minutes_typical'] = lprof['minutes'], lprof['source'] == 'typical'
     house = reading(inp.get('house_w'), now, 'power') if inp.get('house_w') is not None else Value(None)
     credit_st = credit_status(now, h1, h2, meter_age_min=inp.get('meter_age_min', 0), protection=inp.get('credit_protection'),
                               export_kwh=inp.get('export_kwh'), load=cl, house_kw=house.value / 1000 if house else None,
                               battery_limit_kw=number(inp.get('battery_limit_kw')), final_pending=bool(inp.get('final_pending')), rules=rules)
-    cards = {'clock': clk, 'battery': batt, 'demand': dem, 'credit': cr, 'credit_status': credit_st, 'solar_rest': solar_rest,
+    solar_now = reading(inp.get('solar_w'), now, 'power') if inp.get('solar_w') is not None else Value(None)
+    cool = cooling_card(now, clk, solar_now, house, fh, question, rules)
+    cards = {'clock': clk, 'battery': batt, 'demand': dem, 'credit': cr, 'credit_status': credit_st, 'solar_rest': solar_rest, 'cooling': cool,
              'solar_tomorrow': inp.get('solar_tomorrow'), 'gaps': gaps}
     named = loads_in(question)
     name = (inp.get('load') or {}).get('name') or (named[0] if len(named) == 1 else None)
