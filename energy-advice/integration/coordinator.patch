@@ -48,7 +48,7 @@ diff -ruN a/custom_components/atlas_household/api.py b/custom_components/atlas_h
  class AtlasAPI(llm.API):
 diff -ruN a/custom_components/atlas_household/calc.py b/custom_components/atlas_household/calc.py
 --- a/custom_components/atlas_household/calc.py	1970-01-01 00:00:00.000000000 +0000
-+++ b/custom_components/atlas_household/calc.py	2026-10-20 23:06:00.179618130 +0000
++++ b/custom_components/atlas_household/calc.py	2026-10-21 04:03:30.159230542 +0000
 @@ -0,0 +1,331 @@
 +"""Atlas arithmetic in code (energy-advice-build; the owner, 20 Oct: "it couldnt even do basic arithmatic"). Pure Python, no HA import.
 +
@@ -439,8 +439,8 @@ diff -ruN a/custom_components/atlas_household/core.py b/custom_components/atlas_
          t = self.handles.get(handle) or {}
 diff -ruN a/custom_components/atlas_household/energy_cards.py b/custom_components/atlas_household/energy_cards.py
 --- a/custom_components/atlas_household/energy_cards.py	1970-01-01 00:00:00.000000000 +0000
-+++ b/custom_components/atlas_household/energy_cards.py	2026-10-20 23:06:00.175705427 +0000
-@@ -0,0 +1,672 @@
++++ b/custom_components/atlas_household/energy_cards.py	2026-10-21 04:03:30.159010085 +0000
+@@ -0,0 +1,735 @@
 +"""Atlas energy fact cards (energy-advice-build; Codex 49 FACT-CARDS, directive 20261018-2225 + am. 1). Pure Python, no HA import, read-only.
 +
 +Every energy figure Atlas may say is computed here and handed to the model as finished text: the model quotes, it never adds, subtracts,
@@ -765,7 +765,7 @@ diff -ruN a/custom_components/atlas_household/energy_cards.py b/custom_component
 +    out['minutes_to_end'] = _mins(now, _at_minute(now, ce)) if m < ce else None
 +    if load:
 +        nm = load.get('name', 'the load')
-+        ld = {'name': nm, 'minutes': number(load.get('minutes')), 'peak_kw': number(load.get('peak_kw')),
++        ld = {'name': nm, 'minutes': number(load.get('minutes')), 'peak_kw': number(load.get('peak_kw')), 'typical': bool(load.get('minutes_typical')),
 +              'comfort': bool(re.search(r'aircon|air ?con|\bac\b|cooling|heating|heater', nm, re.I)),
 +              'mixed': bool(re.search(r',| and ', nm))}
 +        c0, c1 = _at_minute(now, cs), _at_minute(now, ce)
@@ -774,18 +774,19 @@ diff -ruN a/custom_components/atlas_household/energy_cards.py b/custom_component
 +        elif ld['minutes']:
 +            ld['overlap'] = _overlap(now, now + timedelta(minutes=ld['minutes']), c0, c1)
 +        else:
-+            ld['overlap'] = _mins(now, c1) if m >= cs else None           # in the window: at least the rest of it; before: unknown
++            ld['overlap'] = None                                          # run time unknown: say so, never a run time
++            ld['in_window_now'] = cs <= m < ce
 +        if ld['minutes'] and m < cs:
 +            latest = c0 - timedelta(minutes=ld['minutes'])
 +            ld['latest_start'] = latest if latest > now else None
 +        ld['import_kw'] = None
-+        if ld.get('overlap') and battery_limit_kw is not None and ld['peak_kw'] is not None and house_kw is not None:
++        if (ld.get('overlap') or ld.get('in_window_now')) and battery_limit_kw is not None and ld['peak_kw'] is not None and house_kw is not None:
 +            ld['import_kw'] = max(0.0, house_kw + ld['peak_kw'] - battery_limit_kw)
 +        out['load'] = ld
 +    return out
 +
 +
-+def credit_lines(c: dict) -> list[str]:
++def credit_lines(c: dict, energy_lean: str | None = None) -> list[str]:
 +    """The credit card as prompt lines. The status words are Home Assistant's verdict; the model uses them as given."""
 +    L, hrs = [], c['hours']
 +    lim = f"{c['limit']:.3f}"
@@ -808,7 +809,8 @@ diff -ruN a/custom_components/atlas_household/energy_cards.py b/custom_component
 +            'PENDING FINAL': 'the hours are over; the final meter reading is not in yet, so the result is still pending',
 +            'NOT SUPPLIED': "the credit hours are over for today; tonight's result isn't in these readings",
 +            'NO DATA': "NO DATA: a credit-hour meter reading is missing, so the result can't be confirmed",
-+            'SAFE': 'SAFE so far (not settled until 8 pm)', 'AT RISK': 'AT RISK (not settled until 8 pm)',
++            'SAFE': 'ON TRACK so far (status SAFE): under the limit with headroom, but nothing is secured until 8 pm; each hour must finish under 0.030 kWh',
++            'AT RISK': 'AT RISK: little headroom or no reliable reading, and nothing is settled until 8 pm',
 +            'NOT IN WINDOW': f"NOT IN WINDOW: the credit hours start in {hm(c['minutes_to_window'] or 0)}"}[t]
 +    L.append(f'- Evening credit status (worked out by Home Assistant; use it as given): {head}. The bill decides the actual credit.')
 +    if (c['window'] != 'before' or any(h['value'] is not None for h in hrs)) and t != 'NOT SUPPLIED':
@@ -830,8 +832,13 @@ diff -ruN a/custom_components/atlas_household/energy_cards.py b/custom_component
 +            L.append(f'- {n.capitalize()} and the credit: started now it would not run in the credit hours'
 +                     + (f" (it finishes before 6 pm if it starts by {clock(ld['latest_start'])})." if ld.get('latest_start') else '.'))
 +        else:
-+            if ld.get('overlap'):
++            if ld.get('overlap') and ld.get('typical'):
++                L.append(f"- {n.capitalize()} started now (a typical {hm(ld['minutes'])} cycle, not measured here) would run about {hm(ld['overlap'])}"
++                         " in the credit hours (estimate).")
++            elif ld.get('overlap'):
 +                L.append(f"- {n.capitalize()} started now would run {hm(ld['overlap'])} in the credit hours.")
++            elif ld.get('in_window_now'):
++                L.append(f"- {n.capitalize()}: its run time isn't known; started now it would run in the credit hours, which have {hm(c['minutes_to_end'])} to go.")
 +            else:
 +                L.append(f'- {n.capitalize()}: its run time is not known, so it may run into the credit hours.')
 +            if ld.get('import_kw') is not None:
@@ -845,6 +852,8 @@ diff -ruN a/custom_components/atlas_household/energy_cards.py b/custom_component
 +            elif ld['comfort']:
 +                L.append("- Credit advice: comfort comes first, so use the cooling or heating you need; the credit is a dollar. A load spike could"
 +                         " still affect it, so leave optional big loads until after 8 pm.")
++            elif energy_lean == 'free_window':
++                L.append("- Credit advice: not before 8 pm; and on the energy (the Lean line below), the next free window is the better time.")
 +            elif ld.get('latest_start'):
 +                L.append(f"- Credit advice: start it by {clock(ld['latest_start'])} so it finishes before 6 pm, or after 8 pm.")
 +            else:
@@ -982,7 +991,7 @@ diff -ruN a/custom_components/atlas_household/energy_cards.py b/custom_component
 +        L.append(f"- Free grid power: on now, for another {hm(k['free_minutes_left'])} (until 2 pm).")
 +    else:
 +        L.append(f"- Free grid power: next from 11 am {'today' if k['next_free_start'].date() == k['now'].date() else 'tomorrow'}, in {hm(k['minutes_to_free'])}.")
-+    L += credit_lines(c['credit_status'])
++    L += credit_lines(c['credit_status'], (c.get('load_card') or {}).get('lean'))
 +    if b.get('estimated_from'):
 +        last, at, used = b['estimated_from']
 +        L.append(f"- Battery: no current reading (the last was {last:.0f}% at {clock(at)}). Estimate from typical use since then: about {b['soc']:.0f}% now,"
@@ -1038,9 +1047,61 @@ diff -ruN a/custom_components/atlas_household/energy_cards.py b/custom_component
 +                'before_credit': 'start it now, so it finishes before 6 pm', 'now': 'run it now',
 +                'unknown_need': 'probably fine tonight, but not firm', 'unknown': 'no firm lean'}[ld['lean']]
 +        L.append(f"- Lean (estimate{', on the estimated charge' if b.get('estimated_from') else ''}): {lean}, because {ld['why']}.")
++    if c.get('cooling'):
++        L += cooling_lines(c['cooling'], k)
 +    for g in c.get('gaps', []):
 +        L.append(f'- Not known: {g}.')
 +    return '\n'.join(L)
++
++
++# ---- cooling (the owner, 21 Oct: "I cant really 'open up' my house - usually i run the air when it can be subsidised by sun or the free
++# energy") ----
++COOL_SURPLUS_KW = 1.0     # DRAFT: solar beyond the house's own use that counts as "covering" the aircon (a typical split system draws 1-2 kW)
++_COOL_WORDS = re.compile(r'aircon|air ?con|\bac\b|cool(?:ing)?\b|hot\b|heat', re.I)
++
++
++def cooling_card(now: datetime, clk: dict, solar: Value, house: Value, forecast_high: float | None, question: str, rules: dict = RULES) -> dict | None:
++    """When cooling matters (a hot forecast, or the question is about the aircon or heat): when cooling is cheapest. Run it while solar covers
++    it or in the free window (pre-cool before 2 pm), then coast through 6-8 pm; at night it runs on the battery. Never "open up the house"."""
++    hot = forecast_high is not None and forecast_high >= HOT_DAY_C
++    if not (hot or _COOL_WORDS.search(question or '')):
++        return None
++    m = _minute(now.astimezone(SYDNEY))
++    out = {'hot': hot, 'high': forecast_high, 'surplus_kw': None}
++    if solar and house:
++        out['surplus_kw'] = (solar.value - house.value) / 1000
++    if clk['in_free']:
++        out['now'] = 'free'
++    elif rules['credit_start'] <= m < rules['credit_end']:
++        out['now'] = 'credit'
++    elif m >= rules['credit_end'] or m < 7 * 60:
++        out['now'] = 'night'
++    elif out['surplus_kw'] is not None and out['surplus_kw'] >= COOL_SURPLUS_KW:
++        out['now'] = 'solar'
++    elif m < rules['free_start']:
++        out['now'] = 'before_free'
++    else:
++        out['now'] = 'battery_day'
++    return out
++
++
++def cooling_lines(c: dict, clk: dict) -> list[str]:
++    L = []
++    hi = f" (forecast high {c['high']:g}°C)" if c.get('high') is not None else ''
++    sur = c.get('surplus_kw')
++    sur_t = f' (solar is {sur:.1f} kW more than the house is using)' if sur is not None and sur > 0 else ''
++    now = {'free': f"grid power is free now for another {hm(clk['free_minutes_left'])}, the cheapest time to cool or pre-cool the house",
++           'solar': 'solar can cover it, a good time to cool or pre-cool the house before 6 pm',
++           'credit': "it's the credit hours: keep the aircon steady for comfort rather than starting a big pre-cool now",
++           'night': 'at night it runs on the battery and adds to the night\'s use',
++           'before_free': f"the free window starts in {hm(clk['minutes_to_free'])}, the cheapest time to pre-cool",
++           'battery_day': 'solar is not covering it, so it would mostly run on the battery'}[c['now']]
++    soon = clk.get('minutes_to_credit')
++    if c['now'] in ('battery_day', 'solar') and soon is not None and soon <= 90:
++        now += f'; the credit hours start in {hm(soon)}, so keep it steady through them rather than a big burst'
++    L.append(f"- Cooling{hi}: the cheap way here is to run the aircon while solar covers it or in the free window (11 am-2 pm), pre-cool,"
++             f" then coast through 6-8 pm. Right now {now}{sur_t}. Opening up the house isn't an option here.")
++    return L
 +
 +
 +def credit_text(now: datetime, inp: dict, question: str = '', rules: dict = RULES) -> str:
@@ -1092,12 +1153,14 @@ diff -ruN a/custom_components/atlas_household/energy_cards.py b/custom_component
 +    lprof = load_profile(lname, inp.get('load')) if lname else None
 +    cl = dict(inp.get('load') or {}, name=lname) if lname else None
 +    if cl is not None and not cl.get('minutes') and lprof:
-+        cl['minutes'] = lprof['minutes']
++        cl['minutes'], cl['minutes_typical'] = lprof['minutes'], lprof['source'] == 'typical'
 +    house = reading(inp.get('house_w'), now, 'power') if inp.get('house_w') is not None else Value(None)
 +    credit_st = credit_status(now, h1, h2, meter_age_min=inp.get('meter_age_min', 0), protection=inp.get('credit_protection'),
 +                              export_kwh=inp.get('export_kwh'), load=cl, house_kw=house.value / 1000 if house else None,
 +                              battery_limit_kw=number(inp.get('battery_limit_kw')), final_pending=bool(inp.get('final_pending')), rules=rules)
-+    cards = {'clock': clk, 'battery': batt, 'demand': dem, 'credit': cr, 'credit_status': credit_st, 'solar_rest': solar_rest,
++    solar_now = reading(inp.get('solar_w'), now, 'power') if inp.get('solar_w') is not None else Value(None)
++    cool = cooling_card(now, clk, solar_now, house, fh, question, rules)
++    cards = {'clock': clk, 'battery': batt, 'demand': dem, 'credit': cr, 'credit_status': credit_st, 'solar_rest': solar_rest, 'cooling': cool,
 +             'solar_tomorrow': inp.get('solar_tomorrow'), 'gaps': gaps}
 +    named = loads_in(question)
 +    name = (inp.get('load') or {}).get('name') or (named[0] if len(named) == 1 else None)
