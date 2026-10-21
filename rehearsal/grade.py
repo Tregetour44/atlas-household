@@ -134,6 +134,7 @@ def grade(req: dict, before: dict, after: dict, results: list, timers: list, rep
     acts = exp.get('acts') or []
     done = [_act_done(a, before, after, scene_expect) for a in acts]
     asked = bool(ASKS.search(reply or ''))
+    reply_all = reply
     timer_kinds = kind in ('timer', 'timer_or_ask')
     if kind in ('act', 'partial', 'timer') or (kind in ('act_or_ask', 'timer_or_ask') and (any(done) or mv or timers)):
         need_all = not exp.get('any_of') and not exp.get('allow_partial_acts')
@@ -154,8 +155,8 @@ def grade(req: dict, before: dict, after: dict, results: list, timers: list, rep
                 f('MAJOR', 'false_done' if DONE_CLAIM.search(reply or '') else 'miss_unsaid', f"nothing done; reply: {reply[:120]!r}")
             else:
                 f('MISS', 'not_done', f"nothing done, said honestly ({statuses})")
-    # 6. claims against what happened (independent check)
-    r = reply or ''
+    # 6. claims against what happened (independent check); a question claims nothing
+    r = ' '.join(x for x in re.split(r"(?<=[.!?])\s+", reply or '') if not x.rstrip().endswith('?'))
     if not mv and not any(s in ('done', 'undone') for s in statuses) and DONE_CLAIM.search(r) and not NEG_CLAIM.search(r) and not ALREADY_CLAIM.search(r) \
             and not timers and not any(s == 'scheduled' for s in statuses) and kind not in ('answer', 'chat'):
         f('MAJOR', 'false_done', f"claims done with nothing done: {r[:120]!r}")
