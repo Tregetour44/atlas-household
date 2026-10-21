@@ -390,8 +390,8 @@ def credit_lines(c: dict, energy_lean: str | None = None) -> list[str]:
                      + (f" (it finishes before 6 pm if it starts by {clock(ld['latest_start'])})." if ld.get('latest_start') else '.'))
         else:
             if ld.get('overlap') and ld.get('typical'):
-                L.append(f"- {n.capitalize()} started now (a typical {hm(ld['minutes'])} cycle, not measured here) would run about {hm(ld['overlap'])}"
-                         " in the credit hours (estimate).")
+                # no figure from a typical cycle: Gemma repeated it without the label (round 2 judge, EN015/EN035/EN038)
+                L.append(f"- {n.capitalize()} started now would likely run into the credit hours (its run time here isn't measured).")
             elif ld.get('overlap'):
                 L.append(f"- {n.capitalize()} started now would run {hm(ld['overlap'])} in the credit hours.")
             elif ld.get('in_window_now'):

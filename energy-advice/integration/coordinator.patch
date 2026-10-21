@@ -48,7 +48,7 @@ diff -ruN a/custom_components/atlas_household/api.py b/custom_components/atlas_h
  class AtlasAPI(llm.API):
 diff -ruN a/custom_components/atlas_household/calc.py b/custom_components/atlas_household/calc.py
 --- a/custom_components/atlas_household/calc.py	1970-01-01 00:00:00.000000000 +0000
-+++ b/custom_components/atlas_household/calc.py	2026-10-21 04:03:30.159230542 +0000
++++ b/custom_components/atlas_household/calc.py	2026-10-21 06:30:28.110997099 +0000
 @@ -0,0 +1,331 @@
 +"""Atlas arithmetic in code (energy-advice-build; the owner, 20 Oct: "it couldnt even do basic arithmatic"). Pure Python, no HA import.
 +
@@ -439,7 +439,7 @@ diff -ruN a/custom_components/atlas_household/core.py b/custom_components/atlas_
          t = self.handles.get(handle) or {}
 diff -ruN a/custom_components/atlas_household/energy_cards.py b/custom_components/atlas_household/energy_cards.py
 --- a/custom_components/atlas_household/energy_cards.py	1970-01-01 00:00:00.000000000 +0000
-+++ b/custom_components/atlas_household/energy_cards.py	2026-10-21 04:03:30.159010085 +0000
++++ b/custom_components/atlas_household/energy_cards.py	2026-10-21 06:30:28.110387741 +0000
 @@ -0,0 +1,735 @@
 +"""Atlas energy fact cards (energy-advice-build; Codex 49 FACT-CARDS, directive 20261018-2225 + am. 1). Pure Python, no HA import, read-only.
 +
@@ -833,8 +833,8 @@ diff -ruN a/custom_components/atlas_household/energy_cards.py b/custom_component
 +                     + (f" (it finishes before 6 pm if it starts by {clock(ld['latest_start'])})." if ld.get('latest_start') else '.'))
 +        else:
 +            if ld.get('overlap') and ld.get('typical'):
-+                L.append(f"- {n.capitalize()} started now (a typical {hm(ld['minutes'])} cycle, not measured here) would run about {hm(ld['overlap'])}"
-+                         " in the credit hours (estimate).")
++                # no figure from a typical cycle: Gemma repeated it without the label (round 2 judge, EN015/EN035/EN038)
++                L.append(f"- {n.capitalize()} started now would likely run into the credit hours (its run time here isn't measured).")
 +            elif ld.get('overlap'):
 +                L.append(f"- {n.capitalize()} started now would run {hm(ld['overlap'])} in the credit hours.")
 +            elif ld.get('in_window_now'):

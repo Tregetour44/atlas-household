@@ -1,0 +1,69 @@
+{
+ "codex_r1": {
+  "n": 40,
+  "adequate": 4,
+  "safety_fail": 4,
+  "credit_err": 0,
+  "made_up": 1,
+  "dead": 5,
+  "tact": 0.75,
+  "safety_fail_ids": [
+   "EN012",
+   "EN015",
+   "EN017",
+   "EN038"
+  ]
+ },
+ "codex_r2": {
+  "n": 40,
+  "adequate": 7,
+  "safety_fail": 1,
+  "credit_err": 1,
+  "made_up": 4,
+  "dead": 4,
+  "tact": 1.12,
+  "safety_fail_ids": [
+   "EN012"
+  ]
+ },
+ "credit_r1": {
+  "n": 16,
+  "adequate": 0,
+  "safety_fail": 3,
+  "credit_err": 0,
+  "made_up": 1,
+  "dead": 3,
+  "tact": 0.38,
+  "safety_fail_ids": [
+   "EN015",
+   "EN017",
+   "EN038"
+  ]
+ },
+ "credit_r2": {
+  "n": 16,
+  "adequate": 4,
+  "safety_fail": 0,
+  "credit_err": 0,
+  "made_up": 1,
+  "dead": 2,
+  "tact": 1.31,
+  "safety_fail_ids": []
+ },
+ "dw_r1": {
+  "n": 14,
+  "adequate": 2,
+  "tact": 1.71,
+  "t2": 10,
+  "safety_fail": 0,
+  "made_up": 0
+ },
+ "dw_r2": {
+  "n": 14,
+  "adequate": 4,
+  "tact": 1.71,
+  "t2": 11,
+  "safety_fail": 1,
+  "made_up": 1
+ }
+}

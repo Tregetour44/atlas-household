@@ -2,7 +2,71 @@
 
 Branch `energy-advice-build`, cut from `energy-advice-input`. **Synthetic readings only. Nothing on `main` is changed, nothing touched a house.** Model: the public `gemma4:12b` (Q4_K_M, 11.9B), Ollama 0.40.6, CPU only, thinking off, `num_ctx` 8192, the model's own sampling, a fixed seed per case. Prompt: the real go-live template (`prompt-build/prompt-template.golive.jinja`) rendered per case, plus the coordinator's own API prompt and tool list, exactly as HA joins them.
 
-## Verdict
+## Round 2 verdict (21 Oct): the evening credit
+
+PC Steward asked for this round with the owner's approval. Goal: remove the credit failures before go-live.
+
+- **Credit-rule failures gone in the credit-window cases.** Codex 49 has 16 scenarios set in or around the credit hours, or about a load in them. Their safety fails dropped from **3 to 0**. The judge found **0 credit-rule errors** (wrong strictness, hours added, export netted, a load advised in a credit hour without the comfort or already-missed exception). Tactical usefulness rose from **0.38 to 1.31**, and adequate answers from **0 to 4** of 16.
+- **The 4 round-1 safety fails, each run 3 times:**
+
+  | Case | Safety passes | Credit-rule errors | What's left |
+  |---|---|---|---|
+  | EN017 (exactly 0.030) | 3/3 | 0 | correct every time: "exactly 0.030 kWh … must be strictly under" |
+  | EN038 (0.026 in the second hour) | 3/3 | 0 | every run says after 8 pm; but each quotes a cycle overlap ("about 55 minutes") from the card's typical-cycle estimate without the "typical" label (fixed afterwards, see below) |
+  | EN015 (0.024 so far) | 2/3 | 0 | after 8 pm every time; repeat 2 said "to avoid missing out", which the judge read as a guarantee |
+  | EN012 (4 pm, no solar or demand data) | 2/3 | 1 (repeat 1 invented an "on track" credit status) | still weak, tactical 0 in all 3: it says the night "should be fine" or gives a stock line instead of naming the gaps |
+
+  **Clean on the credit rule except EN012, which isn't a credit case**: it has no readings to judge from. It is plateaued, and more prompt won't fix it. It needs the evening-demand and PV-forecast cards that are NO DATA today.
+- **All 40 Codex scenarios** (round 2; the re-run answer where one exists): safety fails 4 → **1** (EN012), adequate 4 → 7, tactical 0.75 → 1.12, dead ends 5 → 4. Figures: **0 unsupported in final replies** by the figure guard (79 trials).
+- **Dishwasher states** (14, round 2): tactical mean unchanged at 1.71 (full marks 10 → 11); the choice matched the card's Lean in 13/14.
+  - DW-07 ("ensures … your credit safe") ran before the "ON TRACK" fix below.
+  - DW-08 said "after 8 pm" where the energy lean was the free window. Fixed afterwards in code; not re-run.
+- **Stopped**: the credit cases are clean or plateaued, and the budget was cut to about US$10 (PC Steward, 15:1x Sydney). Not re-run for budget reasons: the cooling cases, DW-05/07/08/12/13 and EN035 on the final card.
+
+### What round 2 built
+
+- **Credit-status card** (`energy_cards.credit_status` / `credit_lines`). Code judges the credit, the model never does:
+  - the current or next credit hour, and kWh imported so far against 0.030 with headroom (strictly under passes; exactly 0.030 fails);
+  - status **SAFE (shown as "ON TRACK so far") / AT RISK / MISSED / NOT IN WINDOW**, plus MET, NO DATA and "pending final" after 8 pm;
+  - minutes left in the hour, and whether a named load started now overlaps a credit hour;
+  - its likely grid import when the battery's output limit is in the facts, otherwise "can't be ruled out";
+  - the advice line: after 8 pm or "start by …"; it defers to the energy Lean when the battery is short.
+  - Exceptions it states: cooling or heating needed for comfort, and a credit already MISSED (waiting no longer helps). Export never offsets; hours are never added.
+  - DRAFT thresholds for Energy's review: AT RISK below 0.010 kWh headroom, a meter report older than 5 min, or controller protection shown inactive.
+- **Codex 49's credit facts encoded as HA meter inputs** (`make_cases.CODEX_ENERGY`), from each fixture's own text. Round 2's arm (`candidate2`) gets the clock and credit cards on top of Codex's fixture text.
+- **Guidance** (`build/guidance.txt`):
+  - the credit card's status is used as given, and before 8 pm nothing is "safe" or "secured";
+  - never a load in a credit hour, say "after 8 pm" and why;
+  - a question about running something is answered as advice, not refused as a command;
+  - a gap is named in a short clause, then the useful part follows;
+  - "about" or "estimate" goes on every estimate.
+- **An advice nudge** (`calc.advice_nudge_needed`, wired into `turn.run_turn`). A question ending in "?" that isn't a "can you / please" request, answered only with "I can't control that", is asked once for the advice. It fired on EN004 ("Leave the AC off until 8 to save the credit?"). Before: *"I cannot control the aircon yet…"*. After: *"…since comfort comes first, it is fine to use now, but you should leave any optional big loads until after 8 pm to protect the credit."* The template's aircon line now says a question about using the aircon is answered as advice.
+- **The owner's cooling note** (21 Oct: "I cant really 'open up' my house - usually i run the air when it can be subsidised by sun or the free energy"):
+  - a cooling card: run the aircon while solar covers it (solar more than 1 kW above the house's use) or in the free window, pre-cool before 2 pm or while the sun is strong, coast through 6–8 pm. At night it runs on the battery, and the card says "opening up the house isn't an option here";
+  - the guidance line follows that pattern and never suggests opening windows or doors;
+  - three cases (COOL-01 hot sunny afternoon, COOL-02 hot evening 25 min before the credit hours, COOL-03 hot cloudy morning) are built and unit-tested. **Not run on Gemma** (budget cut).
+
+### Round-2 findings, all in my own card wording and since fixed
+
+1. "Would run 1 h 40 min in the credit hours" came from the typical 2 h cycle without saying so, and Gemma quoted it as the dryer's run time. The judge called it made up (EN015, EN022, EN035, EN038). The card now gives no figure from a typical cycle: *"would likely run into the credit hours (its run time here isn't measured)"*. Unit-tested; **not re-run** (budget).
+2. "SAFE so far" was read as "safe" or "secured" (EN026, EN039, DW-07). The card now shows "ON TRACK so far (status SAFE) … nothing is secured until 8 pm", with a matching guidance line. EN026 and EN039 re-ran clean: *"on track so far … nothing is secured until 8 pm"*.
+3. The credit advice could override the energy Lean (DW-08: "after 8 pm" at 27% battery). It now says "not before 8 pm; and on the energy, the next free window is the better time". Unit-tested; not re-run.
+4. My prompt workaround for the claim-guard false positive ("If it runs tonight, …") leaked into daytime answers. It is now "If you run it now / If it runs tonight (whichever fits)". The coordinator's claim-guard false positive itself is still open (finding 2 below). The tool to queue it as a separate task timed out twice.
+
+### Round-2 samples (Gemma 4 12B, synthetic readings; round 1's answer to the same case in brackets)
+
+- **EN017, exactly 0.030 in the first hour:** "No, the credit was missed because the first hour was exactly 0.030 kWh. To receive the credit, the usage must be strictly under that amount." *(Round 1: "Yes, you received the credit with exactly 0.030 kWh in the first hour.")*
+- **EN038, 0.026 kWh so far in the second hour:** "…it would run into the credit hours. I recommend starting it after 8 pm to avoid the risk of missing today's credit." *(Round 1: "I recommend starting the dishwasher now, as there is still about 0.026 kWh of headroom left…")*
+- **EN015, 0.024 kWh so far at 6:20 pm, dryer:** "If you run it now, it will likely use up the little headroom left for your evening credit. It is better to start it after 8:00 pm to avoid the risk of missing out on that credit." *(Round 1: "I recommend running the dryer now… running it before 20:00 helps keep your evening credit on track.")*
+- **EN016, 0.041 kWh in the first hour:** "The evening credit was missed because the first hour of import was 0.041 kWh. Waiting any longer won't help recover it, so you can go ahead and use the dishwasher now." *(Round 1: an answer about timers.)*
+- **EN026, import zero right now, 0.010 so far:** "The evening credit is on track so far because you are under the limit with some headroom, but nothing is secured until 8 pm. Each hour must finish under 0.030 kWh for the credit to be confirmed by the bill."
+- **EN004, hot bedroom at 7:10 pm:** "If you run the aircon now, it will run during the final 50 minutes of the evening credit, which is currently on track. Since comfort comes first, it is fine to use now, but you should leave any optional big loads until after 8 pm to protect the credit." *(Round 1: "I cannot control the aircon yet, but I can help with other things if you like.")*
+
+Files: `build/results/r2-*.jsonl` (all round-2 trials; `r2-final-codex.jsonl` is the frozen-build pass), `build/judge/r2*` and `judge/round2-summary.json`, `build/results/machine-round2.json`, `build/run_round2*.sh` / `run_final*.sh`. Patches refreshed: `integration/coordinator.patch` (adds the credit card, the cooling card and the advice nudge in `turn.py`) still applies to `main`, and the suite passes **187 OK**. `integration/prompt-template.patch` now has three edits: the guidance, the two rejected lines removed, the aircon-question line. **75 offline build tests pass.**
+
+*Round 1 follows unchanged below. Where round 1 and round 2 differ, round 2 is the current build.*
+
+## Round 1 verdict (20 Oct)
 
 - **Better than now? Yes, clearly, for the owner's kind of question.** In the blind paired judging (25 cases, answers shuffled) the judge preferred the new build **15 times, the current prompt 3 times, with 7 ties**. Tactical usefulness (0–2) averaged **1.36 against 0.64**. On the dishwasher-tonight states it was **1.83 against 0.17**. The current prompt still gives the owner's complaint word for word: *"It is usually best to wait until tomorrow's free window … waiting until tomorrow is the cheapest choice."* The new build reasons from the battery, the night's expected use and the load, and it changes its answer when the situation changes (shown below).
 - **0 made-up figures?** **0 unsupported figures in final replies across all 77 new-build answers**, by the figure-guard screen. The blind judge confirmed one wrong figure: in AR-17 Gemma divided the right kWh by 3 (0.14) when the question asked for a cost share. That is a correct sum on the wrong operand, so no guard can catch it (see Limits). The current prompt, on its 25-case subset, put 10 unsupported figures in 5 answers, and the judge confirmed 3 of them as made up or wrong. Example: *"64%, which is 25.6 kWh … 16.9 kWh above the 20% reserve"* (the right answer is about 7.6 kWh).

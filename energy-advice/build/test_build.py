@@ -234,7 +234,8 @@ class CreditStatus(unittest.TestCase):
     def test_typical_duration_is_labelled(self):
         c = E.build(at(17, 30), {}, 'Dryer tonight?')
         t = '\n'.join(E.credit_lines(c['credit_status']))
-        self.assertIn('a typical 2 h cycle, not measured here', t)
+        self.assertIn("would likely run into the credit hours (its run time here isn't measured)", t)
+        self.assertNotIn('1 h 30 min', t)
 
     def test_cooling_card(self):
         def cool(h, m, solar, house, q='Aircon now?', fh=36):
