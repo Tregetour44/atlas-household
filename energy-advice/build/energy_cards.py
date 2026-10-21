@@ -366,7 +366,7 @@ def credit_lines(c: dict) -> list[str]:
             'PENDING FINAL': 'the hours are over; the final meter reading is not in yet, so the result is still pending',
             'NOT SUPPLIED': "the credit hours are over for today; tonight's result isn't in these readings",
             'NO DATA': "NO DATA: a credit-hour meter reading is missing, so the result can't be confirmed",
-            'SAFE': 'SAFE so far: under the limit with headroom, but nothing is secured until 8 pm; each hour must finish under 0.030 kWh',
+            'SAFE': 'ON TRACK so far (status SAFE): under the limit with headroom, but nothing is secured until 8 pm; each hour must finish under 0.030 kWh',
             'AT RISK': 'AT RISK: little headroom or no reliable reading, and nothing is settled until 8 pm',
             'NOT IN WINDOW': f"NOT IN WINDOW: the credit hours start in {hm(c['minutes_to_window'] or 0)}"}[t]
     L.append(f'- Evening credit status (worked out by Home Assistant; use it as given): {head}. The bill decides the actual credit.')
