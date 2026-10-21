@@ -1,0 +1,57 @@
+# idf.py size summary (from the build log)
+┃ Memory Type/Section ┃ Used [bytes] ┃ Used [%] ┃ Remain [bytes] ┃ Total [bytes] ┃
+┡━━━━━━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━╇━━━━━━━━━━╇━━━━━━━━━━━━━━━━╇━━━━━━━━━━━━━━━┩
+│ Flash Data          │      1660868 │          │                │               │
+│    .rodata          │      1660604 │          │                │               │
+│    .appdesc         │          256 │          │                │               │
+│    .tdata           │            8 │          │                │               │
+│ Flash Code          │      1474880 │          │                │               │
+│    .text            │      1474880 │          │                │               │
+│ DIRAM               │       174759 │    51.14 │         167001 │        341760 │
+│    .text            │        98603 │    28.85 │                │               │
+│    .bss             │        53832 │    15.75 │                │               │
+│    .data            │        21136 │     6.18 │                │               │
+│    .vectors         │         1028 │      0.3 │                │               │
+│    .noinit          │          160 │     0.05 │                │               │
+│ RTC SLOW            │           32 │     0.39 │           8160 │          8192 │
+│    .force_slow      │           32 │     0.39 │                │               │
+│ RTC FAST            │           24 │     0.29 │           8168 │          8192 │
+│    .rtc_reserved    │           24 │     0.29 │                │               │
+└─────────────────────┴──────────────┴──────────┴────────────────┴───────────────┘
+Total image size: 3256539 bytes (.bin may be padded larger)
+RAM:   [=====     ]  51.1% (used 174759 bytes from 341760 bytes)
+Flash: [====      ]  40.1% (used 3256539 bytes from 8126464 bytes)
+
+# Largest 25 archives (esp_idf_size --archives)
+Total sizes:
+Used stat D/IRAM:  174759 bytes ( 167001 remain, 51.1% used)
+      .data size:   21136 bytes
+      .bss  size:   53832 bytes
+      .text size:   98603 bytes
+   .vectors size:    1028 bytes
+           other:     160 bytes
+Used Flash size : 3135748 bytes
+           .text: 1474880 bytes
+         .rodata: 1660604 bytes
+Total image size: 3256515 bytes (.bin may be padded larger)
+Per-archive contributions to ELF file:
+            Archive File DRAM .data & 0.bss .noinit IRAM0 .text & 0.vectors ram_st_total Flash .text & .rodata & .rodata_noload & .appdesc & .tdata flash_total
+                libsrc.a        123   31189     160        1221           0        32693      193637   1331803                0          0        0     1526944
+                 libbt.a         97     548       0         494           0         1139      171956     13224                0          0        0      185771
+          libesp_timer.a         32      36       0         996           0         1064        1333    169514                0          0        0      171875
+libespressif__esp-tflite          0      56       0           0           0           56      132320      1920                0          0        0      134240
+           libnet80211.a        931    7572       0        3854           0        12357       94808      5008            18715          0        0      104601
+               liblwip.a         12    3907       0           0           0         3919       83351      4320                0          0        0       87683
+libesphome__micro-opus.a          8       8       0           0           0           16       60597     26634                0          0        8       87247
+           libbtdm_app.a        483     714       0       16470           0        17667       50307      5198                0          0        0       72458
+         libmbedcrypto.a         92     264       0          80           0          436       64699      7012                0          0        0       71883
+                 libpp.a       2640    1234       0       15307           0        19181       42195      1927             2351          0        0       62069
+libsendspin__sendspin-cp         12    1024       0           0           0         1036       56739      1011                0          0        0       57762
+                  libc.a        268     728       0           0           0          996       42675      3351                0          0        0       46294
+            libmbedtls.a          0     244       0           0           0          244       23216     20270                0          0        0       43486
+           libfreertos.a       3100    1068       0        5297           0         9465       13192     20235                0          0        0       41824
+     libwpa_supplicant.a          8    1243       0           0           0         1251       38148      1564                0          0        0       39720
+                libphy.a       1277      86       0        5150           0         6513       27902         0                0          0        0       34329
+ libesphome__micro-mp3.a          0       0       0           0           0            0       20928     11944                0          0        0       32872
+     libesp_hw_support.a        641     225       0        9468           0        10334       20249      1575                0          0        0       31933
+          liblibsodium.a         12       1       0           0           0           13       14570     12800                0          0        0       27382

@@ -1,0 +1,86 @@
+PASS  every top-level component key appears once                                                                                                                          duplicates: none
+PASS  one micro_wake_word block, id mww                                                                                                                                   id=mww
+PASS  wake models: okay_nabu, hey_jarvis, hey_mycroft, stop, hey_atlas, each exactly once                                                                                 ids=['okay_nabu', 'hey_jarvis', 'hey_mycroft', 'stop', 'hey_atlas']
+PASS  model okay_nabu is the pinned local file                                                                                                                            local:models/stock/okay_nabu_20241226.3/okay_nabu.json
+PASS  model okay_nabu internal=False                                                                                                                                      internal=False
+PASS  model hey_jarvis is the pinned local file                                                                                                                           local:models/stock/micro-wake-word-models/hey_jarvis.json
+PASS  model hey_jarvis internal=False                                                                                                                                     internal=False
+PASS  model hey_mycroft is the pinned local file                                                                                                                          local:models/stock/micro-wake-word-models/hey_mycroft.json
+PASS  model hey_mycroft internal=False                                                                                                                                    internal=False
+PASS  model stop is the pinned local file                                                                                                                                 local:models/stock/stop/stop.json
+PASS  model stop internal=True                                                                                                                                            internal=True
+PASS  model hey_atlas is the pinned local file                                                                                                                            local:models/hey_atlas/hey_atlas.json
+PASS  model hey_atlas internal=False                                                                                                                                      internal=False
+PASS  VAD present once, pinned local model                                                                                                                                {'path': '/home/user/atlas-household/voicepe/models/stock/micro-wake-word-models/vad.json', 'type': 'local'}
+PASS  exactly one vad block                                                                                                                                               count=1
+PASS  exactly one wake handler (micro_wake_word.on_wake_word_detected)                                                                                                    ['micro_wake_word.on_wake_word_detected']
+PASS  wake handler starts Assist exactly once                                                                                                                             ['then[0].if.then[0].if.else[0].if.else[0].if.else[1].voice_assistant.start']
+PASS  wake handler is gated by master_mute_switch (mute handling kept)                                                                                                    condition={'switch.is_off': {'id': 'master_mute_switch'}}
+PASS  master_mute_switch defined exactly once                                                                                                                             count=1
+PASS  hardware_mute_switch defined exactly once                                                                                                                           count=1
+PASS  voice_assistant.micro_wake_word: mww                                                                                                                                mww
+PASS  voice_assistant.use_wake_word: false (no server-side wake word)                                                                                                     False
+PASS  no second wake handler on voice_assistant                                                                                                                           
+PASS  voice_assistant.start: same count as stock base (2)                                                                                                                 merged=2 at ['binary_sensor[0].on_multi_click[0].then[0].if.then[0].if.else[0].if.else[0].if.else[0].if.else[0].if.then[2].voice_assistant.start', 'micro_wake_word.on_wake_word_detected.then[0].if.then[0].if.else[0].if.else[0].if.else[1].voice_assistant.start']
+PASS  voice_assistant.start_continuous: same count as stock base (0)                                                                                                      merged=0 at []
+PASS  micro_wake_word.start: same count as stock base (1)                                                                                                                 merged=1 at ['voice_assistant.on_client_connected.then[3].micro_wake_word.start']
+PASS  micro_wake_word.stop: same count as stock base (0)                                                                                                                  merged=0 at []
+PASS  micro_wake_word.enable_model: same count as stock base (2)                                                                                                          merged=2 at ['switch[3].on_turn_on[0].then[1].micro_wake_word.enable_model', 'script[28].then[2].if.then[0].micro_wake_word.enable_model']
+PASS  micro_wake_word.disable_model: same count as stock base (2)                                                                                                         merged=2 at ['switch[3].on_turn_off[0].then[0].micro_wake_word.disable_model', 'script[28].then[2].if.then[2].if.then[0].micro_wake_word.disable_model']
+PASS  factory BLE wait runs first in on_client_connected (as in the factory wrapper)                                                                                      first=[{'wait_until': {'condition': {'not': {'ble.enabled': {}}}}}, {'delay': '2s'}]
+PASS  no top-level 'update'                                                                                                                                               
+PASS  no top-level 'http_request'                                                                                                                                         
+PASS  no top-level 'dashboard_import'                                                                                                                                     
+PASS  OTA: only the local esphome platform                                                                                                                                ['esphome']
+PASS  no 'firmware.esphome.io' anywhere                                                                                                                                   
+PASS  no 'manifest.json' anywhere                                                                                                                                         
+PASS  no 'manifest-beta.json' anywhere                                                                                                                                    
+PASS  no 'beta_firmware' anywhere                                                                                                                                         
+PASS  no 'update_http_request' anywhere                                                                                                                                   
+PASS  no 'ota_http_request' anywhere                                                                                                                                      
+PASS  no 'update.perform' anywhere                                                                                                                                        
+PASS  no 'ota.http_request' anywhere                                                                                                                                      
+PASS  every fetched URL is pinned to 2644f4c (or is the md5-checked XMOS release)                                                                                         18 URLs; unpinned: none
+PASS  no branch ref in https://github.com/esphome/home-assistant-voice-pe                                                                                                 
+PASS  no branch ref in https://github.com/esphome/voice-kit-xmos-firmware/releases/download/v1.3.1/ffva_v1.3.1_upgrade.bin                                                
+PASS  no branch ref in https://raw.githubusercontent.com/esphome/home-assistant-voice-pe/2644f4c794271d735d182ca7ebf899ed46164f4e/sounds/center_button_double_press.flac  
+PASS  no branch ref in https://raw.githubusercontent.com/esphome/home-assistant-voice-pe/2644f4c794271d735d182ca7ebf899ed46164f4e/sounds/center_button_long_press.flac    
+PASS  no branch ref in https://raw.githubusercontent.com/esphome/home-assistant-voice-pe/2644f4c794271d735d182ca7ebf899ed46164f4e/sounds/center_button_press.flac         
+PASS  no branch ref in https://raw.githubusercontent.com/esphome/home-assistant-voice-pe/2644f4c794271d735d182ca7ebf899ed46164f4e/sounds/center_button_triple_press.flac  
+PASS  no branch ref in https://raw.githubusercontent.com/esphome/home-assistant-voice-pe/2644f4c794271d735d182ca7ebf899ed46164f4e/sounds/easter_egg_tada.mp3              
+PASS  no branch ref in https://raw.githubusercontent.com/esphome/home-assistant-voice-pe/2644f4c794271d735d182ca7ebf899ed46164f4e/sounds/easter_egg_tick.mp3              
+PASS  no branch ref in https://raw.githubusercontent.com/esphome/home-assistant-voice-pe/2644f4c794271d735d182ca7ebf899ed46164f4e/sounds/error_cloud_expired.mp3          
+PASS  no branch ref in https://raw.githubusercontent.com/esphome/home-assistant-voice-pe/2644f4c794271d735d182ca7ebf899ed46164f4e/sounds/factory_reset_cancelled.mp3      
+PASS  no branch ref in https://raw.githubusercontent.com/esphome/home-assistant-voice-pe/2644f4c794271d735d182ca7ebf899ed46164f4e/sounds/factory_reset_confirmed.mp3      
+PASS  no branch ref in https://raw.githubusercontent.com/esphome/home-assistant-voice-pe/2644f4c794271d735d182ca7ebf899ed46164f4e/sounds/factory_reset_initiated.mp3      
+PASS  no branch ref in https://raw.githubusercontent.com/esphome/home-assistant-voice-pe/2644f4c794271d735d182ca7ebf899ed46164f4e/sounds/jack_connected.flac              
+PASS  no branch ref in https://raw.githubusercontent.com/esphome/home-assistant-voice-pe/2644f4c794271d735d182ca7ebf899ed46164f4e/sounds/jack_disconnected.flac           
+PASS  no branch ref in https://raw.githubusercontent.com/esphome/home-assistant-voice-pe/2644f4c794271d735d182ca7ebf899ed46164f4e/sounds/mute_switch_off.flac             
+PASS  no branch ref in https://raw.githubusercontent.com/esphome/home-assistant-voice-pe/2644f4c794271d735d182ca7ebf899ed46164f4e/sounds/mute_switch_on.flac              
+PASS  no branch ref in https://raw.githubusercontent.com/esphome/home-assistant-voice-pe/2644f4c794271d735d182ca7ebf899ed46164f4e/sounds/timer_finished.flac              
+PASS  no branch ref in https://raw.githubusercontent.com/esphome/home-assistant-voice-pe/2644f4c794271d735d182ca7ebf899ed46164f4e/sounds/wake_word_triggered.flac         
+PASS  XMOS firmware URL and md5 as stock                                                                                                                                  {'url': 'https://github.com/esphome/voice-kit-xmos-firmware/releases/download/v1.3.1/ffva_v1.3.1_upgrade.bin', 'version': '1.3.1', 'md5': '964635c5bf125529dab14a2472a15401'}
+PASS  voice_kit external component pinned to 2644f4c (single source)                                                                                                      [('https://github.com/esphome/home-assistant-voice-pe', '2644f4c794271d735d182ca7ebf899ed46164f4e')]
+PASS  framework esp-idf 5.5.5                                                                                                                                             esp-idf 5.5.5
+PASS  toolchain esp-idf                                                                                                                                                   esp-idf
+PASS  sha256 models/hey_atlas/hey_atlas.json                                                                                                                              1816e66391b95a4920b774e3222d1804ef9d5acd72918f6720e53620cd7ecbbf
+PASS  sha256 models/hey_atlas/hey_atlas.tflite                                                                                                                            2bb30e62dd388c7b4d17cc80808b707ca65c5205a59dac958a86c645f80ffba7
+PASS  sha256 models/stock/okay_nabu_20241226.3/okay_nabu.json                                                                                                             f8026e2ce93a0855ca23483036fd2d74ee924a2588d9ea6a6c6c7478fbf4be57
+PASS  sha256 models/stock/okay_nabu_20241226.3/okay_nabu.tflite                                                                                                           d89128c4d16a72de429119fb2254ce46649553c2a24f5dd840175c80d7b9d094
+PASS  sha256 models/stock/stop/stop.json                                                                                                                                  bd13aeb1b83852649dc4fb6135cb160ff68716d14612b06f6a405342c57447aa
+PASS  sha256 models/stock/stop/stop.tflite                                                                                                                                b5a18c4ad681a89950dfade31011e1631bdcb333e93c84519a1a63ff4f071146
+PASS  sha256 models/stock/micro-wake-word-models/hey_jarvis.json                                                                                                          b153867d818675d8abcc9dace474afe7f83551ae0d5a9b1d71a98681320185af
+PASS  sha256 models/stock/micro-wake-word-models/hey_jarvis.tflite                                                                                                        21a7976add39ee24ec96c63d96b7aaa18e24d1d9824b963e451da8feb4b78b77
+PASS  sha256 models/stock/micro-wake-word-models/hey_mycroft.json                                                                                                         57b2b06fe5fdbbe834a242fabc7af31e4194a550fc382b2c88636a6d62d0d57e
+PASS  sha256 models/stock/micro-wake-word-models/hey_mycroft.tflite                                                                                                       c2a9b6ed51182db72e014781d5a4ece1929dc232a40b5b4be384f0295f0e1571
+PASS  sha256 models/stock/micro-wake-word-models/vad.json                                                                                                                 bd8c9cd4350814f761e651685ae5196e2a56521aaf5670071ba742927de58ed7
+PASS  sha256 models/stock/micro-wake-word-models/vad.tflite                                                                                                               7aa4db6d5fb7c5358609f6931e7847d303c16a43d178638bc14104f50d7eff5f
+PASS  base/home-assistant-voice.yaml == upstream 2644f4c blob except the one pinned ref line                                                                              pinned lines=1, restored blob=dbf258e1e8c21999728fdaf3982d92a9c15d78e4
+PASS  api.encryption has no key (key stays the one HA set on the device)                                                                                                  {}
+PASS  OTA has no password                                                                                                                                                 
+PASS  wifi has no networks, password, AP or address (credentials come from NVS / Improv)                                                                                  networks=[]
+PASS  no !secret in the sources                                                                                                                                           
+PASS  project name and custom version                                                                                                                                     {'name': 'Nabu Casa.Home Assistant Voice PE', 'version': '26.9.0-atlas.1'}
+PASS  device name as stock (home-assistant-voice-xxxxxx)                                                                                                                  home-assistant-voice
+
+84 passed, 0 failed

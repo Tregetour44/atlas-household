@@ -105,11 +105,10 @@ def strings(node):
 
 
 def rel(path: str) -> str:
-    p = Path(path)
-    try:
-        return p.resolve().relative_to(VOICEPE).as_posix()
-    except ValueError:
-        return path
+    """Path relative to voicepe/, whichever machine wrote the merged config."""
+    s = str(path).replace("\\", "/")
+    i = s.rfind("/voicepe/")
+    return s[i + len("/voicepe/"):] if i >= 0 else s
 
 
 def main() -> int:
