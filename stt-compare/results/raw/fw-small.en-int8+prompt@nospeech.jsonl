@@ -1,0 +1,12 @@
+{"clip": "nospeech/N01-aircon.flac", "id": "NOSPEECH", "hyp": "", "latency_s": 1.6775, "dur": 2.86}
+{"clip": "nospeech/N02-hum.flac", "id": "NOSPEECH", "hyp": "", "latency_s": 2.1395, "dur": 3.44}
+{"clip": "nospeech/N03-tv.flac", "id": "NOSPEECH", "hyp": " What's the weather like tomorrow?", "latency_s": 1.6944, "dur": 3.89}
+{"clip": "nospeech/N04-kitchen.flac", "id": "NOSPEECH", "hyp": "", "latency_s": 2.6329, "dur": 3.77}
+{"clip": "nospeech/N05-aircon.flac", "id": "NOSPEECH", "hyp": "", "latency_s": 1.6078, "dur": 3.55}
+{"clip": "nospeech/N06-hum.flac", "id": "NOSPEECH", "hyp": " This is the end of this video, thank you so much for watching, if you enjoyed this video, please like, comment and subscribe, thanks for watching, see you next time.", "latency_s": 2.9242, "dur": 2.76}
+{"clip": "nospeech/N07-tv.flac", "id": "NOSPEECH", "hyp": " How is the home?", "latency_s": 1.6924, "dur": 3.05}
+{"clip": "nospeech/N08-kitchen.flac", "id": "NOSPEECH", "hyp": "", "latency_s": 1.6768, "dur": 3.68}
+{"clip": "nospeech/N09-aircon.flac", "id": "NOSPEECH", "hyp": "", "latency_s": 1.621, "dur": 2.95}
+{"clip": "nospeech/N10-hum.flac", "id": "NOSPEECH", "hyp": "", "latency_s": 2.8156, "dur": 3.17}
+{"clip": "nospeech/N11-tv.flac", "id": "NOSPEECH", "hyp": " What time is it do I have?", "latency_s": 1.8728, "dur": 2.98}
+{"clip": "nospeech/N12-kitchen.flac", "id": "NOSPEECH", "hyp": "", "latency_s": 2.0121, "dur": 2.97}

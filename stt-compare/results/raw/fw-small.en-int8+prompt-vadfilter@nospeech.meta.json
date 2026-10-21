@@ -1,0 +1,29 @@
+{
+ "name": "fw-small.en-int8+prompt-vadfilter@nospeech",
+ "server_args": [
+  "--data-dir",
+  "/home/user/models/wy",
+  "--language",
+  "en",
+  "--cpu-threads",
+  "4",
+  "--stt-library",
+  "faster-whisper",
+  "--model",
+  "/home/user/models/hf/models--Systran--faster-whisper-small.en/snapshots/d1d751a5f8271d482d14ca55d9e2deeebbae577f",
+  "--compute-type",
+  "int8",
+  "--initial-prompt",
+  "Atlas, Good Night, Wind Down, ZeroCharge, kWh, atrium, pergola, ensuite, loft, laundry, porch, patio, study, garage, hallway, kitchen, dining room, living room, guest bedroom, master bedroom, upstairs, downstairs, ground floor, outside, atrium blind, living room door blind, living room window blind, atrium spotlight, pergola floodlight, pergola spotlight, ensuite downlight, robe downlight, loft lamp, laundry downlight, kitchen chandelier, living room chandelier, range hood, fountain spotlight, mirror ambiance, wall floodlight, wall light, garden spotlight, garage ceiling, porch downlight.",
+  "--beam-size",
+  "5",
+  "--vad-filter"
+ ],
+ "clips": 12,
+ "realtime": false,
+ "first_request_s": 0.08,
+ "peak_rss_mb": 886,
+ "cpu": 4,
+ "latency_p50_s": 0.033,
+ "latency_p95_s": 1.892
+}

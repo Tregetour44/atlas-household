@@ -1,0 +1,26 @@
+{
+ "name": "fw-distil-large-v3-int8",
+ "server_args": [
+  "--data-dir",
+  "/home/user/models/wy",
+  "--language",
+  "en",
+  "--cpu-threads",
+  "4",
+  "--stt-library",
+  "faster-whisper",
+  "--model",
+  "/home/user/models/hf/models--Systran--faster-distil-whisper-large-v3/snapshots/c3058b475261292e64a0412df1d2681c06260fab",
+  "--compute-type",
+  "int8",
+  "--beam-size",
+  "5"
+ ],
+ "clips": 240,
+ "realtime": false,
+ "first_request_s": 4.34,
+ "peak_rss_mb": 1945,
+ "cpu": 4,
+ "latency_p50_s": 4.423,
+ "latency_p95_s": 4.947
+}

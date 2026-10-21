@@ -1,0 +1,11 @@
+{
+ "name": "speech-to-phrase-tuned",
+ "templates": 236,
+ "combos": 27,
+ "train_s": 3.4,
+ "gate": 3.8,
+ "peak_rss_mb": 981,
+ "latency_p50_s": 0.754,
+ "latency_p95_s": 1.515,
+ "cpu": 4
+}

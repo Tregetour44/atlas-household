@@ -1,0 +1,22 @@
+{
+ "name": "qwen3asr-0.6b-int4",
+ "server_args": [
+  "--data-dir",
+  "/home/user/models/wy",
+  "--language",
+  "en",
+  "--cpu-threads",
+  "4",
+  "--stt-library",
+  "qwen3-asr",
+  "--model",
+  "/home/user/models/qwen3-asr-0.6b-onnx-int4-merged"
+ ],
+ "clips": 240,
+ "realtime": false,
+ "first_request_s": 0.71,
+ "peak_rss_mb": 1503,
+ "cpu": 4,
+ "latency_p50_s": 0.692,
+ "latency_p95_s": 1.063
+}

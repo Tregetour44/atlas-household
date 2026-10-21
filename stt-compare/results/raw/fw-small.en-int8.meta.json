@@ -1,0 +1,26 @@
+{
+ "name": "fw-small.en-int8",
+ "server_args": [
+  "--data-dir",
+  "/home/user/models/wy",
+  "--language",
+  "en",
+  "--cpu-threads",
+  "4",
+  "--stt-library",
+  "faster-whisper",
+  "--model",
+  "/home/user/models/hf/models--Systran--faster-whisper-small.en/snapshots/d1d751a5f8271d482d14ca55d9e2deeebbae577f",
+  "--compute-type",
+  "int8",
+  "--beam-size",
+  "5"
+ ],
+ "clips": 240,
+ "realtime": false,
+ "first_request_s": 1.55,
+ "peak_rss_mb": 787,
+ "cpu": 4,
+ "latency_p50_s": 1.442,
+ "latency_p95_s": 1.754
+}

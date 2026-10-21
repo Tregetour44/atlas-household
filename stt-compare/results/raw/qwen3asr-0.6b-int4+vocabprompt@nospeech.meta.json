@@ -1,0 +1,24 @@
+{
+ "name": "qwen3asr-0.6b-int4+vocabprompt@nospeech",
+ "server_args": [
+  "--data-dir",
+  "/home/user/models/wy",
+  "--language",
+  "en",
+  "--cpu-threads",
+  "4",
+  "--stt-library",
+  "qwen3-asr",
+  "--model",
+  "/home/user/models/qwen3-asr-0.6b-onnx-int4-merged",
+  "--initial-prompt",
+  "Vocabulary: Atlas, Good Night, Wind Down, ZeroCharge, kWh, atrium, pergola, ensuite, loft, laundry, porch, patio, study, garage, hallway, kitchen, dining room, living room, guest bedroom, master bedroom, upstairs, downstairs, ground floor, outside, atrium blind, living room door blind, living room window blind, atrium spotlight, pergola floodlight, pergola spotlight, ensuite downlight, robe downlight, loft lamp, laundry downlight, kitchen chandelier, living room chandelier, range hood, fountain spotlight, mirror ambiance, wall floodlight, wall light, garden spotlight, garage ceiling, porch downlight."
+ ],
+ "clips": 12,
+ "realtime": false,
+ "first_request_s": 7.69,
+ "peak_rss_mb": 1649,
+ "cpu": 4,
+ "latency_p50_s": 6.435,
+ "latency_p95_s": 6.987
+}

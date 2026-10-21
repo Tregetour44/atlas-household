@@ -1,0 +1,240 @@
+{"clip": "clean/C001-au_m_p326.flac", "id": "C001", "hyp": " Turn on the atrium lights.", "latency_s": 4.3759, "dur": 2.02}
+{"clip": "clean/C001-gb_m_george.flac", "id": "C001", "hyp": " Turn on the atrium lights.", "latency_s": 4.0027, "dur": 2.56}
+{"clip": "clean/C002-au_f_p225.flac", "id": "C002", "hyp": " Turn off the edge room spotlet left.", "latency_s": 4.6204, "dur": 2.38}
+{"clip": "clean/C002-gb_f_cori.flac", "id": "C002", "hyp": " Turn off the Atrium Spotlight left.", "latency_s": 6.1128, "dur": 2.78}
+{"clip": "clean/C003-au_m_p374.flac", "id": "C003", "hyp": " Switch on the Pegular Floodlet 2.", "latency_s": 4.408, "dur": 2.52}
+{"clip": "clean/C003-gb_m_alan.flac", "id": "C003", "hyp": " Switch on the pergola floodlight too.", "latency_s": 4.418, "dur": 3.08}
+{"clip": "clean/C004-au_f_jenny.flac", "id": "C004", "hyp": " Turn the pergola spotlights off.", "latency_s": 4.1061, "dur": 2.47}
+{"clip": "clean/C004-gb_m_northern.flac", "id": "C004", "hyp": " Turn the pergola spot lights off.", "latency_s": 4.0568, "dur": 2.64}
+{"clip": "clean/C005-au_m_p326.flac", "id": "C005", "hyp": " Turn on the On Sweet Damlet.", "latency_s": 4.1146, "dur": 1.97}
+{"clip": "clean/C005-gb_f_isabella.flac", "id": "C005", "hyp": " Turn on the en suite downlight.", "latency_s": 3.904, "dur": 2.78}
+{"clip": "clean/C006-au_f_p225.flac", "id": "C006", "hyp": " Turn off the loft lamp.", "latency_s": 4.2246, "dur": 1.88}
+{"clip": "clean/C006-gb_f_emma.flac", "id": "C006", "hyp": " Turn off the loft lamp.", "latency_s": 4.082, "dur": 2.01}
+{"clip": "clean/C007-au_m_p374.flac", "id": "C007", "hyp": " Luff Platts on.", "latency_s": 4.1146, "dur": 1.7}
+{"clip": "clean/C007-gb_m_lewis.flac", "id": "C007", "hyp": " Loft lights on.", "latency_s": 3.8203, "dur": 1.79}
+{"clip": "clean/C008-au_f_jenny.flac", "id": "C008", "hyp": " Turn the laundry lights off.", "latency_s": 3.9228, "dur": 2.07}
+{"clip": "clean/C008-gb_m_george.flac", "id": "C008", "hyp": " Turn the laundry lights off.", "latency_s": 4.0782, "dur": 2.69}
+{"clip": "clean/C009-au_m_p326.flac", "id": "C009", "hyp": " Turn on the laundry damlet.", "latency_s": 4.2082, "dur": 2.0}
+{"clip": "clean/C009-gb_f_cori.flac", "id": "C009", "hyp": " Turn on the laundry down light.", "latency_s": 4.6445, "dur": 2.56}
+{"clip": "clean/C010-au_f_p225.flac", "id": "C010", "hyp": " Switch off the garage sailing right.", "latency_s": 3.9771, "dur": 2.35}
+{"clip": "clean/C010-gb_m_alan.flac", "id": "C010", "hyp": " Switch off the garage ceiling right.", "latency_s": 4.2168, "dur": 3.18}
+{"clip": "clean/C011-au_m_p374.flac", "id": "C011", "hyp": " Turn on porch stomach tree.", "latency_s": 4.1558, "dur": 2.12}
+{"clip": "clean/C011-gb_m_northern.flac", "id": "C011", "hyp": " Turn on porch down light 3.", "latency_s": 4.3394, "dur": 2.45}
+{"clip": "clean/C018-au_f_p225.flac", "id": "C018", "hyp": " Turn on Kitchen Chandelier T.", "latency_s": 4.1498, "dur": 2.19}
+{"clip": "clean/C018-gb_m_northern.flac", "id": "C018", "hyp": " Turn on kitchen chandelier 2.", "latency_s": 4.5407, "dur": 2.57}
+{"clip": "clean/C019-au_m_p374.flac", "id": "C019", "hyp": " Plan off living room chandelier 6", "latency_s": 4.4709, "dur": 2.79}
+{"clip": "clean/C019-gb_f_isabella.flac", "id": "C019", "hyp": " Turn off living room, Chandelier 6.", "latency_s": 4.1977, "dur": 2.95}
+{"clip": "clean/C020-au_f_jenny.flac", "id": "C020", "hyp": " Turn on round two one.", "latency_s": 4.5117, "dur": 1.86}
+{"clip": "clean/C020-gb_f_emma.flac", "id": "C020", "hyp": " Turn on range, Hood One.", "latency_s": 4.2281, "dur": 2.11}
+{"clip": "clean/C031-au_m_p374.flac", "id": "C031", "hyp": " Set the Atrium Spotlight right to 40%.", "latency_s": 4.4112, "dur": 2.98}
+{"clip": "clean/C031-gb_m_alan.flac", "id": "C031", "hyp": " Set the atrium spot-like right to 40%.", "latency_s": 4.4633, "dur": 3.76}
+{"clip": "clean/C032-au_f_jenny.flac", "id": "C032", "hyp": " Tind the loft lamp to 20%.", "latency_s": 4.2353, "dur": 2.9}
+{"clip": "clean/C032-gb_m_northern.flac", "id": "C032", "hyp": " DIM the loft lamp to 20%.", "latency_s": 4.552, "dur": 2.59}
+{"clip": "clean/C033-au_m_p326.flac", "id": "C033", "hyp": " Dim the living room lamp to 35%.", "latency_s": 3.9043, "dur": 2.76}
+{"clip": "clean/C033-gb_f_isabella.flac", "id": "C033", "hyp": " Dim the living room lamp to 35%.", "latency_s": 4.1362, "dur": 3.61}
+{"clip": "clean/C034-au_f_p225.flac", "id": "C034", "hyp": " Brought in the kitchen selling to 80%.", "latency_s": 3.8585, "dur": 2.7}
+{"clip": "clean/C034-gb_f_emma.flac", "id": "C034", "hyp": " Brighton the kitchen ceiling to 80%.", "latency_s": 3.9499, "dur": 2.99}
+{"clip": "clean/C035-au_m_p374.flac", "id": "C035", "hyp": " Set the pergular floodlets to 50%.", "latency_s": 3.9601, "dur": 3.11}
+{"clip": "clean/C035-gb_m_lewis.flac", "id": "C035", "hyp": " Set the pergola floodlights to 50%.", "latency_s": 4.3134, "dur": 3.33}
+{"clip": "clean/C036-au_f_jenny.flac", "id": "C036", "hyp": " Make the dawning room pendant 75%.", "latency_s": 4.304, "dur": 3.65}
+{"clip": "clean/C036-gb_m_george.flac", "id": "C036", "hyp": " Make the dining room pendants 75%.", "latency_s": 4.8996, "dur": 4.01}
+{"clip": "clean/C038-au_f_p225.flac", "id": "C038", "hyp": " Set down to we download to 15%.", "latency_s": 4.4978, "dur": 2.63}
+{"clip": "clean/C038-gb_m_alan.flac", "id": "C038", "hyp": " Set the unsweet downlight to 15%.", "latency_s": 3.9774, "dur": 3.82}
+{"clip": "clean/C046-au_f_p225.flac", "id": "C046", "hyp": " Turn the portulites off at 10.15 p.m.", "latency_s": 4.1013, "dur": 2.84}
+{"clip": "clean/C046-gb_m_northern.flac", "id": "C046", "hyp": " Turn the porch lights off at 10.15 p.m.", "latency_s": 4.3498, "dur": 3.4}
+{"clip": "clean/C047-au_m_p374.flac", "id": "C047", "hyp": " Turn off the loft lamp in 25 minutes.", "latency_s": 3.997, "dur": 2.9}
+{"clip": "clean/C047-gb_f_isabella.flac", "id": "C047", "hyp": " Turn off the loft lamp in 25 minutes.", "latency_s": 4.7882, "dur": 3.31}
+{"clip": "clean/C048-au_f_jenny.flac", "id": "C048", "hyp": " Turn the IGM lights off at 11.30.", "latency_s": 4.6764, "dur": 3.07}
+{"clip": "clean/C048-gb_f_emma.flac", "id": "C048", "hyp": " Turn the atrium lights off at 11.30.", "latency_s": 4.4598, "dur": 3.18}
+{"clip": "clean/C049-au_m_p326.flac", "id": "C049", "hyp": " Switch on the garden spotlight at 7.30 p.m.", "latency_s": 4.7418, "dur": 3.14}
+{"clip": "clean/C049-gb_m_lewis.flac", "id": "C049", "hyp": " Switch on the garden spotlight at 7.30 p.m.", "latency_s": 4.5308, "dur": 4.27}
+{"clip": "clean/C051-au_m_p374.flac", "id": "C051", "hyp": " In 10 minutes, turn off the laundry lights.", "latency_s": 4.3248, "dur": 2.88}
+{"clip": "clean/C051-gb_f_cori.flac", "id": "C051", "hyp": " In 10 minutes, turn off the laundry lights.", "latency_s": 4.7072, "dur": 3.3}
+{"clip": "clean/C052-au_f_jenny.flac", "id": "C052", "hyp": " Turn on Pergola Spotlight 1 at 6.45.", "latency_s": 5.0314, "dur": 3.99}
+{"clip": "clean/C052-gb_m_alan.flac", "id": "C052", "hyp": " Turn on Pergola Spotlight 1 at 6.45.", "latency_s": 4.9452, "dur": 4.26}
+{"clip": "clean/C058-au_f_p225.flac", "id": "C058", "hyp": " Turn the unsweet download off in five minutes.", "latency_s": 4.9024, "dur": 2.73}
+{"clip": "clean/C058-gb_f_cori.flac", "id": "C058", "hyp": " Turn the unsweet downlight off in five minutes.", "latency_s": 4.5502, "dur": 3.69}
+{"clip": "clean/C060-au_f_jenny.flac", "id": "C060", "hyp": " Run good night at 10.30 p.m.", "latency_s": 4.7063, "dur": 2.93}
+{"clip": "clean/C060-gb_m_northern.flac", "id": "C060", "hyp": " Run goodnight at 10.30pm.", "latency_s": 4.708, "dur": 3.18}
+{"clip": "clean/C061-au_m_p326.flac", "id": "C061", "hyp": " Start wind down in 15 minutes.", "latency_s": 4.9164, "dur": 2.51}
+{"clip": "clean/C061-gb_f_isabella.flac", "id": "C061", "hyp": " Start wind down in 15 minutes.", "latency_s": 4.6894, "dur": 2.93}
+{"clip": "clean/C066-au_f_p225.flac", "id": "C066", "hyp": " Good night.", "latency_s": 5.1992, "dur": 1.47}
+{"clip": "clean/C066-gb_m_alan.flac", "id": "C066", "hyp": " Good night.", "latency_s": 4.7378, "dur": 1.64}
+{"clip": "clean/C067-au_m_p374.flac", "id": "C067", "hyp": " Run good night.", "latency_s": 4.7318, "dur": 1.63}
+{"clip": "clean/C067-gb_m_northern.flac", "id": "C067", "hyp": " Run good night.", "latency_s": 4.3885, "dur": 2.58}
+{"clip": "clean/C068-au_f_jenny.flac", "id": "C068", "hyp": " Tovette, the good night sewing.", "latency_s": 4.8528, "dur": 2.71}
+{"clip": "clean/C068-gb_f_isabella.flac", "id": "C068", "hyp": " Activate the good night scene.", "latency_s": 4.3241, "dur": 2.39}
+{"clip": "clean/C069-au_m_p326.flac", "id": "C069", "hyp": " Start wind down.", "latency_s": 4.638, "dur": 1.77}
+{"clip": "clean/C069-gb_f_emma.flac", "id": "C069", "hyp": " Start wind down.", "latency_s": 4.5748, "dur": 1.92}
+{"clip": "clean/C070-au_f_p225.flac", "id": "C070", "hyp": " When down blows.", "latency_s": 4.629, "dur": 1.8}
+{"clip": "clean/C070-gb_m_lewis.flac", "id": "C070", "hyp": " Wind down, please.", "latency_s": 4.4256, "dur": 1.88}
+{"clip": "clean/C071-au_m_p374.flac", "id": "C071", "hyp": " Put the wind down so on.", "latency_s": 4.2278, "dur": 2.01}
+{"clip": "clean/C071-gb_m_george.flac", "id": "C071", "hyp": " Put the wind down scene on.", "latency_s": 4.6398, "dur": 2.63}
+{"clip": "clean/C074-au_f_p225.flac", "id": "C074", "hyp": " plus the Etron bond.", "latency_s": 4.5804, "dur": 1.91}
+{"clip": "clean/C074-gb_m_northern.flac", "id": "C074", "hyp": " Close the atrium blind.", "latency_s": 4.4341, "dur": 2.37}
+{"clip": "clean/C075-au_m_p374.flac", "id": "C075", "hyp": " Open the Etrium Blunt halfway.", "latency_s": 4.1824, "dur": 2.63}
+{"clip": "clean/C075-gb_f_isabella.flac", "id": "C075", "hyp": " Open the atrium blind halfway.", "latency_s": 4.0278, "dur": 2.84}
+{"clip": "clean/C076-au_f_jenny.flac", "id": "C076", "hyp": " Set the outree and blind to 30%.", "latency_s": 4.1197, "dur": 3.16}
+{"clip": "clean/C076-gb_f_emma.flac", "id": "C076", "hyp": " Set the atrium blind to 30%.", "latency_s": 4.3904, "dur": 2.84}
+{"clip": "clean/C079-au_m_p374.flac", "id": "C079", "hyp": " Lower the living room blinds to 20%.", "latency_s": 4.3478, "dur": 3.02}
+{"clip": "clean/C079-gb_f_cori.flac", "id": "C079", "hyp": " low the living room blinds to twenty per cent", "latency_s": 4.0784, "dur": 3.16}
+{"clip": "clean/C080-au_f_jenny.flac", "id": "C080", "hyp": " Raise the etry and blind all the way.", "latency_s": 4.4494, "dur": 2.83}
+{"clip": "clean/C080-gb_m_alan.flac", "id": "C080", "hyp": " Raise the atrium blind all the way.", "latency_s": 4.4186, "dur": 3.44}
+{"clip": "clean/C082-au_f_p225.flac", "id": "C082", "hyp": " Open the atrium blind at 1 piece M.", "latency_s": 4.2841, "dur": 2.65}
+{"clip": "clean/C082-gb_f_isabella.flac", "id": "C082", "hyp": " Open the atrium blind at 1pm.", "latency_s": 4.0635, "dur": 3.05}
+{"clip": "clean/C087-au_m_p374.flac", "id": "C087", "hyp": " How many killer what hours have we used today?", "latency_s": 3.8416, "dur": 2.83}
+{"clip": "clean/C087-gb_m_alan.flac", "id": "C087", "hyp": " How many kilowatt outs have we used today?", "latency_s": 4.6942, "dur": 3.4}
+{"clip": "clean/C088-au_f_jenny.flac", "id": "C088", "hyp": " How many K.W. arch did the cellar mic yesterday?", "latency_s": 4.5449, "dur": 3.94}
+{"clip": "clean/C088-gb_m_northern.flac", "id": "C088", "hyp": " How many K, W.H did the solar make yesterday?", "latency_s": 4.4851, "dur": 3.37}
+{"clip": "clean/C092-au_f_jenny.flac", "id": "C092", "hyp": " When does zero charge start?", "latency_s": 4.293, "dur": 2.38}
+{"clip": "clean/C092-gb_m_george.flac", "id": "C092", "hyp": " When does zero charge start?", "latency_s": 4.0275, "dur": 2.73}
+{"clip": "clean/C093-au_m_p326.flac", "id": "C093", "hyp": " Is it zero charge time yet?", "latency_s": 4.2975, "dur": 2.05}
+{"clip": "clean/C093-gb_f_cori.flac", "id": "C093", "hyp": " Is it zero charge time yet?", "latency_s": 4.4474, "dur": 2.71}
+{"clip": "clean/C094-au_f_p225.flac", "id": "C094", "hyp": " How long is left in a zero charge window?", "latency_s": 4.5722, "dur": 2.61}
+{"clip": "clean/C094-gb_m_alan.flac", "id": "C094", "hyp": " How long is left in the zero charge window?", "latency_s": 4.1951, "dur": 3.66}
+{"clip": "clean/C095-au_m_p374.flac", "id": "C095", "hyp": " Should I run the dishwasher during zero charge?", "latency_s": 4.3339, "dur": 3.14}
+{"clip": "clean/C095-gb_m_northern.flac", "id": "C095", "hyp": " Should I run the dishwasher during zero charge?", "latency_s": 4.1861, "dur": 3.43}
+{"clip": "clean/C102-au_f_p225.flac", "id": "C102", "hyp": " What's our usage in killer what I was this week?", "latency_s": 4.5012, "dur": 2.58}
+{"clip": "clean/C102-gb_m_northern.flac", "id": "C102", "hyp": " What's our usage in kilowatt hours this week?", "latency_s": 4.1094, "dur": 2.97}
+{"clip": "clean/C104-au_f_jenny.flac", "id": "C104", "hyp": " Should I run the washing machine now or at 11?", "latency_s": 4.5876, "dur": 3.35}
+{"clip": "clean/C104-gb_f_emma.flac", "id": "C104", "hyp": " Should I run the washing machine now or at eleven?", "latency_s": 4.9197, "dur": 3.1}
+{"clip": "clean/C107-au_m_p374.flac", "id": "C107", "hyp": " How many kilowat hours is a full battery?", "latency_s": 4.524, "dur": 2.84}
+{"clip": "clean/C107-gb_f_cori.flac", "id": "C107", "hyp": " How many kilowatt hours is a full battery?", "latency_s": 4.4078, "dur": 3.32}
+{"clip": "clean/C108-au_f_jenny.flac", "id": "C108", "hyp": " What's the temperature in the atrium?", "latency_s": 4.1569, "dur": 2.5}
+{"clip": "clean/C108-gb_m_alan.flac", "id": "C108", "hyp": " What's the temperature in the atrium?", "latency_s": 4.0553, "dur": 2.93}
+{"clip": "clean/C109-au_m_p326.flac", "id": "C109", "hyp": " How warm is it in the loft?", "latency_s": 4.4875, "dur": 1.93}
+{"clip": "clean/C109-gb_m_northern.flac", "id": "C109", "hyp": " How warm is it in the loft?", "latency_s": 4.8351, "dur": 2.73}
+{"clip": "clean/C115-au_m_p374.flac", "id": "C115", "hyp": " Is it humid in the laundry?", "latency_s": 4.6212, "dur": 2.17}
+{"clip": "clean/C115-gb_m_alan.flac", "id": "C115", "hyp": " Is it humid in the laundry?", "latency_s": 4.4752, "dur": 2.49}
+{"clip": "clean/C117-au_m_p326.flac", "id": "C117", "hyp": " Set the air conditioner to 22 degrees.", "latency_s": 4.2569, "dur": 3.02}
+{"clip": "clean/C117-gb_f_isabella.flac", "id": "C117", "hyp": " Set the air conditioner to 22 degrees.", "latency_s": 4.6081, "dur": 3.37}
+{"clip": "clean/C122-au_f_p225.flac", "id": "C122", "hyp": " Is a loft lamp on?", "latency_s": 4.6461, "dur": 1.77}
+{"clip": "clean/C122-gb_m_alan.flac", "id": "C122", "hyp": " Is the loft lamp on?", "latency_s": 4.1736, "dur": 2.07}
+{"clip": "clean/C123-au_m_p374.flac", "id": "C123", "hyp": " Did the laundry lights go off?", "latency_s": 4.921, "dur": 2.23}
+{"clip": "clean/C123-gb_m_northern.flac", "id": "C123", "hyp": " Did the laundry lights go off?", "latency_s": 4.3732, "dur": 2.43}
+{"clip": "clean/C124-au_f_jenny.flac", "id": "C124", "hyp": " Is the pergola lit up?", "latency_s": 4.4317, "dur": 1.91}
+{"clip": "clean/C124-gb_f_isabella.flac", "id": "C124", "hyp": " Is the pergola lit up?", "latency_s": 4.3612, "dur": 2.31}
+{"clip": "clean/C130-au_f_p225.flac", "id": "C130", "hyp": " How's the battery holding up?", "latency_s": 4.4864, "dur": 1.94}
+{"clip": "clean/C130-gb_m_northern.flac", "id": "C130", "hyp": " How's the battery holding up?", "latency_s": 4.563, "dur": 2.51}
+{"clip": "clean/C131-au_m_p374.flac", "id": "C131", "hyp": " What killer what hours is that equal to?", "latency_s": 4.7278, "dur": 2.66}
+{"clip": "clean/C131-gb_f_isabella.flac", "id": "C131", "hyp": " What kilowatt hours is that equal to?", "latency_s": 4.3202, "dur": 3.03}
+{"clip": "clean/C132-au_f_jenny.flac", "id": "C132", "hyp": " How full is the battery?", "latency_s": 4.4198, "dur": 2.16}
+{"clip": "clean/C132-gb_f_emma.flac", "id": "C132", "hyp": " How full is the battery?", "latency_s": 4.419, "dur": 2.29}
+{"clip": "clean/C133-au_m_p326.flac", "id": "C133", "hyp": " What's the weather doing?", "latency_s": 4.2464, "dur": 1.64}
+{"clip": "clean/C133-gb_m_lewis.flac", "id": "C133", "hyp": " What's the weather doing?", "latency_s": 4.3756, "dur": 2.07}
+{"clip": "clean/C134-au_f_p225.flac", "id": "C134", "hyp": " What's the temp?", "latency_s": 4.6069, "dur": 1.58}
+{"clip": "clean/C134-gb_m_george.flac", "id": "C134", "hyp": " What's the temple?", "latency_s": 4.7249, "dur": 1.67}
+{"clip": "clean/C135-au_m_p374.flac", "id": "C135", "hyp": " Should I run the essay?", "latency_s": 4.6974, "dur": 2.04}
+{"clip": "clean/C135-gb_f_cori.flac", "id": "C135", "hyp": " Should I run near sea?", "latency_s": 4.4421, "dur": 1.98}
+{"clip": "clean/C136-au_f_jenny.flac", "id": "C136", "hyp": " What's the weather like tomorrow?", "latency_s": 4.5868, "dur": 2.3}
+{"clip": "clean/C136-gb_m_alan.flac", "id": "C136", "hyp": " What's the weather like tomorrow?", "latency_s": 4.3368, "dur": 2.56}
+{"clip": "clean/C137-au_m_p326.flac", "id": "C137", "hyp": " Create an essay plan putting the height on at 11 a.m until 12 p.m. at 22 degrees.", "latency_s": 4.6541, "dur": 5.27}
+{"clip": "clean/C137-gb_m_northern.flac", "id": "C137", "hyp": " Create a C plan putting the heat on at 11 o'em until 12 p.m. at 22 degrees.", "latency_s": 4.3931, "dur": 5.37}
+{"clip": "clean/C138-au_f_p225.flac", "id": "C138", "hyp": " Turn on the study lights.", "latency_s": 4.258, "dur": 1.87}
+{"clip": "clean/C138-gb_f_isabella.flac", "id": "C138", "hyp": " Turn on the study light.", "latency_s": 4.0244, "dur": 2.26}
+{"clip": "clean/C139-au_m_p374.flac", "id": "C139", "hyp": " Turn the study light to 100%.", "latency_s": 4.5067, "dur": 2.84}
+{"clip": "clean/C139-gb_f_emma.flac", "id": "C139", "hyp": " Turn the study light to 100%.", "latency_s": 4.5451, "dur": 2.84}
+{"clip": "clean/C140-au_f_jenny.flac", "id": "C140", "hyp": " Turn off the outside lights.", "latency_s": 4.0781, "dur": 2.19}
+{"clip": "clean/C140-gb_m_lewis.flac", "id": "C140", "hyp": " Turn off the outside light.", "latency_s": 3.6462, "dur": 2.29}
+{"clip": "clean/C141-au_m_p326.flac", "id": "C141", "hyp": " Hello?", "latency_s": 3.99, "dur": 1.22}
+{"clip": "clean/C141-gb_m_george.flac", "id": "C141", "hyp": " Hello!", "latency_s": 4.7167, "dur": 1.52}
+{"clip": "clean/C142-au_f_p225.flac", "id": "C142", "hyp": " Can you turn off the living room lights?", "latency_s": 4.5134, "dur": 2.2}
+{"clip": "clean/C142-gb_f_cori.flac", "id": "C142", "hyp": " Can you turn off the living room lights?", "latency_s": 4.5166, "dur": 2.81}
+{"clip": "clean/C143-au_m_p374.flac", "id": "C143", "hyp": " Turn on the living room lights.", "latency_s": 4.2742, "dur": 2.17}
+{"clip": "clean/C143-gb_m_alan.flac", "id": "C143", "hyp": " Turn on the living room lights.", "latency_s": 4.0524, "dur": 2.79}
+{"clip": "clean/C144-au_f_jenny.flac", "id": "C144", "hyp": " How's the battery going?", "latency_s": 4.4106, "dur": 2.0}
+{"clip": "clean/C144-gb_m_northern.flac", "id": "C144", "hyp": " How's the battery going?", "latency_s": 3.9698, "dur": 1.94}
+{"clip": "clean/C145-au_m_p326.flac", "id": "C145", "hyp": " How's the home?", "latency_s": 4.5503, "dur": 1.48}
+{"clip": "clean/C145-gb_f_isabella.flac", "id": "C145", "hyp": " How is the home?", "latency_s": 4.5676, "dur": 1.94}
+{"clip": "clean/C146-au_f_p225.flac", "id": "C146", "hyp": " Shouldn't the Etriam blind be down in that case?", "latency_s": 4.9155, "dur": 2.84}
+{"clip": "clean/C146-gb_f_emma.flac", "id": "C146", "hyp": " Shouldn't the atrium blind be down in that case?", "latency_s": 4.5791, "dur": 3.12}
+{"clip": "clean/C147-au_m_p374.flac", "id": "C147", "hyp": " Why didn't it go down?", "latency_s": 4.1359, "dur": 1.9}
+{"clip": "clean/C147-gb_m_lewis.flac", "id": "C147", "hyp": " Why didn't it go down?", "latency_s": 4.6977, "dur": 1.99}
+{"clip": "clean/C148-au_f_jenny.flac", "id": "C148", "hyp": " Close the atrium blind to 30%.  Open it completely at 1.m.", "latency_s": 5.0434, "dur": 5.2}
+{"clip": "clean/C148-gb_m_george.flac", "id": "C148", "hyp": " Close the atrium blind to 30%.  Open it completely at 1pm.", "latency_s": 4.7332, "dur": 6.08}
+{"clip": "clean/C149-au_m_p326.flac", "id": "C149", "hyp": " Can you do bicycle ritha take?", "latency_s": 4.3731, "dur": 2.2}
+{"clip": "clean/C149-gb_f_cori.flac", "id": "C149", "hyp": " Can you do basic arithmetic?", "latency_s": 4.5814, "dur": 2.55}
+{"clip": "clean/C150-au_f_p225.flac", "id": "C150", "hyp": " What's 2 plus out?", "latency_s": 4.6353, "dur": 1.86}
+{"clip": "clean/C150-gb_m_alan.flac", "id": "C150", "hyp": " What's 2 plus 8?", "latency_s": 4.2926, "dur": 2.23}
+{"clip": "clean/C151-au_m_p374.flac", "id": "C151", "hyp": " I have a small dish or shallowed. Will I run it tonight or run it in the morning?", "latency_s": 4.5011, "dur": 4.33}
+{"clip": "clean/C151-gb_m_northern.flac", "id": "C151", "hyp": " I have a small dishu-shu load.  Will I run it tonight or run it in the morning?", "latency_s": 5.0227, "dur": 4.61}
+{"clip": "noise/C001-au_m_p326.flac", "id": "C001", "hyp": " Turn on the Adrian Watts.", "latency_s": 4.9466, "dur": 2.02}
+{"clip": "noise/C002-gb_f_cori.flac", "id": "C002", "hyp": " Turn off the atrium spotlight left.", "latency_s": 4.8549, "dur": 2.78}
+{"clip": "noise/C003-au_m_p374.flac", "id": "C003", "hyp": " Switch on the Pegula floodlet too.", "latency_s": 4.4843, "dur": 2.52}
+{"clip": "noise/C004-gb_m_northern.flac", "id": "C004", "hyp": " Turn the pergola spot lights off.", "latency_s": 4.4911, "dur": 2.64}
+{"clip": "noise/C005-au_m_p326.flac", "id": "C005", "hyp": " Turn on the own sweet demo.", "latency_s": 4.0904, "dur": 1.97}
+{"clip": "noise/C006-gb_f_emma.flac", "id": "C006", "hyp": " Turn off the loft lamp.", "latency_s": 4.379, "dur": 2.01}
+{"clip": "noise/C007-au_m_p374.flac", "id": "C007", "hyp": " Luft Bloods-on.", "latency_s": 4.8677, "dur": 1.7}
+{"clip": "noise/C008-gb_m_george.flac", "id": "C008", "hyp": " Turn the laundry lights off.", "latency_s": 4.4567, "dur": 2.69}
+{"clip": "noise/C009-au_m_p326.flac", "id": "C009", "hyp": " Turn on the laundry damlet.", "latency_s": 4.9286, "dur": 2.0}
+{"clip": "noise/C010-gb_m_alan.flac", "id": "C010", "hyp": " switch off the garage ceiling right.", "latency_s": 4.4048, "dur": 3.18}
+{"clip": "noise/C011-au_m_p374.flac", "id": "C011", "hyp": " Turn on porch down a tree.", "latency_s": 4.2229, "dur": 2.12}
+{"clip": "noise/C018-gb_m_northern.flac", "id": "C018", "hyp": " Turn on kitchen chandelier too.", "latency_s": 4.1216, "dur": 2.57}
+{"clip": "noise/C019-au_m_p374.flac", "id": "C019", "hyp": " 10 off living room chandelier 6", "latency_s": 4.2923, "dur": 2.79}
+{"clip": "noise/C020-gb_f_emma.flac", "id": "C020", "hyp": " Turn on Range Hood 1.", "latency_s": 4.5732, "dur": 2.11}
+{"clip": "noise/C031-au_m_p374.flac", "id": "C031", "hyp": " So the airteam spot up right to 40%.", "latency_s": 4.4153, "dur": 2.98}
+{"clip": "noise/C032-gb_m_northern.flac", "id": "C032", "hyp": " Dim the loft lump to 20%.", "latency_s": 4.279, "dur": 2.59}
+{"clip": "noise/C033-au_m_p326.flac", "id": "C033", "hyp": " dim the living room lamp to 35%.", "latency_s": 4.2334, "dur": 2.76}
+{"clip": "noise/C034-gb_f_emma.flac", "id": "C034", "hyp": " Brighton the kitchen ceiling to 80%.", "latency_s": 4.4065, "dur": 2.99}
+{"clip": "noise/C035-au_m_p374.flac", "id": "C035", "hyp": " Set the pergala floodlets to 50%.", "latency_s": 4.7494, "dur": 3.11}
+{"clip": "noise/C036-gb_m_george.flac", "id": "C036", "hyp": " Make the dining room pendants 75%.", "latency_s": 4.9602, "dur": 4.01}
+{"clip": "noise/C038-gb_m_alan.flac", "id": "C038", "hyp": " Set the ensuit downlight to 15%.", "latency_s": 4.0899, "dur": 3.82}
+{"clip": "noise/C046-gb_m_northern.flac", "id": "C046", "hyp": " Turn the porch lights off at 10.15 p.m.", "latency_s": 4.889, "dur": 3.4}
+{"clip": "noise/C047-au_m_p374.flac", "id": "C047", "hyp": " Turn off the loft lamp at 25 minutes.", "latency_s": 4.1981, "dur": 2.9}
+{"clip": "noise/C048-gb_f_emma.flac", "id": "C048", "hyp": " Turn the atrium lights off at 11.30.", "latency_s": 4.0691, "dur": 3.18}
+{"clip": "noise/C049-au_m_p326.flac", "id": "C049", "hyp": " Switch on the garden spotlight at 7.30 p.m.", "latency_s": 4.0672, "dur": 3.14}
+{"clip": "noise/C051-au_m_p374.flac", "id": "C051", "hyp": " In 10 minutes, turn off the laundry lights.", "latency_s": 4.2416, "dur": 2.88}
+{"clip": "noise/C052-gb_m_alan.flac", "id": "C052", "hyp": " Turn on Pergola Spotlight 1 at 6.45.", "latency_s": 4.3126, "dur": 4.26}
+{"clip": "noise/C058-gb_f_cori.flac", "id": "C058", "hyp": " Turn me on Sweet Downlight off in five minutes.", "latency_s": 4.2179, "dur": 3.69}
+{"clip": "noise/C060-gb_m_northern.flac", "id": "C060", "hyp": " Run goodnight at 10.30 p.m.", "latency_s": 4.6978, "dur": 3.18}
+{"clip": "noise/C061-au_m_p326.flac", "id": "C061", "hyp": " Star wind down in 15 minutes.", "latency_s": 4.5572, "dur": 2.51}
+{"clip": "noise/C066-gb_m_alan.flac", "id": "C066", "hyp": " Good night.", "latency_s": 4.5476, "dur": 1.64}
+{"clip": "noise/C067-au_m_p374.flac", "id": "C067", "hyp": " Run good night.", "latency_s": 4.2783, "dur": 1.63}
+{"clip": "noise/C068-gb_f_isabella.flac", "id": "C068", "hyp": " Activate the good night scene.", "latency_s": 4.6224, "dur": 2.39}
+{"clip": "noise/C069-au_m_p326.flac", "id": "C069", "hyp": " Start wind down.", "latency_s": 5.0102, "dur": 1.77}
+{"clip": "noise/C070-gb_m_lewis.flac", "id": "C070", "hyp": " Wind down, please.", "latency_s": 4.7404, "dur": 1.88}
+{"clip": "noise/C071-au_m_p374.flac", "id": "C071", "hyp": " Put the wind down so now.", "latency_s": 4.7034, "dur": 2.01}
+{"clip": "noise/C074-gb_m_northern.flac", "id": "C074", "hyp": " close the atrium blind.", "latency_s": 4.3303, "dur": 2.37}
+{"clip": "noise/C075-au_m_p374.flac", "id": "C075", "hyp": " Open the Etriam Blonde halfway.", "latency_s": 4.1072, "dur": 2.63}
+{"clip": "noise/C076-gb_f_emma.flac", "id": "C076", "hyp": " set the atrium blind to 30%.", "latency_s": 4.4588, "dur": 2.84}
+{"clip": "noise/C079-au_m_p374.flac", "id": "C079", "hyp": " Lower the living room blinds to 20%.", "latency_s": 5.0175, "dur": 3.02}
+{"clip": "noise/C080-gb_m_alan.flac", "id": "C080", "hyp": " Raise the atrium blind all the way.", "latency_s": 4.8618, "dur": 3.44}
+{"clip": "noise/C082-gb_f_isabella.flac", "id": "C082", "hyp": " Open the atrium blind at 1pm.", "latency_s": 4.8977, "dur": 3.05}
+{"clip": "noise/C087-au_m_p374.flac", "id": "C087", "hyp": " How many killer what hours have we used today?", "latency_s": 4.6698, "dur": 2.83}
+{"clip": "noise/C088-gb_m_northern.flac", "id": "C088", "hyp": " How many K, W, did the solar make yesterday?", "latency_s": 4.1193, "dur": 3.37}
+{"clip": "noise/C092-gb_m_george.flac", "id": "C092", "hyp": " When does zero charge start?", "latency_s": 4.1318, "dur": 2.73}
+{"clip": "noise/C093-au_m_p326.flac", "id": "C093", "hyp": " Is it zero charge time yet?", "latency_s": 4.7305, "dur": 2.05}
+{"clip": "noise/C094-gb_m_alan.flac", "id": "C094", "hyp": " how long is left in the zero charge window.", "latency_s": 4.3577, "dur": 3.66}
+{"clip": "noise/C095-au_m_p374.flac", "id": "C095", "hyp": " Should I run the dishwasher during zero charge?", "latency_s": 4.5746, "dur": 3.14}
+{"clip": "noise/C102-gb_m_northern.flac", "id": "C102", "hyp": " What's our usage in kilowatt hours this week?", "latency_s": 4.665, "dur": 2.97}
+{"clip": "noise/C104-gb_f_emma.flac", "id": "C104", "hyp": " Should I run the washing machine now or at 11?", "latency_s": 4.7894, "dur": 3.1}
+{"clip": "noise/C107-au_m_p374.flac", "id": "C107", "hyp": " How many kilowatt hours are full battery?", "latency_s": 4.7311, "dur": 2.84}
+{"clip": "noise/C108-gb_m_alan.flac", "id": "C108", "hyp": " What's the temperature in the atrium?", "latency_s": 4.7564, "dur": 2.93}
+{"clip": "noise/C109-au_m_p326.flac", "id": "C109", "hyp": " How warm is it in the loft?", "latency_s": 5.1849, "dur": 1.93}
+{"clip": "noise/C115-au_m_p374.flac", "id": "C115", "hyp": " Is it humid in the largely?", "latency_s": 4.6473, "dur": 2.17}
+{"clip": "noise/C117-au_m_p326.flac", "id": "C117", "hyp": " set the air conditioner to 22 degrees.", "latency_s": 4.4829, "dur": 3.02}
+{"clip": "noise/C122-gb_m_alan.flac", "id": "C122", "hyp": " Is the loft lamp on?", "latency_s": 4.0094, "dur": 2.07}
+{"clip": "noise/C123-au_m_p374.flac", "id": "C123", "hyp": " Did the laundry lots go off?", "latency_s": 4.3879, "dur": 2.23}
+{"clip": "noise/C124-gb_f_isabella.flac", "id": "C124", "hyp": " Is the pergola lit up?", "latency_s": 4.5406, "dur": 2.31}
+{"clip": "noise/C130-gb_m_northern.flac", "id": "C130", "hyp": " How's the battery holding up?", "latency_s": 4.9781, "dur": 2.51}
+{"clip": "noise/C131-au_m_p374.flac", "id": "C131", "hyp": " What killer what hours is that they call to?", "latency_s": 5.2373, "dur": 2.66}
+{"clip": "noise/C132-gb_f_emma.flac", "id": "C132", "hyp": " How full is the battery?", "latency_s": 4.1469, "dur": 2.29}
+{"clip": "noise/C133-au_m_p326.flac", "id": "C133", "hyp": " What's the weather doing?", "latency_s": 4.3971, "dur": 1.64}
+{"clip": "noise/C134-gb_m_george.flac", "id": "C134", "hyp": " What's the timbre?", "latency_s": 4.3167, "dur": 1.67}
+{"clip": "noise/C135-au_m_p374.flac", "id": "C135", "hyp": " Should I run near a safe?", "latency_s": 4.2132, "dur": 2.04}
+{"clip": "noise/C136-gb_m_alan.flac", "id": "C136", "hyp": " What's the weather like tomorrow?", "latency_s": 4.5347, "dur": 2.56}
+{"clip": "noise/C137-au_m_p326.flac", "id": "C137", "hyp": " Creating a safe plan putting the height on at 11 a.m. until 12 p.m. at 22 degrees.", "latency_s": 5.1484, "dur": 5.27}
+{"clip": "noise/C138-gb_f_isabella.flac", "id": "C138", "hyp": " Turn on the study light.", "latency_s": 4.5507, "dur": 2.26}
+{"clip": "noise/C139-au_m_p374.flac", "id": "C139", "hyp": " Turn the study like to 100%.", "latency_s": 4.4335, "dur": 2.84}
+{"clip": "noise/C140-gb_m_lewis.flac", "id": "C140", "hyp": " Turn off the outside light.", "latency_s": 4.3139, "dur": 2.29}
+{"clip": "noise/C141-au_m_p326.flac", "id": "C141", "hyp": " Hello?", "latency_s": 3.8837, "dur": 1.22}
+{"clip": "noise/C142-gb_f_cori.flac", "id": "C142", "hyp": " Can you turn off the living room lights?", "latency_s": 4.5755, "dur": 2.81}
+{"clip": "noise/C143-au_m_p374.flac", "id": "C143", "hyp": " Turn on the living room lights.", "latency_s": 4.322, "dur": 2.17}
+{"clip": "noise/C144-gb_m_northern.flac", "id": "C144", "hyp": " How's the battery going?", "latency_s": 4.8278, "dur": 1.94}
+{"clip": "noise/C145-au_m_p326.flac", "id": "C145", "hyp": " How's the home?", "latency_s": 4.2609, "dur": 1.48}
+{"clip": "noise/C146-gb_f_emma.flac", "id": "C146", "hyp": " Shouldn't the atrium blind be down in that case?", "latency_s": 4.0674, "dur": 3.12}
+{"clip": "noise/C147-au_m_p374.flac", "id": "C147", "hyp": " Why didn't it go down?", "latency_s": 4.2233, "dur": 1.9}
+{"clip": "noise/C148-gb_m_george.flac", "id": "C148", "hyp": " Close the atrium blind to 30%.  Open it completely at 1pm.", "latency_s": 4.1828, "dur": 6.08}
+{"clip": "noise/C149-au_m_p326.flac", "id": "C149", "hyp": " Can you do basic arithmetic?", "latency_s": 4.2015, "dur": 2.2}
+{"clip": "noise/C150-gb_m_alan.flac", "id": "C150", "hyp": " What's 2 plus 8?", "latency_s": 3.9434, "dur": 2.23}
+{"clip": "noise/C151-au_m_p374.flac", "id": "C151", "hyp": " I have a small dish or shallowed.  Will I run it tonight or run it in the morning?", "latency_s": 4.8562, "dur": 4.33}

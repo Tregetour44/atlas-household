@@ -1,0 +1,1582 @@
+{
+ "core": {
+  "fw-distil-large-v3-int8": {
+   "all": {
+    "n": 240,
+    "wer": 0.10711909514304724,
+    "cmd_acc": 0.7291666666666666,
+    "house_word_acc": 0.7708333333333334,
+    "lat_p50": 4.422700000000001,
+    "lat_p95": 4.94728,
+    "rtf": 1.7819824996201192
+   },
+   "clean": {
+    "n": 160,
+    "wer": 0.10079840319361277,
+    "cmd_acc": 0.73125,
+    "house_word_acc": 0.78125,
+    "lat_p50": 4.418799999999999,
+    "lat_p95": 4.916565,
+    "rtf": 1.7664900258073188
+   },
+   "noise": {
+    "n": 80,
+    "wer": 0.11976047904191617,
+    "cmd_acc": 0.725,
+    "house_word_acc": 0.75,
+    "lat_p50": 4.45775,
+    "lat_p95": 5.010565000000001,
+    "rtf": 1.8129674472457205
+   },
+   "cleanAU": {
+    "n": 80,
+    "wer": 0.16367265469061876,
+    "cmd_acc": 0.575,
+    "house_word_acc": 0.625,
+    "lat_p50": 4.425750000000001,
+    "lat_p95": 4.9166300000000005,
+    "rtf": 1.8958468089016443
+   },
+   "cleanGB": {
+    "n": 80,
+    "wer": 0.03792415169660679,
+    "cmd_acc": 0.8875,
+    "house_word_acc": 0.9375,
+    "lat_p50": 4.4183,
+    "lat_p95": 4.9006050000000005,
+    "rtf": 1.6371332427129932
+   },
+   "owner": {
+    "n": 66,
+    "wer": 0.09777777777777778,
+    "cmd_acc": 0.7272727272727273,
+    "house_word_acc": 0.6666666666666666,
+    "lat_p50": 4.4378,
+    "lat_p95": 5.011550000000001,
+    "rtf": 1.9367989232089102
+   },
+   "2-5s": {
+    "n": 122,
+    "wer": 0.1052060737527115,
+    "cmd_acc": 0.7049180327868853,
+    "house_word_acc": 0.7283950617283951,
+    "lat_p50": 4.453049999999999,
+    "lat_p95": 5.014634999999999,
+    "rtf": 1.4291286479209873
+   }
+  },
+  "fw-large-v3-turbo-int8+prompt": {
+   "all": {
+    "n": 240,
+    "wer": 0.059214903526280775,
+    "cmd_acc": 0.8541666666666666,
+    "house_word_acc": 0.9027777777777778,
+    "lat_p50": 4.51485,
+    "lat_p95": 5.083069999999999,
+    "rtf": 1.8183547157992175
+   },
+   "clean": {
+    "n": 160,
+    "wer": 0.06487025948103792,
+    "cmd_acc": 0.8375,
+    "house_word_acc": 0.8958333333333334,
+    "lat_p50": 4.4734,
+    "lat_p95": 5.101769999999999,
+    "rtf": 1.80163594995994
+   },
+   "noise": {
+    "n": 80,
+    "wer": 0.04790419161676647,
+    "cmd_acc": 0.8875,
+    "house_word_acc": 0.9166666666666666,
+    "lat_p50": 4.6117,
+    "lat_p95": 5.0625849999999994,
+    "rtf": 1.851792247477772
+   },
+   "cleanAU": {
+    "n": 80,
+    "wer": 0.09780439121756487,
+    "cmd_acc": 0.7625,
+    "house_word_acc": 0.8333333333333334,
+    "lat_p50": 4.4933,
+    "lat_p95": 5.072030000000001,
+    "rtf": 1.9264502354408495
+   },
+   "cleanGB": {
+    "n": 80,
+    "wer": 0.031936127744510975,
+    "cmd_acc": 0.9125,
+    "house_word_acc": 0.9583333333333334,
+    "lat_p50": 4.4613,
+    "lat_p95": 5.106975,
+    "rtf": 1.67682166447903
+   },
+   "owner": {
+    "n": 66,
+    "wer": 0.06222222222222222,
+    "cmd_acc": 0.8333333333333334,
+    "house_word_acc": 0.7777777777777778,
+    "lat_p50": 4.3541,
+    "lat_p95": 4.8781,
+    "rtf": 1.9133349634986276
+   },
+   "2-5s": {
+    "n": 122,
+    "wer": 0.05314533622559653,
+    "cmd_acc": 0.860655737704918,
+    "house_word_acc": 0.9135802469135802,
+    "lat_p50": 4.602600000000001,
+    "lat_p95": 5.158369999999999,
+    "rtf": 1.4879472060958063
+   }
+  },
+  "fw-large-v3-turbo-int8": {
+   "all": {
+    "n": 240,
+    "wer": 0.0658682634730539,
+    "cmd_acc": 0.825,
+    "house_word_acc": 0.8680555555555556,
+    "lat_p50": 4.2422,
+    "lat_p95": 4.745419999999999,
+    "rtf": 1.716519873889041
+   },
+   "clean": {
+    "n": 160,
+    "wer": 0.06786427145708583,
+    "cmd_acc": 0.81875,
+    "house_word_acc": 0.8541666666666666,
+    "lat_p50": 4.2546,
+    "lat_p95": 4.797585,
+    "rtf": 1.7209196561678772
+   },
+   "noise": {
+    "n": 80,
+    "wer": 0.06187624750499002,
+    "cmd_acc": 0.8375,
+    "house_word_acc": 0.8958333333333334,
+    "lat_p50": 4.19635,
+    "lat_p95": 4.563355,
+    "rtf": 1.7077203093313689
+   },
+   "cleanAU": {
+    "n": 80,
+    "wer": 0.1157684630738523,
+    "cmd_acc": 0.6875,
+    "house_word_acc": 0.7291666666666666,
+    "lat_p50": 4.2565,
+    "lat_p95": 4.74122,
+    "rtf": 1.8414039030190579
+   },
+   "cleanGB": {
+    "n": 80,
+    "wer": 0.01996007984031936,
+    "cmd_acc": 0.95,
+    "house_word_acc": 0.9791666666666666,
+    "lat_p50": 4.2461,
+    "lat_p95": 4.85111,
+    "rtf": 1.6004354093166966
+   },
+   "owner": {
+    "n": 66,
+    "wer": 0.05333333333333334,
+    "cmd_acc": 0.8484848484848485,
+    "house_word_acc": 0.6666666666666666,
+    "lat_p50": 4.29035,
+    "lat_p95": 4.7058,
+    "rtf": 1.8964344588755988
+   },
+   "2-5s": {
+    "n": 122,
+    "wer": 0.05314533622559653,
+    "cmd_acc": 0.8442622950819673,
+    "house_word_acc": 0.8765432098765432,
+    "lat_p50": 4.2641,
+    "lat_p95": 4.847515,
+    "rtf": 1.382409427840747
+   }
+  },
+  "fw-small.en-int8+prompt-beam1-vadfilter": {
+   "all": {
+    "n": 240,
+    "wer": 0.08316699933466401,
+    "cmd_acc": 0.8375,
+    "house_word_acc": 0.9444444444444444,
+    "lat_p50": 1.4659499999999999,
+    "lat_p95": 1.7845699999999998,
+    "rtf": 0.5914641591012836
+   },
+   "clean": {
+    "n": 160,
+    "wer": 0.06786427145708583,
+    "cmd_acc": 0.85,
+    "house_word_acc": 0.9479166666666666,
+    "lat_p50": 1.47385,
+    "lat_p95": 1.7951499999999996,
+    "rtf": 0.5952492908035489
+   },
+   "noise": {
+    "n": 80,
+    "wer": 0.11377245508982035,
+    "cmd_acc": 0.8125,
+    "house_word_acc": 0.9375,
+    "lat_p50": 1.4575,
+    "lat_p95": 1.7457150000000001,
+    "rtf": 0.5838938956967533
+   },
+   "cleanAU": {
+    "n": 80,
+    "wer": 0.10778443113772455,
+    "cmd_acc": 0.7875,
+    "house_word_acc": 0.8958333333333334,
+    "lat_p50": 1.4626000000000001,
+    "lat_p95": 1.7953999999999999,
+    "rtf": 0.6433960775766492
+   },
+   "cleanGB": {
+    "n": 80,
+    "wer": 0.027944111776447105,
+    "cmd_acc": 0.9125,
+    "house_word_acc": 1.0,
+    "lat_p50": 1.4798,
+    "lat_p95": 1.7655099999999997,
+    "rtf": 0.5471025040304485
+   },
+   "owner": {
+    "n": 66,
+    "wer": 0.11777777777777777,
+    "cmd_acc": 0.7878787878787878,
+    "house_word_acc": 0.8888888888888888,
+    "lat_p50": 1.48755,
+    "lat_p95": 1.740475,
+    "rtf": 0.6429394448555125
+   },
+   "2-5s": {
+    "n": 122,
+    "wer": 0.0737527114967462,
+    "cmd_acc": 0.8360655737704918,
+    "house_word_acc": 0.9259259259259259,
+    "lat_p50": 1.468,
+    "lat_p95": 1.8112249999999994,
+    "rtf": 0.47919329698781116
+   }
+  },
+  "fw-small.en-int8+prompt-beam1": {
+   "all": {
+    "n": 240,
+    "wer": 0.08383233532934131,
+    "cmd_acc": 0.8375,
+    "house_word_acc": 0.9444444444444444,
+    "lat_p50": 1.70635,
+    "lat_p95": 1.9165299999999998,
+    "rtf": 0.6875178689296519
+   },
+   "clean": {
+    "n": 160,
+    "wer": 0.06986027944111776,
+    "cmd_acc": 0.85,
+    "house_word_acc": 0.9479166666666666,
+    "lat_p50": 1.6898499999999999,
+    "lat_p95": 1.912405,
+    "rtf": 0.6866522165386739
+   },
+   "noise": {
+    "n": 80,
+    "wer": 0.11177644710578842,
+    "cmd_acc": 0.8125,
+    "house_word_acc": 0.9375,
+    "lat_p50": 1.7215500000000001,
+    "lat_p95": 1.92141,
+    "rtf": 0.6892491737116082
+   },
+   "cleanAU": {
+    "n": 80,
+    "wer": 0.11177644710578842,
+    "cmd_acc": 0.7875,
+    "house_word_acc": 0.8958333333333334,
+    "lat_p50": 1.6778,
+    "lat_p95": 1.964175,
+    "rtf": 0.7422921225113017
+   },
+   "cleanGB": {
+    "n": 80,
+    "wer": 0.027944111776447105,
+    "cmd_acc": 0.9125,
+    "house_word_acc": 1.0,
+    "lat_p50": 1.7068500000000002,
+    "lat_p95": 1.889795,
+    "rtf": 0.6310123105660461
+   },
+   "owner": {
+    "n": 66,
+    "wer": 0.11777777777777777,
+    "cmd_acc": 0.7878787878787878,
+    "house_word_acc": 0.8888888888888888,
+    "lat_p50": 1.67935,
+    "lat_p95": 1.8966749999999999,
+    "rtf": 0.7359990469476055
+   },
+   "2-5s": {
+    "n": 122,
+    "wer": 0.0737527114967462,
+    "cmd_acc": 0.8360655737704918,
+    "house_word_acc": 0.9259259259259259,
+    "lat_p50": 1.7593999999999999,
+    "lat_p95": 1.92067,
+    "rtf": 0.5582832336020614
+   }
+  },
+  "fw-small.en-int8+prompt": {
+   "all": {
+    "n": 240,
+    "wer": 0.07850964737192283,
+    "cmd_acc": 0.8458333333333333,
+    "house_word_acc": 0.9583333333333334,
+    "lat_p50": 1.53,
+    "lat_p95": 1.8153299999999999,
+    "rtf": 0.6131416769437052
+   },
+   "clean": {
+    "n": 160,
+    "wer": 0.06786427145708583,
+    "cmd_acc": 0.85625,
+    "house_word_acc": 0.9479166666666666,
+    "lat_p50": 1.5486,
+    "lat_p95": 1.8629749999999998,
+    "rtf": 0.6146927311692887
+   },
+   "noise": {
+    "n": 80,
+    "wer": 0.0998003992015968,
+    "cmd_acc": 0.825,
+    "house_word_acc": 0.9791666666666666,
+    "lat_p50": 1.5062,
+    "lat_p95": 1.766505,
+    "rtf": 0.6100395684925383
+   },
+   "cleanAU": {
+    "n": 80,
+    "wer": 0.10978043912175649,
+    "cmd_acc": 0.7875,
+    "house_word_acc": 0.8958333333333334,
+    "lat_p50": 1.55365,
+    "lat_p95": 1.8460249999999998,
+    "rtf": 0.6592505028098277
+   },
+   "cleanGB": {
+    "n": 80,
+    "wer": 0.02594810379241517,
+    "cmd_acc": 0.925,
+    "house_word_acc": 1.0,
+    "lat_p50": 1.5348,
+    "lat_p95": 1.871055,
+    "rtf": 0.5701349595287498
+   },
+   "owner": {
+    "n": 66,
+    "wer": 0.11333333333333333,
+    "cmd_acc": 0.7878787878787878,
+    "house_word_acc": 0.8888888888888888,
+    "lat_p50": 1.4910999999999999,
+    "lat_p95": 1.868225,
+    "rtf": 0.6580946041861685
+   },
+   "2-5s": {
+    "n": 122,
+    "wer": 0.07158351409978309,
+    "cmd_acc": 0.8360655737704918,
+    "house_word_acc": 0.9382716049382716,
+    "lat_p50": 1.60025,
+    "lat_p95": 1.86968,
+    "rtf": 0.5180750463500527
+   }
+  },
+  "fw-small.en-int8": {
+   "all": {
+    "n": 240,
+    "wer": 0.11244178310046574,
+    "cmd_acc": 0.7416666666666667,
+    "house_word_acc": 0.8125,
+    "lat_p50": 1.44165,
+    "lat_p95": 1.753575,
+    "rtf": 0.5776489346970781
+   },
+   "clean": {
+    "n": 160,
+    "wer": 0.09181636726546906,
+    "cmd_acc": 0.775,
+    "house_word_acc": 0.8333333333333334,
+    "lat_p50": 1.4423,
+    "lat_p95": 1.746165,
+    "rtf": 0.5770535271345439
+   },
+   "noise": {
+    "n": 80,
+    "wer": 0.1536926147704591,
+    "cmd_acc": 0.675,
+    "house_word_acc": 0.7708333333333334,
+    "lat_p50": 1.4407,
+    "lat_p95": 1.754375,
+    "rtf": 0.5788397498221464
+   },
+   "cleanAU": {
+    "n": 80,
+    "wer": 0.16167664670658682,
+    "cmd_acc": 0.6125,
+    "house_word_acc": 0.6875,
+    "lat_p50": 1.4580000000000002,
+    "lat_p95": 1.7486099999999998,
+    "rtf": 0.6184078615304381
+   },
+   "cleanGB": {
+    "n": 80,
+    "wer": 0.021956087824351298,
+    "cmd_acc": 0.9375,
+    "house_word_acc": 0.9791666666666666,
+    "lat_p50": 1.42815,
+    "lat_p95": 1.742175,
+    "rtf": 0.5356991927386497
+   },
+   "owner": {
+    "n": 66,
+    "wer": 0.12,
+    "cmd_acc": 0.7878787878787878,
+    "house_word_acc": 0.8888888888888888,
+    "lat_p50": 1.38305,
+    "lat_p95": 1.8562750000000001,
+    "rtf": 0.607987692831919
+   },
+   "2-5s": {
+    "n": 122,
+    "wer": 0.09544468546637744,
+    "cmd_acc": 0.7786885245901639,
+    "house_word_acc": 0.8641975308641975,
+    "lat_p50": 1.4981,
+    "lat_p95": 1.817145,
+    "rtf": 0.4882099877320221
+   }
+  },
+  "kroko-streaming": {
+   "all": {
+    "n": 240,
+    "wer": 0.14238190286094476,
+    "cmd_acc": 0.6583333333333333,
+    "house_word_acc": 0.7430555555555556,
+    "lat_p50": 0.2815,
+    "lat_p95": 0.5512949999999998,
+    "rtf": 0.11576468022962466
+   },
+   "clean": {
+    "n": 160,
+    "wer": 0.1377245508982036,
+    "cmd_acc": 0.66875,
+    "house_word_acc": 0.7291666666666666,
+    "lat_p50": 0.3028,
+    "lat_p95": 0.59261,
+    "rtf": 0.1232008719234308
+   },
+   "noise": {
+    "n": 80,
+    "wer": 0.15169660678642716,
+    "cmd_acc": 0.6375,
+    "house_word_acc": 0.7708333333333334,
+    "lat_p50": 0.25695,
+    "lat_p95": 0.4054,
+    "rtf": 0.10089229684201242
+   },
+   "cleanAU": {
+    "n": 80,
+    "wer": 0.22355289421157684,
+    "cmd_acc": 0.4875,
+    "house_word_acc": 0.5208333333333334,
+    "lat_p50": 0.28995000000000004,
+    "lat_p95": 0.551295,
+    "rtf": 0.12449706345633497
+   },
+   "cleanGB": {
+    "n": 80,
+    "wer": 0.05189620758483034,
+    "cmd_acc": 0.85,
+    "house_word_acc": 0.9375,
+    "lat_p50": 0.3276,
+    "lat_p95": 0.6154049999999999,
+    "rtf": 0.1219046803905266
+   },
+   "owner": {
+    "n": 66,
+    "wer": 0.10444444444444445,
+    "cmd_acc": 0.7727272727272727,
+    "house_word_acc": 0.6666666666666666,
+    "lat_p50": 0.2234,
+    "lat_p95": 0.6110749999999999,
+    "rtf": 0.10538464732237242
+   },
+   "2-5s": {
+    "n": 122,
+    "wer": 0.14859002169197397,
+    "cmd_acc": 0.6475409836065574,
+    "house_word_acc": 0.7530864197530864,
+    "lat_p50": 0.3211,
+    "lat_p95": 0.6118949999999999,
+    "rtf": 0.11478290522415555
+   }
+  },
+  "parakeet-v2-int8": {
+   "all": {
+    "n": 240,
+    "wer": 0.11842980705256155,
+    "cmd_acc": 0.725,
+    "house_word_acc": 0.7916666666666666,
+    "lat_p50": 0.25505,
+    "lat_p95": 0.39261999999999997,
+    "rtf": 0.10134595606182989
+   },
+   "clean": {
+    "n": 160,
+    "wer": 0.10379241516966067,
+    "cmd_acc": 0.7625,
+    "house_word_acc": 0.8125,
+    "lat_p50": 0.249,
+    "lat_p95": 0.34121999999999997,
+    "rtf": 0.09805675130467309
+   },
+   "noise": {
+    "n": 80,
+    "wer": 0.14770459081836326,
+    "cmd_acc": 0.65,
+    "house_word_acc": 0.75,
+    "lat_p50": 0.26849999999999996,
+    "lat_p95": 0.4094999999999999,
+    "rtf": 0.10792436557614352
+   },
+   "cleanAU": {
+    "n": 80,
+    "wer": 0.1596806387225549,
+    "cmd_acc": 0.6125,
+    "house_word_acc": 0.6875,
+    "lat_p50": 0.23695,
+    "lat_p95": 0.32365,
+    "rtf": 0.10017560134156711
+   },
+   "cleanGB": {
+    "n": 80,
+    "wer": 0.04790419161676647,
+    "cmd_acc": 0.9125,
+    "house_word_acc": 0.9375,
+    "lat_p50": 0.26405,
+    "lat_p95": 0.34635999999999995,
+    "rtf": 0.09593790126777905
+   },
+   "owner": {
+    "n": 66,
+    "wer": 0.12666666666666668,
+    "cmd_acc": 0.7424242424242424,
+    "house_word_acc": 0.7777777777777778,
+    "lat_p50": 0.22785,
+    "lat_p95": 0.41505,
+    "rtf": 0.10129528893229657
+   },
+   "2-5s": {
+    "n": 122,
+    "wer": 0.10845986984815618,
+    "cmd_acc": 0.7377049180327869,
+    "house_word_acc": 0.8271604938271605,
+    "lat_p50": 0.28515,
+    "lat_p95": 0.397295,
+    "rtf": 0.09392178626569683
+   }
+  },
+  "parakeet-v3-int8": {
+   "all": {
+    "n": 240,
+    "wer": 0.13107119095143047,
+    "cmd_acc": 0.725,
+    "house_word_acc": 0.75,
+    "lat_p50": 0.29155,
+    "lat_p95": 0.685385,
+    "rtf": 0.13343992579241332
+   },
+   "clean": {
+    "n": 160,
+    "wer": 0.09481037924151696,
+    "cmd_acc": 0.7625,
+    "house_word_acc": 0.8020833333333334,
+    "lat_p50": 0.28875,
+    "lat_p95": 0.6886749999999995,
+    "rtf": 0.135291342792295
+   },
+   "noise": {
+    "n": 80,
+    "wer": 0.20359281437125748,
+    "cmd_acc": 0.65,
+    "house_word_acc": 0.6458333333333334,
+    "lat_p50": 0.29475,
+    "lat_p95": 0.6025549999999997,
+    "rtf": 0.12973709179264994
+   },
+   "cleanAU": {
+    "n": 80,
+    "wer": 0.14570858283433133,
+    "cmd_acc": 0.6,
+    "house_word_acc": 0.6458333333333334,
+    "lat_p50": 0.28155,
+    "lat_p95": 0.663515,
+    "rtf": 0.1401601655967578
+   },
+   "cleanGB": {
+    "n": 80,
+    "wer": 0.043912175648702596,
+    "cmd_acc": 0.925,
+    "house_word_acc": 0.9583333333333334,
+    "lat_p50": 0.29355,
+    "lat_p95": 0.7290699999999999,
+    "rtf": 0.13042251998783214
+   },
+   "owner": {
+    "n": 66,
+    "wer": 0.1288888888888889,
+    "cmd_acc": 0.8181818181818182,
+    "house_word_acc": 0.8888888888888888,
+    "lat_p50": 0.26349999999999996,
+    "lat_p95": 0.5015999999999999,
+    "rtf": 0.12300515161220635
+   },
+   "2-5s": {
+    "n": 122,
+    "wer": 0.13774403470715835,
+    "cmd_acc": 0.7540983606557377,
+    "house_word_acc": 0.8271604938271605,
+    "lat_p50": 0.36785,
+    "lat_p95": 0.729295,
+    "rtf": 0.13467480236718138
+   }
+  },
+  "qwen3asr-0.6b-int4+prompt": {
+   "all": {
+    "n": 240,
+    "wer": 0.07518296739853626,
+    "cmd_acc": 0.8291666666666667,
+    "house_word_acc": 0.8958333333333334,
+    "lat_p50": 0.7839,
+    "lat_p95": 1.0432549999999998,
+    "rtf": 0.30966509792116254
+   },
+   "clean": {
+    "n": 160,
+    "wer": 0.07085828343313373,
+    "cmd_acc": 0.825,
+    "house_word_acc": 0.8958333333333334,
+    "lat_p50": 0.7883,
+    "lat_p95": 1.0432549999999998,
+    "rtf": 0.31102686329062024
+   },
+   "noise": {
+    "n": 80,
+    "wer": 0.08383233532934131,
+    "cmd_acc": 0.8375,
+    "house_word_acc": 0.8958333333333334,
+    "lat_p50": 0.7805,
+    "lat_p95": 1.0308899999999999,
+    "rtf": 0.30694156718224697
+   },
+   "cleanAU": {
+    "n": 80,
+    "wer": 0.11776447105788423,
+    "cmd_acc": 0.7125,
+    "house_word_acc": 0.8125,
+    "lat_p50": 0.7839,
+    "lat_p95": 1.0440299999999998,
+    "rtf": 0.3277736212478052
+   },
+   "cleanGB": {
+    "n": 80,
+    "wer": 0.023952095808383235,
+    "cmd_acc": 0.9375,
+    "house_word_acc": 0.9791666666666666,
+    "lat_p50": 0.7953,
+    "lat_p95": 0.9950899999999998,
+    "rtf": 0.29428010533343535
+   },
+   "owner": {
+    "n": 66,
+    "wer": 0.07333333333333333,
+    "cmd_acc": 0.8636363636363636,
+    "house_word_acc": 0.7777777777777778,
+    "lat_p50": 0.70465,
+    "lat_p95": 1.43655,
+    "rtf": 0.3249775240233693
+   },
+   "2-5s": {
+    "n": 122,
+    "wer": 0.0770065075921909,
+    "cmd_acc": 0.819672131147541,
+    "house_word_acc": 0.9012345679012346,
+    "lat_p50": 0.8871,
+    "lat_p95": 1.1911549999999986,
+    "rtf": 0.287976059124643
+   }
+  },
+  "qwen3asr-0.6b-int4": {
+   "all": {
+    "n": 240,
+    "wer": 0.10113107119095142,
+    "cmd_acc": 0.7375,
+    "house_word_acc": 0.7222222222222222,
+    "lat_p50": 0.69245,
+    "lat_p95": 1.063459999999999,
+    "rtf": 0.27971828052517744
+   },
+   "clean": {
+    "n": 160,
+    "wer": 0.10578842315369262,
+    "cmd_acc": 0.725,
+    "house_word_acc": 0.6979166666666666,
+    "lat_p50": 0.7181,
+    "lat_p95": 1.1165149999999993,
+    "rtf": 0.28465653387782947
+   },
+   "noise": {
+    "n": 80,
+    "wer": 0.09181636726546906,
+    "cmd_acc": 0.7625,
+    "house_word_acc": 0.7708333333333334,
+    "lat_p50": 0.6713,
+    "lat_p95": 0.9054099999999998,
+    "rtf": 0.26984177381987356
+   },
+   "cleanAU": {
+    "n": 80,
+    "wer": 0.18562874251497005,
+    "cmd_acc": 0.525,
+    "house_word_acc": 0.4583333333333333,
+    "lat_p50": 0.7042999999999999,
+    "lat_p95": 1.0659749999999997,
+    "rtf": 0.30240601206266565
+   },
+   "cleanGB": {
+    "n": 80,
+    "wer": 0.02594810379241517,
+    "cmd_acc": 0.925,
+    "house_word_acc": 0.9375,
+    "lat_p50": 0.7209,
+    "lat_p95": 1.116885,
+    "rtf": 0.2669070556929933
+   },
+   "owner": {
+    "n": 66,
+    "wer": 0.08,
+    "cmd_acc": 0.803030303030303,
+    "house_word_acc": 0.5555555555555556,
+    "lat_p50": 0.64375,
+    "lat_p95": 1.228775,
+    "rtf": 0.28874014194537184
+   },
+   "2-5s": {
+    "n": 122,
+    "wer": 0.09436008676789588,
+    "cmd_acc": 0.7622950819672131,
+    "house_word_acc": 0.7160493827160493,
+    "lat_p50": 0.7798499999999999,
+    "lat_p95": 1.1628299999999996,
+    "rtf": 0.2580252617267442
+   }
+  },
+  "speech-to-phrase-default": {
+   "all": {
+    "n": 240,
+    "wer": 0.7551563539587491,
+    "cmd_acc": 0.2833333333333333,
+    "house_word_acc": 0.2916666666666667,
+    "lat_p50": 0.3366,
+    "lat_p95": 0.8495549999999997,
+    "rtf": 0.13913764553384939
+   },
+   "clean": {
+    "n": 160,
+    "wer": 0.7604790419161677,
+    "cmd_acc": 0.2875,
+    "house_word_acc": 0.28125,
+    "lat_p50": 0.33185,
+    "lat_p95": 0.8219799999999997,
+    "rtf": 0.13352923229906805
+   },
+   "noise": {
+    "n": 80,
+    "wer": 0.7445109780439122,
+    "cmd_acc": 0.275,
+    "house_word_acc": 0.3125,
+    "lat_p50": 0.34355,
+    "lat_p95": 0.9009399999999999,
+    "rtf": 0.15035447200341207
+   },
+   "cleanAU": {
+    "n": 80,
+    "wer": 0.7465069860279441,
+    "cmd_acc": 0.3,
+    "house_word_acc": 0.3125,
+    "lat_p50": 0.33185,
+    "lat_p95": 0.8400549999999999,
+    "rtf": 0.14184297368605991
+   },
+   "cleanGB": {
+    "n": 80,
+    "wer": 0.7744510978043913,
+    "cmd_acc": 0.275,
+    "house_word_acc": 0.25,
+    "lat_p50": 0.3321,
+    "lat_p95": 0.7388299999999998,
+    "rtf": 0.1252154909120762
+   },
+   "owner": {
+    "n": 66,
+    "wer": 0.8133333333333334,
+    "cmd_acc": 0.24242424242424243,
+    "house_word_acc": 0.0,
+    "lat_p50": 0.28095000000000003,
+    "lat_p95": 0.8343,
+    "rtf": 0.12350295846442716
+   },
+   "2-5s": {
+    "n": 122,
+    "wer": 0.8590021691973969,
+    "cmd_acc": 0.14754098360655737,
+    "house_word_acc": 0.18518518518518517,
+    "lat_p50": 0.4334,
+    "lat_p95": 0.9423599999999999,
+    "rtf": 0.15111570627431095
+   }
+  },
+  "speech-to-phrase-tuned": {
+   "all": {
+    "n": 240,
+    "wer": 0.47904191616766467,
+    "cmd_acc": 0.5625,
+    "house_word_acc": 0.6319444444444444,
+    "lat_p50": 0.75435,
+    "lat_p95": 1.5149999999999997,
+    "rtf": 0.29010118740059193
+   },
+   "clean": {
+    "n": 160,
+    "wer": 0.4810379241516966,
+    "cmd_acc": 0.55,
+    "house_word_acc": 0.625,
+    "lat_p50": 0.7248,
+    "lat_p95": 1.4438899999999986,
+    "rtf": 0.2771440756084841
+   },
+   "noise": {
+    "n": 80,
+    "wer": 0.4750499001996008,
+    "cmd_acc": 0.5875,
+    "house_word_acc": 0.6458333333333334,
+    "lat_p50": 0.7821499999999999,
+    "lat_p95": 1.5623249999999993,
+    "rtf": 0.31601541098480757
+   },
+   "cleanAU": {
+    "n": 80,
+    "wer": 0.5029940119760479,
+    "cmd_acc": 0.5125,
+    "house_word_acc": 0.5833333333333334,
+    "lat_p50": 0.72635,
+    "lat_p95": 1.4279799999999998,
+    "rtf": 0.29894302782258714
+   },
+   "cleanGB": {
+    "n": 80,
+    "wer": 0.4590818363273453,
+    "cmd_acc": 0.5875,
+    "house_word_acc": 0.6666666666666666,
+    "lat_p50": 0.7219,
+    "lat_p95": 1.4438899999999997,
+    "rtf": 0.255345123394381
+   },
+   "owner": {
+    "n": 66,
+    "wer": 0.7733333333333333,
+    "cmd_acc": 0.2878787878787879,
+    "house_word_acc": 0.0,
+    "lat_p50": 0.61965,
+    "lat_p95": 2.034925,
+    "rtf": 0.2701067491038957
+   },
+   "2-5s": {
+    "n": 122,
+    "wer": 0.4837310195227766,
+    "cmd_acc": 0.5491803278688525,
+    "house_word_acc": 0.5555555555555556,
+    "lat_p50": 0.95485,
+    "lat_p95": 1.8094649999999972,
+    "rtf": 0.31108331336207956
+   }
+  }
+ },
+ "s2p": {
+  "speech-to-phrase-default": {
+   "n": 240,
+   "accepted": 75,
+   "right": 68
+  },
+  "speech-to-phrase-tuned": {
+   "n": 240,
+   "accepted": 146,
+   "right": 135
+  }
+ },
+ "meta": {
+  "fw-distil-large-v3-int8": {
+   "main": {
+    "name": "fw-distil-large-v3-int8",
+    "server_args": [
+     "--data-dir",
+     "/home/user/models/wy",
+     "--language",
+     "en",
+     "--cpu-threads",
+     "4",
+     "--stt-library",
+     "faster-whisper",
+     "--model",
+     "/home/user/models/hf/models--Systran--faster-distil-whisper-large-v3/snapshots/c3058b475261292e64a0412df1d2681c06260fab",
+     "--compute-type",
+     "int8",
+     "--beam-size",
+     "5"
+    ],
+    "clips": 240,
+    "realtime": false,
+    "first_request_s": 4.34,
+    "peak_rss_mb": 1945,
+    "cpu": 4,
+    "latency_p50_s": 4.423,
+    "latency_p95_s": 4.947
+   }
+  },
+  "fw-large-v3-turbo-int8+prompt": {
+   "main": {
+    "name": "fw-large-v3-turbo-int8+prompt",
+    "server_args": [
+     "--data-dir",
+     "/home/user/models/wy",
+     "--language",
+     "en",
+     "--cpu-threads",
+     "4",
+     "--stt-library",
+     "faster-whisper",
+     "--model",
+     "/home/user/models/hf/models--mobiuslabsgmbh--faster-whisper-large-v3-turbo/snapshots/0a363e9161cbc7ed1431c9597a8ceaf0c4f78fcf",
+     "--compute-type",
+     "int8",
+     "--beam-size",
+     "5",
+     "--initial-prompt",
+     "Atlas, Good Night, Wind Down, ZeroCharge, kWh, atrium, pergola, ensuite, loft, laundry, porch, patio, study, garage, hallway, kitchen, dining room, living room, guest bedroom, master bedroom, upstairs, downstairs, ground floor, outside, atrium blind, living room door blind, living room window blind, atrium spotlight, pergola floodlight, pergola spotlight, ensuite downlight, robe downlight, loft lamp, laundry downlight, kitchen chandelier, living room chandelier, range hood, fountain spotlight, mirror ambiance, wall floodlight, wall light, garden spotlight, garage ceiling, porch downlight."
+    ],
+    "clips": 240,
+    "realtime": false,
+    "first_request_s": 4.19,
+    "peak_rss_mb": 2075,
+    "cpu": 4,
+    "latency_p50_s": 4.515,
+    "latency_p95_s": 5.083
+   },
+   "nospeech": {
+    "name": "fw-large-v3-turbo-int8+prompt@nospeech",
+    "server_args": [
+     "--data-dir",
+     "/home/user/models/wy",
+     "--language",
+     "en",
+     "--cpu-threads",
+     "4",
+     "--stt-library",
+     "faster-whisper",
+     "--model",
+     "/home/user/models/hf/models--mobiuslabsgmbh--faster-whisper-large-v3-turbo/snapshots/0a363e9161cbc7ed1431c9597a8ceaf0c4f78fcf",
+     "--compute-type",
+     "int8",
+     "--beam-size",
+     "5",
+     "--initial-prompt",
+     "Atlas, Good Night, Wind Down, ZeroCharge, kWh, atrium, pergola, ensuite, loft, laundry, porch, patio, study, garage, hallway, kitchen, dining room, living room, guest bedroom, master bedroom, upstairs, downstairs, ground floor, outside, atrium blind, living room door blind, living room window blind, atrium spotlight, pergola floodlight, pergola spotlight, ensuite downlight, robe downlight, loft lamp, laundry downlight, kitchen chandelier, living room chandelier, range hood, fountain spotlight, mirror ambiance, wall floodlight, wall light, garden spotlight, garage ceiling, porch downlight."
+    ],
+    "clips": 12,
+    "realtime": false,
+    "first_request_s": 4.85,
+    "peak_rss_mb": 2197,
+    "cpu": 4,
+    "latency_p50_s": 4.764,
+    "latency_p95_s": 15.18
+   }
+  },
+  "fw-large-v3-turbo-int8": {
+   "main": {
+    "name": "fw-large-v3-turbo-int8",
+    "server_args": [
+     "--data-dir",
+     "/home/user/models/wy",
+     "--language",
+     "en",
+     "--cpu-threads",
+     "4",
+     "--stt-library",
+     "faster-whisper",
+     "--model",
+     "/home/user/models/hf/models--mobiuslabsgmbh--faster-whisper-large-v3-turbo/snapshots/0a363e9161cbc7ed1431c9597a8ceaf0c4f78fcf",
+     "--compute-type",
+     "int8",
+     "--beam-size",
+     "5"
+    ],
+    "clips": 240,
+    "realtime": false,
+    "first_request_s": 5.76,
+    "peak_rss_mb": 2075,
+    "cpu": 4,
+    "latency_p50_s": 4.242,
+    "latency_p95_s": 4.745
+   }
+  },
+  "fw-small.en-int8+prompt-beam1-vadfilter": {
+   "main": {
+    "name": "fw-small.en-int8+prompt-beam1-vadfilter",
+    "server_args": [
+     "--data-dir",
+     "/home/user/models/wy",
+     "--language",
+     "en",
+     "--cpu-threads",
+     "4",
+     "--stt-library",
+     "faster-whisper",
+     "--model",
+     "/home/user/models/hf/models--Systran--faster-whisper-small.en/snapshots/d1d751a5f8271d482d14ca55d9e2deeebbae577f",
+     "--compute-type",
+     "int8",
+     "--initial-prompt",
+     "Atlas, Good Night, Wind Down, ZeroCharge, kWh, atrium, pergola, ensuite, loft, laundry, porch, patio, study, garage, hallway, kitchen, dining room, living room, guest bedroom, master bedroom, upstairs, downstairs, ground floor, outside, atrium blind, living room door blind, living room window blind, atrium spotlight, pergola floodlight, pergola spotlight, ensuite downlight, robe downlight, loft lamp, laundry downlight, kitchen chandelier, living room chandelier, range hood, fountain spotlight, mirror ambiance, wall floodlight, wall light, garden spotlight, garage ceiling, porch downlight.",
+     "--beam-size",
+     "1",
+     "--vad-filter"
+    ],
+    "clips": 240,
+    "realtime": false,
+    "first_request_s": 1.61,
+    "peak_rss_mb": 1289,
+    "cpu": 4,
+    "latency_p50_s": 1.466,
+    "latency_p95_s": 1.785
+   },
+   "nospeech": {
+    "name": "fw-small.en-int8+prompt-beam1-vadfilter@nospeech",
+    "server_args": [
+     "--data-dir",
+     "/home/user/models/wy",
+     "--language",
+     "en",
+     "--cpu-threads",
+     "4",
+     "--stt-library",
+     "faster-whisper",
+     "--model",
+     "/home/user/models/hf/models--Systran--faster-whisper-small.en/snapshots/d1d751a5f8271d482d14ca55d9e2deeebbae577f",
+     "--compute-type",
+     "int8",
+     "--initial-prompt",
+     "Atlas, Good Night, Wind Down, ZeroCharge, kWh, atrium, pergola, ensuite, loft, laundry, porch, patio, study, garage, hallway, kitchen, dining room, living room, guest bedroom, master bedroom, upstairs, downstairs, ground floor, outside, atrium blind, living room door blind, living room window blind, atrium spotlight, pergola floodlight, pergola spotlight, ensuite downlight, robe downlight, loft lamp, laundry downlight, kitchen chandelier, living room chandelier, range hood, fountain spotlight, mirror ambiance, wall floodlight, wall light, garden spotlight, garage ceiling, porch downlight.",
+     "--beam-size",
+     "1",
+     "--vad-filter"
+    ],
+    "clips": 12,
+    "realtime": false,
+    "first_request_s": 0.07,
+    "peak_rss_mb": 828,
+    "cpu": 4,
+    "latency_p50_s": 0.027,
+    "latency_p95_s": 1.697
+   }
+  },
+  "fw-small.en-int8+prompt-beam1": {
+   "main": {
+    "name": "fw-small.en-int8+prompt-beam1",
+    "server_args": [
+     "--data-dir",
+     "/home/user/models/wy",
+     "--language",
+     "en",
+     "--cpu-threads",
+     "4",
+     "--stt-library",
+     "faster-whisper",
+     "--model",
+     "/home/user/models/hf/models--Systran--faster-whisper-small.en/snapshots/d1d751a5f8271d482d14ca55d9e2deeebbae577f",
+     "--compute-type",
+     "int8",
+     "--initial-prompt",
+     "Atlas, Good Night, Wind Down, ZeroCharge, kWh, atrium, pergola, ensuite, loft, laundry, porch, patio, study, garage, hallway, kitchen, dining room, living room, guest bedroom, master bedroom, upstairs, downstairs, ground floor, outside, atrium blind, living room door blind, living room window blind, atrium spotlight, pergola floodlight, pergola spotlight, ensuite downlight, robe downlight, loft lamp, laundry downlight, kitchen chandelier, living room chandelier, range hood, fountain spotlight, mirror ambiance, wall floodlight, wall light, garden spotlight, garage ceiling, porch downlight.",
+     "--beam-size",
+     "1"
+    ],
+    "clips": 240,
+    "realtime": false,
+    "first_request_s": 1.48,
+    "peak_rss_mb": 1253,
+    "cpu": 4,
+    "latency_p50_s": 1.706,
+    "latency_p95_s": 1.916
+   },
+   "nospeech": {
+    "name": "fw-small.en-int8+prompt-beam1@nospeech",
+    "server_args": [
+     "--data-dir",
+     "/home/user/models/wy",
+     "--language",
+     "en",
+     "--cpu-threads",
+     "4",
+     "--stt-library",
+     "faster-whisper",
+     "--model",
+     "/home/user/models/hf/models--Systran--faster-whisper-small.en/snapshots/d1d751a5f8271d482d14ca55d9e2deeebbae577f",
+     "--compute-type",
+     "int8",
+     "--initial-prompt",
+     "Atlas, Good Night, Wind Down, ZeroCharge, kWh, atrium, pergola, ensuite, loft, laundry, porch, patio, study, garage, hallway, kitchen, dining room, living room, guest bedroom, master bedroom, upstairs, downstairs, ground floor, outside, atrium blind, living room door blind, living room window blind, atrium spotlight, pergola floodlight, pergola spotlight, ensuite downlight, robe downlight, loft lamp, laundry downlight, kitchen chandelier, living room chandelier, range hood, fountain spotlight, mirror ambiance, wall floodlight, wall light, garden spotlight, garage ceiling, porch downlight.",
+     "--beam-size",
+     "1"
+    ],
+    "clips": 12,
+    "realtime": false,
+    "first_request_s": 1.42,
+    "peak_rss_mb": 792,
+    "cpu": 4,
+    "latency_p50_s": 1.537,
+    "latency_p95_s": 1.751
+   }
+  },
+  "fw-small.en-int8+prompt-vadfilter": {
+   "nospeech": {
+    "name": "fw-small.en-int8+prompt-vadfilter@nospeech",
+    "server_args": [
+     "--data-dir",
+     "/home/user/models/wy",
+     "--language",
+     "en",
+     "--cpu-threads",
+     "4",
+     "--stt-library",
+     "faster-whisper",
+     "--model",
+     "/home/user/models/hf/models--Systran--faster-whisper-small.en/snapshots/d1d751a5f8271d482d14ca55d9e2deeebbae577f",
+     "--compute-type",
+     "int8",
+     "--initial-prompt",
+     "Atlas, Good Night, Wind Down, ZeroCharge, kWh, atrium, pergola, ensuite, loft, laundry, porch, patio, study, garage, hallway, kitchen, dining room, living room, guest bedroom, master bedroom, upstairs, downstairs, ground floor, outside, atrium blind, living room door blind, living room window blind, atrium spotlight, pergola floodlight, pergola spotlight, ensuite downlight, robe downlight, loft lamp, laundry downlight, kitchen chandelier, living room chandelier, range hood, fountain spotlight, mirror ambiance, wall floodlight, wall light, garden spotlight, garage ceiling, porch downlight.",
+     "--beam-size",
+     "5",
+     "--vad-filter"
+    ],
+    "clips": 12,
+    "realtime": false,
+    "first_request_s": 0.08,
+    "peak_rss_mb": 886,
+    "cpu": 4,
+    "latency_p50_s": 0.033,
+    "latency_p95_s": 1.892
+   }
+  },
+  "fw-small.en-int8+prompt": {
+   "main": {
+    "name": "fw-small.en-int8+prompt",
+    "server_args": [
+     "--data-dir",
+     "/home/user/models/wy",
+     "--language",
+     "en",
+     "--cpu-threads",
+     "4",
+     "--stt-library",
+     "faster-whisper",
+     "--model",
+     "/home/user/models/hf/models--Systran--faster-whisper-small.en/snapshots/d1d751a5f8271d482d14ca55d9e2deeebbae577f",
+     "--compute-type",
+     "int8",
+     "--beam-size",
+     "5",
+     "--initial-prompt",
+     "Atlas, Good Night, Wind Down, ZeroCharge, kWh, atrium, pergola, ensuite, loft, laundry, porch, patio, study, garage, hallway, kitchen, dining room, living room, guest bedroom, master bedroom, upstairs, downstairs, ground floor, outside, atrium blind, living room door blind, living room window blind, atrium spotlight, pergola floodlight, pergola spotlight, ensuite downlight, robe downlight, loft lamp, laundry downlight, kitchen chandelier, living room chandelier, range hood, fountain spotlight, mirror ambiance, wall floodlight, wall light, garden spotlight, garage ceiling, porch downlight."
+    ],
+    "clips": 240,
+    "realtime": false,
+    "first_request_s": 1.53,
+    "peak_rss_mb": 914,
+    "cpu": 4,
+    "latency_p50_s": 1.53,
+    "latency_p95_s": 1.815
+   },
+   "nospeech": {
+    "name": "fw-small.en-int8+prompt@nospeech",
+    "server_args": [
+     "--data-dir",
+     "/home/user/models/wy",
+     "--language",
+     "en",
+     "--cpu-threads",
+     "4",
+     "--stt-library",
+     "faster-whisper",
+     "--model",
+     "/home/user/models/hf/models--Systran--faster-whisper-small.en/snapshots/d1d751a5f8271d482d14ca55d9e2deeebbae577f",
+     "--compute-type",
+     "int8",
+     "--beam-size",
+     "5",
+     "--initial-prompt",
+     "Atlas, Good Night, Wind Down, ZeroCharge, kWh, atrium, pergola, ensuite, loft, laundry, porch, patio, study, garage, hallway, kitchen, dining room, living room, guest bedroom, master bedroom, upstairs, downstairs, ground floor, outside, atrium blind, living room door blind, living room window blind, atrium spotlight, pergola floodlight, pergola spotlight, ensuite downlight, robe downlight, loft lamp, laundry downlight, kitchen chandelier, living room chandelier, range hood, fountain spotlight, mirror ambiance, wall floodlight, wall light, garden spotlight, garage ceiling, porch downlight."
+    ],
+    "clips": 12,
+    "realtime": false,
+    "first_request_s": 1.83,
+    "peak_rss_mb": 867,
+    "cpu": 4,
+    "latency_p50_s": 1.784,
+    "latency_p95_s": 2.864
+   }
+  },
+  "fw-small.en-int8": {
+   "main": {
+    "name": "fw-small.en-int8",
+    "server_args": [
+     "--data-dir",
+     "/home/user/models/wy",
+     "--language",
+     "en",
+     "--cpu-threads",
+     "4",
+     "--stt-library",
+     "faster-whisper",
+     "--model",
+     "/home/user/models/hf/models--Systran--faster-whisper-small.en/snapshots/d1d751a5f8271d482d14ca55d9e2deeebbae577f",
+     "--compute-type",
+     "int8",
+     "--beam-size",
+     "5"
+    ],
+    "clips": 240,
+    "realtime": false,
+    "first_request_s": 1.55,
+    "peak_rss_mb": 787,
+    "cpu": 4,
+    "latency_p50_s": 1.442,
+    "latency_p95_s": 1.754
+   },
+   "nospeech": {
+    "name": "fw-small.en-int8@nospeech",
+    "server_args": [
+     "--data-dir",
+     "/home/user/models/wy",
+     "--language",
+     "en",
+     "--cpu-threads",
+     "4",
+     "--stt-library",
+     "faster-whisper",
+     "--model",
+     "/home/user/models/hf/models--Systran--faster-whisper-small.en/snapshots/d1d751a5f8271d482d14ca55d9e2deeebbae577f",
+     "--compute-type",
+     "int8",
+     "--beam-size",
+     "5"
+    ],
+    "clips": 12,
+    "realtime": false,
+    "first_request_s": 1.5,
+    "peak_rss_mb": 787,
+    "cpu": 4,
+    "latency_p50_s": 1.429,
+    "latency_p95_s": 1.728
+   }
+  },
+  "kroko-streaming": {
+   "main": {
+    "name": "kroko-streaming",
+    "server_args": [
+     "--data-dir",
+     "/home/user/models/wy",
+     "--language",
+     "en",
+     "--cpu-threads",
+     "4",
+     "--stt-library",
+     "sherpa",
+     "--sherpa-streaming"
+    ],
+    "clips": 604,
+    "realtime": false,
+    "first_request_s": 0.22,
+    "peak_rss_mb": 276,
+    "cpu": 4,
+    "latency_p50_s": 0.268,
+    "latency_p95_s": 0.485
+   }
+  },
+  "parakeet-v2-int8": {
+   "main": {
+    "name": "parakeet-v2-int8",
+    "server_args": [
+     "--data-dir",
+     "/home/user/models/wy",
+     "--language",
+     "en",
+     "--cpu-threads",
+     "4",
+     "--stt-library",
+     "sherpa",
+     "--model",
+     "sherpa-onnx-nemo-parakeet-tdt-0.6b-v2-int8"
+    ],
+    "clips": 604,
+    "realtime": false,
+    "first_request_s": 0.18,
+    "peak_rss_mb": 981,
+    "cpu": 4,
+    "latency_p50_s": 0.256,
+    "latency_p95_s": 0.397
+   },
+   "au0": {
+    "name": "parakeet-v2-int8@au0",
+    "server_args": [
+     "--data-dir",
+     "/home/user/models/wy",
+     "--language",
+     "en",
+     "--cpu-threads",
+     "4",
+     "--stt-library",
+     "sherpa",
+     "--model",
+     "sherpa-onnx-nemo-parakeet-tdt-0.6b-v2-int8"
+    ],
+    "clips": 151,
+    "realtime": false,
+    "first_request_s": 0.18,
+    "peak_rss_mb": 949,
+    "cpu": 4,
+    "latency_p50_s": 0.252,
+    "latency_p95_s": 0.351
+   },
+   "nospeech": {
+    "name": "parakeet-v2-int8@nospeech",
+    "server_args": [
+     "--data-dir",
+     "/home/user/models/wy",
+     "--language",
+     "en",
+     "--cpu-threads",
+     "4",
+     "--stt-library",
+     "sherpa",
+     "--model",
+     "sherpa-onnx-nemo-parakeet-tdt-0.6b-v2-int8"
+    ],
+    "clips": 12,
+    "realtime": false,
+    "first_request_s": 0.23,
+    "peak_rss_mb": 919,
+    "cpu": 4,
+    "latency_p50_s": 0.303,
+    "latency_p95_s": 0.369
+   }
+  },
+  "parakeet-v3-int8": {
+   "main": {
+    "name": "parakeet-v3-int8",
+    "server_args": [
+     "--data-dir",
+     "/home/user/models/wy",
+     "--language",
+     "en",
+     "--cpu-threads",
+     "4",
+     "--stt-library",
+     "sherpa",
+     "--model",
+     "sherpa-onnx-nemo-parakeet-tdt-0.6b-v3-int8"
+    ],
+    "clips": 604,
+    "realtime": false,
+    "first_request_s": 0.23,
+    "peak_rss_mb": 1031,
+    "cpu": 4,
+    "latency_p50_s": 0.303,
+    "latency_p95_s": 0.686
+   }
+  },
+  "qwen3asr-0.6b-int4+prompt": {
+   "main": {
+    "name": "qwen3asr-0.6b-int4+prompt",
+    "server_args": [
+     "--data-dir",
+     "/home/user/models/wy",
+     "--language",
+     "en",
+     "--cpu-threads",
+     "4",
+     "--stt-library",
+     "qwen3-asr",
+     "--model",
+     "/home/user/models/qwen3-asr-0.6b-onnx-int4-merged",
+     "--initial-prompt",
+     "Atlas, Good Night, Wind Down, ZeroCharge, kWh, atrium, pergola, ensuite, loft, laundry, porch, patio, study, garage, hallway, kitchen, dining room, living room, guest bedroom, master bedroom, upstairs, downstairs, ground floor, outside, atrium blind, living room door blind, living room window blind, atrium spotlight, pergola floodlight, pergola spotlight, ensuite downlight, robe downlight, loft lamp, laundry downlight, kitchen chandelier, living room chandelier, range hood, fountain spotlight, mirror ambiance, wall floodlight, wall light, garden spotlight, garage ceiling, porch downlight."
+    ],
+    "clips": 240,
+    "realtime": false,
+    "first_request_s": 1.31,
+    "peak_rss_mb": 1721,
+    "cpu": 4,
+    "latency_p50_s": 0.784,
+    "latency_p95_s": 1.043
+   },
+   "au0": {
+    "name": "qwen3asr-0.6b-int4+prompt@au0",
+    "server_args": [
+     "--data-dir",
+     "/home/user/models/wy",
+     "--language",
+     "en",
+     "--cpu-threads",
+     "4",
+     "--stt-library",
+     "qwen3-asr",
+     "--model",
+     "/home/user/models/qwen3-asr-0.6b-onnx-int4-merged",
+     "--initial-prompt",
+     "Atlas, Good Night, Wind Down, ZeroCharge, kWh, atrium, pergola, ensuite, loft, laundry, porch, patio, study, garage, hallway, kitchen, dining room, living room, guest bedroom, master bedroom, upstairs, downstairs, ground floor, outside, atrium blind, living room door blind, living room window blind, atrium spotlight, pergola floodlight, pergola spotlight, ensuite downlight, robe downlight, loft lamp, laundry downlight, kitchen chandelier, living room chandelier, range hood, fountain spotlight, mirror ambiance, wall floodlight, wall light, garden spotlight, garage ceiling, porch downlight."
+    ],
+    "clips": 151,
+    "realtime": false,
+    "first_request_s": 1.36,
+    "peak_rss_mb": 1638,
+    "cpu": 4,
+    "latency_p50_s": 0.788,
+    "latency_p95_s": 1.114
+   },
+   "nospeech": {
+    "name": "qwen3asr-0.6b-int4+prompt@nospeech",
+    "server_args": [
+     "--data-dir",
+     "/home/user/models/wy",
+     "--language",
+     "en",
+     "--cpu-threads",
+     "4",
+     "--stt-library",
+     "qwen3-asr",
+     "--model",
+     "/home/user/models/qwen3-asr-0.6b-onnx-int4-merged",
+     "--initial-prompt",
+     "Atlas, Good Night, Wind Down, ZeroCharge, kWh, atrium, pergola, ensuite, loft, laundry, porch, patio, study, garage, hallway, kitchen, dining room, living room, guest bedroom, master bedroom, upstairs, downstairs, ground floor, outside, atrium blind, living room door blind, living room window blind, atrium spotlight, pergola floodlight, pergola spotlight, ensuite downlight, robe downlight, loft lamp, laundry downlight, kitchen chandelier, living room chandelier, range hood, fountain spotlight, mirror ambiance, wall floodlight, wall light, garden spotlight, garage ceiling, porch downlight."
+    ],
+    "clips": 12,
+    "realtime": false,
+    "first_request_s": 7.48,
+    "peak_rss_mb": 1646,
+    "cpu": 4,
+    "latency_p50_s": 6.571,
+    "latency_p95_s": 6.91
+   }
+  },
+  "qwen3asr-0.6b-int4+vocabprompt": {
+   "nospeech": {
+    "name": "qwen3asr-0.6b-int4+vocabprompt@nospeech",
+    "server_args": [
+     "--data-dir",
+     "/home/user/models/wy",
+     "--language",
+     "en",
+     "--cpu-threads",
+     "4",
+     "--stt-library",
+     "qwen3-asr",
+     "--model",
+     "/home/user/models/qwen3-asr-0.6b-onnx-int4-merged",
+     "--initial-prompt",
+     "Vocabulary: Atlas, Good Night, Wind Down, ZeroCharge, kWh, atrium, pergola, ensuite, loft, laundry, porch, patio, study, garage, hallway, kitchen, dining room, living room, guest bedroom, master bedroom, upstairs, downstairs, ground floor, outside, atrium blind, living room door blind, living room window blind, atrium spotlight, pergola floodlight, pergola spotlight, ensuite downlight, robe downlight, loft lamp, laundry downlight, kitchen chandelier, living room chandelier, range hood, fountain spotlight, mirror ambiance, wall floodlight, wall light, garden spotlight, garage ceiling, porch downlight."
+    ],
+    "clips": 12,
+    "realtime": false,
+    "first_request_s": 7.69,
+    "peak_rss_mb": 1649,
+    "cpu": 4,
+    "latency_p50_s": 6.435,
+    "latency_p95_s": 6.987
+   }
+  },
+  "qwen3asr-0.6b-int4": {
+   "main": {
+    "name": "qwen3asr-0.6b-int4",
+    "server_args": [
+     "--data-dir",
+     "/home/user/models/wy",
+     "--language",
+     "en",
+     "--cpu-threads",
+     "4",
+     "--stt-library",
+     "qwen3-asr",
+     "--model",
+     "/home/user/models/qwen3-asr-0.6b-onnx-int4-merged"
+    ],
+    "clips": 240,
+    "realtime": false,
+    "first_request_s": 0.71,
+    "peak_rss_mb": 1503,
+    "cpu": 4,
+    "latency_p50_s": 0.692,
+    "latency_p95_s": 1.063
+   }
+  },
+  "speech-to-phrase-default": {
+   "main": {
+    "name": "speech-to-phrase-default",
+    "templates": 450,
+    "combos": 24,
+    "train_s": 3.2,
+    "gate": 3.8,
+    "peak_rss_mb": 982,
+    "latency_p50_s": 0.337,
+    "latency_p95_s": 0.85,
+    "cpu": 4
+   }
+  },
+  "speech-to-phrase-tuned": {
+   "main": {
+    "name": "speech-to-phrase-tuned",
+    "templates": 236,
+    "combos": 27,
+    "train_s": 3.4,
+    "gate": 3.8,
+    "peak_rss_mb": 981,
+    "latency_p50_s": 0.754,
+    "latency_p95_s": 1.515,
+    "cpu": 4
+   }
+  },
+  "wcpp-turbo-q5_0-cpu": {
+   "main": {
+    "name": "wcpp-turbo-q5_0-cpu",
+    "engine": "whisper.cpp (CPU build)",
+    "model": "ggml-large-v3-turbo-q5_0.bin",
+    "clips": 60,
+    "threads": 4,
+    "prompt": false,
+    "peak_rss_mb": 1050,
+    "cpu": 4,
+    "latency_p50_s": 25.598,
+    "latency_p95_s": 27.34
+   }
+  }
+ }
+}

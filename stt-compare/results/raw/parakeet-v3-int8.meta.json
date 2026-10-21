@@ -1,0 +1,22 @@
+{
+ "name": "parakeet-v3-int8",
+ "server_args": [
+  "--data-dir",
+  "/home/user/models/wy",
+  "--language",
+  "en",
+  "--cpu-threads",
+  "4",
+  "--stt-library",
+  "sherpa",
+  "--model",
+  "sherpa-onnx-nemo-parakeet-tdt-0.6b-v3-int8"
+ ],
+ "clips": 604,
+ "realtime": false,
+ "first_request_s": 0.23,
+ "peak_rss_mb": 1031,
+ "cpu": 4,
+ "latency_p50_s": 0.303,
+ "latency_p95_s": 0.686
+}

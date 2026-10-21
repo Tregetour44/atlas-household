@@ -1,0 +1,28 @@
+{
+ "name": "fw-large-v3-turbo-int8+prompt",
+ "server_args": [
+  "--data-dir",
+  "/home/user/models/wy",
+  "--language",
+  "en",
+  "--cpu-threads",
+  "4",
+  "--stt-library",
+  "faster-whisper",
+  "--model",
+  "/home/user/models/hf/models--mobiuslabsgmbh--faster-whisper-large-v3-turbo/snapshots/0a363e9161cbc7ed1431c9597a8ceaf0c4f78fcf",
+  "--compute-type",
+  "int8",
+  "--beam-size",
+  "5",
+  "--initial-prompt",
+  "Atlas, Good Night, Wind Down, ZeroCharge, kWh, atrium, pergola, ensuite, loft, laundry, porch, patio, study, garage, hallway, kitchen, dining room, living room, guest bedroom, master bedroom, upstairs, downstairs, ground floor, outside, atrium blind, living room door blind, living room window blind, atrium spotlight, pergola floodlight, pergola spotlight, ensuite downlight, robe downlight, loft lamp, laundry downlight, kitchen chandelier, living room chandelier, range hood, fountain spotlight, mirror ambiance, wall floodlight, wall light, garden spotlight, garage ceiling, porch downlight."
+ ],
+ "clips": 240,
+ "realtime": false,
+ "first_request_s": 4.19,
+ "peak_rss_mb": 2075,
+ "cpu": 4,
+ "latency_p50_s": 4.515,
+ "latency_p95_s": 5.083
+}

@@ -1,0 +1,240 @@
+{"clip": "clean/C001-au_m_p326.flac", "id": "C001", "hyp": "turn on the atrium lights", "raw": "turn on the atrium lights", "score": 1.8950241323788457, "margin": 0.04934268527560764, "latency_s": 0.2279, "dur": 2.02}
+{"clip": "clean/C001-gb_m_george.flac", "id": "C001", "hyp": "turn on the atrium lights", "raw": "turn on the atrium lights", "score": 1.0200262228738413, "margin": 0.10397661536828512, "latency_s": 0.318, "dur": 2.56}
+{"clip": "clean/C002-au_f_p225.flac", "id": "C002", "hyp": "turn off the atrium spotlight left", "raw": "turn off the atrium spotlight left", "score": 2.769113947425715, "margin": 0.19563258777965198, "latency_s": 0.4043, "dur": 2.38}
+{"clip": "clean/C002-gb_f_cori.flac", "id": "C002", "hyp": "turn off the atrium spotlight left", "raw": "turn off the atrium spotlight left", "score": 0.9169598793087061, "margin": 0.0014110406239827473, "latency_s": 0.3751, "dur": 2.78}
+{"clip": "clean/C003-au_m_p374.flac", "id": "C003", "hyp": "switch on the pergola floodlight two", "raw": "switch on the pergola floodlight two", "score": 2.314126541887942, "margin": 0.060663155147007534, "latency_s": 0.3432, "dur": 2.52}
+{"clip": "clean/C003-gb_m_alan.flac", "id": "C003", "hyp": "switch on the pergola floodlight two", "raw": "switch on the pergola floodlight two", "score": 1.2941401492716977, "margin": 0.03448513575962612, "latency_s": 0.3524, "dur": 3.08}
+{"clip": "clean/C004-au_f_jenny.flac", "id": "C004", "hyp": "the pergola spotlight one off", "raw": "the pergola spotlight one off", "score": 2.3888284105553548, "margin": 0.197597224265337, "latency_s": 0.28, "dur": 2.47}
+{"clip": "clean/C004-gb_m_northern.flac", "id": "C004", "hyp": "", "raw": "the pergola lights off", "score": 4.583945280754051, "margin": 0.055055856704711914, "latency_s": 0.6261, "dur": 2.64}
+{"clip": "clean/C005-au_m_p326.flac", "id": "C005", "hyp": "", "raw": "turn on the wall light", "score": 5.424757930391934, "margin": 0.03468719311058521, "latency_s": 0.2735, "dur": 1.97}
+{"clip": "clean/C005-gb_f_isabella.flac", "id": "C005", "hyp": "turn on the ensuite downlight", "raw": "turn on the ensuite downlight", "score": 0.4423750017769635, "margin": 0.24420678168535231, "latency_s": 0.398, "dur": 2.78}
+{"clip": "clean/C006-au_f_p225.flac", "id": "C006", "hyp": "turn off the loft lamp", "raw": "turn off the loft lamp", "score": 0.16048334429173597, "margin": 0.43592400210244314, "latency_s": 0.2158, "dur": 1.88}
+{"clip": "clean/C006-gb_f_emma.flac", "id": "C006", "hyp": "turn off the loft lamp", "raw": "turn off the loft lamp", "score": 1.1589280355656228, "margin": 0.2526468354044482, "latency_s": 0.1535, "dur": 2.01}
+{"clip": "clean/C007-au_m_p374.flac", "id": "C007", "hyp": "loft lights on", "raw": "loft lights on", "score": 2.5061501136980953, "margin": 0.041264009475708005, "latency_s": 0.2665, "dur": 1.7}
+{"clip": "clean/C007-gb_m_lewis.flac", "id": "C007", "hyp": "loft lights on", "raw": "loft lights on", "score": 0.592921895487234, "margin": 0.000620269775390625, "latency_s": 0.2303, "dur": 1.79}
+{"clip": "clean/C008-au_f_jenny.flac", "id": "C008", "hyp": "the laundry lights off", "raw": "the laundry lights off", "score": 2.477869088561939, "margin": 0.5120586553322417, "latency_s": 0.1879, "dur": 2.07}
+{"clip": "clean/C008-gb_m_george.flac", "id": "C008", "hyp": "the laundry lights off", "raw": "the laundry lights off", "score": 2.2090276628566374, "margin": 0.5066328027418682, "latency_s": 0.2561, "dur": 2.69}
+{"clip": "clean/C009-au_m_p326.flac", "id": "C009", "hyp": "turn on the laundry downlight", "raw": "turn on the laundry downlight", "score": 3.487810138020326, "margin": 0.1039768414656547, "latency_s": 0.3836, "dur": 2.0}
+{"clip": "clean/C009-gb_f_cori.flac", "id": "C009", "hyp": "turn on the laundry downlight", "raw": "turn on the laundry downlight", "score": 0.7286381750535738, "margin": 0.15692975289291805, "latency_s": 0.305, "dur": 2.56}
+{"clip": "clean/C010-au_f_p225.flac", "id": "C010", "hyp": "switch off the garage ceiling right", "raw": "switch off the garage ceiling right", "score": 1.5007901202278355, "margin": 0.1283136560366704, "latency_s": 0.3355, "dur": 2.35}
+{"clip": "clean/C010-gb_m_alan.flac", "id": "C010", "hyp": "switch off the garage ceiling right", "raw": "switch off the garage ceiling right", "score": 1.067859052156004, "margin": 0.046827394228715166, "latency_s": 0.3232, "dur": 3.18}
+{"clip": "clean/C011-au_m_p374.flac", "id": "C011", "hyp": "turn on porch downlight three", "raw": "turn on porch downlight three", "score": 2.1063680191524328, "margin": 0.13858622685074806, "latency_s": 0.3175, "dur": 2.12}
+{"clip": "clean/C011-gb_m_northern.flac", "id": "C011", "hyp": "turn on porch downlight three", "raw": "turn on porch downlight three", "score": 1.062448578252871, "margin": 0.09232054816351996, "latency_s": 0.3096, "dur": 2.45}
+{"clip": "clean/C018-au_f_p225.flac", "id": "C018", "hyp": "turn on kitchen chandelier two", "raw": "turn on kitchen chandelier two", "score": 1.0799690657295287, "margin": 0.011398951212565104, "latency_s": 0.3116, "dur": 2.19}
+{"clip": "clean/C018-gb_m_northern.flac", "id": "C018", "hyp": "turn on kitchen chandelier two", "raw": "turn on kitchen chandelier two", "score": 0.8238123973871831, "margin": 0.10912007781175467, "latency_s": 0.247, "dur": 2.57}
+{"clip": "clean/C019-au_m_p374.flac", "id": "C019", "hyp": "turn off living room chandelier six", "raw": "turn off living room chandelier six", "score": 0.9682245631508218, "margin": 0.02238053393860658, "latency_s": 0.4671, "dur": 2.79}
+{"clip": "clean/C019-gb_f_isabella.flac", "id": "C019", "hyp": "turn off living room chandelier six", "raw": "turn off living room chandelier six", "score": 0.7883429051591799, "margin": 0.10311167343304707, "latency_s": 0.4114, "dur": 2.95}
+{"clip": "clean/C020-au_f_jenny.flac", "id": "C020", "hyp": "turn on range hood one", "raw": "turn on range hood one", "score": 0.7506933949355569, "margin": 0.2788063564470836, "latency_s": 0.2592, "dur": 1.86}
+{"clip": "clean/C020-gb_f_emma.flac", "id": "C020", "hyp": "turn on range hood one", "raw": "turn on range hood one", "score": 0.8063870971756322, "margin": 0.14646129416567938, "latency_s": 0.3397, "dur": 2.11}
+{"clip": "clean/C031-au_m_p374.flac", "id": "C031", "hyp": "set the atrium spotlight right brightness to forty percent", "raw": "set the atrium spotlight right brightness to forty percent", "score": 2.6358458035522037, "margin": 0.03289096222983466, "latency_s": 1.0162, "dur": 2.98}
+{"clip": "clean/C031-gb_m_alan.flac", "id": "C031", "hyp": "", "raw": "the atrium spotlight right off", "score": 5.529735995497586, "margin": 0.06587297266179865, "latency_s": 0.484, "dur": 3.76}
+{"clip": "clean/C032-au_f_jenny.flac", "id": "C032", "hyp": "", "raw": "turn on the loft lamp", "score": 6.685310242514658, "margin": 0.13897209019134088, "latency_s": 0.361, "dur": 2.9}
+{"clip": "clean/C032-gb_m_northern.flac", "id": "C032", "hyp": "", "raw": "the loft lamp on", "score": 10.17224923563966, "margin": 0.14295382052659988, "latency_s": 0.2862, "dur": 2.59}
+{"clip": "clean/C033-au_m_p326.flac", "id": "C033", "hyp": "", "raw": "the living room lamp off", "score": 8.907457003515447, "margin": 0.0364435306400992, "latency_s": 0.3244, "dur": 2.76}
+{"clip": "clean/C033-gb_f_isabella.flac", "id": "C033", "hyp": "", "raw": "the living room lamp on", "score": 9.866017139691394, "margin": 0.15216732025146484, "latency_s": 0.3233, "dur": 3.61}
+{"clip": "clean/C034-au_f_p225.flac", "id": "C034", "hyp": "", "raw": "the kitchen ceiling on", "score": 8.065612397200312, "margin": 0.07880258560180664, "latency_s": 0.402, "dur": 2.7}
+{"clip": "clean/C034-gb_f_emma.flac", "id": "C034", "hyp": "", "raw": "the kitchen ceiling on", "score": 6.625666608387837, "margin": 0.21329734118189664, "latency_s": 0.3203, "dur": 2.99}
+{"clip": "clean/C035-au_m_p374.flac", "id": "C035", "hyp": "", "raw": "the pergola floodlight two on", "score": 6.411847956027486, "margin": 0.027174174475173157, "latency_s": 0.47, "dur": 3.11}
+{"clip": "clean/C035-gb_m_lewis.flac", "id": "C035", "hyp": "", "raw": "the pergola floodlight two on", "score": 5.884895490842279, "margin": 0.050440441478382454, "latency_s": 0.4648, "dur": 3.33}
+{"clip": "clean/C036-au_f_jenny.flac", "id": "C036", "hyp": "", "raw": "the dining room pendant off", "score": 5.0202740139793605, "margin": 0.021251685240051964, "latency_s": 0.5332, "dur": 3.65}
+{"clip": "clean/C036-gb_m_george.flac", "id": "C036", "hyp": "", "raw": "the dining room pendant on", "score": 5.746944275175338, "margin": 0.09700652891770005, "latency_s": 0.6143, "dur": 4.01}
+{"clip": "clean/C038-au_f_p225.flac", "id": "C038", "hyp": "", "raw": "timer for fifteen second", "score": 11.27624017764659, "margin": 0.014209816853205362, "latency_s": 0.39, "dur": 2.63}
+{"clip": "clean/C038-gb_m_alan.flac", "id": "C038", "hyp": "", "raw": "the ensuite downlight off", "score": 6.134219401530572, "margin": 0.1815607976168394, "latency_s": 0.4408, "dur": 3.82}
+{"clip": "clean/C046-au_f_p225.flac", "id": "C046", "hyp": "", "raw": "the porch lights off", "score": 9.8478460239629, "margin": 0.004736900329589844, "latency_s": 0.3701, "dur": 2.84}
+{"clip": "clean/C046-gb_m_northern.flac", "id": "C046", "hyp": "", "raw": "the porch lights off", "score": 7.257151729967778, "margin": 0.5429735157106604, "latency_s": 0.4131, "dur": 3.4}
+{"clip": "clean/C047-au_m_p374.flac", "id": "C047", "hyp": "", "raw": "turn off the loft lamp", "score": 7.681106663417138, "margin": 0.07581752112933568, "latency_s": 0.3311, "dur": 2.9}
+{"clip": "clean/C047-gb_f_isabella.flac", "id": "C047", "hyp": "", "raw": "turn off the loft lamp", "score": 8.326322964858264, "margin": 0.3833702291761126, "latency_s": 0.374, "dur": 3.31}
+{"clip": "clean/C048-au_f_jenny.flac", "id": "C048", "hyp": "", "raw": "the atrium lights off", "score": 9.425913396890142, "margin": 0.06233336244310651, "latency_s": 0.5017, "dur": 3.07}
+{"clip": "clean/C048-gb_f_emma.flac", "id": "C048", "hyp": "", "raw": "the atrium lights off", "score": 7.973170086691555, "margin": 0.424259320965835, "latency_s": 0.4873, "dur": 3.18}
+{"clip": "clean/C049-au_m_p326.flac", "id": "C049", "hyp": "", "raw": "switch on the garden spotlight", "score": 4.312972733615122, "margin": 0.018495877583821613, "latency_s": 0.8658, "dur": 3.14}
+{"clip": "clean/C049-gb_m_lewis.flac", "id": "C049", "hyp": "", "raw": "switch on the garden spotlight", "score": 4.137737315138414, "margin": 0.1634965737660726, "latency_s": 1.1784, "dur": 4.27}
+{"clip": "clean/C051-au_m_p374.flac", "id": "C051", "hyp": "", "raw": "turn off the laundry lights", "score": 5.578806948051351, "margin": 0.3394717089831829, "latency_s": 0.2708, "dur": 2.88}
+{"clip": "clean/C051-gb_f_cori.flac", "id": "C051", "hyp": "", "raw": "turn off the laundry lights", "score": 5.3258207877552195, "margin": 0.3052792474627495, "latency_s": 0.4682, "dur": 3.3}
+{"clip": "clean/C052-au_f_jenny.flac", "id": "C052", "hyp": "turn on pergola spotlight one", "raw": "turn on pergola spotlight one", "score": 3.1395230113147674, "margin": 0.07917057113213972, "latency_s": 1.0407, "dur": 3.99}
+{"clip": "clean/C052-gb_m_alan.flac", "id": "C052", "hyp": "", "raw": "turn on pergola spotlight one", "score": 3.8642459119243235, "margin": 0.05859255294005076, "latency_s": 1.0507, "dur": 4.26}
+{"clip": "clean/C058-au_f_p225.flac", "id": "C058", "hyp": "", "raw": "timer for five minutes", "score": 7.897225246393646, "margin": 0.014409482479095459, "latency_s": 0.3792, "dur": 2.73}
+{"clip": "clean/C058-gb_f_cori.flac", "id": "C058", "hyp": "", "raw": "the ensuite downlight off", "score": 6.67508884867291, "margin": 0.3525257110595703, "latency_s": 0.5038, "dur": 3.69}
+{"clip": "clean/C060-au_f_jenny.flac", "id": "C060", "hyp": "", "raw": "lights on", "score": 15.538760623312555, "margin": 0.22072183899581432, "latency_s": 0.4342, "dur": 2.93}
+{"clip": "clean/C060-gb_m_northern.flac", "id": "C060", "hyp": "", "raw": "lights on", "score": 14.996997607877711, "margin": 0.07098598480224609, "latency_s": 0.4326, "dur": 3.18}
+{"clip": "clean/C061-au_m_p326.flac", "id": "C061", "hyp": "", "raw": "timer for fifty minutes", "score": 5.039670681158896, "margin": 0.1149897575378418, "latency_s": 0.3347, "dur": 2.51}
+{"clip": "clean/C061-gb_f_isabella.flac", "id": "C061", "hyp": "", "raw": "timer for fifty minutes", "score": 6.976076202685363, "margin": 0.09314536675810814, "latency_s": 0.3755, "dur": 2.93}
+{"clip": "clean/C066-au_f_p225.flac", "id": "C066", "hyp": "", "raw": "lights on", "score": 8.670221429638332, "margin": 0.2524275976466015, "latency_s": 0.226, "dur": 1.47}
+{"clip": "clean/C066-gb_m_alan.flac", "id": "C066", "hyp": "", "raw": "never mind", "score": 16.953497870284384, "margin": 0.11025509535102174, "latency_s": 0.109, "dur": 1.64}
+{"clip": "clean/C067-au_m_p374.flac", "id": "C067", "hyp": "", "raw": "never mind", "score": 15.398871141175428, "margin": 0.6243203412741423, "latency_s": 0.2179, "dur": 1.63}
+{"clip": "clean/C067-gb_m_northern.flac", "id": "C067", "hyp": "", "raw": "never mind", "score": 16.97595690094022, "margin": 0.3565653753078853, "latency_s": 0.1824, "dur": 2.58}
+{"clip": "clean/C068-au_f_jenny.flac", "id": "C068", "hyp": "", "raw": "lights on", "score": 11.527735415613279, "margin": 0.531204491853714, "latency_s": 0.4614, "dur": 2.71}
+{"clip": "clean/C068-gb_f_isabella.flac", "id": "C068", "hyp": "", "raw": "activate the study lights", "score": 7.4258528303697755, "margin": 0.04877866142325931, "latency_s": 0.2371, "dur": 2.39}
+{"clip": "clean/C069-au_m_p326.flac", "id": "C069", "hyp": "", "raw": "stop item", "score": 9.174004840660928, "margin": 0.2574760913848877, "latency_s": 0.1763, "dur": 1.77}
+{"clip": "clean/C069-gb_f_emma.flac", "id": "C069", "hyp": "", "raw": "never mind", "score": 15.496073066994237, "margin": 0.8578643798828125, "latency_s": 0.1936, "dur": 1.92}
+{"clip": "clean/C070-au_f_p225.flac", "id": "C070", "hyp": "", "raw": "lights on", "score": 12.799834079836728, "margin": 0.13712851206461588, "latency_s": 0.1921, "dur": 1.8}
+{"clip": "clean/C070-gb_m_lewis.flac", "id": "C070", "hyp": "", "raw": "nevermind", "score": 20.394034594433226, "margin": 0.1302008181810379, "latency_s": 0.197, "dur": 1.88}
+{"clip": "clean/C071-au_m_p374.flac", "id": "C071", "hyp": "", "raw": "the wall light on", "score": 7.692396969604306, "margin": 0.05304175615310669, "latency_s": 0.3041, "dur": 2.01}
+{"clip": "clean/C071-gb_m_george.flac", "id": "C071", "hyp": "", "raw": "the wall light on", "score": 9.85407990675109, "margin": 0.026217993038396042, "latency_s": 0.3023, "dur": 2.63}
+{"clip": "clean/C074-au_f_p225.flac", "id": "C074", "hyp": "close the atrium blind", "raw": "close the atrium blind", "score": 3.260162112613519, "margin": 0.017781363593207464, "latency_s": 0.5832, "dur": 1.91}
+{"clip": "clean/C074-gb_m_northern.flac", "id": "C074", "hyp": "close the atrium blind", "raw": "close the atrium blind", "score": 1.4210954178670363, "margin": 0.28687548637390137, "latency_s": 0.2665, "dur": 2.37}
+{"clip": "clean/C075-au_m_p374.flac", "id": "C075", "hyp": "", "raw": "open the atrium blind", "score": 6.184802911270203, "margin": 0.009648746914333768, "latency_s": 0.2616, "dur": 2.63}
+{"clip": "clean/C075-gb_f_isabella.flac", "id": "C075", "hyp": "", "raw": "open the atrium blind", "score": 5.256980998707669, "margin": 0.2770768404006958, "latency_s": 0.4064, "dur": 2.84}
+{"clip": "clean/C076-au_f_jenny.flac", "id": "C076", "hyp": "", "raw": "open the atrium blind", "score": 9.439959688727479, "margin": 0.06159716671598809, "latency_s": 0.4479, "dur": 3.16}
+{"clip": "clean/C076-gb_f_emma.flac", "id": "C076", "hyp": "", "raw": "open the atrium blind", "score": 7.769888690506507, "margin": 0.2836739718914032, "latency_s": 0.3875, "dur": 2.84}
+{"clip": "clean/C079-au_m_p374.flac", "id": "C079", "hyp": "", "raw": "open the living room blinds", "score": 6.717947467540701, "margin": 0.05546209547254774, "latency_s": 0.2975, "dur": 3.02}
+{"clip": "clean/C079-gb_f_cori.flac", "id": "C079", "hyp": "", "raw": "open the living room blinds", "score": 5.4023725724158185, "margin": 0.19968832863701713, "latency_s": 0.4757, "dur": 3.16}
+{"clip": "clean/C080-au_f_jenny.flac", "id": "C080", "hyp": "", "raw": "open the atrium blind", "score": 8.548865606550992, "margin": 0.07507569449288505, "latency_s": 0.4234, "dur": 2.83}
+{"clip": "clean/C080-gb_m_alan.flac", "id": "C080", "hyp": "", "raw": "close the atrium blind", "score": 7.5137066990120935, "margin": 0.09884103801515368, "latency_s": 0.3725, "dur": 3.44}
+{"clip": "clean/C082-au_f_p225.flac", "id": "C082", "hyp": "open the atrium blind", "raw": "open the atrium blind", "score": 3.265491007295038, "margin": 0.526326196534293, "latency_s": 0.7224, "dur": 2.65}
+{"clip": "clean/C082-gb_f_isabella.flac", "id": "C082", "hyp": "", "raw": "open the atrium blind", "score": 4.078526357721005, "margin": 0.40855180259261814, "latency_s": 0.8489, "dur": 3.05}
+{"clip": "clean/C087-au_m_p374.flac", "id": "C087", "hyp": "", "raw": "how hot is it", "score": 13.42906038146854, "margin": 0.076775476996166, "latency_s": 0.3512, "dur": 2.83}
+{"clip": "clean/C087-gb_m_alan.flac", "id": "C087", "hyp": "", "raw": "whats weather", "score": 20.77108935182332, "margin": 0.09303330909460783, "latency_s": 0.4887, "dur": 3.4}
+{"clip": "clean/C088-au_f_jenny.flac", "id": "C088", "hyp": "", "raw": "how warm is it", "score": 16.183320204328215, "margin": 0.027072276387895857, "latency_s": 0.5432, "dur": 3.94}
+{"clip": "clean/C088-gb_m_northern.flac", "id": "C088", "hyp": "", "raw": "how cold is it", "score": 12.806725062779151, "margin": 0.029466566746123135, "latency_s": 0.5406, "dur": 3.37}
+{"clip": "clean/C092-au_f_jenny.flac", "id": "C092", "hyp": "", "raw": "next song", "score": 10.718316198637089, "margin": 0.0886079470316569, "latency_s": 0.3418, "dur": 2.38}
+{"clip": "clean/C092-gb_m_george.flac", "id": "C092", "hyp": "", "raw": "next song", "score": 11.604584315578299, "margin": 0.0950628121693929, "latency_s": 0.347, "dur": 2.73}
+{"clip": "clean/C093-au_m_p326.flac", "id": "C093", "hyp": "", "raw": "lights on", "score": 15.207907367846929, "margin": 0.3981163641437888, "latency_s": 0.2903, "dur": 2.05}
+{"clip": "clean/C093-gb_f_cori.flac", "id": "C093", "hyp": "", "raw": "what is the time", "score": 14.112475862464635, "margin": 0.21156205178704113, "latency_s": 0.3335, "dur": 2.71}
+{"clip": "clean/C094-au_f_p225.flac", "id": "C094", "hyp": "", "raw": "how long is left on the timer", "score": 8.67428410705179, "margin": 0.06612443923950195, "latency_s": 0.3747, "dur": 2.61}
+{"clip": "clean/C094-gb_m_alan.flac", "id": "C094", "hyp": "", "raw": "how long is left on the timer", "score": 9.490462367694999, "margin": 0.12408958657179028, "latency_s": 0.3677, "dur": 3.66}
+{"clip": "clean/C095-au_m_p374.flac", "id": "C095", "hyp": "", "raw": "the wall light on", "score": 14.686626490839343, "margin": 0.017908944023980036, "latency_s": 0.3549, "dur": 3.14}
+{"clip": "clean/C095-gb_m_northern.flac", "id": "C095", "hyp": "", "raw": "turn the lights on", "score": 14.441003278305288, "margin": 0.07720917361439206, "latency_s": 0.3893, "dur": 3.43}
+{"clip": "clean/C102-au_f_p225.flac", "id": "C102", "hyp": "", "raw": "what's the date", "score": 8.892277662276424, "margin": 0.034218856266566684, "latency_s": 0.3972, "dur": 2.58}
+{"clip": "clean/C102-gb_m_northern.flac", "id": "C102", "hyp": "", "raw": "what's the date", "score": 14.47438092754289, "margin": 0.11770398276192802, "latency_s": 0.3535, "dur": 2.97}
+{"clip": "clean/C104-au_f_jenny.flac", "id": "C104", "hyp": "", "raw": "timer for eleven second", "score": 14.325222058538607, "margin": 0.030550638834635418, "latency_s": 0.4619, "dur": 3.35}
+{"clip": "clean/C104-gb_f_emma.flac", "id": "C104", "hyp": "", "raw": "timer for eleven second", "score": 16.353559050974177, "margin": 0.15290615293714735, "latency_s": 0.3854, "dur": 3.1}
+{"clip": "clean/C107-au_m_p374.flac", "id": "C107", "hyp": "", "raw": "how hot is it", "score": 15.007782659706814, "margin": 0.16669098536173502, "latency_s": 0.3847, "dur": 2.84}
+{"clip": "clean/C107-gb_f_cori.flac", "id": "C107", "hyp": "", "raw": "how hot is it", "score": 16.17060678076814, "margin": 0.17223898073037466, "latency_s": 0.4641, "dur": 3.32}
+{"clip": "clean/C108-au_f_jenny.flac", "id": "C108", "hyp": "what is the temperature in the atrium", "raw": "what is the temperature in the atrium", "score": 1.2171382563381206, "margin": 0.12230520523511447, "latency_s": 0.3067, "dur": 2.5}
+{"clip": "clean/C108-gb_m_alan.flac", "id": "C108", "hyp": "what is the temperature in the atrium", "raw": "what is the temperature in the atrium", "score": 1.5512265024064198, "margin": 0.09888971539644095, "latency_s": 0.2427, "dur": 2.93}
+{"clip": "clean/C109-au_m_p326.flac", "id": "C109", "hyp": "", "raw": "how warm is it", "score": 8.3995153569791, "margin": 0.652284836769104, "latency_s": 0.1952, "dur": 1.93}
+{"clip": "clean/C109-gb_m_northern.flac", "id": "C109", "hyp": "", "raw": "how warm is it", "score": 9.940922595931625, "margin": 0.4341625213623047, "latency_s": 0.1643, "dur": 2.73}
+{"clip": "clean/C115-au_m_p374.flac", "id": "C115", "hyp": "", "raw": "turn on the laundry light", "score": 9.761159916267, "margin": 0.20056724122592381, "latency_s": 0.1788, "dur": 2.17}
+{"clip": "clean/C115-gb_m_alan.flac", "id": "C115", "hyp": "", "raw": "the laundry light on", "score": 12.977176228057942, "margin": 0.0545580471849202, "latency_s": 0.1631, "dur": 2.49}
+{"clip": "clean/C117-au_m_p326.flac", "id": "C117", "hyp": "", "raw": "set a timer for twenty two second", "score": 11.388718082808191, "margin": 0.04063432519324124, "latency_s": 0.3757, "dur": 3.02}
+{"clip": "clean/C117-gb_f_isabella.flac", "id": "C117", "hyp": "", "raw": "set a timer for twenty two second", "score": 11.184078040869078, "margin": 0.002300563785764906, "latency_s": 0.5043, "dur": 3.37}
+{"clip": "clean/C122-au_f_p225.flac", "id": "C122", "hyp": "the loft lamp on", "raw": "the loft lamp on", "score": 1.537959468162929, "margin": 0.1839176615079244, "latency_s": 0.215, "dur": 1.77}
+{"clip": "clean/C122-gb_m_alan.flac", "id": "C122", "hyp": "the loft lamp on", "raw": "the loft lamp on", "score": 2.1519012292604507, "margin": 0.29555368423461914, "latency_s": 0.14, "dur": 2.07}
+{"clip": "clean/C123-au_m_p374.flac", "id": "C123", "hyp": "the laundry lights off", "raw": "the laundry lights off", "score": 3.153884446722389, "margin": 0.308685839176178, "latency_s": 0.4433, "dur": 2.23}
+{"clip": "clean/C123-gb_m_northern.flac", "id": "C123", "hyp": "the laundry lights off", "raw": "the laundry lights off", "score": 3.5227226276308232, "margin": 0.017269815717424666, "latency_s": 0.3477, "dur": 2.43}
+{"clip": "clean/C124-au_f_jenny.flac", "id": "C124", "hyp": "", "raw": "the pergola lights off", "score": 4.466938011762169, "margin": 0.05665227625932959, "latency_s": 0.3848, "dur": 1.91}
+{"clip": "clean/C124-gb_f_isabella.flac", "id": "C124", "hyp": "", "raw": "the pergola lights off", "score": 5.272941966618721, "margin": 0.054098924001057945, "latency_s": 0.2781, "dur": 2.31}
+{"clip": "clean/C130-au_f_p225.flac", "id": "C130", "hyp": "", "raw": "what's the time", "score": 16.96283289514249, "margin": 0.47878745591733607, "latency_s": 0.2094, "dur": 1.94}
+{"clip": "clean/C130-gb_m_northern.flac", "id": "C130", "hyp": "", "raw": "what's the date", "score": 13.136903293156397, "margin": 0.5095852498530543, "latency_s": 0.2299, "dur": 2.51}
+{"clip": "clean/C131-au_m_p374.flac", "id": "C131", "hyp": "", "raw": "what is the date", "score": 15.993332690000534, "margin": 0.19267139434814454, "latency_s": 0.3884, "dur": 2.66}
+{"clip": "clean/C131-gb_f_isabella.flac", "id": "C131", "hyp": "", "raw": "how hot is it", "score": 18.450811703776708, "margin": 0.02767777442932129, "latency_s": 0.364, "dur": 3.03}
+{"clip": "clean/C132-au_f_jenny.flac", "id": "C132", "hyp": "", "raw": "how cool is it", "score": 13.000664550089642, "margin": 0.31593512106919663, "latency_s": 0.1429, "dur": 2.16}
+{"clip": "clean/C132-gb_f_emma.flac", "id": "C132", "hyp": "", "raw": "how cool is it", "score": 12.029446108592674, "margin": 0.31164112091064455, "latency_s": 0.2419, "dur": 2.29}
+{"clip": "clean/C133-au_m_p326.flac", "id": "C133", "hyp": "what's the weather", "raw": "what's the weather", "score": 2.510187899150575, "margin": 0.43207484980424243, "latency_s": 0.176, "dur": 1.64}
+{"clip": "clean/C133-gb_m_lewis.flac", "id": "C133", "hyp": "what's the weather", "raw": "what's the weather", "score": 2.5448266658155867, "margin": 0.6740091859052578, "latency_s": 0.2394, "dur": 2.07}
+{"clip": "clean/C134-au_f_p225.flac", "id": "C134", "hyp": "what is the temp", "raw": "what is the temp", "score": 2.947934379335493, "margin": 0.08541106681029002, "latency_s": 0.1623, "dur": 1.58}
+{"clip": "clean/C134-gb_m_george.flac", "id": "C134", "hyp": "what's the time", "raw": "what's the time", "score": 2.7233833226242234, "margin": 0.17223349320037024, "latency_s": 0.2965, "dur": 1.67}
+{"clip": "clean/C135-au_m_p374.flac", "id": "C135", "hyp": "", "raw": "lights on", "score": 20.97607722734877, "margin": 0.37406970870991546, "latency_s": 0.2548, "dur": 2.04}
+{"clip": "clean/C135-gb_f_cori.flac", "id": "C135", "hyp": "", "raw": "tell me the time", "score": 14.227637094576494, "margin": 0.43440282344818115, "latency_s": 0.2813, "dur": 1.98}
+{"clip": "clean/C136-au_f_jenny.flac", "id": "C136", "hyp": "", "raw": "what's the weather like", "score": 6.379468436153339, "margin": 0.5129801923675197, "latency_s": 0.2893, "dur": 2.3}
+{"clip": "clean/C136-gb_m_alan.flac", "id": "C136", "hyp": "", "raw": "what's the weather like", "score": 7.472323876543669, "margin": 0.6142535720552716, "latency_s": 0.2244, "dur": 2.56}
+{"clip": "clean/C137-au_m_p326.flac", "id": "C137", "hyp": "", "raw": "timer for twelve minutes", "score": 15.345655996955678, "margin": 0.030449347062544388, "latency_s": 0.8745, "dur": 5.27}
+{"clip": "clean/C137-gb_m_northern.flac", "id": "C137", "hyp": "", "raw": "timer for twelve minutes", "score": 21.91411244450137, "margin": 0.010705126656426324, "latency_s": 0.8211, "dur": 5.37}
+{"clip": "clean/C138-au_f_p225.flac", "id": "C138", "hyp": "turn on the study lights", "raw": "turn on the study lights", "score": 1.453826567357672, "margin": 0.35771759493010385, "latency_s": 0.3144, "dur": 1.87}
+{"clip": "clean/C138-gb_f_isabella.flac", "id": "C138", "hyp": "turn on the study light", "raw": "turn on the study light", "score": 0.663942071958445, "margin": 0.3894646478195985, "latency_s": 0.3307, "dur": 2.26}
+{"clip": "clean/C139-au_m_p374.flac", "id": "C139", "hyp": "", "raw": "the study light on", "score": 11.248218544269912, "margin": 0.2822371251881123, "latency_s": 0.3326, "dur": 2.84}
+{"clip": "clean/C139-gb_f_emma.flac", "id": "C139", "hyp": "", "raw": "the study light on", "score": 10.283065342262853, "margin": 0.35903658512979747, "latency_s": 0.3301, "dur": 2.84}
+{"clip": "clean/C140-au_f_jenny.flac", "id": "C140", "hyp": "turn off the outside lights", "raw": "turn off the outside lights", "score": 0.9500266889590421, "margin": 0.33892226219177246, "latency_s": 0.2052, "dur": 2.19}
+{"clip": "clean/C140-gb_m_lewis.flac", "id": "C140", "hyp": "turn off the outside light", "raw": "turn off the outside light", "score": 0.9033299847287708, "margin": 0.17428486517746933, "latency_s": 0.2152, "dur": 2.29}
+{"clip": "clean/C141-au_m_p326.flac", "id": "C141", "hyp": "", "raw": "lights on", "score": 16.17364784057524, "margin": 0.6095784505208334, "latency_s": 0.0839, "dur": 1.22}
+{"clip": "clean/C141-gb_m_george.flac", "id": "C141", "hyp": "", "raw": "lights on", "score": 14.554248596192338, "margin": 0.4106222788492839, "latency_s": 0.2016, "dur": 1.52}
+{"clip": "clean/C142-au_f_p225.flac", "id": "C142", "hyp": "turn off the living room lights", "raw": "turn off the living room lights", "score": 2.401102307381936, "margin": 0.06324122349421184, "latency_s": 0.3121, "dur": 2.2}
+{"clip": "clean/C142-gb_f_cori.flac", "id": "C142", "hyp": "turn off the living room lights", "raw": "turn off the living room lights", "score": 2.659500787526162, "margin": 0.3545115668740537, "latency_s": 0.2756, "dur": 2.81}
+{"clip": "clean/C143-au_m_p374.flac", "id": "C143", "hyp": "turn on the living room lights", "raw": "turn on the living room lights", "score": 1.4282959546738614, "margin": 0.055598404672410756, "latency_s": 0.3049, "dur": 2.17}
+{"clip": "clean/C143-gb_m_alan.flac", "id": "C143", "hyp": "turn on the living room lights", "raw": "turn on the living room lights", "score": 0.8716311374705078, "margin": 0.16158961753050485, "latency_s": 0.3154, "dur": 2.79}
+{"clip": "clean/C144-au_f_jenny.flac", "id": "C144", "hyp": "", "raw": "what's the date", "score": 8.262617173912336, "margin": 0.014201427710109524, "latency_s": 0.2609, "dur": 2.0}
+{"clip": "clean/C144-gb_m_northern.flac", "id": "C144", "hyp": "", "raw": "what's the time", "score": 14.464640201732982, "margin": 0.1840460821054876, "latency_s": 0.1359, "dur": 1.94}
+{"clip": "clean/C145-au_m_p326.flac", "id": "C145", "hyp": "", "raw": "what is the time", "score": 7.151468557320186, "margin": 1.2005700692534447, "latency_s": 0.1488, "dur": 1.48}
+{"clip": "clean/C145-gb_f_isabella.flac", "id": "C145", "hyp": "", "raw": "what is the time", "score": 7.401115536602447, "margin": 1.543807429377921, "latency_s": 0.2686, "dur": 1.94}
+{"clip": "clean/C146-au_f_p225.flac", "id": "C146", "hyp": "", "raw": "open the atrium blind", "score": 13.808502197939172, "margin": 0.07949638366699219, "latency_s": 0.3528, "dur": 2.84}
+{"clip": "clean/C146-gb_f_emma.flac", "id": "C146", "hyp": "", "raw": "open the atrium blind", "score": 12.45169110115551, "margin": 0.09485973630632673, "latency_s": 0.4001, "dur": 3.12}
+{"clip": "clean/C147-au_m_p374.flac", "id": "C147", "hyp": "", "raw": "next item", "score": 23.384747926689062, "margin": 0.08664395132412513, "latency_s": 0.1856, "dur": 1.9}
+{"clip": "clean/C147-gb_m_lewis.flac", "id": "C147", "hyp": "", "raw": "next item", "score": 14.472552140755578, "margin": 0.23794269561767578, "latency_s": 0.2551, "dur": 1.99}
+{"clip": "clean/C148-au_f_jenny.flac", "id": "C148", "hyp": "", "raw": "close the atrium blind", "score": 14.277903422258532, "margin": 0.14706051349639893, "latency_s": 0.8387, "dur": 5.2}
+{"clip": "clean/C148-gb_m_george.flac", "id": "C148", "hyp": "", "raw": "close the atrium blind", "score": 12.631389292288077, "margin": 0.3915832042694092, "latency_s": 0.7345, "dur": 6.08}
+{"clip": "clean/C149-au_m_p326.flac", "id": "C149", "hyp": "", "raw": "cancel timer", "score": 15.131241310248152, "margin": 0.39453926086425783, "latency_s": 0.302, "dur": 2.2}
+{"clip": "clean/C149-gb_f_cori.flac", "id": "C149", "hyp": "", "raw": "continue timer", "score": 16.321788259587873, "margin": 0.05364354451497396, "latency_s": 0.2768, "dur": 2.55}
+{"clip": "clean/C150-au_f_p225.flac", "id": "C150", "hyp": "", "raw": "what's the time", "score": 8.384195177280343, "margin": 0.04611339569091797, "latency_s": 0.2271, "dur": 1.86}
+{"clip": "clean/C150-gb_m_alan.flac", "id": "C150", "hyp": "", "raw": "what's the time", "score": 9.034246156103714, "margin": 0.6123876677205166, "latency_s": 0.1633, "dur": 2.23}
+{"clip": "clean/C151-au_m_p374.flac", "id": "C151", "hyp": "", "raw": "never mind", "score": 47.007693299878156, "margin": 0.011792302131652832, "latency_s": 0.5538, "dur": 4.33}
+{"clip": "clean/C151-gb_m_northern.flac", "id": "C151", "hyp": "", "raw": "never mind", "score": 44.759202860397636, "margin": 0.047292470932006836, "latency_s": 0.6207, "dur": 4.61}
+{"clip": "noise/C001-au_m_p326.flac", "id": "C001", "hyp": "turn on the atrium lights", "raw": "turn on the atrium lights", "score": 1.3278067712162738, "margin": 0.2382209300994873, "latency_s": 0.3266, "dur": 2.02}
+{"clip": "noise/C002-gb_f_cori.flac", "id": "C002", "hyp": "turn off the atrium spotlight left", "raw": "turn off the atrium spotlight left", "score": 0.25019233664286067, "margin": 0.0028241764415394177, "latency_s": 0.4404, "dur": 2.78}
+{"clip": "noise/C003-au_m_p374.flac", "id": "C003", "hyp": "switch on the pergola floodlight two", "raw": "switch on the pergola floodlight two", "score": 2.5755915285054862, "margin": 0.045334926673344204, "latency_s": 0.3791, "dur": 2.52}
+{"clip": "noise/C004-gb_m_northern.flac", "id": "C004", "hyp": "", "raw": "turn the lights off", "score": 6.926401726540644, "margin": 0.233389949798584, "latency_s": 0.3549, "dur": 2.64}
+{"clip": "noise/C005-au_m_p326.flac", "id": "C005", "hyp": "", "raw": "turn on the lights", "score": 6.048690424673259, "margin": 0.28038896918296813, "latency_s": 0.2878, "dur": 1.97}
+{"clip": "noise/C006-gb_f_emma.flac", "id": "C006", "hyp": "turn off the loft lamp", "raw": "turn off the loft lamp", "score": 0.6100331968960485, "margin": 0.33236939566476004, "latency_s": 0.2352, "dur": 2.01}
+{"clip": "noise/C007-au_m_p374.flac", "id": "C007", "hyp": "loft lights on", "raw": "loft lights on", "score": 2.411060312729595, "margin": 0.053980350494384766, "latency_s": 0.2193, "dur": 1.7}
+{"clip": "noise/C008-gb_m_george.flac", "id": "C008", "hyp": "the laundry lights off", "raw": "the laundry lights off", "score": 1.9291669032827485, "margin": 0.18895571572440012, "latency_s": 0.2261, "dur": 2.69}
+{"clip": "noise/C009-au_m_p326.flac", "id": "C009", "hyp": "turn on the laundry downlight", "raw": "turn on the laundry downlight", "score": 3.298407507361844, "margin": 0.028336715698242188, "latency_s": 0.4599, "dur": 2.0}
+{"clip": "noise/C010-gb_m_alan.flac", "id": "C010", "hyp": "switch off the garage ceiling right", "raw": "switch off the garage ceiling right", "score": 0.31912212661028694, "margin": 0.0691845233623798, "latency_s": 0.3377, "dur": 3.18}
+{"clip": "noise/C011-au_m_p374.flac", "id": "C011", "hyp": "turn on porch downlight three", "raw": "turn on porch downlight three", "score": 2.268943883432075, "margin": 0.0032466784119606017, "latency_s": 0.3421, "dur": 2.12}
+{"clip": "noise/C018-gb_m_northern.flac", "id": "C018", "hyp": "turn on kitchen chandelier two", "raw": "turn on kitchen chandelier two", "score": 0.6209100643710161, "margin": 0.08019253131575309, "latency_s": 0.3782, "dur": 2.57}
+{"clip": "noise/C019-au_m_p374.flac", "id": "C019", "hyp": "turn off living room chandelier six", "raw": "turn off living room chandelier six", "score": 0.7951758479078611, "margin": 0.14643196761608124, "latency_s": 0.5178, "dur": 2.79}
+{"clip": "noise/C020-gb_f_emma.flac", "id": "C020", "hyp": "turn on range hood one", "raw": "turn on range hood one", "score": 0.8076020223088562, "margin": 0.14392859329070365, "latency_s": 0.2877, "dur": 2.11}
+{"clip": "noise/C031-au_m_p374.flac", "id": "C031", "hyp": "set the atrium light brightness to forty percent", "raw": "set the atrium light brightness to forty percent", "score": 3.3891746349233602, "margin": 0.037810291562761576, "latency_s": 0.934, "dur": 2.98}
+{"clip": "noise/C032-gb_m_northern.flac", "id": "C032", "hyp": "", "raw": "the loft lamp on", "score": 7.479424261762428, "margin": 0.14145720553850488, "latency_s": 0.3656, "dur": 2.59}
+{"clip": "noise/C033-au_m_p326.flac", "id": "C033", "hyp": "", "raw": "the living room lamp off", "score": 6.428461421837306, "margin": 0.16576258010334438, "latency_s": 0.5187, "dur": 2.76}
+{"clip": "noise/C034-gb_f_emma.flac", "id": "C034", "hyp": "", "raw": "the kitchen ceiling on", "score": 6.702962341386592, "margin": 0.023009538440965115, "latency_s": 0.525, "dur": 2.99}
+{"clip": "noise/C035-au_m_p374.flac", "id": "C035", "hyp": "", "raw": "the pergola floodlight two on", "score": 6.139310991698452, "margin": 0.004334967244755138, "latency_s": 0.4567, "dur": 3.11}
+{"clip": "noise/C036-gb_m_george.flac", "id": "C036", "hyp": "", "raw": "the dining room pendant on", "score": 5.609795380558353, "margin": 0.22358722381759435, "latency_s": 0.5341, "dur": 4.01}
+{"clip": "noise/C038-gb_m_alan.flac", "id": "C038", "hyp": "set the ensuite downlight brightness to fifteen percent", "raw": "set the ensuite downlight brightness to fifteen percent", "score": 3.749257295139079, "margin": 0.13572319684659734, "latency_s": 0.9744, "dur": 3.82}
+{"clip": "noise/C046-gb_m_northern.flac", "id": "C046", "hyp": "", "raw": "the porch lights off", "score": 6.479140155466406, "margin": 0.4231468082538673, "latency_s": 0.4731, "dur": 3.4}
+{"clip": "noise/C047-au_m_p374.flac", "id": "C047", "hyp": "", "raw": "timer for twenty five minutes", "score": 6.129088415265869, "margin": 0.0035401587665546685, "latency_s": 0.3203, "dur": 2.9}
+{"clip": "noise/C048-gb_f_emma.flac", "id": "C048", "hyp": "", "raw": "the atrium lights off", "score": 7.294543638492802, "margin": 0.5371239866529193, "latency_s": 0.5337, "dur": 3.18}
+{"clip": "noise/C049-au_m_p326.flac", "id": "C049", "hyp": "", "raw": "switch on the garden spotlight", "score": 4.435655638866592, "margin": 0.036072179675102234, "latency_s": 0.9428, "dur": 3.14}
+{"clip": "noise/C051-au_m_p374.flac", "id": "C051", "hyp": "", "raw": "turn off the laundry lights", "score": 4.861378446519666, "margin": 0.2791514294221997, "latency_s": 0.6283, "dur": 2.88}
+{"clip": "noise/C052-gb_m_alan.flac", "id": "C052", "hyp": "turn on pergola spotlight one", "raw": "turn on pergola spotlight one", "score": 2.9778785451392955, "margin": 0.002629518508911133, "latency_s": 0.7116, "dur": 4.26}
+{"clip": "noise/C058-gb_f_cori.flac", "id": "C058", "hyp": "", "raw": "timer for five minutes", "score": 8.039498600853323, "margin": 0.0682665506998698, "latency_s": 0.4797, "dur": 3.69}
+{"clip": "noise/C060-gb_m_northern.flac", "id": "C060", "hyp": "", "raw": "lights on", "score": 13.535792560817208, "margin": 0.09090118408203125, "latency_s": 0.4391, "dur": 3.18}
+{"clip": "noise/C061-au_m_p326.flac", "id": "C061", "hyp": "", "raw": "timer for fifteen minutes", "score": 5.014735531323822, "margin": 0.21143513917922974, "latency_s": 0.2784, "dur": 2.51}
+{"clip": "noise/C066-gb_m_alan.flac", "id": "C066", "hyp": "", "raw": "lights on", "score": 9.391065056377556, "margin": 0.3220627911214251, "latency_s": 0.2036, "dur": 1.64}
+{"clip": "noise/C067-au_m_p374.flac", "id": "C067", "hyp": "", "raw": "lights on", "score": 8.260535005305428, "margin": 0.23858376126736403, "latency_s": 0.2091, "dur": 1.63}
+{"clip": "noise/C068-gb_f_isabella.flac", "id": "C068", "hyp": "", "raw": "activate the study lights", "score": 6.697816015192075, "margin": 0.032178772820366755, "latency_s": 0.2195, "dur": 2.39}
+{"clip": "noise/C069-au_m_p326.flac", "id": "C069", "hyp": "", "raw": "stop item", "score": 8.011335827963194, "margin": 0.030718207359313965, "latency_s": 0.2451, "dur": 1.77}
+{"clip": "noise/C070-gb_m_lewis.flac", "id": "C070", "hyp": "", "raw": "wall light on", "score": 14.636007176915882, "margin": 0.013871517032384872, "latency_s": 0.1812, "dur": 1.88}
+{"clip": "noise/C071-au_m_p374.flac", "id": "C071", "hyp": "", "raw": "the wall light off", "score": 7.893239096365869, "margin": 0.05905606932938099, "latency_s": 0.2777, "dur": 2.01}
+{"clip": "noise/C074-gb_m_northern.flac", "id": "C074", "hyp": "close the atrium blind", "raw": "close the atrium blind", "score": 0.6378802916733548, "margin": 0.23193692974746227, "latency_s": 0.2979, "dur": 2.37}
+{"clip": "noise/C075-au_m_p374.flac", "id": "C075", "hyp": "", "raw": "open the atrium blind", "score": 7.3384237607492, "margin": 0.11895694157906941, "latency_s": 0.3423, "dur": 2.63}
+{"clip": "noise/C076-gb_f_emma.flac", "id": "C076", "hyp": "", "raw": "set the atrium light brightness to thirty percent", "score": 3.8379328768226384, "margin": 0.041714532034737725, "latency_s": 0.6704, "dur": 2.84}
+{"clip": "noise/C079-au_m_p374.flac", "id": "C079", "hyp": "", "raw": "open the living room blinds", "score": 4.4931350943839385, "margin": 0.20531315273708767, "latency_s": 0.8992, "dur": 3.02}
+{"clip": "noise/C080-gb_m_alan.flac", "id": "C080", "hyp": "", "raw": "close the atrium blind", "score": 5.973063023971918, "margin": 0.26368415728211403, "latency_s": 0.5026, "dur": 3.44}
+{"clip": "noise/C082-gb_f_isabella.flac", "id": "C082", "hyp": "open the atrium blind", "raw": "open the atrium blind", "score": 3.790075497926279, "margin": 0.8391473591327667, "latency_s": 0.8297, "dur": 3.05}
+{"clip": "noise/C087-au_m_p374.flac", "id": "C087", "hyp": "", "raw": "whats weather", "score": 14.348921250691637, "margin": 0.06321424823254347, "latency_s": 0.4263, "dur": 2.83}
+{"clip": "noise/C088-gb_m_northern.flac", "id": "C088", "hyp": "", "raw": "whats the date today", "score": 13.456671840311694, "margin": 0.08974160466875349, "latency_s": 0.6736, "dur": 3.37}
+{"clip": "noise/C092-gb_m_george.flac", "id": "C092", "hyp": "", "raw": "next song", "score": 10.324663714913186, "margin": 0.03451951344807943, "latency_s": 0.363, "dur": 2.73}
+{"clip": "noise/C093-au_m_p326.flac", "id": "C093", "hyp": "", "raw": "lights on", "score": 11.777108768140897, "margin": 0.22641101032495498, "latency_s": 0.2865, "dur": 2.05}
+{"clip": "noise/C094-gb_m_alan.flac", "id": "C094", "hyp": "", "raw": "how long is left on the timer", "score": 8.34303452350432, "margin": 0.22919504861347378, "latency_s": 0.4923, "dur": 3.66}
+{"clip": "noise/C095-au_m_p374.flac", "id": "C095", "hyp": "", "raw": "turn the lights on", "score": 12.486655787415136, "margin": 0.15113224302019393, "latency_s": 0.4663, "dur": 3.14}
+{"clip": "noise/C102-gb_m_northern.flac", "id": "C102", "hyp": "", "raw": "what's the date", "score": 13.801950885215774, "margin": 0.020048277718680247, "latency_s": 0.4703, "dur": 2.97}
+{"clip": "noise/C104-gb_f_emma.flac", "id": "C104", "hyp": "", "raw": "timer for eleven second", "score": 15.40897186511817, "margin": 0.02386294470893012, "latency_s": 0.3401, "dur": 3.1}
+{"clip": "noise/C107-au_m_p374.flac", "id": "C107", "hyp": "", "raw": "how hot is it", "score": 14.508883795700967, "margin": 0.10220138231913249, "latency_s": 0.5582, "dur": 2.84}
+{"clip": "noise/C108-gb_m_alan.flac", "id": "C108", "hyp": "what is the temperature in the atrium", "raw": "what is the temperature in the atrium", "score": 1.15208369582587, "margin": 0.18560379858200365, "latency_s": 0.5, "dur": 2.93}
+{"clip": "noise/C109-au_m_p326.flac", "id": "C109", "hyp": "", "raw": "how warm is it", "score": 6.645998857100494, "margin": 0.8103617075830698, "latency_s": 0.2133, "dur": 1.93}
+{"clip": "noise/C115-au_m_p374.flac", "id": "C115", "hyp": "", "raw": "whats the time", "score": 11.126330777886324, "margin": 0.055905118584632874, "latency_s": 0.3073, "dur": 2.17}
+{"clip": "noise/C117-au_m_p326.flac", "id": "C117", "hyp": "", "raw": "set a timer for twenty two second", "score": 10.969632221385837, "margin": 0.13354709413316515, "latency_s": 0.3855, "dur": 3.02}
+{"clip": "noise/C122-gb_m_alan.flac", "id": "C122", "hyp": "the loft lamp on", "raw": "the loft lamp on", "score": 1.627279577893205, "margin": 0.4951939669748147, "latency_s": 0.2176, "dur": 2.07}
+{"clip": "noise/C123-au_m_p374.flac", "id": "C123", "hyp": "the laundry lights off", "raw": "the laundry lights off", "score": 2.0934899457996443, "margin": 0.28469972738197874, "latency_s": 0.2526, "dur": 2.23}
+{"clip": "noise/C124-gb_f_isabella.flac", "id": "C124", "hyp": "", "raw": "the pergola lights on", "score": 4.651978148664865, "margin": 0.035214000278049044, "latency_s": 0.4701, "dur": 2.31}
+{"clip": "noise/C130-gb_m_northern.flac", "id": "C130", "hyp": "", "raw": "what's the date", "score": 11.536733020762247, "margin": 0.5176958555655021, "latency_s": 0.2779, "dur": 2.51}
+{"clip": "noise/C131-au_m_p374.flac", "id": "C131", "hyp": "", "raw": "what is the time", "score": 8.260152930820672, "margin": 0.058476765950520836, "latency_s": 0.4197, "dur": 2.66}
+{"clip": "noise/C132-gb_f_emma.flac", "id": "C132", "hyp": "", "raw": "how cool is it", "score": 12.15150310487952, "margin": 0.3138326644897461, "latency_s": 0.2972, "dur": 2.29}
+{"clip": "noise/C133-au_m_p326.flac", "id": "C133", "hyp": "what's the weather", "raw": "what's the weather", "score": 2.14326257929982, "margin": 0.13469298183918, "latency_s": 0.2021, "dur": 1.64}
+{"clip": "noise/C134-gb_m_george.flac", "id": "C134", "hyp": "what's the time", "raw": "what's the time", "score": 2.4796585051342843, "margin": 0.6906145837157964, "latency_s": 0.2191, "dur": 1.67}
+{"clip": "noise/C135-au_m_p374.flac", "id": "C135", "hyp": "", "raw": "next song", "score": 18.628397036964696, "margin": 0.36523866653442383, "latency_s": 0.3156, "dur": 2.04}
+{"clip": "noise/C136-gb_m_alan.flac", "id": "C136", "hyp": "", "raw": "what's the weather like", "score": 6.1696293304807375, "margin": 0.5362788747463908, "latency_s": 0.3898, "dur": 2.56}
+{"clip": "noise/C137-au_m_p326.flac", "id": "C137", "hyp": "", "raw": "set a timer for twelve minutes", "score": 13.552483578728113, "margin": 0.011178221021379744, "latency_s": 0.9663, "dur": 5.27}
+{"clip": "noise/C138-gb_f_isabella.flac", "id": "C138", "hyp": "turn on the study light", "raw": "turn on the study light", "score": 0.058274853062660746, "margin": 0.5826757649580637, "latency_s": 0.2641, "dur": 2.26}
+{"clip": "noise/C139-au_m_p374.flac", "id": "C139", "hyp": "", "raw": "the study light on", "score": 10.57385021575028, "margin": 0.38438076972961427, "latency_s": 0.3258, "dur": 2.84}
+{"clip": "noise/C140-gb_m_lewis.flac", "id": "C140", "hyp": "turn off the outside light", "raw": "turn off the outside light", "score": 0.9718918929824473, "margin": 0.2643376759120396, "latency_s": 0.2806, "dur": 2.29}
+{"clip": "noise/C141-au_m_p326.flac", "id": "C141", "hyp": "", "raw": "lights on", "score": 14.702321435373355, "margin": 0.0810556411743164, "latency_s": 0.1382, "dur": 1.22}
+{"clip": "noise/C142-gb_f_cori.flac", "id": "C142", "hyp": "turn off the living room lights", "raw": "turn off the living room lights", "score": 2.0502915252776197, "margin": 0.4417677594659229, "latency_s": 0.3448, "dur": 2.81}
+{"clip": "noise/C143-au_m_p374.flac", "id": "C143", "hyp": "turn on the living room light", "raw": "turn on the living room light", "score": 0.9714291991840582, "margin": 0.21637284383177757, "latency_s": 0.3074, "dur": 2.17}
+{"clip": "noise/C144-gb_m_northern.flac", "id": "C144", "hyp": "", "raw": "what's the time", "score": 11.556851107953117, "margin": 0.7909887209534645, "latency_s": 0.2393, "dur": 1.94}
+{"clip": "noise/C145-au_m_p326.flac", "id": "C145", "hyp": "", "raw": "what is the time", "score": 5.7955247848294675, "margin": 1.1395091824233532, "latency_s": 0.1659, "dur": 1.48}
+{"clip": "noise/C146-gb_f_emma.flac", "id": "C146", "hyp": "", "raw": "open the atrium blind", "score": 14.012365848809297, "margin": 0.144930294581822, "latency_s": 0.3069, "dur": 3.12}
+{"clip": "noise/C147-au_m_p374.flac", "id": "C147", "hyp": "", "raw": "next item", "score": 21.704352213845898, "margin": 0.027916908264160156, "latency_s": 0.2356, "dur": 1.9}
+{"clip": "noise/C148-gb_m_george.flac", "id": "C148", "hyp": "", "raw": "close the atrium blind", "score": 12.132019100754405, "margin": 0.3765559196472168, "latency_s": 0.862, "dur": 6.08}
+{"clip": "noise/C149-au_m_p326.flac", "id": "C149", "hyp": "", "raw": "cancel timer", "score": 14.472837161226199, "margin": 0.1463789856992662, "latency_s": 0.2967, "dur": 2.2}
+{"clip": "noise/C150-gb_m_alan.flac", "id": "C150", "hyp": "", "raw": "what's the time", "score": 7.208596380388674, "margin": 0.1520970625958095, "latency_s": 0.2785, "dur": 2.23}
+{"clip": "noise/C151-au_m_p374.flac", "id": "C151", "hyp": "", "raw": "atrium light on", "score": 20.95055532231345, "margin": 0.027767765568569303, "latency_s": 0.6197, "dur": 4.33}

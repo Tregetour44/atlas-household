@@ -1,0 +1,11 @@
+{
+ "name": "speech-to-phrase-default",
+ "templates": 450,
+ "combos": 24,
+ "train_s": 3.2,
+ "gate": 3.8,
+ "peak_rss_mb": 982,
+ "latency_p50_s": 0.337,
+ "latency_p95_s": 0.85,
+ "cpu": 4
+}

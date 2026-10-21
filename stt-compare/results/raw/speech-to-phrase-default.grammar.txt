@@ -1,0 +1,457 @@
+# 450 templates from 24 default-enabled combos
+turn off the lights in the {area}
+turn off the lights in {area}
+turn off lights in the {area}
+turn off lights in {area}
+turn off the {area} lights
+turn off {area} lights
+the {area} lights off
+{area} lights off
+turn off the lights
+turn off lights
+turn the lights off
+turn lights off
+lights off
+turn off the {name__fan_input_boolean_light_media_player_switch}
+turn off {name__fan_input_boolean_light_media_player_switch}
+switch off the {name__fan_input_boolean_light_media_player_switch}
+switch off {name__fan_input_boolean_light_media_player_switch}
+deactivate the {name__fan_input_boolean_light_media_player_switch}
+deactivate {name__fan_input_boolean_light_media_player_switch}
+the {name__fan_input_boolean_light_media_player_switch} off
+{name__fan_input_boolean_light_media_player_switch} off
+close the {name__cover}
+close {name__cover}
+turn on the lights in the {area}
+turn on the lights in {area}
+turn on lights in the {area}
+turn on lights in {area}
+turn on the {area} lights
+turn on {area} lights
+the {area} lights on
+{area} lights on
+turn on the lights
+turn on lights
+turn the lights on
+turn lights on
+lights on
+turn on the {name__fan_input_boolean_light_media_player_switch}
+turn on {name__fan_input_boolean_light_media_player_switch}
+switch on the {name__fan_input_boolean_light_media_player_switch}
+switch on {name__fan_input_boolean_light_media_player_switch}
+activate the {name__fan_input_boolean_light_media_player_switch}
+activate {name__fan_input_boolean_light_media_player_switch}
+the {name__fan_input_boolean_light_media_player_switch} on
+{name__fan_input_boolean_light_media_player_switch} on
+open the {name__cover}
+open {name__cover}
+cancel the timer
+cancel my timer
+cancel timer
+stop the timer
+stop my timer
+stop timer
+what is the temperature in the {area}
+what is the temperature in {area}
+what is temperature in the {area}
+what is temperature in {area}
+what is the temp
+what is the temperature
+what is temp
+what is temperature
+how hot is it
+how cold is it
+how warm is it
+how cool is it
+what is the temperature of the {name__climate}
+what is the temperature of {name__climate}
+what is temperature of the {name__climate}
+what is temperature of {name__climate}
+what's todays date
+what's today's date
+what's the current date
+whats todays date
+whats today's date
+whats the current date
+what is todays date
+what is today's date
+what is the current date
+tell me todays date
+tell me today's date
+tell me the current date
+what's the date today
+what's the date
+whats the date today
+whats the date
+what is the date today
+what is the date
+tell me the date today
+tell me the date
+what's the current time
+what's the time
+whats the current time
+whats the time
+what is the current time
+what is the time
+tell me the current time
+tell me the time
+what time is it right now
+what time is it now
+what time is it
+what's the weather like
+what's the weather
+what's weather like
+what's weather
+whats the weather like
+whats the weather
+whats weather like
+whats weather
+what is the weather like
+what is the weather
+what is weather like
+what is weather
+tell me the weather like
+tell me the weather
+tell me weather like
+tell me weather
+set the {name__light__brightness} brightness to {0..100} percent
+set the {name__light__brightness} brightness to {0..100}
+set {name__light__brightness} brightness to {0..100} percent
+set {name__light__brightness} brightness to {0..100}
+change the {name__light__brightness} brightness to {0..100} percent
+change the {name__light__brightness} brightness to {0..100}
+change {name__light__brightness} brightness to {0..100} percent
+change {name__light__brightness} brightness to {0..100}
+next song
+next track
+next item
+skip this song
+skip this track
+skip this item
+skip the song
+skip the track
+skip the item
+skip song
+skip track
+skip item
+skip to the next song
+skip to the next track
+skip to the next item
+skip to next song
+skip to next track
+skip to next item
+pause the music
+pause the movie
+pause the tv shows
+pause the tv show
+pause the shows
+pause the show
+pause the media players
+pause the media player
+pause the media
+pause the song
+pause the track
+pause the item
+pause my music
+pause my movie
+pause my tv shows
+pause my tv show
+pause my shows
+pause my show
+pause my media players
+pause my media player
+pause my media
+pause my song
+pause my track
+pause my item
+pause our music
+pause our movie
+pause our tv shows
+pause our tv show
+pause our shows
+pause our show
+pause our media players
+pause our media player
+pause our media
+pause our song
+pause our track
+pause our item
+pause music
+pause movie
+pause tv shows
+pause tv show
+pause shows
+pause show
+pause media players
+pause media player
+pause media
+pause song
+pause track
+pause item
+stop playing the music
+stop playing the movie
+stop playing the tv shows
+stop playing the tv show
+stop playing the shows
+stop playing the show
+stop playing the media players
+stop playing the media player
+stop playing the media
+stop playing the song
+stop playing the track
+stop playing the item
+stop playing my music
+stop playing my movie
+stop playing my tv shows
+stop playing my tv show
+stop playing my shows
+stop playing my show
+stop playing my media players
+stop playing my media player
+stop playing my media
+stop playing my song
+stop playing my track
+stop playing my item
+stop playing our music
+stop playing our movie
+stop playing our tv shows
+stop playing our tv show
+stop playing our shows
+stop playing our show
+stop playing our media players
+stop playing our media player
+stop playing our media
+stop playing our song
+stop playing our track
+stop playing our item
+stop playing music
+stop playing movie
+stop playing tv shows
+stop playing tv show
+stop playing shows
+stop playing show
+stop playing media players
+stop playing media player
+stop playing media
+stop playing song
+stop playing track
+stop playing item
+stop the music
+stop the movie
+stop the tv shows
+stop the tv show
+stop the shows
+stop the show
+stop the media players
+stop the media player
+stop the media
+stop the song
+stop the track
+stop the item
+stop my music
+stop my movie
+stop my tv shows
+stop my tv show
+stop my shows
+stop my show
+stop my media players
+stop my media player
+stop my media
+stop my song
+stop my track
+stop my item
+stop our music
+stop our movie
+stop our tv shows
+stop our tv show
+stop our shows
+stop our show
+stop our media players
+stop our media player
+stop our media
+stop our song
+stop our track
+stop our item
+stop music
+stop movie
+stop tv shows
+stop tv show
+stop shows
+stop show
+stop media players
+stop media player
+stop media
+stop song
+stop track
+stop item
+unpause the music
+unpause the movie
+unpause the tv shows
+unpause the tv show
+unpause the shows
+unpause the show
+unpause the media players
+unpause the media player
+unpause the media
+unpause the song
+unpause the track
+unpause the item
+unpause my music
+unpause my movie
+unpause my tv shows
+unpause my tv show
+unpause my shows
+unpause my show
+unpause my media players
+unpause my media player
+unpause my media
+unpause my song
+unpause my track
+unpause my item
+unpause our music
+unpause our movie
+unpause our tv shows
+unpause our tv show
+unpause our shows
+unpause our show
+unpause our media players
+unpause our media player
+unpause our media
+unpause our song
+unpause our track
+unpause our item
+unpause music
+unpause movie
+unpause tv shows
+unpause tv show
+unpause shows
+unpause show
+unpause media players
+unpause media player
+unpause media
+unpause song
+unpause track
+unpause item
+resume the music
+resume the movie
+resume the tv shows
+resume the tv show
+resume the shows
+resume the show
+resume the media players
+resume the media player
+resume the media
+resume the song
+resume the track
+resume the item
+resume my music
+resume my movie
+resume my tv shows
+resume my tv show
+resume my shows
+resume my show
+resume my media players
+resume my media player
+resume my media
+resume my song
+resume my track
+resume my item
+resume our music
+resume our movie
+resume our tv shows
+resume our tv show
+resume our shows
+resume our show
+resume our media players
+resume our media player
+resume our media
+resume our song
+resume our track
+resume our item
+resume music
+resume movie
+resume tv shows
+resume tv show
+resume shows
+resume show
+resume media players
+resume media player
+resume media
+resume song
+resume track
+resume item
+nevermind
+never mind
+pause the timer
+pause my timer
+pause timer
+set a timer for {1..100} hours
+set a timer for {1..100} hour
+timer for {1..100} hours
+timer for {1..100} hour
+set a timer for {1..100} minutes
+set a timer for {1..100} minute
+timer for {1..100} minutes
+timer for {1..100} minute
+set a timer for {timer_half} an hour
+timer for {timer_half} an hour
+set a timer for {1..100} seconds
+set a timer for {1..100} second
+timer for {1..100} seconds
+timer for {1..100} second
+timers status
+timer status
+how much time is left on the timers
+how much time is left on the timer
+how much time is left on my timers
+how much time is left on my timer
+how much time is left on timers
+how much time is left on timer
+how much time left on the timers
+how much time left on the timer
+how much time left on my timers
+how much time left on my timer
+how much time left on timers
+how much time left on timer
+time is left on the timers
+time is left on the timer
+time is left on my timers
+time is left on my timer
+time is left on timers
+time is left on timer
+time left on the timers
+time left on the timer
+time left on my timers
+time left on my timer
+time left on timers
+time left on timer
+how long is left on the timers
+how long is left on the timer
+how long is left on my timers
+how long is left on my timer
+how long is left on timers
+how long is left on timer
+how long left on the timers
+how long left on the timer
+how long left on my timers
+how long left on my timer
+how long left on timers
+how long left on timer
+status of the timers
+status of the timer
+status of my timers
+status of my timer
+status of timers
+status of timer
+resume the timer
+resume my timer
+resume timer
+continue the timer
+continue my timer
+continue timer
+# list area: 16 values: atrium, dining room, garage, guest bedroom, hallway, kitchen, laundry, living room, loft, master bedroom, patio, porch ...
+# list name__climate: 1 values: air conditioner
+# list name__cover: 4 values: atrium blind, living room door blind, living room window blind, living room blinds
+# list name__fan_input_boolean_light_media_player_switch: 82 values: atrium spotlight left, atrium spotlight right, dining room lamp, dining room pendant, ensuite downlight, fountain spotlight, garage ceiling left, garage ceiling right, garden spotlight, guest bedroom ceiling, guest bedroom lamp, hallway downlight ...
+# list name__light__brightness: 82 values: atrium spotlight left, atrium spotlight right, dining room lamp, dining room pendant, ensuite downlight, fountain spotlight, garage ceiling left, garage ceiling right, garden spotlight, guest bedroom ceiling, guest bedroom lamp, hallway downlight ...
+# list timer_half: 1 values: half

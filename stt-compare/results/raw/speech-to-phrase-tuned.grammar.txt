@@ -1,0 +1,250 @@
+# 236 templates from 27 default-enabled combos
+turn off the lights in the {area}
+turn off the lights in {area}
+turn off lights in the {area}
+turn off lights in {area}
+turn off the {area} lights
+turn off {area} lights
+the {area} lights off
+{area} lights off
+turn off the lights
+turn off lights
+turn the lights off
+turn lights off
+lights off
+turn off the {name__fan_input_boolean_light_media_player_switch}
+turn off {name__fan_input_boolean_light_media_player_switch}
+switch off the {name__fan_input_boolean_light_media_player_switch}
+switch off {name__fan_input_boolean_light_media_player_switch}
+deactivate the {name__fan_input_boolean_light_media_player_switch}
+deactivate {name__fan_input_boolean_light_media_player_switch}
+the {name__fan_input_boolean_light_media_player_switch} off
+{name__fan_input_boolean_light_media_player_switch} off
+close the {name__cover}
+close {name__cover}
+turn on the lights in the {area}
+turn on the lights in {area}
+turn on lights in the {area}
+turn on lights in {area}
+turn on the {area} lights
+turn on {area} lights
+the {area} lights on
+{area} lights on
+turn on the lights
+turn on lights
+turn the lights on
+turn lights on
+lights on
+turn on the {name__fan_input_boolean_light_media_player_switch}
+turn on {name__fan_input_boolean_light_media_player_switch}
+switch on the {name__fan_input_boolean_light_media_player_switch}
+switch on {name__fan_input_boolean_light_media_player_switch}
+activate the {name__fan_input_boolean_light_media_player_switch}
+activate {name__fan_input_boolean_light_media_player_switch}
+the {name__fan_input_boolean_light_media_player_switch} on
+{name__fan_input_boolean_light_media_player_switch} on
+open the {name__cover}
+open {name__cover}
+cancel the timer
+cancel my timer
+cancel timer
+stop the timer
+stop my timer
+stop timer
+what is the temperature in the {area}
+what is the temperature in {area}
+what is temperature in the {area}
+what is temperature in {area}
+what is the temp
+what is the temperature
+what is temp
+what is temperature
+how hot is it
+how cold is it
+how warm is it
+how cool is it
+what is the temperature of the {name__climate}
+what is the temperature of {name__climate}
+what is temperature of the {name__climate}
+what is temperature of {name__climate}
+what's the current time
+what's the time
+whats the current time
+whats the time
+what is the current time
+what is the time
+tell me the current time
+tell me the time
+what time is it right now
+what time is it now
+what time is it
+what's the weather like
+what's the weather
+what's weather like
+what's weather
+whats the weather like
+whats the weather
+whats weather like
+whats weather
+what is the weather like
+what is the weather
+what is weather like
+what is weather
+tell me the weather like
+tell me the weather
+tell me weather like
+tell me weather
+set the {name__light__brightness} brightness to {0..100} percent
+set the {name__light__brightness} brightness to {0..100}
+set {name__light__brightness} brightness to {0..100} percent
+set {name__light__brightness} brightness to {0..100}
+change the {name__light__brightness} brightness to {0..100} percent
+change the {name__light__brightness} brightness to {0..100}
+change {name__light__brightness} brightness to {0..100} percent
+change {name__light__brightness} brightness to {0..100}
+nevermind
+never mind
+set a timer for {1..100} hours
+set a timer for {1..100} hour
+timer for {1..100} hours
+timer for {1..100} hour
+set a timer for {1..100} minutes
+set a timer for {1..100} minute
+timer for {1..100} minutes
+timer for {1..100} minute
+set a timer for {timer_half} an hour
+timer for {timer_half} an hour
+set a timer for {1..100} seconds
+set a timer for {1..100} second
+timer for {1..100} seconds
+timer for {1..100} second
+timers status
+timer status
+how much time is left on the timers
+how much time is left on the timer
+how much time is left on my timers
+how much time is left on my timer
+how much time is left on timers
+how much time is left on timer
+how much time left on the timers
+how much time left on the timer
+how much time left on my timers
+how much time left on my timer
+how much time left on timers
+how much time left on timer
+time is left on the timers
+time is left on the timer
+time is left on my timers
+time is left on my timer
+time is left on timers
+time is left on timer
+time left on the timers
+time left on the timer
+time left on my timers
+time left on my timer
+time left on timers
+time left on timer
+how long is left on the timers
+how long is left on the timer
+how long is left on my timers
+how long is left on my timer
+how long is left on timers
+how long is left on timer
+how long left on the timers
+how long left on the timer
+how long left on my timers
+how long left on my timer
+how long left on timers
+how long left on timer
+status of the timers
+status of the timer
+status of my timers
+status of my timer
+status of timers
+status of timer
+turn off the lights on the {floor}
+turn off the lights on {floor}
+turn off lights on the {floor}
+turn off lights on {floor}
+turn off the {floor} lights
+turn off {floor} lights
+turn on the lights on the {floor}
+turn on the lights on {floor}
+turn on lights on the {floor}
+turn on lights on {floor}
+turn on the {floor} lights
+turn on {floor} lights
+is the {name__fan_light_switch} {on_off_states}
+is {name__fan_light_switch} {on_off_states}
+is the {name__cover_valve} {cover_states}
+is {name__cover_valve} {cover_states}
+set the {area} brightness to {0..100} percent
+set the {area} brightness to {0..100}
+set {area} brightness to {0..100} percent
+set {area} brightness to {0..100}
+set the brightness in the {area} to {0..100} percent
+set the brightness in the {area} to {0..100}
+set the brightness in {area} to {0..100} percent
+set the brightness in {area} to {0..100}
+set brightness in the {area} to {0..100} percent
+set brightness in the {area} to {0..100}
+set brightness in {area} to {0..100} percent
+set brightness in {area} to {0..100}
+set the brightness to {0..100} percent
+set the brightness to {0..100}
+set brightness to {0..100} percent
+set brightness to {0..100}
+set the {floor} brightness to {0..100} percent
+set the {floor} brightness to {0..100}
+set {floor} brightness to {0..100} percent
+set {floor} brightness to {0..100}
+set the {name__cover_valve__set_position} position to {0..100} percent
+set the {name__cover_valve__set_position} position to {0..100}
+set the {name__cover_valve__set_position} to {0..100} percent
+set the {name__cover_valve__set_position} to {0..100}
+set {name__cover_valve__set_position} position to {0..100} percent
+set {name__cover_valve__set_position} position to {0..100}
+set {name__cover_valve__set_position} to {0..100} percent
+set {name__cover_valve__set_position} to {0..100}
+open the {name__cover_valve__set_position} to {0..100} percent
+open the {name__cover_valve__set_position} to {0..100}
+open {name__cover_valve__set_position} to {0..100} percent
+open {name__cover_valve__set_position} to {0..100}
+close the {name__cover_valve__set_position} to {0..100} percent
+close the {name__cover_valve__set_position} to {0..100}
+close {name__cover_valve__set_position} to {0..100} percent
+close {name__cover_valve__set_position} to {0..100}
+turn on the {name__fan_input_boolean_light_media_player_switch} in the {area}
+turn on the {name__fan_input_boolean_light_media_player_switch} in {area}
+turn on {name__fan_input_boolean_light_media_player_switch} in the {area}
+turn on {name__fan_input_boolean_light_media_player_switch} in {area}
+switch on the {name__fan_input_boolean_light_media_player_switch} in the {area}
+switch on the {name__fan_input_boolean_light_media_player_switch} in {area}
+switch on {name__fan_input_boolean_light_media_player_switch} in the {area}
+switch on {name__fan_input_boolean_light_media_player_switch} in {area}
+[(run|start|activate)] [the] (good night|wind down) [scene] [please]
+put the (good night|wind down) scene on
+set the house to (good night|wind down)
+(run|start) (good night|wind down) (in {1..60:minutes} minutes|at {1..12:hour} [{0..59:minute}] (a m|p m))
+cancel that
+undo that
+cancel the {name__light} timer
+turn (on|off) [the] {name__light} (in {1..60:minutes} minutes|in half an hour|in an hour|at {1..12:hour} [{0..59:minute}] (a m|p m)|at midnight)
+turn [the] {name__light} (on|off) (in {1..60:minutes} minutes|in half an hour|in an hour|at {1..12:hour} [{0..59:minute}] (a m|p m)|at midnight)
+(dim|set|brighten) [the] {name__light} to {0..100:brightness} percent
+(open|close|raise|lower) [the] {name__cover} [(halfway|all the way)]
+(set|put) [the] {name__cover} (to|at) {0..100:position} percent
+(open|close) [the] {name__cover} at {1..12:hour} [{0..59:minute}] (a m|p m)
+# list area: 16 values: atrium, dining room, garage, guest bedroom, hallway, kitchen, laundry, living room, loft, master bedroom, patio, porch ...
+# list cover_states: 6 values: open, closed, shut, opening, closing, shutting
+# list floor: 3 values: upstairs, downstairs, ground floor
+# list name__climate: 1 values: air conditioner
+# list name__cover: 4 values: atrium blind, living room door blind, living room window blind, living room blinds
+# list name__cover_valve: 4 values: atrium blind, living room door blind, living room window blind, living room blinds
+# list name__cover_valve__set_position: 4 values: atrium blind, living room door blind, living room window blind, living room blinds
+# list name__fan_input_boolean_light_media_player_switch: 82 values: atrium spotlight left, atrium spotlight right, dining room lamp, dining room pendant, ensuite downlight, fountain spotlight, garage ceiling left, garage ceiling right, garden spotlight, guest bedroom ceiling, guest bedroom lamp, hallway downlight ...
+# list name__fan_light_switch: 82 values: atrium spotlight left, atrium spotlight right, dining room lamp, dining room pendant, ensuite downlight, fountain spotlight, garage ceiling left, garage ceiling right, garden spotlight, guest bedroom ceiling, guest bedroom lamp, hallway downlight ...
+# list name__light: 82 values: atrium spotlight left, atrium spotlight right, dining room lamp, dining room pendant, ensuite downlight, fountain spotlight, garage ceiling left, garage ceiling right, garden spotlight, guest bedroom ceiling, guest bedroom lamp, hallway downlight ...
+# list name__light__brightness: 82 values: atrium spotlight left, atrium spotlight right, dining room lamp, dining room pendant, ensuite downlight, fountain spotlight, garage ceiling left, garage ceiling right, garden spotlight, guest bedroom ceiling, guest bedroom lamp, hallway downlight ...
+# list on_off_states: 2 values: on, off
+# list timer_half: 1 values: half

@@ -1,0 +1,26 @@
+{
+ "name": "fw-large-v3-turbo-int8",
+ "server_args": [
+  "--data-dir",
+  "/home/user/models/wy",
+  "--language",
+  "en",
+  "--cpu-threads",
+  "4",
+  "--stt-library",
+  "faster-whisper",
+  "--model",
+  "/home/user/models/hf/models--mobiuslabsgmbh--faster-whisper-large-v3-turbo/snapshots/0a363e9161cbc7ed1431c9597a8ceaf0c4f78fcf",
+  "--compute-type",
+  "int8",
+  "--beam-size",
+  "5"
+ ],
+ "clips": 240,
+ "realtime": false,
+ "first_request_s": 5.76,
+ "peak_rss_mb": 2075,
+ "cpu": 4,
+ "latency_p50_s": 4.242,
+ "latency_p95_s": 4.745
+}

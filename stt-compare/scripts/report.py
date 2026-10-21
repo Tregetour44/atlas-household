@@ -24,8 +24,9 @@ SETS = {k: {json.loads(l)["clip"] for l in open(os.path.join(AUD, f))} for k, f 
         [("core", "manifest_core.jsonl"), ("full", "manifest.jsonl"), ("au0", "manifest_au0.jsonl")]}
 SETS["pc60"] = {json.loads(l)["clip"] for l in open(os.path.join(HERE, "..", "bench", "manifest_pc.jsonl"))}
 # Per-thread speed of a Ryzen 7 9700X vs this sandbox's 2.1 GHz Xeon vCPU: 1.4-1.9x (PassMark single-thread 4,643 vs 2,469-3,258);
-# the PC also has 8 cores/16 threads vs 4 vCPU here. Latency estimates for the PC divide sandbox times by 1.9 (low) .. 3 (high).
-PC_LO, PC_HI = 1.9, 3.0
+# the PC also has 8 cores/16 threads vs 4 vCPU here. Latency estimates for the PC divide sandbox times by 1.4 (low) .. 3 (high): a published 9950X
+# faster-whisper turbo figure (3.1-3.8 s per utterance) suggests the low end is realistic for Whisper on CPU.
+PC_LO, PC_HI = 1.4, 3.0
 pct = lambda x: "-" if x is None or x != x else f"{100 * x:.1f}%"
 
 
@@ -133,7 +134,7 @@ def table_pc60(runs):
     return "\n".join(lines)
 
 
-def table_s2p(runs, fallbacks=("parakeet-v2-int8", "qwen3asr-0.6b-int4+prompt", "fw-large-v3-turbo-int8")):
+def table_s2p(runs, fallbacks=("fw-small.en-int8+prompt", "parakeet-v2-int8", "qwen3asr-0.6b-int4+prompt", "fw-large-v3-turbo-int8")):
     lines = ["| grammar | accepted | accepted & right | **accepted & wrong (wrong action)** | rejected -> fallback | S2P latency p50 here | "
              "S2P alone cmd acc | front + fallback: cmd acc (fallback engine alone) |", "|" + "---|" * 8]
     out = {}
@@ -159,6 +160,25 @@ def table_s2p(runs, fallbacks=("parakeet-v2-int8", "qwen3asr-0.6b-int4+prompt", 
     return "\n".join(lines), out
 
 
+def table_nospeech(runs):
+    from textnorm import canon
+    house = ["atrium", "pergola", "ensuite", "loft", "laundry", "goodnight", "wind down", "kwh", "zerocharge", "light", "blind", "turn"]
+    lines = ["| engine | fan / hum / kitchen noise (9 clips): any text | ... with a house word or command | TV babble (3 clips): any text | "
+             "example outputs |", "|---|---|---|---|---|"]
+    for name, v in runs.items():
+        if "nospeech" not in v:
+            continue
+        rows = v["nospeech"][0]
+        quiet = [r for r in rows if "-tv" not in r["clip"]]
+        tv = [r for r in rows if "-tv" in r["clip"]]
+        txt = lambda r: canon(r.get("hyp") or "")
+        hw = [r for r in quiet if any(w in txt(r) for w in house)]
+        ex = "; ".join(sorted({f'"{r["hyp"]}"' for r in rows if (r.get("hyp") or "").strip()})[:4]) or "(all empty)"
+        lines.append(f"| {name} | {sum(1 for r in quiet if txt(r))}/{len(quiet)} | {len(hw)}/{len(quiet)} | "
+                     f"{sum(1 for r in tv if txt(r))}/{len(tv)} | {ex} |")
+    return "\n".join(lines)
+
+
 def main(raw, out):
     runs = load(raw)
     os.makedirs(out, exist_ok=True)
@@ -169,7 +189,8 @@ def main(raw, out):
              ("Vocabulary prompting (house names as initial prompt / Qwen3-ASR context)", table_prompt(core)),
              ("Accent control: AU speakers with and without the approximate vowel shift (clean)", table_au0(runs)),
              ("whisper.cpp vs the others on the 60-clip PC subset (sandbox CPU)", table_pc60(runs)),
-             ("Speech-to-Phrase v2.2 on the core 240 clips", s2p_md)]
+             ("Speech-to-Phrase v2.2 on the core 240 clips", s2p_md),
+             ("No speech: noise-only clips (does a name prompt make the engine invent a command?)", table_nospeech(runs))]
     md = "\n\n".join(f"### {t}\n\n{b}" for t, b in parts) + "\n"
     open(os.path.join(out, "tables.md"), "w").write(md)
     json.dump({"core": core, "s2p": s2p, "meta": {n: {k: m for k, (_, m) in v.items()} for n, v in runs.items()}},

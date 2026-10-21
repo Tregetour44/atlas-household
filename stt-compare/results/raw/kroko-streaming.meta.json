@@ -1,0 +1,21 @@
+{
+ "name": "kroko-streaming",
+ "server_args": [
+  "--data-dir",
+  "/home/user/models/wy",
+  "--language",
+  "en",
+  "--cpu-threads",
+  "4",
+  "--stt-library",
+  "sherpa",
+  "--sherpa-streaming"
+ ],
+ "clips": 604,
+ "realtime": false,
+ "first_request_s": 0.22,
+ "peak_rss_mb": 276,
+ "cpu": 4,
+ "latency_p50_s": 0.268,
+ "latency_p95_s": 0.485
+}

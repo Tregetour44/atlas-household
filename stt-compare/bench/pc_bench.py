@@ -5,7 +5,8 @@ real CPU/GPU, through the same Wyoming server Home Assistant would use, and writ
 latency per clip, peak RAM, VRAM (Windows GPU counters) and a summary.md to send back.
 
   python pc_bench.py STAGE OUT_DIR [--threads 8] [--whisper-cpp DIR] [--llm-load]
-  STAGE: cpu      parakeet-v2 int8 (sherpa) + Qwen3-ASR 0.6B (+house prompt) + faster-whisper large-v3-turbo int8, via Wyoming
+  STAGE: cpu      via the Wyoming server: faster-whisper small.en int8 + house prompt + --vad-filter (the recommendation), the same
+                  with 8 vs 4 threads, Parakeet TDT 0.6B v2 int8 (the fast fallback), faster-whisper large-v3-turbo int8 (reference)
          directml onnx-asr Parakeet v2 on the GPU through DirectML (separate venv: onnxruntime-directml)
          vulkan   whisper.cpp large-v3-turbo q5_0 via whisper-server (needs --whisper-cpp: a Vulkan build's bin folder)
          score    score everything in OUT_DIR and write summary.md
@@ -77,10 +78,11 @@ def wyoming(name, out, threads, *server_args):
 
 
 def stage_cpu(out, threads):
+    small = ("--stt-library", "faster-whisper", "--model", "small.en", "--compute-type", "int8", "--beam-size", "5",
+             "--initial-prompt", PROMPT, "--vad-filter")
+    wyoming(f"pc-fw-small.en-int8+prompt-vadfilter-{threads}t", out, threads, *small)
+    wyoming("pc-fw-small.en-int8+prompt-vadfilter-4t", out, 4, *small)
     wyoming("pc-parakeet-v2-int8-cpu", out, threads, "--stt-library", "sherpa", "--model", "sherpa-onnx-nemo-parakeet-tdt-0.6b-v2-int8")
-    from huggingface_hub import snapshot_download
-    qwen = snapshot_download("rhasspy/qwen3-asr-0.6b-onnx-int4-merged", local_dir=os.path.join(out, "..", "models", "qwen3-int4-merged"))
-    wyoming("pc-qwen3asr-0.6b-int4+prompt-cpu", out, threads, "--stt-library", "qwen3-asr", "--model", qwen, "--initial-prompt", PROMPT)
     wyoming("pc-fw-large-v3-turbo-int8-cpu", out, threads, "--stt-library", "faster-whisper", "--model", "large-v3-turbo",
             "--compute-type", "int8", "--beam-size", "5")
 

@@ -109,7 +109,7 @@ def main():
     t_load = time.perf_counter()
     first, _ = asyncio.run(transcribe(port, pcm_of(os.path.join(a.audio_dir, clips[0]["clip"])), False))
     load_s = time.perf_counter() - t_load
-    if not first:
+    if first is None:
         proc.terminate()
         raise SystemExit(f"{a.name}: no transcript for the warm-up clip; see {log.name}")
     asyncio.run(transcribe(port, pcm_of(os.path.join(a.audio_dir, clips[1]["clip"])), False))

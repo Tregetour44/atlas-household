@@ -10,9 +10,9 @@
 
   Stages (all on 60 synthetic clips of 2-5 s speech, the same audio as the sandbox results):
     1. CPU, through the real Wyoming server (wyoming-faster-whisper 3.8.1), 8 threads:
-         Parakeet TDT 0.6B v2 int8 (sherpa-onnx)        <- the recommendation
-         Qwen3-ASR 0.6B int4 with the house-name prompt  <- the runner-up
-         faster-whisper large-v3-turbo int8              <- the Whisper reference
+         faster-whisper small.en int8 + house-name prompt + --vad-filter, 8 and 4 threads   <- the recommendation
+         Parakeet TDT 0.6B v2 int8 (sherpa-onnx)                                             <- the fast fallback
+         faster-whisper large-v3-turbo int8                                                  <- the CPU reference
     2. GPU via DirectML (onnxruntime-directml): Parakeet TDT 0.6B v2 (fp32, ~2.5 GB download) - skip with -SkipDirectML
     3. GPU via Vulkan: whisper.cpp large-v3-turbo q5_0, only if you pass -WhisperCppDir pointing at a Vulkan build's
        bin folder (whisper.cpp publishes no official Windows Vulkan binaries). Flash attention is off (-nfa): it crashes
@@ -67,7 +67,7 @@ $driver = Join-Path $here "pc_bench.py"
 
 # 2. CPU stage (the Wyoming server, as Home Assistant would use it)
 $py = New-Env "env-wyoming" (@("wyoming-faster-whisper[sherpa,qwen3-asr]==3.8.1", "av==16.1.0") + $common)
-Write-Host "== CPU stage (Parakeet, Qwen3-ASR, faster-whisper turbo) ..."
+Write-Host "== CPU stage (faster-whisper small.en + prompt, Parakeet, faster-whisper turbo) ..."
 & $py $driver cpu $out --threads $Threads @llm
 
 # 3. DirectML stage

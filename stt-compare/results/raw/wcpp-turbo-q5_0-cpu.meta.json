@@ -1,0 +1,12 @@
+{
+ "name": "wcpp-turbo-q5_0-cpu",
+ "engine": "whisper.cpp (CPU build)",
+ "model": "ggml-large-v3-turbo-q5_0.bin",
+ "clips": 60,
+ "threads": 4,
+ "prompt": false,
+ "peak_rss_mb": 1050,
+ "cpu": 4,
+ "latency_p50_s": 25.598,
+ "latency_p95_s": 27.34
+}
