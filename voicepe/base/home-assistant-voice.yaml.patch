@@ -1,0 +1,11 @@
+--- upstream-2644f4c/home-assistant-voice.yaml
++++ voicepe/base/home-assistant-voice.yaml
+@@ -1708,7 +1708,7 @@
+   - source:
+       type: git
+       url: https://github.com/esphome/home-assistant-voice-pe
+-      ref: dev
++      ref: 2644f4c794271d735d182ca7ebf899ed46164f4e  # ATLAS-PIN: was "dev" upstream; pinned to the 26.9.0 release commit
+     components:
+       - voice_kit
+     refresh: 0s

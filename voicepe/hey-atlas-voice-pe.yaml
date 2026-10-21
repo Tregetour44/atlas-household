@@ -1,0 +1,111 @@
+# Atlas: Home Assistant Voice PE 26.9.0 with an on-device "Hey Atlas" wake word.
+#
+# Build with ESPHome 2026.9.1 only (see voicepe/tools/build.sh).
+#
+# What this overlay changes, relative to the official 26.9.0 factory firmware
+# (home-assistant-voice.factory.yaml at 2644f4c794271d735d182ca7ebf899ed46164f4e):
+#   1. Adds the "Hey Atlas" microWakeWord model (local files) next to the stock models.
+#   2. Pins every fetched input: the base YAML and the voice_kit external component
+#      at 2644f4c, the stock sounds at 2644f4c, the stock models (vendored, hashed),
+#      and the ESP-IDF framework version.
+#   3. Leaves out the factory wrapper's HTTP update channel (update: http_request,
+#      ota: http_request, http_request:, the "Beta firmware" switch) and
+#      dashboard_import, so no stock OTA can silently replace this image.
+#      The local team owns updates.
+# Everything else is the stock factory behaviour, copied from the factory wrapper:
+# BLE and serial Improv provisioning, and the BLE/API start-up ordering.
+#
+# No secrets: there is no Wi-Fi network, API key or OTA password in this file.
+# Wi-Fi credentials and the API encryption key already stored on the device
+# (by Improv and by Home Assistant at adoption) are kept in NVS and reused.
+
+substitutions:
+  # Stock sounds pinned to the 26.9.0 release commit (upstream points at "dev").
+  # raw.githubusercontent.com is where upstream's github.com/.../raw/ URLs redirect to.
+  jack_connected_sound_file: https://raw.githubusercontent.com/esphome/home-assistant-voice-pe/2644f4c794271d735d182ca7ebf899ed46164f4e/sounds/jack_connected.flac
+  jack_disconnected_sound_file: https://raw.githubusercontent.com/esphome/home-assistant-voice-pe/2644f4c794271d735d182ca7ebf899ed46164f4e/sounds/jack_disconnected.flac
+  mute_switch_on_sound_file: https://raw.githubusercontent.com/esphome/home-assistant-voice-pe/2644f4c794271d735d182ca7ebf899ed46164f4e/sounds/mute_switch_on.flac
+  mute_switch_off_sound_file: https://raw.githubusercontent.com/esphome/home-assistant-voice-pe/2644f4c794271d735d182ca7ebf899ed46164f4e/sounds/mute_switch_off.flac
+  timer_finished_sound_file: https://raw.githubusercontent.com/esphome/home-assistant-voice-pe/2644f4c794271d735d182ca7ebf899ed46164f4e/sounds/timer_finished.flac
+  wake_word_triggered_sound_file: https://raw.githubusercontent.com/esphome/home-assistant-voice-pe/2644f4c794271d735d182ca7ebf899ed46164f4e/sounds/wake_word_triggered.flac
+  center_button_press_sound_file: https://raw.githubusercontent.com/esphome/home-assistant-voice-pe/2644f4c794271d735d182ca7ebf899ed46164f4e/sounds/center_button_press.flac
+  center_button_double_press_sound_file: https://raw.githubusercontent.com/esphome/home-assistant-voice-pe/2644f4c794271d735d182ca7ebf899ed46164f4e/sounds/center_button_double_press.flac
+  center_button_triple_press_sound_file: https://raw.githubusercontent.com/esphome/home-assistant-voice-pe/2644f4c794271d735d182ca7ebf899ed46164f4e/sounds/center_button_triple_press.flac
+  center_button_long_press_sound_file: https://raw.githubusercontent.com/esphome/home-assistant-voice-pe/2644f4c794271d735d182ca7ebf899ed46164f4e/sounds/center_button_long_press.flac
+  factory_reset_initiated_sound_file: https://raw.githubusercontent.com/esphome/home-assistant-voice-pe/2644f4c794271d735d182ca7ebf899ed46164f4e/sounds/factory_reset_initiated.mp3
+  factory_reset_cancelled_sound_file: https://raw.githubusercontent.com/esphome/home-assistant-voice-pe/2644f4c794271d735d182ca7ebf899ed46164f4e/sounds/factory_reset_cancelled.mp3
+  factory_reset_confirmed_sound_file: https://raw.githubusercontent.com/esphome/home-assistant-voice-pe/2644f4c794271d735d182ca7ebf899ed46164f4e/sounds/factory_reset_confirmed.mp3
+  easter_egg_tick_sound_file: https://raw.githubusercontent.com/esphome/home-assistant-voice-pe/2644f4c794271d735d182ca7ebf899ed46164f4e/sounds/easter_egg_tick.mp3
+  easter_egg_tada_sound_file: https://raw.githubusercontent.com/esphome/home-assistant-voice-pe/2644f4c794271d735d182ca7ebf899ed46164f4e/sounds/easter_egg_tada.mp3
+  error_cloud_expired_sound_file: https://raw.githubusercontent.com/esphome/home-assistant-voice-pe/2644f4c794271d735d182ca7ebf899ed46164f4e/sounds/error_cloud_expired.mp3
+
+packages:
+  # Verbatim from the factory wrapper at 2644f4c. It must appear before the base
+  # package so its on_client_connected actions run first (wait for BLE to stop).
+  va_connected_wait_for_ble:
+    voice_assistant:
+      on_client_connected:
+        - wait_until:
+            not: ble.enabled
+        - delay: 2s
+    wifi:
+      on_disconnect:
+        - ble.enable:
+  # home-assistant-voice.yaml at 2644f4c, byte for byte except one line:
+  # the voice_kit external component ref ("dev" -> 2644f4c). See base/home-assistant-voice.yaml.patch.
+  home-assistant-voice: !include base/home-assistant-voice.yaml
+
+esphome:
+  project:
+    # Same project name as the stock firmware, so Home Assistant keeps showing the
+    # device as "Nabu Casa / Home Assistant Voice PE". The version marks the custom build.
+    name: Nabu Casa.Home Assistant Voice PE
+    version: 26.9.0-atlas.1
+
+esp32:
+  toolchain: esp-idf
+  framework:
+    version: 5.5.5  # what "recommended" resolves to in ESPHome 2026.9.1, written out so it cannot drift
+
+# From the factory wrapper at 2644f4c: Improv over USB serial and BLE, for Wi-Fi
+# (re)provisioning without any credential in the image.
+wifi:
+  on_connect:
+    - delay: 5s  # Gives time for improv results to be transmitted
+    - ble.disable:
+    - script.execute: control_leds
+
+improv_serial:
+
+esp32_ble:
+  name: ha-voice-pe
+
+esp32_improv:
+  authorizer: center_button
+  on_start:
+    - lambda: id(improv_ble_in_progress) = true;
+    - script.execute: control_leds
+  on_provisioned:
+    - lambda: id(improv_ble_in_progress) = false;
+    - script.execute: control_leds
+  on_stop:
+    - lambda: id(improv_ble_in_progress) = false;
+    - script.execute: control_leds
+
+micro_wake_word:
+  # Same models and the same ids as stock, from vendored copies (hashes in lock/dependency-lock.json).
+  # !extend replaces only the model source; the base's single on_wake_word_detected handler is untouched.
+  models:
+    - id: !extend okay_nabu
+      model: models/stock/okay_nabu_20241226.3/okay_nabu.json
+    - id: !extend hey_jarvis
+      model: models/stock/micro-wake-word-models/hey_jarvis.json
+    - id: !extend hey_mycroft
+      model: models/stock/micro-wake-word-models/hey_mycroft.json
+    - id: !extend stop
+      model: models/stock/stop/stop.json
+    # The new model. Not internal, so Home Assistant lists "Hey Atlas" as a wake word.
+    - model: models/hey_atlas/hey_atlas.json
+      id: hey_atlas
+  vad:
+    model: models/stock/micro-wake-word-models/vad.json
