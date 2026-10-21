@@ -1,9 +1,9 @@
- custom_components/atlas_household/core.py | 40 +++++++++++++---
- tests/test_over_refusals.py               | 79 +++++++++++++++++++++++++++++++
- 2 files changed, 112 insertions(+), 7 deletions(-)
+ custom_components/atlas_household/core.py | 42 ++++++++++++---
+ tests/test_over_refusals.py               | 90 +++++++++++++++++++++++++++++++
+ 2 files changed, 124 insertions(+), 8 deletions(-)
 
 diff --git a/custom_components/atlas_household/core.py b/custom_components/atlas_household/core.py
-index f174884..e1c38eb 100644
+index f174884..4176e4b 100644
 --- a/custom_components/atlas_household/core.py
 +++ b/custom_components/atlas_household/core.py
 @@ -101,15 +101,18 @@ _NEVER_SPOKEN = re.compile(r"\bopen\s+(?:it\s+|things\s+|everything\s+)?up\b(?!\
@@ -35,6 +35,15 @@ index f174884..e1c38eb 100644
          # typed tricks, checked as well as the words as written (only ever more refusals): lookalike letters, s p a c e d or h-y-p-h-e-n-a-t-e-d
          # letters, and digits or symbols for letters ("unl0ck", "c@rport") [cloud robustness job, G05]
          f = _fold(t) if re.search(r'[^\x00-\x7f]', t) else t
+@@ -171,7 +175,7 @@ ACTING = {'atlas_lights', 'atlas_scene', 'atlas_blind', 'atlas_media', 'atlas_co
+ # A floor-wide or whole-outside group (a multi-light handle with a floor, or with no area) is used only when the person's words name that scope
+ # or all the lights; otherwise ask. A model that picks "ground_floor_lights" for "the family room lamp" would switch 14 lights [cloud review 1, M11].
+ SCOPE_SYNONYMS = {'ground': ('downstairs', 'ground floor'), 'upstairs': ('first floor', 'top floor', 'up stairs'), 'outside': ('outdoor', 'outdoors', 'exterior')}
+-ALL_LIGHTS = re.compile(r"\b(all(\s+of)?\s+(the\s+)?lights|every\s+light|everywhere|whole\s+(house|home|place))\b(?!\s+(in|on|at)\s+the\b)", re.I)
++ALL_LIGHTS = re.compile(r"\b(all(\s+of)?\s+(the\s+)?lights|every\s+light|everywhere|whole\s+(house|home|place))\b(?!\s+(in|on|at)\s+the\b(?!\s+(?:house|home|place)\b))", re.I)   # "every light in the house" [G20]
+ FAST_PATHS = ('timer', 'level', 'scene', 'blind', 'read')
+ SCENE_SAY = {'good night': {'good night', 'goodnight', 'good nite', 'night night', 'nighty night'}, 'wind down': {'wind down', 'winddown'}}   # spoken forms
+ # of the live scene names (normalised label -> what people say), for the scene fast path and the truth check
 @@ -1230,7 +1234,7 @@ class Coordinator:
      # every word a clause about the blinds may use; any other word (another room, a pronoun, "by the ...") makes it unclear, so ask [R3-01, R3-02]
      _BLIND_VOCAB = set("""hey atlas please can could would will you i id want like to the my our a an now thanks thank in of on set put make move
@@ -114,10 +123,10 @@ index f174884..e1c38eb 100644
                  # move, whatever handle the model chose; anything unclear asks [amendment 2, R2: one rule for the pair and the single blinds]
 diff --git a/tests/test_over_refusals.py b/tests/test_over_refusals.py
 new file mode 100644
-index 0000000..3fd8fd9
+index 0000000..cf939be
 --- /dev/null
 +++ b/tests/test_over_refusals.py
-@@ -0,0 +1,79 @@
+@@ -0,0 +1,90 @@
 +"""Optional narrow fixes for MINOR over-refusals (cloud robustness job, 21 Oct; GAPS.md G14-G17). Synthetic phase-2 rehearsal map."""
 +import json
 +import pathlib
@@ -193,6 +202,17 @@ index 0000000..3fd8fd9
 +        self.assertEqual(self.call(h, 'yes', 'open', last='The sunroom blind is closed.')['reason'], 'which_blind')   # no question
 +        self.assertEqual(self.call(h, 'yes', 'open', last='Which one: the sunroom blind or the family room door blind?')['reason'], 'which_blind')
 +        self.assertEqual(h.calls, [])
++
++
++class G20_EveryLightInTheHouse(unittest.TestCase):
++    def test_in_the_house_covers_the_floors(self):
++        h = house()
++        for text in ['turn every light in the house off', 'all the lights in the house off', 'turn off all the lights in the home']:
++            r = h.call('atlas_lights', {'target_handle': 'ground_floor_lights', 'operation': 'off'}, user_text=text)
++            self.assertNotEqual(r['status'], 'needs_choice', text)
++        for text in ['all the lights in the office off', 'every light in the galley off']:
++            r = h.call('atlas_lights', {'target_handle': 'ground_floor_lights', 'operation': 'off'}, user_text=text)
++            self.assertEqual(r['status'], 'needs_choice', text)
 +
 +
 +if __name__ == '__main__':

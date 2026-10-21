@@ -1,9 +1,9 @@
  custom_components/atlas_household/core.py    |  98 ++-
- custom_components/atlas_household/truth.py   | 258 ++++++++
+ custom_components/atlas_household/truth.py   | 281 +++++++++
  custom_components/atlas_household/turn.py    |  49 +-
  tests/fixtures/targets.phase2-rehearsal.json | 875 +++++++++++++++++++++++++++
- tests/test_rehearsal_gaps.py                 | 220 +++++++
- 5 files changed, 1476 insertions(+), 24 deletions(-)
+ tests/test_rehearsal_gaps.py                 | 240 ++++++++
+ 5 files changed, 1519 insertions(+), 24 deletions(-)
 
 diff --git a/custom_components/atlas_household/core.py b/custom_components/atlas_household/core.py
 index 541d1a5..0ee0207 100644
@@ -272,10 +272,10 @@ index 541d1a5..0ee0207 100644
          plan, res = await self._blind_plan(t, a['operation'], a.get('position_percent'))
 diff --git a/custom_components/atlas_household/truth.py b/custom_components/atlas_household/truth.py
 new file mode 100644
-index 0000000..b7d4c9f
+index 0000000..07f9f30
 --- /dev/null
 +++ b/custom_components/atlas_household/truth.py
-@@ -0,0 +1,258 @@
+@@ -0,0 +1,281 @@
 +"""The truth check (cloud robustness job, 21 Oct): the claim guard reads claim WORDINGS; this reads the device states. After a model turn,
 +a clause that states a device's state ("Office lights are off.", "The sunroom blind's down.", "Good Night is on.", "They're all closed now.")
 +or a timer ("Righto, office lights off at nine.", "They'll switch off in ten.") is compared with Home Assistant's state and the timer queue
@@ -304,7 +304,7 @@ index 0000000..b7d4c9f
 +                  r"" + _NUMS + r"\s+(?:minutes?|mins?|hours?)|tonight|tomorrow|later\b|(?:\d{1,2}|" + _NUMS + r")\s*(?:am|pm|a\.m\.|p\.m\.|o'?clock))", re.I)
 +_SKIP = re.compile(r"\?|\b(?:not|never|no|nothing|none|isn't|aren't|wasn't|weren't|doesn't|don't|didn't|won't|can't|cannot|couldn't|haven't|hasn't|"
 +                   r"if|would|could|shall|should|want|may|might|can|whether|unless|ago|yesterday|earlier|was|were|used\s+to|last\s+night|"
-+                   r"this\s+morning|usually|every\s+(?:night|day|evening|morning)|automatically|schedule[ds]?|automation)\b", re.I)
++                   r"this\s+morning|usually|every\s+(?:night|day|evening|morning)|automatically|automation|schedules|(?:the|its|a|on)\s+schedule|(?:is|are)\s+scheduled)\b", re.I)
 +_FUTURE = re.compile(r"\b(?:will|'ll|going\s+to|shall)\b", re.I)
 +_PRONOUN = re.compile(r"\b(?:it|it's|its|they|they're|them|those|these|that's|both|all|everything|every\s+one)\b", re.I)
 +_LIGHT_WORD = re.compile(r"\b(?:lights?|lamps?|downlights?|spotlights?|lighting)\b", re.I)
@@ -441,6 +441,28 @@ index 0000000..b7d4c9f
 +    return ' '.join(keep).strip(), bad
 +
 +
++_HOURS = {w: i for i, w in enumerate(['twelve', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten', 'eleven'])}
++_CLOCK = re.compile(r"\b(\d{1,2}|" + "|".join(_HOURS) + r")(?:[:.](\d\d)|\s+(o'?clock|thirty|fifteen|forty-five))?\s*(am|pm|a\.m\.|p\.m\.)", re.I)
++
++
++def _when_fits(clause: str, label: str) -> bool:
++    """The time and day a clause says ("at 9 pm", "at nine thirty pm", "tomorrow") agree with a waiting timer's label as the coordinator
++    wrote it ("Office lights on at 9:00 pm", "... at 7:00 am tomorrow"). A clause that names no clock time or day agrees [G19]."""
++    later = bool(re.search(r"\b(?:tomorrow|on\s+(?:monday|tuesday|wednesday|thursday|friday|saturday|sunday))\b", label, re.I))
++    if re.search(r"\btomorrow\b", clause, re.I) and not later:
++        return False
++    if re.search(r"\b(?:tonight|this\s+(?:evening|afternoon|morning)|today)\b", clause, re.I) and later:
++        return False
++    m = _CLOCK.search(clause)
++    lm = re.search(r"\b(\d{1,2}):(\d\d)\s*(am|pm)\b", label, re.I)
++    if not m or not lm:
++        return True
++    h = int(m.group(1)) if m.group(1).isdigit() else _HOURS[m.group(1).lower()]
++    mi = int(m.group(2)) if m.group(2) else {'thirty': 30, 'fifteen': 15, 'forty-five': 45}.get((m.group(3) or '').lower(), 0)
++    ap = m.group(4).lower().replace('.', '')
++    return (h % 12, mi, ap) == (int(lm.group(1)) % 12, int(lm.group(2)), lm.group(3).lower())
++
++
 +def _word(kind: str, text: str) -> str | None:
 +    if kind == 'light':
 +        m = [(x.start(), w) for rx, w in ((_OFF, 'off'), (_ON, 'on')) for x in rx.finditer(text)]
@@ -518,8 +540,9 @@ index 0000000..b7d4c9f
 +            op = {'off': 'off', 'closed': 'close', 'open': 'open', 'on': 'on'}.get(word) if word else None
 +            if op is None or (k == 'scene' and op != 'on'):
 +                continue
-+            if not any(p.get('handle') == h or set(handles.get(p.get('handle'), {}).get('entity_ids') or []) & set(t.get('entity_ids') or []) for p in pending):
-+                return 'timer'
++            mine = [p for p in pending if p.get('handle') == h or set(handles.get(p.get('handle'), {}).get('entity_ids') or []) & set(t.get('entity_ids') or [])]
++            if not mine or not any(_when_fits(c, p.get('label') or '') for p in mine):
++                return 'timer'                           # no such timer, or not at the time / on the day said [G19]
 +            continue
 +        if k == 'scene':
 +            if word and _scene_truth(t, states) is False:
@@ -1508,10 +1531,10 @@ index 0000000..a5da9e4
 +}
 diff --git a/tests/test_rehearsal_gaps.py b/tests/test_rehearsal_gaps.py
 new file mode 100644
-index 0000000..b7ad406
+index 0000000..af65d3e
 --- /dev/null
 +++ b/tests/test_rehearsal_gaps.py
-@@ -0,0 +1,220 @@
+@@ -0,0 +1,240 @@
 +"""Regression tests for the rehearsal gaps (cloud robustness job, 21 Oct; GAPS.md on branch atlas-robustness). Each class names its gap.
 +Synthetic phase-2 rehearsal map (tests/fixtures/targets.phase2-rehearsal.json)."""
 +import json
@@ -1690,6 +1713,26 @@ index 0000000..b7ad406
 +                      [([('atlas_lights', {'target_handle': 'office_lights', 'operation': 'off'}), ('atlas_lights', {'target_handle': 'outside_lights', 'operation': 'off'})],
 +                        'Done: Office lights off. Checked. Done: Outside lights (Deck and Entry) off, 1 of 5 changed; the other 4 already were. Checked.')])
 +        self.assertTrue(out['reply'].startswith('Done: Office lights off.'), out['reply'])
++
++
++class G19_TimerTimeAndDay(unittest.TestCase):
++    """MAJOR (Gemma): "I have scheduled the office lights to turn on at 9:00 pm tomorrow." for a timer due at 9 pm tonight."""
++
++    def run_timer(self, reply):
++        h = house()
++        out, _ = turn(h, 'set a timer to turn the office lights on in an hour and a half',
++                      [([('atlas_schedule', {'target_handle': 'office_lights', 'operation': 'on', 'in_minutes': 90})], reply)])
++        return out['reply']
++
++    def test_wrong_day_or_time_is_dropped(self):
++        for reply in ['I have scheduled the office lights to turn on at 9:00 pm tomorrow.', 'The office lights will turn on at 9:30 pm.',
++                      "Righto, office lights on at ten pm."]:
++            self.assertNotEqual(self.run_timer(reply), reply, reply)
++
++    def test_the_right_time_passes(self):
++        for reply in ['I have scheduled the office lights to turn on at 9:00 pm.', 'The office lights will turn on at nine pm tonight.',
++                      'Timer set: Office lights on at 9:00 pm. Say "cancel that" to stop it.', 'The office lights will come on in an hour and a half.']:
++            self.assertEqual(self.run_timer(reply), reply, reply)
 +
 +
 +class G10_G11_G12_GuardPhrasings(unittest.TestCase):
