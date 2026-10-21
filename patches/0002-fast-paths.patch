@@ -1,0 +1,595 @@
+ custom_components/atlas_household/core.py     |   7 +
+ custom_components/atlas_household/fastpath.py | 129 +++++++++++++++++
+ custom_components/atlas_household/readings.py | 136 ++++++++++++++++++
+ custom_components/atlas_household/turn.py     |  58 +++++---
+ tests/test_fast_paths.py                      | 199 ++++++++++++++++++++++++++
+ 5 files changed, 513 insertions(+), 16 deletions(-)
+
+diff --git a/custom_components/atlas_household/core.py b/custom_components/atlas_household/core.py
+index 0ee0207..f174884 100644
+--- a/custom_components/atlas_household/core.py
++++ b/custom_components/atlas_household/core.py
+@@ -172,6 +172,7 @@ ACTING = {'atlas_lights', 'atlas_scene', 'atlas_blind', 'atlas_media', 'atlas_co
+ # or all the lights; otherwise ask. A model that picks "ground_floor_lights" for "the family room lamp" would switch 14 lights [cloud review 1, M11].
+ SCOPE_SYNONYMS = {'ground': ('downstairs', 'ground floor'), 'upstairs': ('first floor', 'top floor', 'up stairs'), 'outside': ('outdoor', 'outdoors', 'exterior')}
+ ALL_LIGHTS = re.compile(r"\b(all(\s+of)?\s+(the\s+)?lights|every\s+light|everywhere|whole\s+(house|home|place))\b(?!\s+(in|on|at)\s+the\b)", re.I)
++FAST_PATHS = ('timer', 'level', 'scene', 'blind', 'read')
+ SCENE_SAY = {'good night': {'good night', 'goodnight', 'good nite', 'night night', 'nighty night'}, 'wind down': {'wind down', 'winddown'}}   # spoken forms
+ # of the live scene names (normalised label -> what people say), for the scene fast path and the truth check
+ NEVER_SCOPE = ACTING | {'atlas_cancel'}      # a cancel changes what will happen, so it is refused in a never-list turn too [cloud review 1, M3]
+@@ -650,6 +651,12 @@ class Coordinator:
+         self.timer_blinds = targets.get('timer_blinds') is True
+         self.timer_scenes = targets.get('timer_scenes') is not False      # false in a map that allows activating scenes but not timing them
+         self.blind_confirm = targets.get('blind_confirm') is not False      # phase 2 (directive 0026 am. 1, the owner "I prefer B"): false = move straight away
++        from .readings import check_readings      # read-only fast answers: their own section, never a handle, never a tool [cloud robustness job]
++        self.readings = check_readings(targets.get('readings'))
++        fp = targets.get('fast_paths')             # which deterministic paths run_turn may use (absent: all of them)
++        self.fast_paths = set(FAST_PATHS if fp is None else fp)
++        if self.fast_paths - set(FAST_PATHS):
++            raise ValueError(f'unknown fast_paths {sorted(self.fast_paths - set(FAST_PATHS))}')
+         self.replaced: dict[str, list[str]] = {}            # conversation -> questions replaced by a newer one (for an ambiguous yes)
+         if self.restart_policy not in ('cancel_pending', 'keep_if_unchanged'):
+             raise ValueError(f'unknown restart_policy {self.restart_policy!r}')
+diff --git a/custom_components/atlas_household/fastpath.py b/custom_components/atlas_household/fastpath.py
+index e785535..c4e41d9 100644
+--- a/custom_components/atlas_household/fastpath.py
++++ b/custom_components/atlas_household/fastpath.py
+@@ -318,3 +318,132 @@ def level_from_words(text: str) -> int | None:
+             return None
+         return n if _level_ok(text, n, bool(gd.get('pct'))) else None
+     return None
++
++
++# ---------- the SCENE and BLIND paths (cloud robustness job, 21 Oct: faster replies for the phase-2 map) ----------
++# A whole utterance naming exactly ONE enabled, reviewed scene ("good night", "run wind down", "let's wind down", "put good night on") is sent as
++# atlas_scene; a whole utterance that only moves blinds ("close the sunroom blind", "family room blinds up", "all the blinds to 30%") is sent
++# as atlas_blind, one call per handle, with the blinds taken ONLY from Coordinator._blind_scope (the which-blind rule, unchanged: unclear
++# words return None and the model asks). Never for a question, a negation, a soft or relative change, a time, a number that isn't a
++# percentage, or anything else in the turn; every coordinator check (never-list, scope, read-back, log, undo) runs as for a model call.
++from .core import SCENE_SAY as _SCENE_SAY  # noqa: E402  (the spoken forms of the live scene names; core.py, shared with truth.py)
++_FILL_LEAD = re.compile(r"^(?:(?:hey|ok|okay)\s+)?(?:atlas\s+)?(?:(?:ok|okay|right|alright|so)\s+)?(?:please\s+)?(?:(?:can|could|would)\s+you\s+(?:please\s+)?)?")
++_FILL_TAIL = re.compile(r"(?:\s+(?:please|thanks|thank\s+you|cheers|mate|atlas|now|for\s+me))*$")
++_SCENE_FORMS = [
++    re.compile(r"^(?:(?:run|start|activate|do|set|put\s+on|turn\s+on|switch\s+on|put|begin|trigger)\s+)?(?:the\s+)?(?P<n>[a-z ]+?)(?:\s+(?:scene|mode))?(?:\s+on)?$"),
++    re.compile(r"^(?:let\s?s|time\s+to|time\s+for)\s+(?:the\s+)?(?P<n>[a-z ]+?)(?:\s+(?:scene|mode))?$"),
++    re.compile(r"^(?P<n>[a-z ]+?)\s+time$"),
++]
++
++
++def _plain(text: str) -> str:
++    """Lower case, typed apostrophes folded, punctuation other than % dropped, "per cent"/"percent" as %, spaces collapsed."""
++    s = (text or '').translate(_CURLY).lower().strip()
++    s = re.sub(r"\s*(?:per\s*cent|percent)\b", "%", s)
++    s = re.sub(r"[^a-z0-9% ]+", " ", s)
++    return re.sub(r"\s+", " ", s).strip()
++
++
++def _scene_names(handles: dict) -> dict[str, list[str]]:
++    out: dict[str, list[str]] = {}
++    for h, t in handles.items():
++        if t.get('kind') == 'scene' and t.get('enabled', True) and t.get('expect'):       # reviewed scenes only, as tools._enum offers them
++            label = _norm(t['label'])
++            names = {label, _norm(h.replace('_', ' '))} | _SCENE_SAY.get(label, set()) | {_norm(a) for a in t.get('aliases') or []}
++            for n in names:
++                out.setdefault(n, []).append(h)
++    return out
++
++
++def parse_scene(text: str, handles: dict) -> dict | None:
++    """atlas_scene args for a whole utterance that names exactly one enabled, reviewed scene, else None (the model handles it)."""
++    raw = (text or '').translate(_CURLY).strip()
++    if not raw or len(raw) > 80 or '?' in raw or re.search(r"\d", raw) or _NEG.search(raw) or _NEG_NT.search(raw) or _WHEN_ANY.search(raw) \
++            or _TIMEWORD.search(raw) or _ASKING.search(raw):
++        return None
++    s = _FILL_TAIL.sub('', _FILL_LEAD.sub('', _plain(raw))).strip()
++    names = _scene_names(handles)
++    for rx in _SCENE_FORMS:
++        m = rx.match(s)
++        if m:
++            hs = names.get(m.group('n').strip())
++            if hs and len(set(hs)) == 1:
++                return {'recipe_handle': hs[0]}
++    return None
++
++
++_B_OBJ = (r"(?P<b>(?:(?:the|my|our|both|every|all(?:\s+of)?(?:\s+the)?|all\s+three|the\s+two)\s+)?(?:[a-z]+\s+){0,6}?(?:blinds?|ones?)"
++          r"(?:\s+in\s+the\s+[a-z]+(?:\s+room)?)?)")      # "the blind in the sunroom", "the window blind in the family room"
++_B_N = r"(?P<n>\d{1,3}|" + _NUMW + r")\s*%"
++_BLIND_FORMS = [   # (pattern, operation); position when the pattern has <n> or 'half'
++    (re.compile(r"^(?:close(?:\s+up)?|shut|lower|drop)\s+" + _B_OBJ + r"(?:\s+(?:down|closed|shut))?(?:\s+(?:fully|completely|all\s+the\s+way))?$"), 'close'),
++    (re.compile(r"^(?:pull|put|bring|roll|let)\s+" + _B_OBJ + r"\s+down(?:\s+(?:fully|completely|all\s+the\s+way))?$"), 'close'),
++    (re.compile(r"^(?:pull|put|bring|roll)\s+down\s+" + _B_OBJ + r"$"), 'close'),
++    (re.compile(r"^get\s+" + _B_OBJ + r"\s+(?:closed|shut|down)$"), 'close'),
++    (re.compile(r"^" + _B_OBJ + r"\s+(?:down|closed|shut)$"), 'close'),
++    (re.compile(r"^(?:open(?:\s+up)?|raise|lift)\s+" + _B_OBJ + r"(?:\s+up)?(?:\s+(?:fully|completely|all\s+the\s+way))?$"), 'open'),
++    (re.compile(r"^(?:pull|put|bring|roll)\s+" + _B_OBJ + r"\s+up(?:\s+(?:fully|completely|all\s+the\s+way))?$"), 'open'),
++    (re.compile(r"^(?:pull|put|bring|roll)\s+up\s+" + _B_OBJ + r"$"), 'open'),
++    (re.compile(r"^get\s+" + _B_OBJ + r"\s+open$"), 'open'),
++    (re.compile(r"^" + _B_OBJ + r"\s+(?:up|open)$"), 'open'),
++    (re.compile(r"^(?:(?:set|put|move|bring|take|open|close|lower|raise|make)\s+)?" + _B_OBJ + r"\s+(?:to|at)\s+" + _B_N + r"(?:\s+open)?$"), 'position'),
++    (re.compile(r"^(?:(?:set|put|move|bring|take|make)\s+)?" + _B_OBJ + r"\s+" + _B_N + r"\s+open$"), 'position'),
++    (re.compile(r"^(?:(?:set|put|move|bring|open|close|lower|raise)\s+)?" + _B_OBJ + r"\s+(?:to\s+)?(?P<half>half\s*way|half)(?:\s+(?:open|up|down|closed))?$"), 'position'),
++]
++_B_NOT = re.compile(r"\b(?:draw|drawn|bit|little|slightly|touch|tad|more|less|further|by|then|after|before|when|until|till|if|again|back|instead|light|lights|"
++                    r"lamp|turn|switch|on|off|closed\s+\d|\d+\s*%\s+closed)\b")
++
++
++def parse_blind(text: str, handles: dict, scope) -> list[dict] | None:
++    """atlas_blind args (one per handle) for a whole utterance that only moves blinds, else None. scope(text) is Coordinator._blind_scope:
++    the ONLY source of which blinds (None = unclear, so the model asks which). The handles are the fewest enabled blind handles covering
++    exactly that scope (the pair handle for both family-room blinds)."""
++    raw = (text or '').translate(_CURLY).strip()
++    if not raw or len(raw) > 120 or '?' in raw or _NEG.search(raw) or _NEG_NT.search(raw) or _WHEN_ANY.search(raw) or _ASKING.search(raw) \
++            or re.search(r"\bat\s+\d{1,2}\b(?!\s*(?:%|per\s*cent|percent))", raw, re.I):
++        return None
++    s = _FILL_TAIL.sub('', _FILL_LEAD.sub('', _plain(raw))).strip()
++    s = re.sub(r"^(?:hey\s+)?atlas\s+", "", s)
++    if _B_NOT.search(s) or re.search(r"\d", re.sub(_B_N, ' ', s)):
++        return None                                   # a bare number that isn't a percentage (a time?), or any word outside the grammar
++    for rx, op in _BLIND_FORMS:
++        m = rx.match(s)
++        if not m:
++            continue
++        b = m.group('b')
++        if re.search(r"\b(?:open|close|shut|raise|lower|lift|up|down|set|put|pull|roll|get|half)\b", b):
++            return None                               # a second movement inside the object: "close the sunroom and open the window blind"
++        args = {'operation': op}
++        if op == 'position':
++            if m.groupdict().get('half'):
++                n = 50
++            else:
++                n = _num(m.group('n'))
++            if n is None or not 0 <= n <= 100:
++                return None
++            if n in (0, 100):
++                args = {'operation': 'close' if n == 0 else 'open'}
++            else:
++                args['position_percent'] = n
++        sc = scope(text)
++        if not sc:
++            return None                               # unclear which blind: the model asks [the which-blind rule]
++        hs = _cover(sc, handles)
++        if not hs:
++            return None
++        return [{'target_handle': h, **args} for h in hs]
++    return None
++
++
++def _cover(scope: set, handles: dict) -> list[str]:
++    """The fewest enabled blind handles whose entities exactly cover scope (a handle never reaches outside it), else []."""
++    left, out = set(scope), []
++    blinds = sorted(((h, set(t.get('entity_ids') or [])) for h, t in handles.items() if t.get('kind') == 'blind' and t.get('enabled', True)),
++                    key=lambda x: (-len(x[1]), x[0]))
++    if left - {e for _h, es in blinds for e in es}:
++        return []                                     # the words name a blind that isn't enabled: the model says so
++    for h, es in blinds:
++        if es and es <= left:
++            out.append(h)
++            left -= es
++    return out if not left else []
+diff --git a/custom_components/atlas_household/readings.py b/custom_components/atlas_household/readings.py
+new file mode 100644
+index 0000000..eff4011
+--- /dev/null
++++ b/custom_components/atlas_household/readings.py
+@@ -0,0 +1,136 @@
++"""Read-only fast answers (cloud robustness job, 21 Oct): a strict whole-utterance question about a reading the map lists ("what's the battery
++at?", "how warm is it inside?", "what's the temp?", "how warm is the attic?") is answered from Home Assistant's state, without the model.
++Pure Python (no HA import); nothing here can act: it only reads states through the backend's get_state.
++
++The map's optional "readings" section (read-only domains only: sensor, weather, binary_sensor; never a handle, never offered to the model):
++    "readings": {"battery": {"entity_id": "sensor.home_battery_soc"},
++                 "outside": {"entity_id": "weather.home"},
++                 "inside":  [{"entity_id": "sensor.loft_temperature", "name": "the loft"}, {"entity_id": "sensor.bedroom_temperature", "name": "the master bedroom"}]}
++A reading that isn't listed is never answered here (the model answers from the prompt's readings), and so is any other wording: a forecast
++("tomorrow"), advice ("should I run the AC"), a judgement ("is it hot?"), a second request, a credit question (no credit card exists yet).
++"""
++from __future__ import annotations
++
++import re
++
++READ_DOMAINS = ('sensor', 'weather', 'binary_sensor')
++_CURLY = str.maketrans({'’': "'", '‘': "'", 'ʼ': "'"})
++_LEAD = r"^(?:(?:hey|ok|okay)\s+)?(?:atlas\s+)?(?:(?:so|and|right|ok|okay)\s+)?(?:(?:can|could)\s+you\s+tell\s+me\s+|tell\s+me\s+)?"
++_TAIL = r"(?:\s+(?:please|thanks|atlas|now|right\s+now|at\s+the\s+moment|mate))*$"
++_WHATS = r"(?:what\s*s|what\s+is|whats)"
++_HOWS = r"(?:how\s*s|how\s+is|hows)"
++_BATTERY = r"(?:the\s+)?(?:home\s+|house\s+)?battery"
++QUESTIONS = {
++    'battery': [
++        _WHATS + r"\s+" + _BATTERY + r"(?:\s+(?:charge|level|percentage))?(?:\s+(?:at|on|sitting\s+at))?",
++        _HOWS + r"\s+" + _BATTERY + r"(?:\s+(?:going|holding\s+up|doing|looking|charge|level))?",
++        r"how\s+(?:full|charged)\s+is\s+" + _BATTERY, r"where\s*s\s+" + _BATTERY + r"\s+at", r"what\s+percentage\s+is\s+" + _BATTERY,
++        _BATTERY + r"(?:\s+(?:level|charge|percentage))?", r"how\s+much\s+(?:charge\s+is\s+in|charge\s+is\s+left\s+in)\s+" + _BATTERY,
++        r"how\s+much\s+battery\s+(?:have\s+we\s+got|do\s+we\s+have|is\s+left)", r"(?:the\s+)?battery\s+(?:level|charge|percentage)",
++    ],
++    'inside': [
++        r"how\s+(?:warm|hot|cold)\s+is\s+it\s+(?:inside|indoors|in\s+the\s+house|in\s+here)", r"how\s+(?:warm|hot|cold)\s+is\s+the\s+house",
++        _WHATS + r"\s+the\s+(?:temperature|temp)\s+(?:inside|indoors|in\s+the\s+house|in\s+here)", r"(?:the\s+)?inside\s+(?:temperature|temp)",
++        _WHATS + r"\s+the\s+inside\s+(?:temperature|temp)", r"what\s+temperature\s+is\s+it\s+(?:inside|indoors)",
++    ],
++    'outside': [
++        _WHATS + r"\s+the\s+(?:temperature|temp)(?:\s+(?:outside|out\s+there|outdoors))?", r"how\s+(?:hot|warm|cold)\s+is\s+it\s+(?:outside|out\s+there|outdoors|out)",
++        r"(?:the\s+)?(?:outside|outdoor)\s+(?:temperature|temp)", r"(?:temperature|temp)\s+outside", _WHATS + r"\s+the\s+weather(?:\s+(?:doing|like))?(?:\s+outside)?",
++        _HOWS + r"\s+the\s+weather(?:\s+(?:looking|outside))?", r"what\s+temperature\s+is\s+it(?:\s+outside)?",
++    ],
++}
++_COMPILED = {k: [re.compile(_LEAD + rx + _TAIL) for rx in v] for k, v in QUESTIONS.items()}
++_ROOM = [r"how\s+(?:warm|hot|cold)\s+is\s+(?:it\s+in\s+)?(?P<r>[a-z ]+?)", _WHATS + r"\s+the\s+(?:temperature|temp)\s+in\s+(?P<r>[a-z ]+?)",
++         r"(?P<r>[a-z ]+?)\s+(?:temperature|temp)", r"what\s+temperature\s+is\s+it\s+in\s+(?P<r>[a-z ]+?)"]
++_ROOM_RX = [re.compile(_LEAD + rx + _TAIL) for rx in _ROOM]
++_NOT = re.compile(r"\b(?:tomorrow|tonight|later|forecast|will|going\s+to|should|yesterday|today|week|last|why|and|then|but|or|if|charging|"
++                  r"discharging|export\w*|solar|last\s+night|change|set|turn|switch|charge\s+it)\b")
++WEATHER_WORDS = {'clear-night': 'clear', 'cloudy': 'cloudy', 'exceptional': 'unusual', 'fog': 'foggy', 'hail': 'hailing', 'lightning': 'stormy',
++                 'lightning-rainy': 'stormy with rain', 'partlycloudy': 'partly cloudy', 'pouring': 'pouring', 'rainy': 'raining', 'snowy': 'snowing',
++                 'snowy-rainy': 'sleeting', 'sunny': 'sunny', 'windy': 'windy', 'windy-variant': 'windy and cloudy'}
++
++
++def check_readings(cfg) -> dict:
++    """The map's readings section, validated: read-only domains only, each with an entity id (and a name for an inside room)."""
++    if not cfg:
++        return {}
++    if not isinstance(cfg, dict) or set(cfg) - {'battery', 'outside', 'inside'}:
++        raise ValueError('readings: only battery, outside and inside are supported')
++    out = {}
++    for k, v in cfg.items():
++        items = v if isinstance(v, list) else [v]
++        for it in items:
++            e = str((it or {}).get('entity_id') or '')
++            if e.split('.')[0] not in READ_DOMAINS:
++                raise ValueError(f'readings.{k}: {e!r} is not a read-only reading')
++            if k == 'inside' and not it.get('name'):
++                raise ValueError('readings.inside: each room needs a name')
++            if k == 'outside' and not e.startswith('weather.'):
++                raise ValueError('readings.outside: a weather entity')
++        out[k] = [dict(x) for x in items] if k == 'inside' else dict(v)
++    return out
++
++
++def _plain(text: str) -> str:
++    s = (text or '').translate(_CURLY).lower().strip()
++    s = re.sub(r"[^a-z0-9 ]+", " ", s.replace("'", ''))
++    return re.sub(r"\s+", " ", s).strip()
++
++
++def _room_key(name: str) -> str:
++    return re.sub(r"^(?:the|my|our)\s+", "", _plain(name))
++
++
++def parse_question(text: str, readings: dict) -> tuple[str, str | None] | None:
++    """(key, room) for a strict whole-utterance question about a listed reading, else None."""
++    if not readings or not text or len(text) > 90:
++        return None
++    s = _plain(text)
++    if _NOT.search(s):
++        return None
++    for k, rxs in _COMPILED.items():
++        if k in readings and any(rx.fullmatch(s) for rx in rxs):
++            return k, None
++    rooms = {_room_key(x['name']): x['name'] for x in readings.get('inside') or []}
++    for rx in _ROOM_RX:
++        m = rx.fullmatch(s)
++        if m and _room_key(m.group('r')) in rooms:
++            return 'room', rooms[_room_key(m.group('r'))]
++    return None
++
++
++def _num(v) -> str | None:
++    try:
++        f = float(v)
++    except (TypeError, ValueError):
++        return None
++    return str(int(f)) if f == int(f) else f'{round(f, 1)}'
++
++
++async def answer(key: str, room: str | None, readings: dict, get_state) -> str:
++    """The spoken answer from fresh states. A reading that is missing or unavailable is said so, never guessed."""
++    async def val(e):
++        st = await get_state(e)
++        return None if st is None or st.get('state') in (None, '', 'unavailable', 'unknown') else st
++    if key == 'battery':
++        st = await val(readings['battery']['entity_id'])
++        n = _num(st['state']) if st else None
++        return f"The home battery is at {n}%." if n is not None else "The battery reading isn't available right now."
++    if key == 'outside':
++        st = await val(readings['outside']['entity_id'])
++        if st is None:
++            return "The weather reading isn't available right now."
++        t = _num((st.get('attributes') or {}).get('temperature'))
++        cond = WEATHER_WORDS.get(st['state'], str(st['state']).replace('-', ' '))
++        return f"It's {t} degrees outside and {cond}." if t is not None else f"Outside it's {cond}; the temperature isn't available right now."
++    rows = [x for x in readings.get('inside') or [] if key == 'inside' or x['name'] == room]
++    said = []
++    for x in rows:
++        st = await val(x['entity_id'])
++        n = _num(st['state']) if st else None
++        said.append(f"{x['name']} is {n} degrees" if n is not None else f"{x['name']} isn't available right now")
++    if not said:
++        return "That reading isn't available right now."
++    text = said[0] if len(said) == 1 else ', '.join(said[:-1]) + ' and ' + said[-1]
++    text = text[:1].upper() + text[1:] if key == 'room' else 'Inside, ' + text
++    return text + '.'
+diff --git a/custom_components/atlas_household/turn.py b/custom_components/atlas_household/turn.py
+index 5b6de6a..bde1e45 100644
+--- a/custom_components/atlas_household/turn.py
++++ b/custom_components/atlas_household/turn.py
+@@ -20,7 +20,8 @@ from __future__ import annotations
+ import re
+ 
+ from .core import _SENT, ACTING, NEVER_WORDS, guard_reply
+-from .fastpath import parse_level, parse_timer
++from .fastpath import parse_blind, parse_level, parse_scene, parse_timer
++from .readings import answer, parse_question
+ from .truth import check as truth_check
+ 
+ NUDGE = "You didn't call a tool. If the request needs one, call the right atlas_ tool now; otherwise say plainly that you can't do it."
+@@ -122,24 +123,49 @@ async def run_turn(coord, text: str, conversation_id: str, ask_model, *, other_t
+     'tool_results'}: tool_results lists (tool, args, result) for every atlas_ call the coordinator handled in this conversation during the turn
+     (the fast path's own call included), e.g. a timer's due_local and handle for the Atlas-side project's scorer."""
+     t0 = coord.mono()
+-    fast = parse_timer(text, coord.handles, now_local or coord.now().astimezone(coord.tz), getattr(coord, 'timer_scenes', True))
+-    tool, label, sorry = 'atlas_schedule', 'fast_timer', "I didn't set that timer."
+-    if fast is None:
++    paths = getattr(coord, 'fast_paths', {'timer', 'level'})
++    fast = calls = None
++    if 'timer' in paths:
++        fast = parse_timer(text, coord.handles, now_local or coord.now().astimezone(coord.tz), getattr(coord, 'timer_scenes', True))
++        tool, label, sorry = 'atlas_schedule', 'fast_timer', "I didn't set that timer."
++    if fast is None and 'level' in paths:
+         fast = parse_level(text, coord.handles)
+         tool, label, sorry = 'atlas_lights', 'fast_level', "I didn't change anything."
++    if fast is None and 'scene' in paths:
++        fast = parse_scene(text, coord.handles)
++        tool, label, sorry = 'atlas_scene', 'fast_scene', "I didn't run that scene."
++    if fast is None and 'blind' in paths and hasattr(coord, '_blind_scope') and not getattr(coord, 'blind_confirm', True):
++        calls = parse_blind(text, coord.handles, coord._blind_scope)      # which blinds: Coordinator._blind_scope alone [which-blind rule]
++        if calls:
++            fast, tool, label, sorry = calls[0], 'atlas_blind', 'fast_blind', "I didn't move anything."
++    if fast is None and 'read' in paths and getattr(coord, 'readings', None):
++        q = parse_question(text, coord.readings)
++        if q is not None:                         # read-only: nothing is sent, so no claim can be made (and no guard is needed)
++            try:
++                reply = await answer(q[0], q[1], coord.readings, coord.backend.get_state)
++            except Exception as ex:      # noqa: BLE001  said honestly
++                coord._log('fast_read', 'error', conversation=conversation_id, error=f'{type(ex).__name__}: {ex}')
++                reply = "Sorry, I couldn't read that just now."
++            coord._log('fast_read', q[0], conversation=conversation_id)
++            return {'reply': reply, 'path': 'fast', 'claims': [], 'statuses': ['answered'], 'first': None, 'args': {'reading': q[0], 'room': q[1]},
++                    'tool': None, 'tool_results': []}
+     if fast is not None:
+-        try:
+-            if call_tool is None:
+-                res = await coord.call_tool(tool, fast, conversation_id=conversation_id, user_text=text)
+-            else:
+-                res = await call_tool(tool, fast)
+-        except Exception as ex:      # noqa: BLE001  [B16-06] said honestly, never HA's generic error
+-            coord._log(label, 'error', conversation=conversation_id, args=fast, error=f'{type(ex).__name__}: {ex}')
+-            res = {'status': 'tool_error', 'summary': f"Something went wrong, so {sorry}"}
+-        reply = res.get('summary') or f"Sorry, {sorry}"
+-        coord._log(label, res.get('status'), conversation=conversation_id, args=fast)
+-        return {'reply': reply, 'path': 'fast', 'claims': [], 'statuses': [res.get('status')], 'first': None, 'args': fast, 'tool': tool,
+-                'tool_results': coord.results_since(t0, conversation_id) or [(tool, fast, res)]}
++        said = []
++        for args in calls or [fast]:
++            try:
++                if call_tool is None:
++                    res = await coord.call_tool(tool, args, conversation_id=conversation_id, user_text=text)
++                else:
++                    res = await call_tool(tool, args)
++            except Exception as ex:      # noqa: BLE001  [B16-06] said honestly, never HA's generic error
++                coord._log(label, 'error', conversation=conversation_id, args=args, error=f'{type(ex).__name__}: {ex}')
++                res = {'status': 'tool_error', 'summary': f"Something went wrong, so {sorry}"}
++            said.append(res.get('summary') or f"Sorry, {sorry}")
++            coord._log(label, res.get('status'), conversation=conversation_id, args=args)
++        reply = ' '.join(dict.fromkeys(said))          # every call's own summary, in order (an "all the blinds" turn has two)
++        results = coord.results_since(t0, conversation_id) or [(tool, fast, res)]
++        return {'reply': reply, 'path': 'fast', 'claims': [], 'statuses': [r.get('status') for _n, _a, r in results], 'first': None, 'args': fast,
++                'tool': tool, 'tool_results': results}
+ 
+     def evidence():
+         # (tool, status) pairs, so a lights result can't back a blind claim [cloud review 1, M8]
+diff --git a/tests/test_fast_paths.py b/tests/test_fast_paths.py
+new file mode 100644
+index 0000000..e1dceb8
+--- /dev/null
++++ b/tests/test_fast_paths.py
+@@ -0,0 +1,199 @@
++"""The scene, blind and read-only fast paths (cloud robustness job, 21 Oct): strict whole utterances only, every coordinator check kept,
++the which-blind rule taken from Coordinator._blind_scope alone, anything unclear on the model path. On the synthetic phase-2 rehearsal map
++(tests/fixtures/targets.phase2-rehearsal.json: atlas-current/targets.synthetic-phase2.json with the live scene handles and synthetic
++reviewed members, built by rehearsal/fixture.py)."""
++import json
++import pathlib
++import sys
++import unittest
++from datetime import datetime
++
++ROOT = pathlib.Path(__file__).resolve().parents[1]
++sys.path.insert(0, str(ROOT / 'custom_components'))
++from atlas_household.fake import SYDNEY, FakeHouse  # noqa: E402
++from atlas_household.fastpath import parse_blind, parse_scene  # noqa: E402
++from atlas_household.readings import check_readings, parse_question  # noqa: E402
++from atlas_household.turn import run_turn  # noqa: E402
++
++MAP = json.loads((ROOT / 'tests' / 'fixtures' / 'targets.phase2-rehearsal.json').read_text(encoding='utf-8'))
++EVENING = datetime(2026, 10, 21, 19, 30, tzinfo=SYDNEY)
++SUN, WIN, DOOR = 'cover.blind_motor', 'cover.blind_motor_2', 'cover.blind_motor_3'
++
++
++def house(targets=None):
++    h = FakeHouse(targets=json.loads(json.dumps(targets or MAP)), start=EVENING)
++    for e in (SUN, WIN, DOOR):
++        h.set(e, 'open', position_percent=100)
++    h.set('light.family_room_lamp', 'on', brightness_percent=60)
++    h.backend.states['sensor.example_01'] = {'state': '64', 'attributes': {}, 'last_changed': 'r'}
++    h.backend.states['sensor.example_11'] = {'state': '23.1', 'attributes': {}, 'last_changed': 'r'}
++    h.backend.states['sensor.example_12'] = {'state': '22.4', 'attributes': {}, 'last_changed': 'r'}
++    h.backend.states['weather.example_37'] = {'state': 'partlycloudy', 'attributes': {'temperature': 24.5}, 'last_changed': 'r'}
++    h.calls.clear()
++    return h
++
++
++async def _no_model(_t):
++    raise AssertionError('the model was asked')
++
++
++def turn(h, text, model=_no_model):
++    return h.loop.run_until_complete(run_turn(h.coord, text, 'conv-1', model))
++
++
++class Scenes(unittest.TestCase):
++    YES = {'good night': 'good_night', 'Good night.': 'good_night', 'goodnight, thanks atlas': 'good_night', 'hey atlas good night': 'good_night',
++           'run good night': 'good_night', 'put good night on': 'good_night', 'good night scene': 'good_night', 'night night': 'good_night',
++           'could you run good night please': 'good_night', 'ok atlas start good night': 'good_night', 'good night mode': 'good_night',
++           'wind down': 'wind_down', "let's wind down": 'wind_down', 'time to wind down': 'wind_down', 'wind-down mode': 'wind_down',
++           'could you put the wind down scene on': 'wind_down', 'wind down time': 'wind_down', 'activate wind down please': 'wind_down'}
++    NO = ['good night at 10', 'run good night in half an hour', 'good night scene in 20 minutes', "don't run good night", 'is good night on?',
++          'what does good night do', 'good night and close the blinds', 'good night, see you in the morning', 'good night and lock up',
++          'run the deck party scene', 'daily', 'night', 'good', 'wind down the blinds', 'stop wind down', 'undo good night', 'good night?',
++          'cancel wind down', 'did wind down run', 'good night everyone, turn off the lights']
++
++    def test_whole_utterances_name_one_reviewed_scene(self):
++        for text, want in self.YES.items():
++            self.assertEqual(parse_scene(text, MAP['handles']), {'recipe_handle': want}, text)
++
++    def test_anything_else_goes_to_the_model(self):
++        for text in self.NO:
++            self.assertIsNone(parse_scene(text, MAP['handles']), text)
++
++    def test_unreviewed_or_disabled_scenes_are_never_fast(self):
++        hs = json.loads(json.dumps(MAP['handles']))
++        hs['good_night'].pop('expect')
++        hs['wind_down']['enabled'] = False
++        self.assertIsNone(parse_scene('good night', hs))
++        self.assertIsNone(parse_scene('wind down', hs))
++
++    def test_run_turn_runs_the_scene_through_the_coordinator(self):
++        h = house()
++        out = turn(h, 'good night')
++        self.assertEqual((out['path'], out['tool'], out['statuses']), ('fast', 'atlas_scene', ['done']))
++        self.assertTrue(out['reply'].startswith('Done: the Good Night scene'), out['reply'])
++        self.assertEqual(h.state('light.family_room_lamp')['state'], 'off')
++
++
++class Blinds(unittest.TestCase):
++    def parse(self, text, h=None):
++        h = h or house()
++        return parse_blind(text, h.coord.handles, h.coord._blind_scope)
++
++    def test_named_plural_and_all(self):
++        cases = {'close the sunroom blind': [('sunroom_blind', 'close', None)], 'sunroom blind down': [('sunroom_blind', 'close', None)],
++                 'pull the window blind down': [('family_room_window_blind', 'close', None)], 'door blind up': [('family_room_door_blind', 'open', None)],
++                 'raise the sunroom blind': [('sunroom_blind', 'open', None)], 'close the blind in the sunroom': [('sunroom_blind', 'close', None)],
++                 'close the family room blinds': [('family_room_blinds', 'close', None)],
++                 'open the family room window and door blinds': [('family_room_blinds', 'open', None)],
++                 'close the sunroom blind to 30%': [('sunroom_blind', 'position', 30)], 'set the door blind to forty percent': [('family_room_door_blind', 'position', 40)],
++                 'window blind 75% open': [('family_room_window_blind', 'position', 75)], 'sunroom blind halfway': [('sunroom_blind', 'position', 50)],
++                 'set the sunroom blind to 100%': [('sunroom_blind', 'open', None)], 'sunroom blind to 0%': [('sunroom_blind', 'close', None)],
++                 'close all the blinds': [('family_room_blinds', 'close', None), ('sunroom_blind', 'close', None)],
++                 'hey atlas open every blind': [('family_room_blinds', 'open', None), ('sunroom_blind', 'open', None)],
++                 'close the sunroom and family room blinds': [('family_room_blinds', 'close', None), ('sunroom_blind', 'close', None)]}
++        for text, want in cases.items():
++            got = self.parse(text)
++            self.assertEqual([(a['target_handle'], a['operation'], a.get('position_percent')) for a in got or []], want, text)
++
++    def test_unclear_or_anything_else_goes_to_the_model(self):
++        for text in ['close the blind', 'close the blinds', 'close both blinds', 'close the family room blind', 'close the living room one', 'shut it',
++                     'close them all', 'close the blinds except the sunroom', 'close all the blinds but not the sunroom one', 'only close the door blind',
++                     'close the sunroom blind at 9', 'close the sunroom blind in 10 minutes', 'close the sunroom blind tonight', 'close the sunroom blind a bit',
++                     'lower the sunroom blind a little more', 'open the sunroom blind by 10%', 'sunroom blind 30% closed', 'is the sunroom blind closed',
++                     "don't close the sunroom blind", 'close the sunroom blind and turn off the lights', 'close the sunroom blind and open the window blind',
++                     'close the sunroom blind then open it at 1 pm', 'close the garage', 'close the garage door blind', 'close the door blind and the garage',
++                     'too much sun in the sunroom', 'draw the sunroom blind', 'close the office blind', 'close the sunroom blind?', 'open the sunroom blind back up',
++                     'close the sunroom blind 9', 'leave the sunroom blind open', 'keep the window blind closed', 'close all the blinds and lock up',
++                     'good night and close all the blinds', 'turn the sunroom blind off']:
++            self.assertIsNone(self.parse(text), text)
++
++    def test_never_with_the_yes_question_map(self):
++        h = FakeHouse(start=EVENING)                    # targets.json: blind_confirm on (a yes each time): the blind path never runs
++        out = h.loop.run_until_complete(run_turn(h.coord, 'close the sunroom blind', 'conv-1', lambda _t: _model_says('Close it?')))
++        self.assertEqual(out['path'], 'model')
++
++    def test_run_turn_all_the_blinds_two_calls_both_summaries(self):
++        h = house()
++        h.set(SUN, 'closed', position_percent=0)
++        out = turn(h, 'close all the blinds')
++        self.assertEqual((out['path'], [r['status'] for _n, _a, r in out['tool_results']]), ('fast', ['done', 'skipped_already']))
++        self.assertEqual(out['reply'], "Done: Family room blinds closed. Checked. Sunroom Blind is already closed. I didn't change anything.")
++        self.assertEqual({e: h.state(e)['attributes']['current_position'] for e in (SUN, WIN, DOOR)}, {SUN: 0, WIN: 0, DOOR: 0})
++
++    def test_the_coordinator_checks_still_run(self):
++        h = house()
++        h.backend.states[SUN]['attributes']['device_class'] = 'garage'          # no longer the reviewed class: refused, said as such
++        out = turn(h, 'close the sunroom blind')
++        self.assertEqual((out['path'], out['statuses']), ('fast', ['denied']))
++        self.assertEqual(h.calls, [])
++
++    def test_which_blind_question_names_only_enabled_blinds(self):
++        h = house()
++        r = h.call('atlas_blind', {'target_handle': 'sunroom_blind', 'operation': 'close'}, user_text='close the blind')
++        self.assertEqual(r['reason'], 'which_blind')
++        self.assertNotIn('office', r['summary'])
++        self.assertEqual(h.coord._blind_scope('close all the blinds'), {SUN, WIN, DOOR})       # the office blind is not enabled
++
++
++async def _model_says(text):
++    return text
++
++
++class Readings(unittest.TestCase):
++    R = MAP['readings']
++
++    def test_questions(self):
++        cases = {"what's the battery at?": ('battery', None), 'hows the battery holding up': ('battery', None), 'How full is the battery?': ('battery', None),
++                 'battery level?': ('battery', None), 'how warm is it inside?': ('inside', None), "what's the temperature inside": ('inside', None),
++                 'whats the temp': ('outside', None), "What's the weather doing?": ('outside', None), 'how hot is it outside': ('outside', None),
++                 'how warm is the attic': ('room', 'the attic'), "what's the temp in bedroom south": ('room', 'Bedroom South')}
++        for text, want in cases.items():
++            self.assertEqual(parse_question(text, self.R), want, text)
++
++    def test_anything_else_goes_to_the_model(self):
++        for text in ['whats the weather like tomorrow', 'will the battery last the night', 'is the battery charging', 'should i run the ac',
++                     'is the credit safe?', 'how much solar did we make today', "what's the battery at and turn off the lights", 'charge the battery',
++                     'how warm is the garage', 'is it hot outside', 'how is the home', 'what kwh is that equal to', 'why is the battery low',
++                     "what's the temperature in the kitchen", 'set the battery to 50%', 'how warm was it yesterday']:
++            self.assertIsNone(parse_question(text, self.R), text)
++
++    def test_answers_from_fresh_states_and_unavailable_is_said(self):
++        h = house()
++        self.assertEqual(turn(h, "what's the battery at?")['reply'], 'The home battery is at 64%.')
++        self.assertEqual(turn(h, 'how warm is it inside')['reply'], 'Inside, the attic is 23.1 degrees and Bedroom South is 22.4 degrees.')
++        self.assertEqual(turn(h, 'whats the temp')['reply'], "It's 24.5 degrees outside and partly cloudy.")
++        self.assertEqual(turn(h, 'how warm is the attic')['reply'], 'The attic is 23.1 degrees.')
++        h.backend.states['sensor.example_01']['state'] = 'unavailable'
++        out = turn(h, 'battery?')
++        self.assertEqual((out['path'], out['reply'], out['tool_results']), ('fast', "The battery reading isn't available right now.", []))
++        self.assertEqual(h.calls, [])
++
++    def test_a_map_without_readings_never_answers_here(self):
++        m = json.loads(json.dumps(MAP))
++        m.pop('readings')
++        h = house(m)
++        out = h.loop.run_until_complete(run_turn(h.coord, "what's the battery at?", 'conv-1', lambda _t: _model_says('It is at 64%.')))
++        self.assertEqual(out['path'], 'model')
++
++    def test_readings_are_read_only_domains(self):
++        for bad in ({'battery': {'entity_id': 'light.office_ceiling'}}, {'battery': {'entity_id': 'lock.front_door'}}, {'outside': {'entity_id': 'sensor.x'}},
++                    {'inside': [{'entity_id': 'sensor.x'}]}, {'credit': {'entity_id': 'sensor.x'}}, {'battery': {'entity_id': 'cover.blind_motor'}}):
++            with self.assertRaises(ValueError, msg=bad):
++                check_readings(bad)
++
++
++class Switches(unittest.TestCase):
++    def test_fast_paths_can_be_turned_off_in_the_map(self):
++        m = json.loads(json.dumps(MAP))
++        m['fast_paths'] = ['timer', 'level']
++        h = house(m)
++        for text in ('good night', 'close the sunroom blind', "what's the battery at?"):
++            out = h.loop.run_until_complete(run_turn(h.coord, text, 'conv-1', lambda _t: _model_says('Sorry, I can only do lights.')))
++            self.assertEqual(out['path'], 'model', text)
++        with self.assertRaises(ValueError):
++            house({**m, 'fast_paths': ['timer', 'everything']})
++
++
++if __name__ == '__main__':
++    unittest.main()

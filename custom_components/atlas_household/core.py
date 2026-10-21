@@ -101,15 +101,18 @@ _NEVER_SPOKEN = re.compile(r"\bopen\s+(?:it\s+|things\s+|everything\s+)?up\b(?!\
                            r"\b(?:open|close|shut|unlock|lock|pop|unlatch)\s+(?:up\s+)?(?:the\s+|my\s+|our\s+)?(?:back|front|side)\b"
                            r"(?![\s-]*(?:lights?|lamps?|blinds?|downlights?|spotlights?|deck|yard|garden|lawn|entry|steps?))|"
                            r"\b(?:remind\w*|reminders?|lists?|medications?|medicines?|meds|tablets?|pills?|prescriptions?)\b", re.I)
+_BLIND_ON_DOOR = re.compile(r"\bblinds?\s+(?:on|by|at|near|of)\s+(?:the\s+)?(?:(?:family|living|lounge|dining|sun)\s+room\s+|sunroom\s+)?door\b"
+                            r"(?![\s-]*(?:lock|opener|strike|release|bell))", re.I)
 _LEET = str.maketrans({'0': 'o', '1': 'i', '3': 'e', '4': 'a', '5': 's', '7': 't', '@': 'a', '$': 's'})
 _SPACED = re.compile(r"(?<![A-Za-z])(?:[A-Za-z][ .*_-]){2,}[A-Za-z](?![A-Za-z])")            # "g a r a g e", "g-a-t-e", "a.l.a.r.m"
 # AFTER a place light phrase, a WHITELIST: a word pointing back refuses, and so does ANY moving word unless a blind follows it
 # (or it follows "blind(s)"): "close it", "open up", "close now", ", up," all refuse; "close the blinds", "the blinds closed" act [P2e-02, P2f-01, P2f-R01/R02]
 _MOVE_WORD = r"(?:open\w*|clos\w*|shut\w*|lower\w*|rais\w*|lift\w*|roll\w*|secur\w*|lock\w*|pull\w*|drop\w*|put|bring|get|up|down)"
 _BLIND_OBJECT = r"(?:\s+(?!(?:and|then|or|it|that|this|them|garages?|carports?|sheds?|except|but|other|than|everything|else|apart|besides|excluding|not|no|without|leave|leaving|keep|only|just|save|minus|instead|rather|bar)\b)[a-z']+){0,4}\s+blinds?\b"   # up to 4 plain words, never a joiner [P2g-01]
-_AFTER_PLACE_LIGHT = re.compile(r"\b(?:it|its|that|this|her|one)\b|(?<!of )\bthem\b|"
+_ONE = r"(?<!\bin )(?<!\bat )\bone\b(?!\s*(?:hours?|minutes?|mins?|seconds?|hrs?|o'?clock|am|pm|thirty|fifteen|forty))"   # not "in one hour", "at one" [G15]
+_AFTER_PLACE_LIGHT = re.compile(r"\b(?:it|its|that|this|her)\b|" + _ONE + r"|(?<!of )\bthem\b|"
                                 r"(?<!blinds )(?<!blind )\b" + _MOVE_WORD + r"\b(?!" + _BLIND_OBJECT + r")", re.I)
-_BEFORE_PLACE_LIGHT = re.compile(r"\bit\b(?!['\u2019]s\b)|\bits\b|(?<!cancel )(?<!stop )(?<!undo )\b(?:this|that)\b(?!\s*$)|\b(?:her|one)\b|(?<!of )\bthem\b|"   # BEFORE it: a word
+_BEFORE_PLACE_LIGHT = re.compile(r"\bit\b(?!['\u2019]s\b)|\bits\b|(?<!cancel )(?<!stop )(?<!undo )\b(?:this|that)\b(?!\s*$)|\bher\b|" + _ONE + r"|(?<!of )\bthem\b|"   # BEFORE it: a word
                                  r"(?<!blinds )(?<!blind )\b" + _MOVE_WORD + r"\b(?!" + _BLIND_OBJECT + r")"                       # pointing at something,
                                  r"(?!(?:\s+(?:the|my|our|all|both|of|those|these|that|this|on|off))*\s*$)", re.I)                # or a moving word not
                                                                                       # aimed at the light phrase ("put on the garage lights") [P2g-01]
@@ -133,6 +136,7 @@ class _NeverWords:
         t = unicodedata.normalize('NFKC', text or '').replace('_', ' ')         # "garage_door" is two words; fullwidth folded [P2e-03]
         t = _ZERO_WIDTH.sub('', t)
         t = re.sub(r'[^\S ]+', ' | ', t)                                      # newline, tab, no-break space: a hard break, never a joiner [P2e-01]
+        t = _BLIND_ON_DOOR.sub(' door blind ', t)                            # "the blind on the family room door" is the door blind [G14]
         # typed tricks, checked as well as the words as written (only ever more refusals): lookalike letters, s p a c e d or h-y-p-h-e-n-a-t-e-d
         # letters, and digits or symbols for letters ("unl0ck", "c@rport") [cloud robustness job, G05]
         f = _fold(t) if re.search(r'[^\x00-\x7f]', t) else t
@@ -173,6 +177,8 @@ ACTING = {'atlas_lights', 'atlas_scene', 'atlas_blind', 'atlas_media', 'atlas_co
 SCOPE_SYNONYMS = {'ground': ('downstairs', 'ground floor'), 'upstairs': ('first floor', 'top floor', 'up stairs'), 'outside': ('outdoor', 'outdoors', 'exterior')}
 ALL_LIGHTS = re.compile(r"\b(all(\s+of)?\s+(the\s+)?lights|every\s+light|everywhere|whole\s+(house|home|place))\b(?!\s+(in|on|at)\s+the\b)", re.I)
 FAST_PATHS = ('timer', 'level', 'scene', 'blind', 'read')
+SCENE_SAY = {'good night': {'good night', 'goodnight', 'good nite', 'night night', 'nighty night'}, 'wind down': {'wind down', 'winddown'}}   # spoken forms
+# of the live scene names (normalised label -> what people say), for the scene fast path and the truth check
 NEVER_SCOPE = ACTING | {'atlas_cancel'}      # a cancel changes what will happen, so it is refused in a never-list turn too [cloud review 1, M3]
 
 
@@ -238,7 +244,7 @@ _CLAIMS = [
     ('action', False, re.compile(r"^\W*" + _OK + _ING + r"\b", re.I), _FAILED_AFTER),       # "Turning off the lights now." (not "Turning it off failed")
     ('action', False, re.compile(r"\b(is|are|'s|'re)\s+now\s+(?:(?:switched|turned)\s+)?(on|off|open|closed|down|lowered|raised|dimmed|brighter|dimmer|set|"
                                  r"running|playing|paused|muted|active)\b", re.I), None),           # "is now switched off", "is now down" [cloud review 2]
-    ('action', False, re.compile(r"\b(is|are|'s|'re|should be)\s+(on|off|open|closed|closing|opening|brighter|dimmer|darker|down|up)\s+now\b(?!\s+in\b)", re.I), None),   # not "on now in the study"
+    ('action', False, re.compile(r"\b(is|are|'s|'re|should be)\s+(?:all\s+|both\s+)?(on|off|open|closed|closing|opening|brighter|dimmer|darker|down|up)\s+now\b(?!\s+in\b)", re.I), None),   # not "on now in the study"
     ('action', False, re.compile(r"\b(has|have|had)\s+(?:now\s+|just\s+|also\s+|successfully\s+|all\s+)?been\s+" + _PP + r"\b", re.I), None),   # "have now been" [cloud review 2]
     ('action', False, re.compile(r"\b(was|were)\s+(just|now|successfully)\s+" + _PP + r"\b", re.I), None),   # not "were turned off at 9" (history)
     ('action', False, re.compile(r"\b(has|have)\s+gone\s+(off|out)\b|\b(just\s+)?went\s+(off|out)\b", re.I), _PAST_TIME),     # not "went off at 9 pm"
@@ -458,8 +464,9 @@ def guard_reply(reply: str, statuses: list, results: list | None = None, expect:
             # "already" is only checked after a turn that changed something: with no result it is a state statement from the readings [E12]
             unbacked = [k.split(':')[0] for k in _claims(c) if not (_BACKED_BY[k] & _backing(k, c, ev_s))
                         and not (k == 'already' and 'done' not in {st for _, st in ev_s})]
-            if not unbacked and results is not None and (_claims(c) or _has_quantity(c)) and _quantity_short(c, results, expect):    # state wording too [GQ-01];
-                # an empty list (run_turn: no tool ran) backs no "both" either [G12]; None (an older caller with no results) skips the count
+            if not unbacked and results is not None and (_claims(c) or (results and _has_quantity(c))) and _quantity_short(c, results, expect):    # state
+                # wording too [GQ-01]; with no tool at all (run_turn's empty list) a "both / all" CLAIM is unbacked [G12], while a state statement is left
+                # to the truth check (truth.py: "the attic lights are all off" from the readings is honest); None (an older caller) skips the count
                 unbacked = ['quantity']                         # "closed both" with one moved [the lead project 20 Oct 21:5x]
             if unbacked:
                 bad += unbacked
@@ -509,6 +516,11 @@ def _when(due: datetime, now: datetime, tz) -> str:
     d, n = due.astimezone(tz), now.astimezone(tz)
     days = (d.date() - n.date()).days
     return _clock(d) + ('' if days <= 0 else ' tomorrow' if days == 1 else f" on {d.strftime('%A')}")
+
+
+def _be(label: str, n: int) -> str:
+    """'is' or 'are' for a label: "Office lights are" even when the room has one light (the fast path speaks these) [G18]."""
+    return 'are' if n > 1 or re.search(r"(lights|blinds|lamps|downlights|spotlights)$", (label or '').split('(')[0].strip().lower()) else 'is'
 
 
 def _words(s: str) -> str:
@@ -906,7 +918,7 @@ class Coordinator:
         m = re.search(r"\balready ([^.,;:]+?)(?=[.,;:]|$)", res.get('summary') or '')
         word = m.group(1).strip() if m else 'as asked'
         label = t.get('label') or res.get('label') or 'That'
-        verb = 'is' if len(ids) == 1 else 'are'
+        verb = _be(label, len(ids))
         if moved == ids:
             summary = f"{label} {verb} {word}, done a moment ago in this same request, so nothing was sent again."
         else:
@@ -1049,7 +1061,7 @@ class Coordinator:
             if missing:
                 return _r('skipped_already', f"{len(already)} of {len(t['entity_ids'])} in {t['label']} are already {word}; {len(missing)} aren't available "
                           f"right now, so I couldn't check or change them.", handle=t['handle'], label=t['label'], already=len(already), unavailable=len(missing))
-            return _r('skipped_already', f"{t['label']} {'is' if len(t['entity_ids']) == 1 else 'are'} already {word}. I didn't change anything.",
+            return _r('skipped_already', f"{t['label']} {_be(t['label'], len(t['entity_ids']))} already {word}. I didn't change anything.",
                       handle=t['handle'], label=t['label'], already=len(already))
         ids = [e for e, _ in need]
         data = {} if op == 'off' or pct is None else {'brightness_pct': pct}
@@ -1201,7 +1213,7 @@ class Coordinator:
             (already if abs(_position(s) - pos) <= LIMITS['position_tolerance_percent'] else need).append((e, s))
         word = 'open' if pos == 100 else 'closed' if pos == 0 else f'{pos}% open'
         if not need:
-            return None, _r('skipped_already', f"{t['label']} {'is' if len(t['entity_ids']) == 1 else 'are'} already {word}. I didn't change anything.",
+            return None, _r('skipped_already', f"{t['label']} {_be(t['label'], len(t['entity_ids']))} already {word}. I didn't change anything.",
                             handle=t['handle'], label=t['label'], already=len(already))
         return (need, already, pos, word), None
 
@@ -1222,7 +1234,7 @@ class Coordinator:
     # every word a clause about the blinds may use; any other word (another room, a pronoun, "by the ...") makes it unclear, so ask [R3-01, R3-02]
     _BLIND_VOCAB = set("""hey atlas please can could would will you i id want like to the my our a an now thanks thank in of on set put make move
         open opened close closed shut lower raise lift roll pull draw bring get up down halfway half way fully full all every both two one ones
-        percent per cent position partly partially blind blinds room living window door d s ll re ve m
+        percent per cent position partly partially blind blinds room living window door d s ll re ve m drop everywhere
         zero ten twenty thirty forty fifty sixty seventy eighty ninety hundred five fifteen twentyfive seventyfive three four""".split())
 
     def _blind_scope(self, words: str) -> set[str] | None:
@@ -1233,6 +1245,7 @@ class Coordinator:
         in plural words; "all/every ... blinds" with no place names them all. An exclusion word anywhere is unclear."""
         if not words or self._BLIND_EXCLUDE.search(words):
             return None
+        words = re.sub(r"\bat\s+(\d{1,3}\s*(?:%|per\s*cent|percent))", r"to \1", words, flags=re.I)     # "at 40 per cent" is a level, never a time [G16]
         single = {h: o for h, o in self.handles.items() if o.get('kind') == 'blind' and len(o.get('entity_ids') or []) == 1}
         groups = {h: o for h, o in self.handles.items() if o.get('kind') == 'blind' and len(o.get('entity_ids') or []) > 1}
         own = {h: self._blind_words(h) - self._BLIND_GENERIC for h in single}
@@ -1247,11 +1260,11 @@ class Coordinator:
                 clauses[n] += ' blinds'
         scope, seen, used_all = set(), False, False
         verbs = re.compile(r"\b(?:open|close|shut|lower|raise|lift|roll|pull|draw|bring|get|set|put|turn|switch|dim|brighten|make|move|start|stop|play|"
-                           r"run|cancel|lock|unlock|leave|keep|tell|show|what|is|are)\b")
+                           r"run|cancel|lock|unlock|leave|keep|tell|show|what|is|are|pause|mute|unmute|resume)\b")     # [G16] media verbs
         for c in clauses:
             toks = {self._BLIND_SYNONYMS.get(w, w) for w in re.findall(r"[a-z]+", re.sub(r"\bones?\s*(?:%|percent|per\s*cent)", " ", c))}
             if not toks & {'blind', 'blinds', 'one', 'ones'}:     # "one percent" is a number, not "the window one" [R5-02]
-                if toks - vocab and not verbs.search(c) and seen:
+                if toks - vocab and not verbs.search(c) and seen and not toks & {'light', 'lights', 'lamp', 'lamps'}:    # "...and the sunroom lights on" is about lights [G16]
                     return None                             # "... blinds and curtains in the bedroom": a place carried over, no verb of its own [R5-01]
                 continue                                    # not about the blinds: "turn on the hall light", "open the window" [R4-02]
             seen = True
@@ -1270,14 +1283,33 @@ class Coordinator:
                     return None                             # "the living room blind": which one
                 scope |= {e for x in g for e in groups[x]['entity_ids']}
                 continue
-            if plural and re.search(r"\b(?:all|every)\b", c):
+            if plural and re.search(r"\b(?:all|every|everywhere)\b", c):
                 scope |= {e for o in single.values() if o.get('enabled', True) for e in o['entity_ids']}    # "all" = every ENABLED blind [cloud robustness job]
                 used_all = True
                 continue
             return None
-        if used_all and {self._BLIND_SYNONYMS.get(w, w) for w in re.findall(r"[a-z]+", self._BLIND_NOT_ALL.sub(' ', words.lower()))} - vocab:
+        scene_words = {w for o in self.handles.values() if o.get('kind') == 'scene' and o.get('enabled', True) for w in re.findall(r"[a-z]+", o['label'].lower())}
+        if used_all and {self._BLIND_SYNONYMS.get(w, w) for w in re.findall(r"[a-z]+", self._BLIND_NOT_ALL.sub(' ', words.lower()))} - vocab - scene_words - {'and', 'then', 'also'}:   # a scene's
+            # name is not a place: "good night and close all the blinds" [G16]
             return None                                     # "all the blinds" only when nothing else in the turn names a place [R4-01]
         return scope if seen and scope else None
+
+    _ASKED = re.compile(r"^\W*(?:(?:would|do)\s+you\s+(?:like|want)\s+me\s+to|shall\s+i|should\s+i|do\s+you\s+want\s+(?:me\s+)?to|want\s+me\s+to)\s+(?P<q>[^?]+)\?\s*$", re.I)
+
+    def _yes_scope(self, ctx: dict, a: dict) -> set[str] | None:
+        """The blinds of Atlas's previous question, when the person's words are only a plain yes to it ("Would you like me to open the sunroom
+        blind?" "Yes."), and the call moves them the way the question said. The question's own words go through the same scope rule [G17]."""
+        if not AFFIRMATIVE.match(ctx.get('user_text') or '') or not ctx.get('last_reply'):
+            return None
+        qs = [x for x in re.split(r"(?<=[.!?])\s+", ctx['last_reply'].strip()) if x.endswith('?')]
+        m = self._ASKED.match(qs[-1]) if qs else None
+        if not m:
+            return None
+        q = m.group('q')
+        want = 'open' if re.search(r"\b(?:open|raise|lift|up)\b", q, re.I) else 'close' if re.search(r"\b(?:close|shut|lower|down|drop)\b", q, re.I) else None
+        if a.get('operation') == 'position' or want is None or want != a.get('operation'):
+            return None
+        return self._blind_scope(q)
 
     def _blind_words(self, handle: str) -> set[str]:
         """The words that tell this single blind from the others: its label's words, less 'blind(s)' and any word another single blind's
@@ -1293,6 +1325,8 @@ class Coordinator:
             return err
         if not self.blind_confirm:
             scope = self._blind_scope(ctx.get('user_text', '') or '')
+            if scope is None:
+                scope = self._yes_scope(ctx, a)          # a plain yes to Atlas's own one-blind question [G17]
             if scope is None or not set(t['entity_ids']) <= scope:
                 # the blinds the person's words name (a whitelist, worked out from the words alone) must include every blind this call would
                 # move, whatever handle the model chose; anything unclear asks [amendment 2, R2: one rule for the pair and the single blinds]

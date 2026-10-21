@@ -1,0 +1,199 @@
+ custom_components/atlas_household/core.py | 40 +++++++++++++---
+ tests/test_over_refusals.py               | 79 +++++++++++++++++++++++++++++++
+ 2 files changed, 112 insertions(+), 7 deletions(-)
+
+diff --git a/custom_components/atlas_household/core.py b/custom_components/atlas_household/core.py
+index f174884..e1c38eb 100644
+--- a/custom_components/atlas_household/core.py
++++ b/custom_components/atlas_household/core.py
+@@ -101,15 +101,18 @@ _NEVER_SPOKEN = re.compile(r"\bopen\s+(?:it\s+|things\s+|everything\s+)?up\b(?!\
+                            r"\b(?:open|close|shut|unlock|lock|pop|unlatch)\s+(?:up\s+)?(?:the\s+|my\s+|our\s+)?(?:back|front|side)\b"
+                            r"(?![\s-]*(?:lights?|lamps?|blinds?|downlights?|spotlights?|deck|yard|garden|lawn|entry|steps?))|"
+                            r"\b(?:remind\w*|reminders?|lists?|medications?|medicines?|meds|tablets?|pills?|prescriptions?)\b", re.I)
++_BLIND_ON_DOOR = re.compile(r"\bblinds?\s+(?:on|by|at|near|of)\s+(?:the\s+)?(?:(?:family|living|lounge|dining|sun)\s+room\s+|sunroom\s+)?door\b"
++                            r"(?![\s-]*(?:lock|opener|strike|release|bell))", re.I)
+ _LEET = str.maketrans({'0': 'o', '1': 'i', '3': 'e', '4': 'a', '5': 's', '7': 't', '@': 'a', '$': 's'})
+ _SPACED = re.compile(r"(?<![A-Za-z])(?:[A-Za-z][ .*_-]){2,}[A-Za-z](?![A-Za-z])")            # "g a r a g e", "g-a-t-e", "a.l.a.r.m"
+ # AFTER a place light phrase, a WHITELIST: a word pointing back refuses, and so does ANY moving word unless a blind follows it
+ # (or it follows "blind(s)"): "close it", "open up", "close now", ", up," all refuse; "close the blinds", "the blinds closed" act [P2e-02, P2f-01, P2f-R01/R02]
+ _MOVE_WORD = r"(?:open\w*|clos\w*|shut\w*|lower\w*|rais\w*|lift\w*|roll\w*|secur\w*|lock\w*|pull\w*|drop\w*|put|bring|get|up|down)"
+ _BLIND_OBJECT = r"(?:\s+(?!(?:and|then|or|it|that|this|them|garages?|carports?|sheds?|except|but|other|than|everything|else|apart|besides|excluding|not|no|without|leave|leaving|keep|only|just|save|minus|instead|rather|bar)\b)[a-z']+){0,4}\s+blinds?\b"   # up to 4 plain words, never a joiner [P2g-01]
+-_AFTER_PLACE_LIGHT = re.compile(r"\b(?:it|its|that|this|her|one)\b|(?<!of )\bthem\b|"
++_ONE = r"(?<!\bin )(?<!\bat )\bone\b(?!\s*(?:hours?|minutes?|mins?|seconds?|hrs?|o'?clock|am|pm|thirty|fifteen|forty))"   # not "in one hour", "at one" [G15]
++_AFTER_PLACE_LIGHT = re.compile(r"\b(?:it|its|that|this|her)\b|" + _ONE + r"|(?<!of )\bthem\b|"
+                                 r"(?<!blinds )(?<!blind )\b" + _MOVE_WORD + r"\b(?!" + _BLIND_OBJECT + r")", re.I)
+-_BEFORE_PLACE_LIGHT = re.compile(r"\bit\b(?!['\u2019]s\b)|\bits\b|(?<!cancel )(?<!stop )(?<!undo )\b(?:this|that)\b(?!\s*$)|\b(?:her|one)\b|(?<!of )\bthem\b|"   # BEFORE it: a word
++_BEFORE_PLACE_LIGHT = re.compile(r"\bit\b(?!['\u2019]s\b)|\bits\b|(?<!cancel )(?<!stop )(?<!undo )\b(?:this|that)\b(?!\s*$)|\bher\b|" + _ONE + r"|(?<!of )\bthem\b|"   # BEFORE it: a word
+                                  r"(?<!blinds )(?<!blind )\b" + _MOVE_WORD + r"\b(?!" + _BLIND_OBJECT + r")"                       # pointing at something,
+                                  r"(?!(?:\s+(?:the|my|our|all|both|of|those|these|that|this|on|off))*\s*$)", re.I)                # or a moving word not
+                                                                                       # aimed at the light phrase ("put on the garage lights") [P2g-01]
+@@ -133,6 +136,7 @@ class _NeverWords:
+         t = unicodedata.normalize('NFKC', text or '').replace('_', ' ')         # "garage_door" is two words; fullwidth folded [P2e-03]
+         t = _ZERO_WIDTH.sub('', t)
+         t = re.sub(r'[^\S ]+', ' | ', t)                                      # newline, tab, no-break space: a hard break, never a joiner [P2e-01]
++        t = _BLIND_ON_DOOR.sub(' door blind ', t)                            # "the blind on the family room door" is the door blind [G14]
+         # typed tricks, checked as well as the words as written (only ever more refusals): lookalike letters, s p a c e d or h-y-p-h-e-n-a-t-e-d
+         # letters, and digits or symbols for letters ("unl0ck", "c@rport") [cloud robustness job, G05]
+         f = _fold(t) if re.search(r'[^\x00-\x7f]', t) else t
+@@ -1230,7 +1234,7 @@ class Coordinator:
+     # every word a clause about the blinds may use; any other word (another room, a pronoun, "by the ...") makes it unclear, so ask [R3-01, R3-02]
+     _BLIND_VOCAB = set("""hey atlas please can could would will you i id want like to the my our a an now thanks thank in of on set put make move
+         open opened close closed shut lower raise lift roll pull draw bring get up down halfway half way fully full all every both two one ones
+-        percent per cent position partly partially blind blinds room living window door d s ll re ve m
++        percent per cent position partly partially blind blinds room living window door d s ll re ve m drop everywhere
+         zero ten twenty thirty forty fifty sixty seventy eighty ninety hundred five fifteen twentyfive seventyfive three four""".split())
+ 
+     def _blind_scope(self, words: str) -> set[str] | None:
+@@ -1241,6 +1245,7 @@ class Coordinator:
+         in plural words; "all/every ... blinds" with no place names them all. An exclusion word anywhere is unclear."""
+         if not words or self._BLIND_EXCLUDE.search(words):
+             return None
++        words = re.sub(r"\bat\s+(\d{1,3}\s*(?:%|per\s*cent|percent))", r"to \1", words, flags=re.I)     # "at 40 per cent" is a level, never a time [G16]
+         single = {h: o for h, o in self.handles.items() if o.get('kind') == 'blind' and len(o.get('entity_ids') or []) == 1}
+         groups = {h: o for h, o in self.handles.items() if o.get('kind') == 'blind' and len(o.get('entity_ids') or []) > 1}
+         own = {h: self._blind_words(h) - self._BLIND_GENERIC for h in single}
+@@ -1255,11 +1260,11 @@ class Coordinator:
+                 clauses[n] += ' blinds'
+         scope, seen, used_all = set(), False, False
+         verbs = re.compile(r"\b(?:open|close|shut|lower|raise|lift|roll|pull|draw|bring|get|set|put|turn|switch|dim|brighten|make|move|start|stop|play|"
+-                           r"run|cancel|lock|unlock|leave|keep|tell|show|what|is|are)\b")
++                           r"run|cancel|lock|unlock|leave|keep|tell|show|what|is|are|pause|mute|unmute|resume)\b")     # [G16] media verbs
+         for c in clauses:
+             toks = {self._BLIND_SYNONYMS.get(w, w) for w in re.findall(r"[a-z]+", re.sub(r"\bones?\s*(?:%|percent|per\s*cent)", " ", c))}
+             if not toks & {'blind', 'blinds', 'one', 'ones'}:     # "one percent" is a number, not "the window one" [R5-02]
+-                if toks - vocab and not verbs.search(c) and seen:
++                if toks - vocab and not verbs.search(c) and seen and not toks & {'light', 'lights', 'lamp', 'lamps'}:    # "...and the sunroom lights on" is about lights [G16]
+                     return None                             # "... blinds and curtains in the bedroom": a place carried over, no verb of its own [R5-01]
+                 continue                                    # not about the blinds: "turn on the hall light", "open the window" [R4-02]
+             seen = True
+@@ -1278,15 +1283,34 @@ class Coordinator:
+                     return None                             # "the living room blind": which one
+                 scope |= {e for x in g for e in groups[x]['entity_ids']}
+                 continue
+-            if plural and re.search(r"\b(?:all|every)\b", c):
++            if plural and re.search(r"\b(?:all|every|everywhere)\b", c):
+                 scope |= {e for o in single.values() if o.get('enabled', True) for e in o['entity_ids']}    # "all" = every ENABLED blind [cloud robustness job]
+                 used_all = True
+                 continue
+             return None
+-        if used_all and {self._BLIND_SYNONYMS.get(w, w) for w in re.findall(r"[a-z]+", self._BLIND_NOT_ALL.sub(' ', words.lower()))} - vocab:
++        scene_words = {w for o in self.handles.values() if o.get('kind') == 'scene' and o.get('enabled', True) for w in re.findall(r"[a-z]+", o['label'].lower())}
++        if used_all and {self._BLIND_SYNONYMS.get(w, w) for w in re.findall(r"[a-z]+", self._BLIND_NOT_ALL.sub(' ', words.lower()))} - vocab - scene_words - {'and', 'then', 'also'}:   # a scene's
++            # name is not a place: "good night and close all the blinds" [G16]
+             return None                                     # "all the blinds" only when nothing else in the turn names a place [R4-01]
+         return scope if seen and scope else None
+ 
++    _ASKED = re.compile(r"^\W*(?:(?:would|do)\s+you\s+(?:like|want)\s+me\s+to|shall\s+i|should\s+i|do\s+you\s+want\s+(?:me\s+)?to|want\s+me\s+to)\s+(?P<q>[^?]+)\?\s*$", re.I)
++
++    def _yes_scope(self, ctx: dict, a: dict) -> set[str] | None:
++        """The blinds of Atlas's previous question, when the person's words are only a plain yes to it ("Would you like me to open the sunroom
++        blind?" "Yes."), and the call moves them the way the question said. The question's own words go through the same scope rule [G17]."""
++        if not AFFIRMATIVE.match(ctx.get('user_text') or '') or not ctx.get('last_reply'):
++            return None
++        qs = [x for x in re.split(r"(?<=[.!?])\s+", ctx['last_reply'].strip()) if x.endswith('?')]
++        m = self._ASKED.match(qs[-1]) if qs else None
++        if not m:
++            return None
++        q = m.group('q')
++        want = 'open' if re.search(r"\b(?:open|raise|lift|up)\b", q, re.I) else 'close' if re.search(r"\b(?:close|shut|lower|down|drop)\b", q, re.I) else None
++        if a.get('operation') == 'position' or want is None or want != a.get('operation'):
++            return None
++        return self._blind_scope(q)
++
+     def _blind_words(self, handle: str) -> set[str]:
+         """The words that tell this single blind from the others: its label's words, less 'blind(s)' and any word another single blind's
+         label shares (e.g. "Den Blind" -> {den}; "Den Window Blind" beside "Den Door Blind" -> {window})."""
+@@ -1301,6 +1325,8 @@ class Coordinator:
+             return err
+         if not self.blind_confirm:
+             scope = self._blind_scope(ctx.get('user_text', '') or '')
++            if scope is None:
++                scope = self._yes_scope(ctx, a)          # a plain yes to Atlas's own one-blind question [G17]
+             if scope is None or not set(t['entity_ids']) <= scope:
+                 # the blinds the person's words name (a whitelist, worked out from the words alone) must include every blind this call would
+                 # move, whatever handle the model chose; anything unclear asks [amendment 2, R2: one rule for the pair and the single blinds]
+diff --git a/tests/test_over_refusals.py b/tests/test_over_refusals.py
+new file mode 100644
+index 0000000..3fd8fd9
+--- /dev/null
++++ b/tests/test_over_refusals.py
+@@ -0,0 +1,79 @@
++"""Optional narrow fixes for MINOR over-refusals (cloud robustness job, 21 Oct; GAPS.md G14-G17). Synthetic phase-2 rehearsal map."""
++import json
++import pathlib
++import sys
++import unittest
++from datetime import datetime
++
++ROOT = pathlib.Path(__file__).resolve().parents[1]
++sys.path.insert(0, str(ROOT / 'custom_components'))
++from atlas_household.core import NEVER_WORDS  # noqa: E402
++from atlas_household.fake import SYDNEY, FakeHouse  # noqa: E402
++
++MAP = json.loads((ROOT / 'tests' / 'fixtures' / 'targets.phase2-rehearsal.json').read_text(encoding='utf-8'))
++SUN, WIN, DOOR = 'cover.blind_motor', 'cover.blind_motor_2', 'cover.blind_motor_3'
++
++
++def house():
++    h = FakeHouse(targets=json.loads(json.dumps(MAP)), start=datetime(2026, 10, 21, 19, 30, tzinfo=SYDNEY))
++    h.set(SUN, 'open', position_percent=100)
++    h.calls.clear()
++    return h
++
++
++class G14_G15_NeverListWords(unittest.TestCase):
++    def test_in_one_hour(self):
++        for text in ['turn off the carport lights in one hour', 'carport lights on in one minute', 'carport lights off at one']:
++            self.assertFalse(NEVER_WORDS.search(text), text)
++        for text in ['carport lights off and close that one', 'carport lights off and the other one', 'turn the carport lights off, then one more thing, open it']:
++            self.assertTrue(NEVER_WORDS.search(text), text)
++
++    def test_the_blind_on_the_door(self):
++        for text in ['close the blind on the family room door', 'open the blind on the door', 'put the blinds on the family room door down']:
++            self.assertFalse(NEVER_WORDS.search(text), text)
++        for text in ['close the blind on the door and open the door', 'close the blind and the door', 'open the blind on the garage door',
++                     'close the blind on the door then lock the door']:
++            self.assertTrue(NEVER_WORDS.search(text), text)
++
++
++class G16_WhichBlindVocabulary(unittest.TestCase):
++    def test_now_clear(self):
++        h = house()
++        cases = {'drop the sunroom blind': {SUN}, 'put the door blind at 80 per cent': {DOOR}, 'close the blinds everywhere': {SUN, WIN, DOOR},
++                 'good night and close all the blinds': {SUN, WIN, DOOR}, 'close the sunroom blind and pause the TV': {SUN},
++                 'sunroom blind halfway and the sunroom lights on': {SUN}}
++        for text, want in cases.items():
++            self.assertEqual(h.coord._blind_scope(text), want, text)
++
++    def test_still_unclear(self):
++        h = house()
++        for text in ['close the sunroom blind at 9', 'close all the blinds in the bedroom', 'close the blinds and curtains in the bedroom',
++                     'turn off the galley lights and close all the blinds', 'close the blind', 'drop the blinds', 'close all the blinds but the sunroom']:
++            self.assertIsNone(h.coord._blind_scope(text), text)
++        self.assertTrue(NEVER_WORDS.search('close all the blinds and the garage'))
++
++
++class G17_PlainYesToAtlasQuestion(unittest.TestCase):
++    Q = "I'm not sure which blind you mean. Would you like me to open the sunroom blind?"
++
++    def call(self, h, words, op, last=Q, handle='sunroom_blind'):
++        return h.call('atlas_blind', {'target_handle': handle, 'operation': op}, user_text=words, last_reply=last)
++
++    def test_yes_moves_the_blind_asked_about(self):
++        h = house()
++        h.set(SUN, 'closed', position_percent=0)
++        self.assertEqual(self.call(h, 'yes please', 'open')['status'], 'done')
++
++    def test_anything_else_still_asks(self):
++        h = house()
++        h.set(SUN, 'closed', position_percent=0)
++        self.assertEqual(self.call(h, 'yes', 'close')['reason'], 'which_blind')                       # the other direction
++        self.assertEqual(self.call(h, 'yes', 'open', handle='family_room_blinds')['reason'], 'which_blind')   # another blind
++        self.assertEqual(self.call(h, 'sure, and the others', 'open')['reason'], 'which_blind')       # not a plain yes
++        self.assertEqual(self.call(h, 'yes', 'open', last='The sunroom blind is closed.')['reason'], 'which_blind')   # no question
++        self.assertEqual(self.call(h, 'yes', 'open', last='Which one: the sunroom blind or the family room door blind?')['reason'], 'which_blind')
++        self.assertEqual(h.calls, [])
++
++
++if __name__ == '__main__':
++    unittest.main()

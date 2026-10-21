@@ -326,7 +326,7 @@ def level_from_words(text: str) -> int | None:
 # as atlas_blind, one call per handle, with the blinds taken ONLY from Coordinator._blind_scope (the which-blind rule, unchanged: unclear
 # words return None and the model asks). Never for a question, a negation, a soft or relative change, a time, a number that isn't a
 # percentage, or anything else in the turn; every coordinator check (never-list, scope, read-back, log, undo) runs as for a model call.
-_SCENE_SAY = {'good night': {'good night', 'goodnight', 'good nite', 'night night', 'nighty night'}, 'wind down': {'wind down', 'winddown'}}
+from .core import SCENE_SAY as _SCENE_SAY  # noqa: E402  (the spoken forms of the live scene names; core.py, shared with truth.py)
 _FILL_LEAD = re.compile(r"^(?:(?:hey|ok|okay)\s+)?(?:atlas\s+)?(?:(?:ok|okay|right|alright|so)\s+)?(?:please\s+)?(?:(?:can|could|would)\s+you\s+(?:please\s+)?)?")
 _FILL_TAIL = re.compile(r"(?:\s+(?:please|thanks|thank\s+you|cheers|mate|atlas|now|for\s+me))*$")
 _SCENE_FORMS = [

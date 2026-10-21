@@ -53,7 +53,7 @@ def _n(s: str) -> str:
 def names(handles: dict) -> list[tuple[str, str]]:
     """(normalised name, handle), longest first: each enabled handle's label and handle words, a room light group's room words with a light
     word, a blind's own words with 'blind', a scene's label (and its spoken forms)."""
-    from .fastpath import _SCENE_SAY  # noqa: PLC0415
+    from .core import SCENE_SAY as _SCENE_SAY  # noqa: PLC0415
     out = {}
     blinds = {h: t for h, t in handles.items() if t.get('kind') == 'blind' and t.get('enabled', True)}
     for h, t in handles.items():
