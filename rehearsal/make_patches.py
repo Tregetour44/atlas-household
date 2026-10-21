@@ -44,6 +44,7 @@ _AFTER_PLACE_LIGHT = re.compile(r"\\b(?:it|its|that|this|her)\\b|" + _ONE + r"|(
                 scope = self._yes_scope(ctx, a)          # a plain yes to Atlas's own one-blind question [G17]
 ''', ''),
     (None, ('    _ASKED = re.compile(', '    def _blind_words(self, handle: str) -> set[str]:')),     # cut the whole _ASKED/_yes_scope block
+    ('''(?!\\s+(in|on|at)\\s+the\\b(?!\\s+(?:house|home|place)\\b))", re.I)   # "every light in the house" [G20]''', '''(?!\\s+(in|on|at)\\s+the\\b)", re.I)'''),
 ]}
 
 # step 2 -> step 1: the fast paths, peeled off

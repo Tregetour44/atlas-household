@@ -178,6 +178,26 @@ class G09_TruthCheck(unittest.TestCase):
         self.assertTrue(out['reply'].startswith('Done: Office lights off.'), out['reply'])
 
 
+class G19_TimerTimeAndDay(unittest.TestCase):
+    """MAJOR (Gemma): "I have scheduled the office lights to turn on at 9:00 pm tomorrow." for a timer due at 9 pm tonight."""
+
+    def run_timer(self, reply):
+        h = house()
+        out, _ = turn(h, 'set a timer to turn the office lights on in an hour and a half',
+                      [([('atlas_schedule', {'target_handle': 'office_lights', 'operation': 'on', 'in_minutes': 90})], reply)])
+        return out['reply']
+
+    def test_wrong_day_or_time_is_dropped(self):
+        for reply in ['I have scheduled the office lights to turn on at 9:00 pm tomorrow.', 'The office lights will turn on at 9:30 pm.',
+                      "Righto, office lights on at ten pm."]:
+            self.assertNotEqual(self.run_timer(reply), reply, reply)
+
+    def test_the_right_time_passes(self):
+        for reply in ['I have scheduled the office lights to turn on at 9:00 pm.', 'The office lights will turn on at nine pm tonight.',
+                      'Timer set: Office lights on at 9:00 pm. Say "cancel that" to stop it.', 'The office lights will come on in an hour and a half.']:
+            self.assertEqual(self.run_timer(reply), reply, reply)
+
+
 class G10_G11_G12_GuardPhrasings(unittest.TestCase):
     """Unbacked claims in wordings the guard didn't read: Australian acknowledgements, a past participle with no subject, spelled-out or
     "by" times, "Timer's on", "Set for 9 pm", and a "both / all" claim when no tool ran."""

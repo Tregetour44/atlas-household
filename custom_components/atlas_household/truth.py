@@ -26,7 +26,7 @@ TIME = re.compile(r"\b(?:at\s+(?:\d{1,2}(?:[:.]\d\d)?(?![\d%])(?!\s*(?:%|percent
                   r"" + _NUMS + r"\s+(?:minutes?|mins?|hours?)|tonight|tomorrow|later\b|(?:\d{1,2}|" + _NUMS + r")\s*(?:am|pm|a\.m\.|p\.m\.|o'?clock))", re.I)
 _SKIP = re.compile(r"\?|\b(?:not|never|no|nothing|none|isn't|aren't|wasn't|weren't|doesn't|don't|didn't|won't|can't|cannot|couldn't|haven't|hasn't|"
                    r"if|would|could|shall|should|want|may|might|can|whether|unless|ago|yesterday|earlier|was|were|used\s+to|last\s+night|"
-                   r"this\s+morning|usually|every\s+(?:night|day|evening|morning)|automatically|schedule[ds]?|automation)\b", re.I)
+                   r"this\s+morning|usually|every\s+(?:night|day|evening|morning)|automatically|automation|schedules|(?:the|its|a|on)\s+schedule|(?:is|are)\s+scheduled)\b", re.I)
 _FUTURE = re.compile(r"\b(?:will|'ll|going\s+to|shall)\b", re.I)
 _PRONOUN = re.compile(r"\b(?:it|it's|its|they|they're|them|those|these|that's|both|all|everything|every\s+one)\b", re.I)
 _LIGHT_WORD = re.compile(r"\b(?:lights?|lamps?|downlights?|spotlights?|lighting)\b", re.I)
@@ -163,6 +163,28 @@ def check(reply: str, handles: dict, states: dict, pending: list, person_text: s
     return ' '.join(keep).strip(), bad
 
 
+_HOURS = {w: i for i, w in enumerate(['twelve', 'one', 'two', 'three', 'four', 'five', 'six', 'seven', 'eight', 'nine', 'ten', 'eleven'])}
+_CLOCK = re.compile(r"\b(\d{1,2}|" + "|".join(_HOURS) + r")(?:[:.](\d\d)|\s+(o'?clock|thirty|fifteen|forty-five))?\s*(am|pm|a\.m\.|p\.m\.)", re.I)
+
+
+def _when_fits(clause: str, label: str) -> bool:
+    """The time and day a clause says ("at 9 pm", "at nine thirty pm", "tomorrow") agree with a waiting timer's label as the coordinator
+    wrote it ("Office lights on at 9:00 pm", "... at 7:00 am tomorrow"). A clause that names no clock time or day agrees [G19]."""
+    later = bool(re.search(r"\b(?:tomorrow|on\s+(?:monday|tuesday|wednesday|thursday|friday|saturday|sunday))\b", label, re.I))
+    if re.search(r"\btomorrow\b", clause, re.I) and not later:
+        return False
+    if re.search(r"\b(?:tonight|this\s+(?:evening|afternoon|morning)|today)\b", clause, re.I) and later:
+        return False
+    m = _CLOCK.search(clause)
+    lm = re.search(r"\b(\d{1,2}):(\d\d)\s*(am|pm)\b", label, re.I)
+    if not m or not lm:
+        return True
+    h = int(m.group(1)) if m.group(1).isdigit() else _HOURS[m.group(1).lower()]
+    mi = int(m.group(2)) if m.group(2) else {'thirty': 30, 'fifteen': 15, 'forty-five': 45}.get((m.group(3) or '').lower(), 0)
+    ap = m.group(4).lower().replace('.', '')
+    return (h % 12, mi, ap) == (int(lm.group(1)) % 12, int(lm.group(2)), lm.group(3).lower())
+
+
 def _word(kind: str, text: str) -> str | None:
     if kind == 'light':
         m = [(x.start(), w) for rx, w in ((_OFF, 'off'), (_ON, 'on')) for x in rx.finditer(text)]
@@ -240,8 +262,9 @@ def _false(c: str, sentence: str, handles, states, pending, nm, acted, said, bef
             op = {'off': 'off', 'closed': 'close', 'open': 'open', 'on': 'on'}.get(word) if word else None
             if op is None or (k == 'scene' and op != 'on'):
                 continue
-            if not any(p.get('handle') == h or set(handles.get(p.get('handle'), {}).get('entity_ids') or []) & set(t.get('entity_ids') or []) for p in pending):
-                return 'timer'
+            mine = [p for p in pending if p.get('handle') == h or set(handles.get(p.get('handle'), {}).get('entity_ids') or []) & set(t.get('entity_ids') or [])]
+            if not mine or not any(_when_fits(c, p.get('label') or '') for p in mine):
+                return 'timer'                           # no such timer, or not at the time / on the day said [G19]
             continue
         if k == 'scene':
             if word and _scene_truth(t, states) is False:

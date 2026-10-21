@@ -75,5 +75,16 @@ class G17_PlainYesToAtlasQuestion(unittest.TestCase):
         self.assertEqual(h.calls, [])
 
 
+class G20_EveryLightInTheHouse(unittest.TestCase):
+    def test_in_the_house_covers_the_floors(self):
+        h = house()
+        for text in ['turn every light in the house off', 'all the lights in the house off', 'turn off all the lights in the home']:
+            r = h.call('atlas_lights', {'target_handle': 'ground_floor_lights', 'operation': 'off'}, user_text=text)
+            self.assertNotEqual(r['status'], 'needs_choice', text)
+        for text in ['all the lights in the office off', 'every light in the galley off']:
+            r = h.call('atlas_lights', {'target_handle': 'ground_floor_lights', 'operation': 'off'}, user_text=text)
+            self.assertEqual(r['status'], 'needs_choice', text)
+
+
 if __name__ == '__main__':
     unittest.main()
