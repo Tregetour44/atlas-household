@@ -310,7 +310,7 @@ index 0000000..eff4011
 +    text = text[:1].upper() + text[1:] if key == 'room' else 'Inside, ' + text
 +    return text + '.'
 diff --git a/custom_components/atlas_household/turn.py b/custom_components/atlas_household/turn.py
-index 5b6de6a..bde1e45 100644
+index 97d627b..5d05f3b 100644
 --- a/custom_components/atlas_household/turn.py
 +++ b/custom_components/atlas_household/turn.py
 @@ -20,7 +20,8 @@ from __future__ import annotations
@@ -323,7 +323,7 @@ index 5b6de6a..bde1e45 100644
  from .truth import check as truth_check
  
  NUDGE = "You didn't call a tool. If the request needs one, call the right atlas_ tool now; otherwise say plainly that you can't do it."
-@@ -122,24 +123,49 @@ async def run_turn(coord, text: str, conversation_id: str, ask_model, *, other_t
+@@ -128,24 +129,49 @@ async def run_turn(coord, text: str, conversation_id: str, ask_model, *, other_t
      'tool_results'}: tool_results lists (tool, args, result) for every atlas_ call the coordinator handled in this conversation during the turn
      (the fast path's own call included), e.g. a timer's due_local and handle for the Atlas-side project's scorer."""
      t0 = coord.mono()

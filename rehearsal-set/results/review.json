@@ -22,5 +22,13 @@
    "code": "false_scheduled",
    "note": "invented \"According to the schedule, it is set to move at 10:00 tomorrow\": no schedule line was in the readings (G21)"
   }
+ },
+ "patched": {
+  "R8259b1b4": {
+   "drop": "over_reach",
+   "grade": null,
+   "code": null,
+   "note": "indirect hint (as on the input run): act_or_ask"
+  }
  }
 }

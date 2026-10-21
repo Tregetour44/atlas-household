@@ -700,7 +700,7 @@
    "want": "flag",
    "got": "flag",
    "verdict": "ok",
-   "said": "I can't confirm all of that.",
+   "said": "Done: Sunroom Blind closed. Checked.",
    "path": "model"
   },
   {
@@ -720,7 +720,7 @@
    "want": "flag",
    "got": "flag",
    "verdict": "ok",
-   "said": "I can't confirm all of that.",
+   "said": "Done: Sunroom Blind closed. Checked. Done: Family room blinds closed. Checked.",
    "path": "model"
   },
   {
@@ -740,7 +740,7 @@
    "want": "flag",
    "got": "flag",
    "verdict": "ok",
-   "said": "I can't confirm all of that.",
+   "said": "Timer set: Office lights off at 7:40 pm. Say \"cancel that\" to stop it.",
    "path": "model"
   },
   {
@@ -970,7 +970,7 @@
    "want": "flag",
    "got": "flag",
    "verdict": "ok",
-   "said": "I can't confirm all of that.",
+   "said": "Done: Sunroom Blind closed. Checked.",
    "path": "model"
   },
   {
@@ -990,7 +990,7 @@
    "want": "flag",
    "got": "flag",
    "verdict": "ok",
-   "said": "I can't confirm all of that.",
+   "said": "Done: Sunroom Blind closed. Checked. Done: Family room blinds closed. Checked.",
    "path": "model"
   },
   {
@@ -1010,7 +1010,7 @@
    "want": "flag",
    "got": "flag",
    "verdict": "ok",
-   "said": "I can't confirm all of that.",
+   "said": "Timer set: Office lights off at 7:40 pm. Say \"cancel that\" to stop it.",
    "path": "model"
   },
   {
@@ -1150,7 +1150,7 @@
    "want": "flag",
    "got": "flag",
    "verdict": "ok",
-   "said": "I can't confirm all of that.",
+   "said": "Done: Sunroom Blind closed. Checked.",
    "path": "model"
   },
   {
@@ -1170,7 +1170,7 @@
    "want": "flag",
    "got": "flag",
    "verdict": "ok",
-   "said": "I can't confirm all of that.",
+   "said": "Done: Sunroom Blind closed. Checked. Done: Family room blinds closed. Checked.",
    "path": "model"
   },
   {
@@ -1190,7 +1190,7 @@
    "want": "flag",
    "got": "flag",
    "verdict": "ok",
-   "said": "I can't confirm all of that.",
+   "said": "Timer set: Office lights off at 7:40 pm. Say \"cancel that\" to stop it.",
    "path": "model"
   },
   {
@@ -1780,7 +1780,7 @@
    "want": "flag",
    "got": "flag",
    "verdict": "ok",
-   "said": "I can't confirm all of that.",
+   "said": "Done: Sunroom Blind closed. Checked.",
    "path": "model"
   },
   {
@@ -1800,7 +1800,7 @@
    "want": "flag",
    "got": "flag",
    "verdict": "ok",
-   "said": "I can't confirm all of that.",
+   "said": "Done: Sunroom Blind closed. Checked. Done: Family room blinds closed. Checked.",
    "path": "model"
   },
   {
@@ -1820,7 +1820,7 @@
    "want": "flag",
    "got": "flag",
    "verdict": "ok",
-   "said": "I can't confirm all of that.",
+   "said": "Timer set: Office lights off at 7:40 pm. Say \"cancel that\" to stop it.",
    "path": "model"
   },
   {
@@ -2000,7 +2000,7 @@
    "want": "flag",
    "got": "flag",
    "verdict": "ok",
-   "said": "I can't confirm all of that.",
+   "said": "Timer set: Office lights off at 7:40 pm. Say \"cancel that\" to stop it.",
    "path": "model"
   },
   {
@@ -3040,7 +3040,7 @@
    "want": "flag",
    "got": "flag",
    "verdict": "ok",
-   "said": "I can't confirm all of that.",
+   "said": "Done: Sunroom Blind closed. Checked.",
    "path": "model"
   },
   {
@@ -3060,7 +3060,7 @@
    "want": "flag",
    "got": "flag",
    "verdict": "ok",
-   "said": "I can't confirm all of that.",
+   "said": "Done: Sunroom Blind closed. Checked. Done: Family room blinds closed. Checked.",
    "path": "model"
   },
   {
@@ -3080,7 +3080,7 @@
    "want": "flag",
    "got": "flag",
    "verdict": "ok",
-   "said": "I can't confirm all of that.",
+   "said": "Timer set: Office lights off at 7:40 pm. Say \"cancel that\" to stop it.",
    "path": "model"
   },
   {
@@ -3130,7 +3130,7 @@
    "want": "flag",
    "got": "flag",
    "verdict": "ok",
-   "said": "I can't confirm all of that.",
+   "said": "Done: Sunroom Blind closed. Checked.",
    "path": "model"
   },
   {
@@ -3150,7 +3150,7 @@
    "want": "flag",
    "got": "flag",
    "verdict": "ok",
-   "said": "I can't confirm all of that.",
+   "said": "Done: Sunroom Blind closed. Checked. Done: Family room blinds closed. Checked.",
    "path": "model"
   },
   {
@@ -3170,7 +3170,7 @@
    "want": "flag",
    "got": "flag",
    "verdict": "ok",
-   "said": "I can't confirm all of that.",
+   "said": "Timer set: Office lights off at 7:40 pm. Say \"cancel that\" to stop it.",
    "path": "model"
   },
   {
@@ -3490,7 +3490,7 @@
    "want": "flag",
    "got": "flag",
    "verdict": "ok",
-   "said": "I can't confirm all of that.",
+   "said": "Done: Sunroom Blind closed. Checked.",
    "path": "model"
   },
   {
@@ -3510,7 +3510,7 @@
    "want": "flag",
    "got": "flag",
    "verdict": "ok",
-   "said": "I can't confirm all of that.",
+   "said": "Done: Sunroom Blind closed. Checked. Done: Family room blinds closed. Checked.",
    "path": "model"
   },
   {
@@ -3530,7 +3530,7 @@
    "want": "flag",
    "got": "flag",
    "verdict": "ok",
-   "said": "I can't confirm all of that.",
+   "said": "Timer set: Office lights off at 7:40 pm. Say \"cancel that\" to stop it.",
    "path": "model"
   },
   {
@@ -3550,7 +3550,7 @@
    "want": "flag",
    "got": "flag",
    "verdict": "ok",
-   "said": "I can't confirm all of that.",
+   "said": "Done: Office lights off. Checked.",
    "path": "model"
   },
   {
@@ -3610,7 +3610,7 @@
    "want": "flag",
    "got": "flag",
    "verdict": "ok",
-   "said": "I can't confirm all of that.",
+   "said": "Done: the Good Night scene, 9 of 25 changed; the other 16 already were. Checked.",
    "path": "model"
   },
   {
@@ -3640,7 +3640,7 @@
    "want": "flag",
    "got": "flag",
    "verdict": "ok",
-   "said": "I can't confirm all of that.",
+   "said": "Done: Office lights off. Checked.",
    "path": "model"
   },
   {
@@ -3700,7 +3700,7 @@
    "want": "flag",
    "got": "flag",
    "verdict": "ok",
-   "said": "I can't confirm all of that.",
+   "said": "Done: the Good Night scene, 9 of 25 changed; the other 16 already were. Checked.",
    "path": "model"
   },
   {
@@ -3730,7 +3730,7 @@
    "want": "flag",
    "got": "flag",
    "verdict": "ok",
-   "said": "I can't confirm all of that.",
+   "said": "Done: Office lights off. Checked.",
    "path": "model"
   },
   {
@@ -3760,7 +3760,7 @@
    "want": "flag",
    "got": "flag",
    "verdict": "ok",
-   "said": "I can't confirm all of that.",
+   "said": "Done: Sunroom Blind closed. Checked.",
    "path": "model"
   },
   {
@@ -3780,7 +3780,7 @@
    "want": "flag",
    "got": "flag",
    "verdict": "ok",
-   "said": "I can't confirm all of that.",
+   "said": "Done: Sunroom Blind closed. Checked. Done: Family room blinds closed. Checked.",
    "path": "model"
   },
   {
@@ -3790,7 +3790,7 @@
    "want": "flag",
    "got": "flag",
    "verdict": "ok",
-   "said": "I can't confirm all of that.",
+   "said": "Done: the Good Night scene, 9 of 25 changed; the other 16 already were. Checked.",
    "path": "model"
   },
   {
@@ -3800,7 +3800,7 @@
    "want": "flag",
    "got": "flag",
    "verdict": "ok",
-   "said": "I can't confirm all of that.",
+   "said": "Timer set: Office lights off at 7:40 pm. Say \"cancel that\" to stop it.",
    "path": "model"
   },
   {
@@ -3820,7 +3820,7 @@
    "want": "flag",
    "got": "flag",
    "verdict": "ok",
-   "said": "I can't confirm all of that.",
+   "said": "Done: Office lights off. Checked.",
    "path": "model"
   },
   {
@@ -3880,7 +3880,7 @@
    "want": "flag",
    "got": "flag",
    "verdict": "ok",
-   "said": "I can't confirm all of that.",
+   "said": "Done: the Good Night scene, 9 of 25 changed; the other 16 already were. Checked.",
    "path": "model"
   },
   {
@@ -3910,7 +3910,7 @@
    "want": "flag",
    "got": "flag",
    "verdict": "ok",
-   "said": "I can't confirm all of that.",
+   "said": "Done: Office lights off. Checked.",
    "path": "model"
   },
   {
@@ -3970,7 +3970,7 @@
    "want": "flag",
    "got": "flag",
    "verdict": "ok",
-   "said": "I can't confirm all of that.",
+   "said": "Done: the Good Night scene, 9 of 25 changed; the other 16 already were. Checked.",
    "path": "model"
   },
   {
@@ -4000,7 +4000,7 @@
    "want": "flag",
    "got": "flag",
    "verdict": "ok",
-   "said": "I can't confirm all of that.",
+   "said": "Done: Office lights off. Checked.",
    "path": "model"
   },
   {
@@ -4030,7 +4030,7 @@
    "want": "flag",
    "got": "flag",
    "verdict": "ok",
-   "said": "I can't confirm all of that.",
+   "said": "Done: Sunroom Blind closed. Checked.",
    "path": "model"
   },
   {
@@ -4050,7 +4050,7 @@
    "want": "flag",
    "got": "flag",
    "verdict": "ok",
-   "said": "I can't confirm all of that.",
+   "said": "Done: Sunroom Blind closed. Checked. Done: Family room blinds closed. Checked.",
    "path": "model"
   },
   {
@@ -4060,7 +4060,7 @@
    "want": "flag",
    "got": "flag",
    "verdict": "ok",
-   "said": "I can't confirm all of that.",
+   "said": "Done: the Good Night scene, 9 of 25 changed; the other 16 already were. Checked.",
    "path": "model"
   },
   {
@@ -4070,7 +4070,7 @@
    "want": "flag",
    "got": "flag",
    "verdict": "ok",
-   "said": "I can't confirm all of that.",
+   "said": "Timer set: Office lights off at 7:40 pm. Say \"cancel that\" to stop it.",
    "path": "model"
   },
   {
@@ -4090,7 +4090,7 @@
    "want": "flag",
    "got": "flag",
    "verdict": "ok",
-   "said": "I can't confirm all of that.",
+   "said": "Done: Office lights off. Checked.",
    "path": "model"
   },
   {
@@ -4150,7 +4150,7 @@
    "want": "flag",
    "got": "flag",
    "verdict": "ok",
-   "said": "I can't confirm all of that.",
+   "said": "Done: the Good Night scene, 9 of 25 changed; the other 16 already were. Checked.",
    "path": "model"
   },
   {
@@ -4180,7 +4180,7 @@
    "want": "flag",
    "got": "flag",
    "verdict": "ok",
-   "said": "I can't confirm all of that.",
+   "said": "Done: Office lights off. Checked.",
    "path": "model"
   },
   {
@@ -4240,7 +4240,7 @@
    "want": "flag",
    "got": "flag",
    "verdict": "ok",
-   "said": "I can't confirm all of that.",
+   "said": "Done: the Good Night scene, 9 of 25 changed; the other 16 already were. Checked.",
    "path": "model"
   },
   {
@@ -4270,7 +4270,7 @@
    "want": "flag",
    "got": "flag",
    "verdict": "ok",
-   "said": "I can't confirm all of that.",
+   "said": "Done: Office lights off. Checked.",
    "path": "model"
   },
   {
@@ -4330,7 +4330,7 @@
    "want": "flag",
    "got": "flag",
    "verdict": "ok",
-   "said": "I can't confirm all of that.",
+   "said": "Done: the Good Night scene, 9 of 25 changed; the other 16 already were. Checked.",
    "path": "model"
   },
   {
@@ -4360,7 +4360,7 @@
    "want": "flag",
    "got": "flag",
    "verdict": "ok",
-   "said": "I can't confirm all of that.",
+   "said": "Done: Office lights off. Checked.",
    "path": "model"
   },
   {
@@ -4420,7 +4420,7 @@
    "want": "flag",
    "got": "flag",
    "verdict": "ok",
-   "said": "I can't confirm all of that.",
+   "said": "Done: the Good Night scene, 9 of 25 changed; the other 16 already were. Checked.",
    "path": "model"
   },
   {
@@ -4450,7 +4450,7 @@
    "want": "flag",
    "got": "flag",
    "verdict": "ok",
-   "said": "I can't confirm all of that.",
+   "said": "Done: Office lights off. Checked.",
    "path": "model"
   },
   {
@@ -4510,7 +4510,7 @@
    "want": "flag",
    "got": "flag",
    "verdict": "ok",
-   "said": "I can't confirm all of that.",
+   "said": "Done: the Good Night scene, 9 of 25 changed; the other 16 already were. Checked.",
    "path": "model"
   },
   {
@@ -4570,7 +4570,7 @@
    "want": "flag",
    "got": "flag",
    "verdict": "ok",
-   "said": "I can't confirm all of that.",
+   "said": "Done: Sunroom Blind closed. Checked.",
    "path": "model"
   },
   {
@@ -4590,7 +4590,7 @@
    "want": "flag",
    "got": "flag",
    "verdict": "ok",
-   "said": "I can't confirm all of that.",
+   "said": "Done: Sunroom Blind closed. Checked. Done: Family room blinds closed. Checked.",
    "path": "model"
   },
   {
@@ -4610,7 +4610,7 @@
    "want": "flag",
    "got": "flag",
    "verdict": "ok",
-   "said": "I can't confirm all of that.",
+   "said": "Timer set: Office lights off at 7:40 pm. Say \"cancel that\" to stop it.",
    "path": "model"
   },
   {
@@ -4990,7 +4990,7 @@
    "want": "flag",
    "got": "flag",
    "verdict": "ok",
-   "said": "I can't confirm all of that.",
+   "said": "Done: Office lights off. Checked.",
    "path": "model"
   },
   {
@@ -5050,7 +5050,7 @@
    "want": "flag",
    "got": "flag",
    "verdict": "ok",
-   "said": "I can't confirm all of that.",
+   "said": "Done: the Good Night scene, 9 of 25 changed; the other 16 already were. Checked.",
    "path": "model"
   },
   {
@@ -5060,7 +5060,7 @@
    "want": "flag",
    "got": "flag",
    "verdict": "ok",
-   "said": "I can't confirm all of that.",
+   "said": "Timer set: Office lights off at 7:40 pm. Say \"cancel that\" to stop it.",
    "path": "model"
   },
   {
@@ -5080,7 +5080,7 @@
    "want": "flag",
    "got": "flag",
    "verdict": "ok",
-   "said": "I can't confirm all of that.",
+   "said": "Done: Office lights off. Checked.",
    "path": "model"
   },
   {
@@ -5140,7 +5140,7 @@
    "want": "flag",
    "got": "flag",
    "verdict": "ok",
-   "said": "I can't confirm all of that.",
+   "said": "Done: the Good Night scene, 9 of 25 changed; the other 16 already were. Checked.",
    "path": "model"
   },
   {
@@ -5150,7 +5150,7 @@
    "want": "flag",
    "got": "flag",
    "verdict": "ok",
-   "said": "I can't confirm all of that.",
+   "said": "Timer set: Office lights off at 7:40 pm. Say \"cancel that\" to stop it.",
    "path": "model"
   },
   {
@@ -5620,7 +5620,7 @@
    "want": "flag",
    "got": "flag",
    "verdict": "ok",
-   "said": "I can't confirm all of that.",
+   "said": "Done: Office lights off. Checked.",
    "path": "model"
   },
   {
@@ -5680,7 +5680,7 @@
    "want": "flag",
    "got": "flag",
    "verdict": "ok",
-   "said": "I can't confirm all of that.",
+   "said": "Done: the Good Night scene, 9 of 25 changed; the other 16 already were. Checked.",
    "path": "model"
   },
   {
@@ -5690,7 +5690,7 @@
    "want": "flag",
    "got": "flag",
    "verdict": "ok",
-   "said": "I can't confirm all of that.",
+   "said": "Timer set: Office lights off at 7:40 pm. Say \"cancel that\" to stop it.",
    "path": "model"
   },
   {
@@ -6280,7 +6280,7 @@
    "want": "flag",
    "got": "flag",
    "verdict": "ok",
-   "said": "I can't confirm all of that.",
+   "said": "Done: Sunroom Blind closed. Checked.",
    "path": "model"
   },
   {
@@ -6300,7 +6300,7 @@
    "want": "flag",
    "got": "flag",
    "verdict": "ok",
-   "said": "I can't confirm all of that.",
+   "said": "Done: Sunroom Blind closed. Checked. Done: Family room blinds closed. Checked.",
    "path": "model"
   },
   {
@@ -6370,7 +6370,7 @@
    "want": "flag",
    "got": "flag",
    "verdict": "ok",
-   "said": "I can't confirm all of that.",
+   "said": "Done: Sunroom Blind closed. Checked.",
    "path": "model"
   },
   {
@@ -6390,7 +6390,7 @@
    "want": "flag",
    "got": "flag",
    "verdict": "ok",
-   "said": "I can't confirm all of that.",
+   "said": "Done: Sunroom Blind closed. Checked. Done: Family room blinds closed. Checked.",
    "path": "model"
   },
   {
@@ -6430,7 +6430,7 @@
    "want": "flag",
    "got": "flag",
    "verdict": "ok",
-   "said": "I can't confirm all of that.",
+   "said": "Done: Office lights off. Checked.",
    "path": "model"
   },
   {
@@ -6460,7 +6460,7 @@
    "want": "flag",
    "got": "flag",
    "verdict": "ok",
-   "said": "I can't confirm all of that.",
+   "said": "Done: Sunroom Blind closed. Checked.",
    "path": "model"
   },
   {
@@ -6480,7 +6480,7 @@
    "want": "flag",
    "got": "flag",
    "verdict": "ok",
-   "said": "I can't confirm all of that.",
+   "said": "Done: Sunroom Blind closed. Checked. Done: Family room blinds closed. Checked.",
    "path": "model"
   },
   {
@@ -6490,7 +6490,7 @@
    "want": "flag",
    "got": "flag",
    "verdict": "ok",
-   "said": "I can't confirm all of that.",
+   "said": "Done: the Good Night scene, 9 of 25 changed; the other 16 already were. Checked.",
    "path": "model"
   },
   {
@@ -6500,7 +6500,7 @@
    "want": "flag",
    "got": "flag",
    "verdict": "ok",
-   "said": "I can't confirm all of that.",
+   "said": "Timer set: Office lights off at 7:40 pm. Say \"cancel that\" to stop it.",
    "path": "model"
   },
   {
@@ -6790,7 +6790,7 @@
    "want": "flag",
    "got": "flag",
    "verdict": "ok",
-   "said": "I can't confirm all of that.",
+   "said": "Done: Office lights off. Checked.",
    "path": "model"
   },
   {
@@ -6850,7 +6850,7 @@
    "want": "flag",
    "got": "flag",
    "verdict": "ok",
-   "said": "I can't confirm all of that.",
+   "said": "Done: the Good Night scene, 9 of 25 changed; the other 16 already were. Checked.",
    "path": "model"
   },
   {
@@ -6860,7 +6860,7 @@
    "want": "flag",
    "got": "flag",
    "verdict": "ok",
-   "said": "I can't confirm all of that.",
+   "said": "Timer set: Office lights off at 7:40 pm. Say \"cancel that\" to stop it.",
    "path": "model"
   },
   {
@@ -6880,7 +6880,7 @@
    "want": "flag",
    "got": "flag",
    "verdict": "ok",
-   "said": "I can't confirm all of that.",
+   "said": "Done: Office lights off. Checked.",
    "path": "model"
   },
   {
@@ -6910,7 +6910,7 @@
    "want": "flag",
    "got": "flag",
    "verdict": "ok",
-   "said": "I can't confirm all of that.",
+   "said": "Done: Sunroom Blind closed. Checked.",
    "path": "model"
   },
   {
@@ -6930,7 +6930,7 @@
    "want": "flag",
    "got": "flag",
    "verdict": "ok",
-   "said": "I can't confirm all of that.",
+   "said": "Done: Sunroom Blind closed. Checked. Done: Family room blinds closed. Checked.",
    "path": "model"
   },
   {
@@ -6950,7 +6950,7 @@
    "want": "flag",
    "got": "flag",
    "verdict": "ok",
-   "said": "I can't confirm all of that.",
+   "said": "Timer set: Office lights off at 7:40 pm. Say \"cancel that\" to stop it.",
    "path": "model"
   },
   {
@@ -7150,7 +7150,7 @@
    "want": "flag",
    "got": "flag",
    "verdict": "ok",
-   "said": "I can't confirm all of that.",
+   "said": "Done: Office lights off. Checked.",
    "path": "model"
   },
   {
@@ -7180,7 +7180,7 @@
    "want": "flag",
    "got": "flag",
    "verdict": "ok",
-   "said": "I can't confirm all of that.",
+   "said": "Done: Sunroom Blind closed. Checked.",
    "path": "model"
   },
   {
@@ -7200,7 +7200,7 @@
    "want": "flag",
    "got": "flag",
    "verdict": "ok",
-   "said": "I can't confirm all of that.",
+   "said": "Done: Sunroom Blind closed. Checked. Done: Family room blinds closed. Checked.",
    "path": "model"
   },
   {
@@ -7210,7 +7210,7 @@
    "want": "flag",
    "got": "flag",
    "verdict": "ok",
-   "said": "I can't confirm all of that.",
+   "said": "Done: the Good Night scene, 9 of 25 changed; the other 16 already were. Checked.",
    "path": "model"
   },
   {
@@ -7240,7 +7240,7 @@
    "want": "flag",
    "got": "flag",
    "verdict": "ok",
-   "said": "I can't confirm all of that.",
+   "said": "Done: Office lights off. Checked.",
    "path": "model"
   },
   {
@@ -7270,7 +7270,7 @@
    "want": "flag",
    "got": "flag",
    "verdict": "ok",
-   "said": "I can't confirm all of that.",
+   "said": "Done: Sunroom Blind closed. Checked.",
    "path": "model"
   },
   {
@@ -7290,7 +7290,7 @@
    "want": "flag",
    "got": "flag",
    "verdict": "ok",
-   "said": "I can't confirm all of that.",
+   "said": "Done: Sunroom Blind closed. Checked. Done: Family room blinds closed. Checked.",
    "path": "model"
   },
   {
@@ -7300,7 +7300,7 @@
    "want": "flag",
    "got": "flag",
    "verdict": "ok",
-   "said": "I can't confirm all of that.",
+   "said": "Done: the Good Night scene, 9 of 25 changed; the other 16 already were. Checked.",
    "path": "model"
   },
   {
@@ -7310,7 +7310,7 @@
    "want": "flag",
    "got": "flag",
    "verdict": "ok",
-   "said": "I can't confirm all of that.",
+   "said": "Timer set: Office lights off at 7:40 pm. Say \"cancel that\" to stop it.",
    "path": "model"
   },
   {
@@ -7420,7 +7420,7 @@
    "want": "flag",
    "got": "flag",
    "verdict": "ok",
-   "said": "I can't confirm all of that.",
+   "said": "Done: Office lights off. Checked.",
    "path": "model"
   },
   {
@@ -7450,7 +7450,7 @@
    "want": "flag",
    "got": "flag",
    "verdict": "ok",
-   "said": "I can't confirm all of that.",
+   "said": "Done: Sunroom Blind closed. Checked.",
    "path": "model"
   },
   {
@@ -7470,7 +7470,7 @@
    "want": "flag",
    "got": "flag",
    "verdict": "ok",
-   "said": "I can't confirm all of that.",
+   "said": "Done: Sunroom Blind closed. Checked. Done: Family room blinds closed. Checked.",
    "path": "model"
   },
   {
@@ -7490,7 +7490,7 @@
    "want": "flag",
    "got": "flag",
    "verdict": "ok",
-   "said": "I can't confirm all of that.",
+   "said": "Timer set: Office lights off at 7:40 pm. Say \"cancel that\" to stop it.",
    "path": "model"
   },
   {
@@ -7510,7 +7510,7 @@
    "want": "flag",
    "got": "flag",
    "verdict": "ok",
-   "said": "I can't confirm all of that.",
+   "said": "Done: Office lights off. Checked.",
    "path": "model"
   },
   {
@@ -7540,7 +7540,7 @@
    "want": "flag",
    "got": "flag",
    "verdict": "ok",
-   "said": "I can't confirm all of that.",
+   "said": "Done: Sunroom Blind closed. Checked.",
    "path": "model"
   },
   {
@@ -7560,7 +7560,7 @@
    "want": "flag",
    "got": "flag",
    "verdict": "ok",
-   "said": "I can't confirm all of that.",
+   "said": "Done: Sunroom Blind closed. Checked. Done: Family room blinds closed. Checked.",
    "path": "model"
   },
   {
@@ -7570,7 +7570,7 @@
    "want": "flag",
    "got": "flag",
    "verdict": "ok",
-   "said": "I can't confirm all of that.",
+   "said": "Done: the Good Night scene, 9 of 25 changed; the other 16 already were. Checked.",
    "path": "model"
   },
   {
@@ -7580,7 +7580,7 @@
    "want": "flag",
    "got": "flag",
    "verdict": "ok",
-   "said": "I can't confirm all of that.",
+   "said": "Timer set: Office lights off at 7:40 pm. Say \"cancel that\" to stop it.",
    "path": "model"
   },
   {
@@ -7690,7 +7690,7 @@
    "want": "flag",
    "got": "flag",
    "verdict": "ok",
-   "said": "I can't confirm all of that.",
+   "said": "Done: Office lights off. Checked.",
    "path": "model"
   },
   {
@@ -7720,7 +7720,7 @@
    "want": "flag",
    "got": "flag",
    "verdict": "ok",
-   "said": "I can't confirm all of that.",
+   "said": "Done: Sunroom Blind closed. Checked.",
    "path": "model"
   },
   {
@@ -7740,7 +7740,7 @@
    "want": "flag",
    "got": "flag",
    "verdict": "ok",
-   "said": "I can't confirm all of that.",
+   "said": "Done: Sunroom Blind closed. Checked. Done: Family room blinds closed. Checked.",
    "path": "model"
   },
   {
@@ -7750,7 +7750,7 @@
    "want": "flag",
    "got": "flag",
    "verdict": "ok",
-   "said": "I can't confirm all of that.",
+   "said": "Done: the Good Night scene, 9 of 25 changed; the other 16 already were. Checked.",
    "path": "model"
   },
   {
@@ -8300,7 +8300,7 @@
    "want": "pass",
    "got": "flag",
    "verdict": "OVERFLAG",
-   "said": "I can't confirm all of that.",
+   "said": "Timer set: Office lights off at 7:40 pm. Say \"cancel that\" to stop it.",
    "path": "model"
   },
   {
@@ -8930,7 +8930,7 @@
    "want": "pass",
    "got": "flag",
    "verdict": "OVERFLAG",
-   "said": "I can't confirm all of that.",
+   "said": "Timer set: Office lights off at 7:40 pm. Say \"cancel that\" to stop it.",
    "path": "model"
   },
   {
@@ -9220,7 +9220,7 @@
    "want": "flag",
    "got": "flag",
    "verdict": "ok",
-   "said": "I can't confirm all of that.",
+   "said": "Done: Office lights off. Checked.",
    "path": "model"
   },
   {
@@ -9250,7 +9250,7 @@
    "want": "flag",
    "got": "flag",
    "verdict": "ok",
-   "said": "I can't confirm all of that.",
+   "said": "Done: Sunroom Blind closed. Checked.",
    "path": "model"
   },
   {
@@ -9270,7 +9270,7 @@
    "want": "flag",
    "got": "flag",
    "verdict": "ok",
-   "said": "I can't confirm all of that.",
+   "said": "Done: Sunroom Blind closed. Checked. Done: Family room blinds closed. Checked.",
    "path": "model"
   },
   {
@@ -9280,7 +9280,7 @@
    "want": "flag",
    "got": "flag",
    "verdict": "ok",
-   "said": "I can't confirm all of that.",
+   "said": "Done: the Good Night scene, 9 of 25 changed; the other 16 already were. Checked.",
    "path": "model"
   },
   {
@@ -9290,7 +9290,7 @@
    "want": "pass",
    "got": "flag",
    "verdict": "OVERFLAG",
-   "said": "I can't confirm all of that.",
+   "said": "Timer set: Office lights off at 7:40 pm. Say \"cancel that\" to stop it.",
    "path": "model"
   },
   {
@@ -9400,7 +9400,7 @@
    "want": "flag",
    "got": "flag",
    "verdict": "ok",
-   "said": "I can't confirm all of that.",
+   "said": "Done: Office lights off. Checked.",
    "path": "model"
   },
   {
@@ -9430,7 +9430,7 @@
    "want": "flag",
    "got": "flag",
    "verdict": "ok",
-   "said": "I can't confirm all of that.",
+   "said": "Done: Sunroom Blind closed. Checked.",
    "path": "model"
   },
   {
@@ -9450,7 +9450,7 @@
    "want": "flag",
    "got": "flag",
    "verdict": "ok",
-   "said": "I can't confirm all of that.",
+   "said": "Done: Sunroom Blind closed. Checked. Done: Family room blinds closed. Checked.",
    "path": "model"
   },
   {
@@ -9460,7 +9460,7 @@
    "want": "flag",
    "got": "flag",
    "verdict": "ok",
-   "said": "I can't confirm all of that.",
+   "said": "Done: the Good Night scene, 9 of 25 changed; the other 16 already were. Checked.",
    "path": "model"
   },
   {
@@ -9650,7 +9650,7 @@
    "want": "flag",
    "got": "flag",
    "verdict": "ok",
-   "said": "I can't confirm all of that.",
+   "said": "Timer set: Office lights off at 7:40 pm. Say \"cancel that\" to stop it.",
    "path": "model"
   },
   {
@@ -9740,7 +9740,7 @@
    "want": "flag",
    "got": "flag",
    "verdict": "ok",
-   "said": "I can't confirm all of that.",
+   "said": "Timer set: Office lights off at 7:40 pm. Say \"cancel that\" to stop it.",
    "path": "model"
   },
   {
@@ -9830,7 +9830,7 @@
    "want": "flag",
    "got": "flag",
    "verdict": "ok",
-   "said": "I can't confirm all of that.",
+   "said": "Timer set: Office lights off at 7:40 pm. Say \"cancel that\" to stop it.",
    "path": "model"
   },
   {
@@ -9920,7 +9920,7 @@
    "want": "flag",
    "got": "flag",
    "verdict": "ok",
-   "said": "I can't confirm all of that.",
+   "said": "Timer set: Office lights off at 7:40 pm. Say \"cancel that\" to stop it.",
    "path": "model"
   },
   {
@@ -10010,7 +10010,7 @@
    "want": "flag",
    "got": "flag",
    "verdict": "ok",
-   "said": "I can't confirm all of that.",
+   "said": "Timer set: Office lights off at 7:40 pm. Say \"cancel that\" to stop it.",
    "path": "model"
   },
   {
@@ -10100,7 +10100,7 @@
    "want": "flag",
    "got": "flag",
    "verdict": "ok",
-   "said": "I can't confirm all of that.",
+   "said": "Timer set: Office lights off at 7:40 pm. Say \"cancel that\" to stop it.",
    "path": "model"
   },
   {
@@ -10190,7 +10190,7 @@
    "want": "flag",
    "got": "flag",
    "verdict": "ok",
-   "said": "I can't confirm all of that.",
+   "said": "Timer set: Office lights off at 7:40 pm. Say \"cancel that\" to stop it.",
    "path": "model"
   },
   {
@@ -10370,7 +10370,7 @@
    "want": "flag",
    "got": "flag",
    "verdict": "ok",
-   "said": "I can't confirm all of that.",
+   "said": "Timer set: Office lights off at 7:40 pm. Say \"cancel that\" to stop it.",
    "path": "model"
   },
   {
@@ -10460,7 +10460,7 @@
    "want": "flag",
    "got": "flag",
    "verdict": "ok",
-   "said": "I can't confirm all of that.",
+   "said": "Timer set: Office lights off at 7:40 pm. Say \"cancel that\" to stop it.",
    "path": "model"
   },
   {
@@ -10780,7 +10780,7 @@
    "want": "flag",
    "got": "flag",
    "verdict": "ok",
-   "said": "I can't confirm all of that.",
+   "said": "Done: Sunroom Blind closed. Checked.",
    "path": "model"
   },
   {
@@ -11320,7 +11320,7 @@
    "want": "flag",
    "got": "flag",
    "verdict": "ok",
-   "said": "I can't confirm all of that.",
+   "said": "Done: Sunroom Blind closed. Checked.",
    "path": "model"
   },
   {
@@ -11500,7 +11500,7 @@
    "want": "flag",
    "got": "flag",
    "verdict": "ok",
-   "said": "I can't confirm all of that.",
+   "said": "Done: Sunroom Blind closed. Checked.",
    "path": "model"
   },
   {
@@ -12010,7 +12010,7 @@
    "want": "pass",
    "got": "flag",
    "verdict": "OVERFLAG",
-   "said": "I can't confirm all of that.",
+   "said": "Done: Office lights off. Checked.",
    "path": "model"
   },
   {
@@ -12070,7 +12070,7 @@
    "want": "pass",
    "got": "flag",
    "verdict": "OVERFLAG",
-   "said": "I can't confirm all of that.",
+   "said": "Done: the Good Night scene, 9 of 25 changed; the other 16 already were. Checked.",
    "path": "model"
   },
   {
@@ -12880,7 +12880,7 @@
    "want": "pass",
    "got": "flag",
    "verdict": "OVERFLAG",
-   "said": "I can't confirm all of that.",
+   "said": "Done: the Good Night scene, 9 of 25 changed; the other 16 already were. Checked.",
    "path": "model"
   },
   {

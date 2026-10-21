@@ -114,8 +114,14 @@ async def _truth(coord, reply: str, text: str, results: list, ev: list, before: 
         if body.startswith(hd):
             body = body[len(hd):].strip()
     sent = {st for _t, st in ev} & _SENT
+    said = empty_reply_fallback(results, ev) if sent and results else ''      # what really happened, in the coordinator's own words [G19]
+    if said and not body:
+        return said, false                       # "Timer set: Office lights on at 9:00 pm." instead of a bare "I can't confirm all of that."
     head = _HEADS[1] if sent else ("I can't confirm that." if not body else _HEADS[0])
-    return f"{head} {body}".strip(), false
+    out = f"{head} {body}".strip()
+    if said and 'timer' in false and said not in out:
+        out = f"{out} {said}"
+    return out, false
 
 
 async def run_turn(coord, text: str, conversation_id: str, ask_model, *, other_tools=None, call_tool=None, now_local=None) -> dict:

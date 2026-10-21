@@ -1,9 +1,9 @@
  custom_components/atlas_household/core.py    |  98 ++-
  custom_components/atlas_household/truth.py   | 281 +++++++++
- custom_components/atlas_household/turn.py    |  49 +-
+ custom_components/atlas_household/turn.py    |  55 +-
  tests/fixtures/targets.phase2-rehearsal.json | 875 +++++++++++++++++++++++++++
- tests/test_rehearsal_gaps.py                 | 240 ++++++++
- 5 files changed, 1519 insertions(+), 24 deletions(-)
+ tests/test_rehearsal_gaps.py                 | 244 ++++++++
+ 5 files changed, 1529 insertions(+), 24 deletions(-)
 
 diff --git a/custom_components/atlas_household/core.py b/custom_components/atlas_household/core.py
 index 541d1a5..0ee0207 100644
@@ -558,7 +558,7 @@ index 0000000..07f9f30
 +                return 'state'
 +    return None
 diff --git a/custom_components/atlas_household/turn.py b/custom_components/atlas_household/turn.py
-index df8a131..5b6de6a 100644
+index df8a131..97d627b 100644
 --- a/custom_components/atlas_household/turn.py
 +++ b/custom_components/atlas_household/turn.py
 @@ -19,8 +19,9 @@ from __future__ import annotations
@@ -572,7 +572,7 @@ index df8a131..5b6de6a 100644
  
  NUDGE = "You didn't call a tool. If the request needs one, call the right atlas_ tool now; otherwise say plainly that you can't do it."
  _SOON = re.compile(r"\s*,?\s+\b(?:yet|for now|just yet|at the moment|right now)\b(?=\s*[.!,]|\s*$)", re.I)
-@@ -85,6 +86,37 @@ def empty_reply_fallback(results: list, evidence: list) -> str:
+@@ -85,6 +86,43 @@ def empty_reply_fallback(results: list, evidence: list) -> str:
      return EMPTY_UNSUMMARISED if evidence else EMPTY_NOTHING_RAN
  
  
@@ -603,14 +603,20 @@ index df8a131..5b6de6a 100644
 +        if body.startswith(hd):
 +            body = body[len(hd):].strip()
 +    sent = {st for _t, st in ev} & _SENT
++    said = empty_reply_fallback(results, ev) if sent and results else ''      # what really happened, in the coordinator's own words [G19]
++    if said and not body:
++        return said, false                       # "Timer set: Office lights on at 9:00 pm." instead of a bare "I can't confirm all of that."
 +    head = _HEADS[1] if sent else ("I can't confirm that." if not body else _HEADS[0])
-+    return f"{head} {body}".strip(), false
++    out = f"{head} {body}".strip()
++    if said and 'timer' in false and said not in out:
++        out = f"{out} {said}"
++    return out, false
 +
 +
  async def run_turn(coord, text: str, conversation_id: str, ask_model, *, other_tools=None, call_tool=None, now_local=None) -> dict:
      """Returns {'reply', 'path' ('fast' | 'model' | 'nudged'), 'claims' (unbacked claim kinds left after the guard), 'statuses', 'first',
      'tool_results'}: tool_results lists (tool, args, result) for every atlas_ call the coordinator handled in this conversation during the turn
-@@ -116,6 +148,7 @@ async def run_turn(coord, text: str, conversation_id: str, ask_model, *, other_t
+@@ -116,6 +154,7 @@ async def run_turn(coord, text: str, conversation_id: str, ask_model, *, other_t
              ev.append((None, 'external_tool'))  # another tool ran: never say "I haven't changed anything" [R13-06]
          return ev
  
@@ -618,7 +624,7 @@ index df8a131..5b6de6a 100644
      scope = coord._blind_scope(text) if hasattr(coord, '_blind_scope') else None
      expect = {'blind': len(scope)} if scope else None          # how many blinds the person's words named, for "all the blinds" [GQ-01]
      first = await ask_model(text)
-@@ -123,7 +156,9 @@ async def run_turn(coord, text: str, conversation_id: str, ask_model, *, other_t
+@@ -123,7 +162,9 @@ async def run_turn(coord, text: str, conversation_id: str, ask_model, *, other_t
      statuses = [st for _, st in ev]
      reply, bad = guard_reply(first, ev, coord.results_since(t0, conversation_id), expect)
      path = 'model'
@@ -629,7 +635,7 @@ index df8a131..5b6de6a 100644
          # never when the person's words are on the never-list: the whole turn is refused there, and a nudge could only push a partial
          # action (B16-01). The guarded reply stands.
          # C0e triage 1 (the Atlas-side project): the model claimed without calling any tool. Ask ONCE to call the tool or say it can't, then guard again.
-@@ -149,8 +184,18 @@ async def run_turn(coord, text: str, conversation_id: str, ask_model, *, other_t
+@@ -149,8 +190,18 @@ async def run_turn(coord, text: str, conversation_id: str, ask_model, *, other_t
              if r.get('reason') == 'which_blind' and q.endswith('?'):
                  reply = f"{(reply or '').strip()} {q}".strip()
                  break
@@ -1531,10 +1537,10 @@ index 0000000..a5da9e4
 +}
 diff --git a/tests/test_rehearsal_gaps.py b/tests/test_rehearsal_gaps.py
 new file mode 100644
-index 0000000..af65d3e
+index 0000000..d033394
 --- /dev/null
 +++ b/tests/test_rehearsal_gaps.py
-@@ -0,0 +1,240 @@
+@@ -0,0 +1,244 @@
 +"""Regression tests for the rehearsal gaps (cloud robustness job, 21 Oct; GAPS.md on branch atlas-robustness). Each class names its gap.
 +Synthetic phase-2 rehearsal map (tests/fixtures/targets.phase2-rehearsal.json)."""
 +import json
@@ -1728,6 +1734,10 @@ index 0000000..af65d3e
 +        for reply in ['I have scheduled the office lights to turn on at 9:00 pm tomorrow.', 'The office lights will turn on at 9:30 pm.',
 +                      "Righto, office lights on at ten pm."]:
 +            self.assertNotEqual(self.run_timer(reply), reply, reply)
++
++    def test_the_true_timer_is_said_instead(self):
++        self.assertEqual(self.run_timer('I have scheduled the office lights to turn on at 9:00 pm tomorrow.'),
++                         'Timer set: Office lights on at 9:00 pm. Say "cancel that" to stop it.')
 +
 +    def test_the_right_time_passes(self):
 +        for reply in ['I have scheduled the office lights to turn on at 9:00 pm.', 'The office lights will turn on at nine pm tonight.',

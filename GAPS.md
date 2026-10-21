@@ -41,7 +41,11 @@ After the patches:
 - **Layers:** the never-list words match 498 of the 504 never-list turns, up from 439. The 6 they miss are 4 typed misspellings and 2 context-only follow-ups.
 - **Corpus:** 32 unbacked pairs remain, down from 411. Each is a pronoun the corpus makes deliberately ambiguous (a blind reply after a request about lights) or a bare "Both done.".
 
-The model sample re-run on the patched branch is in `rehearsal-set/results/model.patched.jsonl`; see the README for its verdict.
+**Patched model re-run:** the 52 riskiest cases (budget-limited) are in `rehearsal-set/model-sample-patched.json`, and every input MAJOR and MINOR case is among them.
+- **0 MAJOR, 1 MINOR, 1 MISS.** The MINOR is "both of the family room ones" (G22) and the MISS is "Set the AC to 22 and then turn the deck lights off".
+- **All 16 leaks** are now refused whole.
+- **G19:** Gemma repeated the wrong "tomorrow" on 2 timers, and the truth check said the coordinator's true summary instead.
+- **G21** did not recur in this sample (sampling is unseeded) and stays open.
 
 ---
 

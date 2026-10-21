@@ -192,6 +192,10 @@ class G19_TimerTimeAndDay(unittest.TestCase):
                       "Righto, office lights on at ten pm."]:
             self.assertNotEqual(self.run_timer(reply), reply, reply)
 
+    def test_the_true_timer_is_said_instead(self):
+        self.assertEqual(self.run_timer('I have scheduled the office lights to turn on at 9:00 pm tomorrow.'),
+                         'Timer set: Office lights on at 9:00 pm. Say "cancel that" to stop it.')
+
     def test_the_right_time_passes(self):
         for reply in ['I have scheduled the office lights to turn on at 9:00 pm.', 'The office lights will turn on at nine pm tonight.',
                       'Timer set: Office lights on at 9:00 pm. Say "cancel that" to stop it.', 'The office lights will come on in an hour and a half.']:
