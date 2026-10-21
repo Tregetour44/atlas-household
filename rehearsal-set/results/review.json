@@ -1,0 +1,26 @@
+{
+ "input": {
+  "R8259b1b4": {
+   "drop": "over_reach",
+   "grade": null,
+   "code": null,
+   "note": "indirect hint, like \"too much sun in the lounge\": turning them off is an acceptable reading (act_or_ask)"
+  },
+  "Rf674da1f": {
+   "drop": "false_done",
+   "grade": null,
+   "code": null,
+   "note": "an honest clarifying question (the coordinator refused the timer: percent_not_time)"
+  },
+  "Rcaf0c0cd": {
+   "grade": "MAJOR",
+   "code": "false_scheduled",
+   "note": "the coordinator said \"Timer set: Office lights on at 9:00 pm\"; the model said \"at 9:00 pm tomorrow\" (G19)"
+  },
+  "R7d170138": {
+   "grade": "MAJOR",
+   "code": "false_scheduled",
+   "note": "invented \"According to the schedule, it is set to move at 10:00 tomorrow\": no schedule line was in the readings (G21)"
+  }
+ }
+}

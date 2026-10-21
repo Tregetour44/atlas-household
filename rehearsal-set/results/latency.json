@@ -1,0 +1,49 @@
+{
+ "coverage": {
+  "requests": 2982,
+  "fast_before": 390,
+  "fast_after": 881,
+  "share_before": 0.1308,
+  "share_after": 0.2954,
+  "newly_fast_by_category": {
+   "blind_named": 136,
+   "scene": 109,
+   "blind_pair": 63,
+   "blind_all": 60,
+   "blind_position": 48,
+   "question_readonly": 40,
+   "stt_scene": 12,
+   "stt_blind_named": 6,
+   "owner": 5,
+   "question": 3,
+   "stt_blind_pair": 3,
+   "multi": 2,
+   "stt_blind_all": 2,
+   "never_question": 1,
+   "never_lookalike": 1
+  }
+ },
+ "fast_path_cpu": {
+  "n": 881,
+  "median_ms": 1.43,
+  "p90_ms": 1.87,
+  "note": "parse + coordinator call + read-back against the in-memory fake (device time not included; it is the same on both paths)"
+ },
+ "model_path_cpu": {
+  "n": 209,
+  "median_s": 20.7,
+  "p90_s": 52.4,
+  "model_calls_median": 2,
+  "model_calls_mean": 1.65,
+  "nudged_share": 0.144,
+  "uncached_prompt_tokens_median": 89,
+  "generated_tokens_median": 37,
+  "prompt_eval_s_median": 8.5,
+  "generation_s_median": 12.2,
+  "note": "gemma4:12b Q4_K_M on 4 vCPU, prompt cache warm (5.9k-token system prompt cached); a cold prompt costs ~246 s here"
+ },
+ "deterministic_overhead_on_model_turns": {
+  "median_ms": 2.68,
+  "p90_ms": 4.26
+ }
+}
