@@ -88,10 +88,21 @@ _NEVER_CORE = re.compile(r"\b(un ?lock\w*|lock(s|ed|ing)?|alarm\w*|(garage|carpo
 NEVER_NAMES = _NEVER_CORE
 # the person's words: the core list, plus a WHITELIST for places that have doors: once the light phrases ("garage lights", "lights in my
 # garage") are taken out, ANY garage, carport or shed left, or a bare "door" that isn't a door blind, refuses the whole turn [P2d-01]
-_LIGHT_PHRASE = re.compile(r"\b(?:garages?|carports?|sheds?)(?: |-)(?:lights?|lamps?|ceiling|downlights?|spotlights?|lighting)\b|"           # ONE plain space or
+_LIGHT_PHRASE = re.compile(r"\b(?:garages?|car ?ports?|sheds?)(?: |-)(?:lights?|lamps?|ceiling|downlights?|spotlights?|lighting)\b|"           # ONE plain space or
                            r"\b(?:lights?|lamps?|downlights?|spotlights?)(?: (?:on|off))? (?:in|of) (?:the |my |our )?(?:garages?|carports?|sheds?)\b",   # hyphen [P2e-01]
                            re.I)
-_BARE_PLACE = re.compile(r"\b(?:garage|carport|shed)\w*|\bdoor\w*(?!(?: |-)blinds?\b)", re.I)          # garage2, doorway too [P2e-04]
+_BARE_PLACE = re.compile(r"\b(?:garage|carport|shed)\w*|\bdoor\w*(?!(?: |-)blinds?\b)|\bcars?\b", re.I)          # garage2, doorway too [P2e-04];
+# a car: "let the car out", "I'm heading out in the car, open up" (the garage in other words) [cloud robustness job, rehearsal G01]
+# The person's words only (not map names): ordinary spoken ways to a door or the garage, and the go-live prompt's own never-list (reminders, lists,
+# medication), which the words above missed; Gemma did the allowed half of each in the rehearsal [cloud robustness job, G01/G02]
+_NEVER_SPOKEN = re.compile(r"\bopen\s+(?:it\s+|things\s+|everything\s+)?up\b(?!\s+(?:the\s+|my\s+|our\s+)?(?:[a-z]+\s+){0,6}?blinds?\b)|"
+                           r"\blet\s+(?:the\s+|my\s+|our\s+)?(?:dogs?|cats?|pets?|kids?|visitors?|guests?|cleaners?|tradies?|plumbers?|couriers?|postie|"
+                           r"everyone|someone|somebody|people|(?:him|her|them|me|us))\s+(?:in|out)\b|"
+                           r"\b(?:open|close|shut|unlock|lock|pop|unlatch)\s+(?:up\s+)?(?:the\s+|my\s+|our\s+)?(?:back|front|side)\b"
+                           r"(?![\s-]*(?:lights?|lamps?|blinds?|downlights?|spotlights?|deck|yard|garden|lawn|entry|steps?))|"
+                           r"\b(?:remind\w*|reminders?|lists?|medications?|medicines?|meds|tablets?|pills?|prescriptions?)\b", re.I)
+_LEET = str.maketrans({'0': 'o', '1': 'i', '3': 'e', '4': 'a', '5': 's', '7': 't', '@': 'a', '$': 's'})
+_SPACED = re.compile(r"(?<![A-Za-z])(?:[A-Za-z][ .*_-]){2,}[A-Za-z](?![A-Za-z])")            # "g a r a g e", "g-a-t-e", "a.l.a.r.m"
 # AFTER a place light phrase, a WHITELIST: a word pointing back refuses, and so does ANY moving word unless a blind follows it
 # (or it follows "blind(s)"): "close it", "open up", "close now", ", up," all refuse; "close the blinds", "the blinds closed" act [P2e-02, P2f-01, P2f-R01/R02]
 _MOVE_WORD = r"(?:open\w*|clos\w*|shut\w*|lower\w*|rais\w*|lift\w*|roll\w*|secur\w*|lock\w*|pull\w*|drop\w*|put|bring|get|up|down)"
@@ -122,6 +133,21 @@ class _NeverWords:
         t = unicodedata.normalize('NFKC', text or '').replace('_', ' ')         # "garage_door" is two words; fullwidth folded [P2e-03]
         t = _ZERO_WIDTH.sub('', t)
         t = re.sub(r'[^\S ]+', ' | ', t)                                      # newline, tab, no-break space: a hard break, never a joiner [P2e-01]
+        # typed tricks, checked as well as the words as written (only ever more refusals): lookalike letters, s p a c e d or h-y-p-h-e-n-a-t-e-d
+        # letters, and digits or symbols for letters ("unl0ck", "c@rport") [cloud robustness job, G05]
+        f = _fold(t) if re.search(r'[^\x00-\x7f]', t) else t
+        d = _SPACED.sub(lambda m: re.sub(r'[ .*_-]', '', m.group(0)), f)
+        lt = re.sub(r"[A-Za-z0-9@$]*[A-Za-z][A-Za-z0-9@$]*", lambda m: m.group(0).translate(_LEET) if re.search(r'[0-9@$]', m.group(0)) else m.group(0), d)
+        lt = re.sub(r"[@$]", lambda m: m.group(0).translate(_LEET), lt) if lt != d else lt
+        for v in dict.fromkeys([t, f, d, lt]):
+            m = self._one(v)
+            if m:
+                return m
+        return None
+
+    def _one(self, t):
+        if _NEVER_SPOKEN.search(t):
+            return _NEVER_SPOKEN.search(t)
         if _NEVER_CORE.search(t):
             return _NEVER_CORE.search(t)
         marked = _LIGHT_PHRASE.sub(' \x00 ', t)
@@ -146,6 +172,7 @@ ACTING = {'atlas_lights', 'atlas_scene', 'atlas_blind', 'atlas_media', 'atlas_co
 # or all the lights; otherwise ask. A model that picks "ground_floor_lights" for "the family room lamp" would switch 14 lights [cloud review 1, M11].
 SCOPE_SYNONYMS = {'ground': ('downstairs', 'ground floor'), 'upstairs': ('first floor', 'top floor', 'up stairs'), 'outside': ('outdoor', 'outdoors', 'exterior')}
 ALL_LIGHTS = re.compile(r"\b(all(\s+of)?\s+(the\s+)?lights|every\s+light|everywhere|whole\s+(house|home|place))\b(?!\s+(in|on|at)\s+the\b)", re.I)
+FAST_PATHS = ('timer', 'level', 'scene', 'blind', 'read')
 NEVER_SCOPE = ACTING | {'atlas_cancel'}      # a cancel changes what will happen, so it is refused in a never-list turn too [cloud review 1, M3]
 
 
@@ -172,9 +199,10 @@ _APOS = str.maketrans({'\u2019': "'", '\u2018': "'", '\u02bc': "'"})          # 
 # A negation vetoes a claim only when it sits just before the claim in the same clause ("I have not turned...", "Nothing has been
 # changed", "No timer has been set") [R12-02, R13-03].
 _NEG_BEFORE = re.compile(r"\b(can't|cannot|can not|couldn't|could not|didn't|did not|haven't|have not|hasn't|has not|won't|will not|wasn't|weren't|isn't|"
-                         r"aren't|not(?!\s+to\s+worry)|never|unable to|no longer|nothing|no(?!\s+(?:problem|worries|trouble|need)))\b(\s+[\w']+){0,3}\s*$", re.I)      # same clause, no punctuation between
+                         r"aren't|not(?!\s+to\s+worry)|never|unable to|no longer|nothing|no(?!\s+(?:problem|worries|trouble|need|dramas|probs)))\b(\s+[\w']+){0,3}\s*$", re.I)      # same clause, no punctuation between
 _NONE_AFTER = re.compile(r"^\s+(nothing|none|no\b)", re.I)                                    # "I set nothing."
-_ADV = r"(?:(?:also|now|just|then|already|successfully|quickly|not only|gone ahead and|went ahead and|go ahead and|\w+ly)\s+){0,3}"
+_UNSURE_BEFORE = re.compile(r"\b(?:couldn't|could not|can't|cannot|unable to|not able to)\s+(?:confirm|verify|check|tell|be sure)\b", re.I)   # "I couldn't confirm the lights went off" [G13]
+_ADV = r"(?:(?:also|now|just|then|already|successfully|quickly|not only|gone ahead and|went ahead and|go ahead and|gone and|went and|\w+ly)\s+){0,3}"
 _DID = (r"(turned|switched|set(?!\s+(?:up\s+)?(?:a|an|the|your)\s+(?:timer|reminder))|opened|closed|dimmed|brightened|raised|lowered|activated|enabled|"
         r"run(?!\s+(?:out|into|late|through|a\s+check))|"                       # "I've run the Daily scene" [cloud review 2]
         r"disabled|started|stopped(?!\s+(?:making|doing|sending|changing|trying))|cranked|put|changed|adjusted|ran|killed|shut|paused|muted|unmuted|played|resumed|skipped|applied|triggered|recalled|restored|moved|"
@@ -183,11 +211,15 @@ _PP = r"(turned|switched|set|opened|closed|dimmed|brightened|raised|lowered|acti
 _DO = r"(turn|switch|open|close|dim|brighten|set|run|put|start|stop|activate|lower|raise|pause|mute|play)"
 _ING = r"(turning|switching|opening|closing|dimming|brightening|setting|activating|starting|stopping|running|putting|lowering|raising|pausing|muting)"
 _THING = r"(lights?|lamps?|blinds?|downlights?|spotlights?|scene)"
-_OK = r"(?:(?:ok(?:ay)?|sure(?: thing)?|right|alright|all right|great|no problem|got it|on it|cool|yes|yep)\W+)*"
+_OK = (r"(?:(?:ok(?:ay)?|sure(?: thing)?|right|alright|all right|great|no problem|got it|on it|cool|yes|yep|"
+       r"no worries|no dramas|no probs|righto|too easy|easy|sweet|beauty|you beauty|cheers|lovely|perfect|nice one|good as gold)\W+)*")   # Australian acknowledgements [G10]
 _OK_ONE = _OK[:-1] + "{1}"                                                                        # at least one acknowledgement word
 _NOT_SUBJECT = r"(?!(?:I|we|you|it|they|he|she|there)\b)"                                    # "I sent the lights on" is not verbless
 _WHEN = (r"\b(?:at\s+\d|at\s+(?:noon|midnight)|in\s+(?:\d+|an?|one|two|three|four|five|six|seven|eight|nine|ten|fifteen|twenty|thirty|forty|"
-         r"forty-five|fifty|sixty|half)\b|tomorrow|tonight|this (?:evening|afternoon|morning)|later\b|at that time)")   # [RT106; B16-05: not "automatically", which describes automations]
+         r"forty-five|fifty|sixty|half)\b|tomorrow|tonight|this (?:evening|afternoon|morning)|later\b|at that time|"
+         # spelled-out clock times (the voice wants times spelled out: OWNER-NOTES), "by 9", "10 minutes" [G11]
+         r"at\s+(?:one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve)\b(?!\s*(?:%|percent|per\s*cent))|by\s+(?:\d|one|two|three|four|five|six|"
+         r"seven|eight|nine|ten|eleven|twelve|noon|midnight)\b|\d+\s+(?:minutes?|mins?|hours?)\b|\b\d{1,2}(?:[:.]\d\d)?\s*(?:am|pm|a\.m\.|p\.m\.))")   # [RT106; B16-05: not "automatically", which describes automations]
 # "they'll" / "it'll", any light word ("downlights"), and "will be off" [cloud review 2]
 _WILL = (r"(?:I'll|I will|I'm going to|(?:it|they)(?:'ll|\s+will)|[\w ]{0,30}?(?:lights?|lamps?|blinds?|scenes?)(?:'ll|\s+will))\s+" + _ADV
          + r"(?:" + _DO[1:-1] + r"|go|be turned|be switched|be\s+(?:on|off|open|closed))\b")
@@ -206,13 +238,19 @@ _CLAIMS = [
     ('action', False, re.compile(r"^\W*" + _OK + _ING + r"\b", re.I), _FAILED_AFTER),       # "Turning off the lights now." (not "Turning it off failed")
     ('action', False, re.compile(r"\b(is|are|'s|'re)\s+now\s+(?:(?:switched|turned)\s+)?(on|off|open|closed|down|lowered|raised|dimmed|brighter|dimmer|set|"
                                  r"running|playing|paused|muted|active)\b", re.I), None),           # "is now switched off", "is now down" [cloud review 2]
-    ('action', False, re.compile(r"\b(is|are|'s|'re|should be)\s+(on|off|open|closed|closing|opening)\s+now\b(?!\s+in\b)", re.I), None),   # not "on now in the study"
+    ('action', False, re.compile(r"\b(is|are|'s|'re|should be)\s+(on|off|open|closed|closing|opening|brighter|dimmer|darker|down|up)\s+now\b(?!\s+in\b)", re.I), None),   # not "on now in the study"
     ('action', False, re.compile(r"\b(has|have|had)\s+(?:now\s+|just\s+|also\s+|successfully\s+|all\s+)?been\s+" + _PP + r"\b", re.I), None),   # "have now been" [cloud review 2]
     ('action', False, re.compile(r"\b(was|were)\s+(just|now|successfully)\s+" + _PP + r"\b", re.I), None),   # not "were turned off at 9" (history)
     ('action', False, re.compile(r"\b(has|have)\s+gone\s+(off|out)\b|\b(just\s+)?went\s+(off|out)\b", re.I), _PAST_TIME),     # not "went off at 9 pm"
     # an acknowledgement ("Done!", "All set") claims that whatever was asked happened: a timer set or cancelled backs it too [cloud review 1, M7]
     ('ack', False, re.compile(r"^\W*" + _OK + r"(done|all done|all set|sorted|that's (done|sorted)|consider it done|you're all set|finished|there you go|"
-                              r"here you (go|are)|taken care of)\b", re.I), None),
+                              r"here you (go|are)|taken care of|too easy|job done|you're good to go|good to go|all taken care of|sweet as|good as done)\b", re.I), None),
+    ('ack', False, re.compile(r"^\W*" + _OK + _NOT_SUBJECT + r"(the\s+)?([\w']+\s+){0,3}" + _THING + r"\s+(done|sorted|taken care of)\b", re.I), None),   # "Office lights done." [G10]
+    # a past participle with no subject: "Closed it for you.", "Dimmed the office lights for you.", "Lowered it." [G10]
+    ('action', False, re.compile(r"^\W*" + _OK + r"(?:dimmed|brightened|closed|opened|lowered|raised|shut|killed|cut|pulled|dropped|drew|drawn|lit|popped|flicked|"
+                                 r"put|started|activated|ran)\s+(?:it|them|that|those|these|both|all|up|down|on|off|the|your|my|our)\b", re.I), _PAST_TIME),
+    ('action', False, re.compile(r"^\W*" + _OK + r"(?:down|up|off|on|out)\s+(?:it|they|she)\s+(?:go|goes)\b", re.I), None),   # "Down it goes!", "Off they go!"
+    ('scheduled', False, re.compile(r"\btimer(?:'s|\s+is)\s+(?:now\s+)?on\b|^\W*" + _OK + r"(?:all\s+)?set\s+for\b.{0,30}?" + _WHEN, re.I), None),   # "Timer's on", "Set for 9 pm" [G11]
     ('ack', False, re.compile(r"\bI(?:'ve| have)?\s+taken care of (it|that|this)\b", re.I), None),
     ('action', False, re.compile(r"\bI(?:'ve| have)?\s+" + _ADV + r"got\s+(?:the\s+|your\s+|all\s+the\s+)?(?:[\w']+\s+){0,3}?" + _THING
                                  + r"\s+(?:on|off|open|closed|up|down)\b", re.I), None),       # "I've got the lights off" [m3]
@@ -223,7 +261,7 @@ _CLAIMS = [
                                  re.I), None),                                                  # "are now at 50%", "now at full" [R18-03, R18b-04]
     # (no verbless "Lights on at 50%.": after a read it is an honest status reply [R18b-04])
     ('action', False, re.compile(r"^\W*(turned|switched)\s+(on|off)\b", re.I), None),          # "Turned on the light" (HA's own wording)
-    ('action', False, re.compile(r"^\W*" + _OK + _NOT_SUBJECT + r"(the\s+)?([\w']+\s+){0,3}" + _THING + r"\s+(now\s+)?(on|off|open|closed|up|down|active|running)(\s+now)?\W*$",
+    ('action', False, re.compile(r"^\W*" + _OK + _NOT_SUBJECT + r"(the\s+)?([\w']+\s+){0,3}" + _THING + r"\s+(now\s+)?(on|off|open|closed|up|down|active|running|out)(\s+now)?\W*$",
                                  re.I), None),                                                  # "Lights off." (no verb); "Daily scene running."
     # a timer acknowledged without a verb ("Got it, office lights off at 9 pm."), or stated as the queue's state ("The lights are set to turn off
     # at 9 pm.") [cloud review 2]. A bare "Office lights off at 9 pm." is left alone: it reads the same as an item in a choice list.
@@ -243,8 +281,8 @@ _CLAIMS = [
     ('scheduled:future', True, _SCHED_FUTURE, None),                                            # "I'll dim the loft at 9 pm", "in five minutes"
     ('scheduled:future', True, _SCHED_FUTURE_FIRST, None),
     # "already" after a turn that changed something (done) is false unless the reply also says what changed (C0e E12) [see guard_reply]
-    ('already', False, re.compile(r"\b(is|are|was|were)\s+(all\s+)?already\s+(on|off|open|closed|shut|set|at|dimmed|running|playing|paused)\b|"
-                                  r"\balready\s+(on|off|open|closed|at full|at the lowest)\b|\bnothing (needed|to) (to )?(change|do)\b", re.I), None),
+    ('already', False, re.compile(r"\b(is|are|was|were|'s|'re)\s+(all\s+)?already\s+(on|off|open|closed|shut|set|at|dimmed|running|playing|paused|down|up|out)\b|"
+                                  r"\balready\s+(on|off|open|closed|down|up|at full|at the lowest)\b|\bnothing (needed|to) (to )?(change|do)\b", re.I), None),
     ('cancelled', False, re.compile(r"\b(I(?:'ve| have)?\s+" + _ADV + r"(cancell?ed|removed|deleted|cleared|stopped) (the|that|your|those) timers?|"
                                     r"I(?:'ve| have)?\s+" + _ADV + r"cancell?ed\b|timer(?:'s| is| has)? (been )?cancell?ed|cancell?ed (the|that|your|those) (?:[\w:'-]+\s+){0,3}?timers?|"
                                     r"that(?:'s| is| has)\s+(?:been\s+)?cancell?ed|I'm\s+(?:now\s+)?cancell?ing\b)", re.I), None),   # "That's cancelled." [cloud review 2]
@@ -297,7 +335,7 @@ def _claims(clause: str) -> list[str]:
     for k, future, rx, exclude in _CLAIMS:
         for m in rx.finditer(clause):
             before = clause[:m.start()]
-            if _NEG_BEFORE.search(before) or _NONE_AFTER.match(clause[m.end():]):
+            if _NEG_BEFORE.search(before) or _NONE_AFTER.match(clause[m.end():]) or _UNSURE_BEFORE.search(before):
                 continue
             if (future and _COND.search(clause)) or _COND_BEFORE.search(before) or (exclude is not None and exclude.search(clause[m.end():])):
                 continue
@@ -307,11 +345,15 @@ def _claims(clause: str) -> list[str]:
                 k = 'cancelled' if _TIMER_STOP.search(clause) else 'scheduled'     # "I've stopped the timer", "I've turned off the timer" [M7]
             elif k == 'action' and not future and _LATER.search(clause[m.end():]):
                 k = 'scheduled'                # "I've set the office lights to turn off at 9 pm" is a timer claim [M7]
+            elif k in ('action', 'ack') and not future and _FOR_TIME.search(clause[m.end():]):
+                k = 'scheduled'                # "I've set that up for 9.", "All set for 9 pm." [G11]
             kinds.append(k)
             break
     return kinds
 
 
+_FOR_TIME = re.compile(r"\b(?:for|at|by)\s+(?:\d{1,2}(?:[:.]\d\d)?(?!\s*%)|one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve|noon|midnight)\b"
+                       r"(?!\s*(?:%|percent|per\s*cent|minutes?\s+ago))", re.I)
 _PAIR_BLINDS = re.compile(r"\bdoor and (?:the )?window blinds?\b", re.I)
 
 
@@ -373,6 +415,8 @@ def _quantity_short(clause: str, results: list, expect: dict | None = None) -> b
     at = (m or word).start()
     after = [(rx.search(c, at).start(), t) for t, rx in _THINGS.items() if rx.search(c, at)]
     things = [min(after)[1]] if after else [t for t, rx in _THINGS.items() if rx.search(c)]     # the thing the quantity is about [GQ-03]
+    if not things and re.search(r"\b(?:closed|shut|down|lowered|opened|raised)\b", c, re.I):
+        things = ['blind']                   # "Closed them all.", "They're all closed now.": only a blind closes [G12]
     if k is None and 'blind' in things and (expect or {}).get('blind'):
         k = expect['blind']                  # "all the blinds are closed" = every blind the person's words named [GQ-01]
     fit = [r for n, _a, r in results if not things or any(n in _THING_TOOLS[t] for t in things)]
@@ -414,7 +458,8 @@ def guard_reply(reply: str, statuses: list, results: list | None = None, expect:
             # "already" is only checked after a turn that changed something: with no result it is a state statement from the readings [E12]
             unbacked = [k.split(':')[0] for k in _claims(c) if not (_BACKED_BY[k] & _backing(k, c, ev_s))
                         and not (k == 'already' and 'done' not in {st for _, st in ev_s})]
-            if not unbacked and results and (_claims(c) or _has_quantity(c)) and _quantity_short(c, results, expect):    # state wording too [GQ-01]
+            if not unbacked and results is not None and (_claims(c) or _has_quantity(c)) and _quantity_short(c, results, expect):    # state wording too [GQ-01];
+                # an empty list (run_turn: no tool ran) backs no "both" either [G12]; None (an older caller with no results) skips the count
                 unbacked = ['quantity']                         # "closed both" with one moved [the lead project 20 Oct 21:5x]
             if unbacked:
                 bad += unbacked
@@ -598,6 +643,12 @@ class Coordinator:
         self.timer_blinds = targets.get('timer_blinds') is True
         self.timer_scenes = targets.get('timer_scenes') is not False      # false in a map that allows activating scenes but not timing them
         self.blind_confirm = targets.get('blind_confirm') is not False      # phase 2 (directive 0026 am. 1, the owner "I prefer B"): false = move straight away
+        from .readings import check_readings      # read-only fast answers: their own section, never a handle, never a tool [cloud robustness job]
+        self.readings = check_readings(targets.get('readings'))
+        fp = targets.get('fast_paths')             # which deterministic paths run_turn may use (absent: all of them)
+        self.fast_paths = set(FAST_PATHS if fp is None else fp)
+        if self.fast_paths - set(FAST_PATHS):
+            raise ValueError(f'unknown fast_paths {sorted(self.fast_paths - set(FAST_PATHS))}')
         self.replaced: dict[str, list[str]] = {}            # conversation -> questions replaced by a newer one (for an ambiguous yes)
         if self.restart_policy not in ('cancel_pending', 'keep_if_unchanged'):
             raise ValueError(f'unknown restart_policy {self.restart_policy!r}')
@@ -786,7 +837,8 @@ class Coordinator:
         elif name in ACTING and self.inhibited:
             res = _deny('inhibited', "I've stopped making changes because my action log couldn't be saved. Please tell the owner.", detail=self.inhibited)
         elif name in NEVER_SCOPE and NEVER_WORDS.search(ctx['user_text']):
-            res = _deny('never_list', "Part of that is something I'm never allowed to do (locks, doors, alarms, gates or the energy system), so I haven't done any of it.")
+            res = _deny('never_list', "Part of that is something I'm never allowed to do (locks, doors, alarms, gates, the energy system, reminders or lists), "
+                                      "so I haven't done any of it.")
         elif name in ('atlas_lights', 'atlas_schedule') and ctx['user_text'] and not self._in_scope(args.get('target_handle'), ctx['user_text']):
             t = self.handles[args['target_handle']]
             res = _r('needs_choice', f"Do you mean all of the {t['label'].lower()}, or just one room? Ask which.", reason='scope', handle=args['target_handle'],
@@ -944,7 +996,8 @@ class Coordinator:
         bad = [e for e, v in results.items() if not v]
         was = {x for x in already if isinstance(x, str)} | {x[0] for x in already if isinstance(x, (tuple, list)) and x and isinstance(x[0], str)}
         receipt['changed_ids'] = [e for e in ok if e in befores and e not in was]   # sent, read back, not already so [C1a K13-RR01]
-        base = {'handle': t['handle'], 'label': t['label'], 'changed': len(ok), 'already': len(already) or None, 'unavailable': len(missing) or None, 'receipt': rid}
+        n_ok = len([e for e in ok if e not in was])     # a scene reads back every member, the already-right ones too: count them once [G06]
+        base = {'handle': t['handle'], 'label': t['label'], 'changed': n_ok, 'already': len(already) or None, 'unavailable': len(missing) or None, 'receipt': rid}
         if failed_send and ok:
             return _r('failed', f"I couldn't reach all of {t['label']}: {len(ok)} changed and checked, the rest not.", detail=failed_send, **base)
         if failed_send:
@@ -954,7 +1007,7 @@ class Coordinator:
         if bad:
             return _r('not_verified', f"I sent {description}, but {len(bad)} of {len(results)} didn't report back as asked.", not_confirmed=len(bad), **base)
         # a partial change leads with what changed, so it can't be relayed as "already" (C0e E12: "(23 already were)" was heard as "already off")
-        extra = f", {len(ok)} of {len(ok) + len(already)} changed; the other {len(already)} {already_note}" if already else ''
+        extra = f", {n_ok} of {n_ok + len(already)} changed; the other {len(already)} {already_note}" if already else ''
         miss = f"; {len(missing)} not available, so not changed" if missing else ''
         return _r('done', f"Done: {description}{extra}{miss}. Checked.", **base)
 
@@ -1218,7 +1271,7 @@ class Coordinator:
                 scope |= {e for x in g for e in groups[x]['entity_ids']}
                 continue
             if plural and re.search(r"\b(?:all|every)\b", c):
-                scope |= {e for o in single.values() for e in o['entity_ids']}
+                scope |= {e for o in single.values() if o.get('enabled', True) for e in o['entity_ids']}    # "all" = every ENABLED blind [cloud robustness job]
                 used_all = True
                 continue
             return None
@@ -1243,8 +1296,8 @@ class Coordinator:
             if scope is None or not set(t['entity_ids']) <= scope:
                 # the blinds the person's words name (a whitelist, worked out from the words alone) must include every blind this call would
                 # move, whatever handle the model chose; anything unclear asks [amendment 2, R2: one rule for the pair and the single blinds]
-                single = [h for h, o in self.handles.items() if o.get('kind') == 'blind' and len(o.get('entity_ids') or []) == 1]
-                names = [f"the {self.handles[h]['label'].lower()}" for h in single]
+                single = [h for h, o in self.handles.items() if o.get('kind') == 'blind' and len(o.get('entity_ids') or []) == 1 and o.get('enabled', True)]
+                names = [f"the {self.handles[h]['label'].lower()}" for h in single]     # never offer a blind that isn't enabled [cloud robustness job]
                 which = ', '.join(names[:-1]) + ' or ' + names[-1] if len(names) > 1 else names[0]
                 return _r('needs_choice', f"It isn't clear which blind. Which one: {which}?", reason='which_blind', handle=t['handle'])   # a question for the person [AM2-03]
         plan, res = await self._blind_plan(t, a['operation'], a.get('position_percent'))

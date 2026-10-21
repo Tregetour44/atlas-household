@@ -62,6 +62,7 @@ def build_targets() -> dict:
         else:
             out[h] = t
     d['handles'] = out
+    d['readings'] = READINGS_MAP           # read-only fast answers (the prompt's example sensor ids, synthetic values in house())
     d['version'] = 'synthetic-rehearsal-1'
     d['note'] = ('Rehearsal fixture (synthetic; never installable): atlas-current/targets.synthetic-phase2.json with the two enabled scenes under '
                  'their live handles (good_night, wind_down) and synthetic reviewed members. Built by rehearsal/fixture.py.')
@@ -74,6 +75,11 @@ def write_fixture() -> pathlib.Path:
     return FIXTURE
 
 
+READINGS_MAP = {'battery': {'entity_id': 'sensor.example_01'}, 'outside': {'entity_id': 'weather.example_37'},
+                'inside': [{'entity_id': 'sensor.example_11', 'name': 'the attic'}, {'entity_id': 'sensor.example_12', 'name': 'Bedroom South'}]}
+READING_STATES = {'sensor.example_01': ('64', {'unit_of_measurement': '%'}), 'sensor.example_11': ('23.1', {'unit_of_measurement': '°C'}),
+                  'sensor.example_12': ('22.4', {'unit_of_measurement': '°C'}),
+                  'weather.example_37': ('partlycloudy', {'temperature': 24.5, 'temperature_unit': '°C', 'humidity': 52})}
 CANONICAL_ON = {'light.family_room_lamp': 60, 'light.family_room_downlight_front': 100, 'light.family_room_downlight_back': 100,
                 'light.galley_ceiling': 100, 'light.office_ceiling': 80, 'light.yard_spot': 100, 'light.flood_lamp': 100, 'light.corridor_downlight': 40}
 CANONICAL_BLINDS = {'cover.blind_motor': 100, 'cover.blind_motor_2': 100, 'cover.blind_motor_3': 50}
@@ -82,7 +88,12 @@ CANONICAL_BLINDS = {'cover.blind_motor': 100, 'cover.blind_motor_2': 100, 'cover
 def house(start: datetime = EVENING, preset: str = 'canonical') -> FakeHouse:
     """A FakeHouse on the fixture. 'canonical': the evening state every model case starts from (so the rendered prompt is identical and the
     model's prompt cache holds); 'dark': every light off, blinds closed (the FakeHouse default); 'bright': every light on 100%, blinds open."""
-    h = FakeHouse(targets=build_targets(), start=start)
+    targets = build_targets()
+    if not getattr(__import__('atlas_household.core', fromlist=['x']), 'FAST_PATHS', None):
+        targets.pop('readings', None)       # the input branch's coordinator has no readings section
+    h = FakeHouse(targets=targets, start=start)
+    for e, (st, attrs) in READING_STATES.items():
+        h.backend.states[e] = {'state': st, 'attributes': dict(attrs), 'last_changed': 'rev-0'}
     if preset == 'canonical':
         for e, pct in CANONICAL_ON.items():
             h.set(e, 'on', brightness_percent=pct)

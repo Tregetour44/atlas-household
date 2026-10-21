@@ -11,6 +11,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import re
 import pathlib
 import sys
 from collections import Counter
@@ -95,6 +96,123 @@ def expected(cls: str, reply: str, ev: str) -> str:
     return 'pass' if ev in BACKS[cls] else 'flag'
 
 
+SETUPS = {   # evidence made by real coordinator calls on the canonical house: (the person's words, the calls the scripted model makes)
+    'none': ('could you sort out the office lights', []),
+    'light_done': ('could you sort out the office lights', [('atlas_lights', {'target_handle': 'office_lights', 'operation': 'off'})]),
+    'light_already': ('could you sort out the office lights', [('atlas_lights', {'target_handle': 'office_lights', 'operation': 'on'})]),
+    'light_denied': ('could you sort out the office lights and open the garage', [('atlas_lights', {'target_handle': 'office_lights', 'operation': 'off'})]),
+    'blind_one_done': ('close the sunroom blind', [('atlas_blind', {'target_handle': 'sunroom_blind', 'operation': 'close'})]),
+    'blind_one_of_two': ('close the sunroom blind', [('atlas_blind', {'target_handle': 'sunroom_blind', 'operation': 'close'}),
+                                                                 ('atlas_blind', {'target_handle': 'family_room_blinds', 'operation': 'close'})]),
+    'blinds_all_done': ('close all the blinds', [('atlas_blind', {'target_handle': 'sunroom_blind', 'operation': 'close'}),
+                                                             ('atlas_blind', {'target_handle': 'family_room_blinds', 'operation': 'close'})]),
+    'scene_done': ('could you sort out good night', [('atlas_scene', {'recipe_handle': 'good_night'})]),
+    'scheduled': ('could you sort out the office lights for later', [('atlas_schedule', {'target_handle': 'office_lights', 'operation': 'off', 'in_minutes': 10})]),
+}
+
+
+def claim_of(cls: str, reply: str) -> tuple:
+    """What the reply claims, annotated by hand from the corpus wording (independent of the guard's regexes)."""
+    r = reply.lower()
+    if cls == 'honest':
+        return ('honest',)
+    if cls == 'already':
+        return ('false',)                    # every "already" line names a state no setup leaves unchanged
+    if cls == 'sched':
+        return ('timer', 'office_lights')
+    if cls == 'qty':
+        return ('qty_pair',) if 'family room' in r else ('qty_all',)
+    if cls == 'scene':
+        return ('scene', 'wind_down' if 'wind down' in r else 'good_night')
+    if cls == 'blind':
+        return ('blind', 'sunroom_blind', 30 if '30%' in r else 'closed')
+    if '40%' in r:
+        return ('light', 'office_lights', 40)
+    if 'dim' in r:
+        return ('light', 'office_lights', 'dim')
+    if 'bright' in r:
+        return ('light', 'office_lights', 'bright')
+    if re.search(r"\b(off|out|dark)\b", r):
+        return ('light', 'office_lights', 'off')
+    if re.search(r"\bon\b", r):
+        return ('light', 'office_lights', 'on')
+    return ('ack',)
+
+
+def truth_want(claim: tuple, h, results: list) -> str:
+    """'pass' when the claim is true in the house after the turn (or an acknowledgement backed by a done/scheduled result), else 'flag'."""
+    st = h.backend.states
+    acted = [r.get('status') for _n, _a, r in results]
+    if claim[0] == 'honest':
+        return 'pass'
+    if claim[0] == 'false':
+        return 'flag'
+    if claim[0] == 'ack':
+        return 'pass' if any(x in ('done', 'scheduled') for x in acted) else 'flag'
+    if claim[0] == 'timer':
+        return 'pass' if any(t['handle'] == 'office_lights' for t in h.coord._pending()) else 'flag'
+    if claim[0] in ('qty_all', 'qty_pair'):
+        es = ['cover.blind_motor_2', 'cover.blind_motor_3'] + ([] if claim[0] == 'qty_pair' else ['cover.blind_motor'])
+        return 'pass' if all((st[e]['attributes'].get('current_position') or 0) == 0 for e in es) else 'flag'
+    if claim[0] == 'scene':
+        exp = h.coord.handles[claim[1]]['expect']
+        ok = all(st[e]['state'] == w['state'] and (w.get('brightness_percent') is None or abs(round((st[e]['attributes'].get('brightness') or 0) / 2.55)
+                 - w['brightness_percent']) <= 2) for e, w in exp.items())
+        return 'pass' if ok else 'flag'
+    if claim[0] == 'blind':
+        pos = st['cover.blind_motor']['attributes'].get('current_position') or 0
+        return 'pass' if (pos == 0 if claim[2] == 'closed' else abs(pos - claim[2]) <= 3) else 'flag'
+    o = st['light.office_ceiling']
+    b = round((o['attributes'].get('brightness') or 0) / 2.55)
+    v = claim[2]
+    if v == 'off':
+        return 'pass' if o['state'] == 'off' else 'flag'
+    if v == 'on':
+        return 'pass' if o['state'] == 'on' else 'flag'
+    if isinstance(v, int):
+        return 'pass' if o['state'] == 'on' and abs(b - v) <= 2 else 'flag'
+    return 'flag'                            # dim / brighten: no setup steps a light
+
+
+def run_turns():
+    """The corpus through turn.run_turn (the guard, the partial-turn rule, the nudge), with a scripted model that makes the setup's calls and
+    then gives the reply, and gives the same reply again if nudged (the worst case). The fast paths are off, so the model is always asked."""
+    import atlas_household.turn as T
+    from fixture import house
+    T.parse_timer = T.parse_level = lambda *a, **k: None
+    for n in ('parse_scene', 'parse_blind', 'parse_question'):
+        if hasattr(T, n):
+            setattr(T, n, lambda *a, **k: None)
+    rows = []
+    corpus = ([('light', r) for r in DONE_LIGHT] + [('blind', r) for r in DONE_BLIND] + [('scene', r) for r in DONE_SCENE] + [('sched', r) for r in SCHED]
+              + [('already', r) for r in ALREADY] + [('qty', r) for r in QTY] + [('honest', r) for r in HONEST])
+    for cls, reply in corpus:
+        for ev, (words, calls) in SETUPS.items():
+            want = expected(cls, reply, ev)
+            if cls == 'qty' and ev in ('light_done', 'scene_done', 'scheduled', 'light_already', 'light_denied', 'none'):
+                want = 'flag'
+            h = house()
+            state = {'n': 0}
+
+            async def model(_text, h=h, calls=calls, reply=reply, words=words, state=state):
+                state['n'] += 1
+                if state['n'] == 1:
+                    for name, args in calls:
+                        await h.coord.call_tool(name, args, conversation_id='g', user_text=words, turn='t1')
+                return reply
+            out = h.loop.run_until_complete(T.run_turn(h.coord, words, 'g', model))
+            want = truth_want(claim_of(cls, reply), h, out['tool_results'])
+            if ev == 'blind_one_of_two' and cls != 'honest':
+                want = 'flag'                # a partial turn is always said from the results [GQ-01]
+            got = 'pass' if out['reply'] == reply else 'flag'
+            if got == 'flag' and want == 'pass' and (out['reply'] == T.plain_never_refusal(reply) or ev == 'blind_one_of_two'):
+                got = 'pass'                 # by design: "yet" dropped in a never-list turn [G56]; a partial turn said from its results
+            verdict = 'ok' if want == got else ('HOLE' if want == 'flag' else 'OVERFLAG')
+            rows.append({'class': cls, 'reply': reply, 'evidence': ev, 'want': want, 'got': got, 'verdict': verdict, 'said': out['reply'], 'path': out['path']})
+            h.loop.close()
+    return rows
+
+
 def run():
     rows = []
     corpus = ([('light', r) for r in DONE_LIGHT] + [('blind', r) for r in DONE_BLIND] + [('scene', r) for r in DONE_SCENE] + [('sched', r) for r in SCHED]
@@ -114,12 +232,13 @@ def run():
 def main(argv=None):
     ap = argparse.ArgumentParser()
     ap.add_argument('--label', default='current')
+    ap.add_argument('--turns', action='store_true', help='through turn.run_turn with real coordinator evidence (the faithful mode)')
     a = ap.parse_args(argv)
-    rows = run()
-    s = {'label': a.label, 'package': PKG, 'pairs': len(rows), 'verdicts': dict(Counter(r['verdict'] for r in rows)),
+    rows = run_turns() if a.turns else run()
+    s = {'label': a.label, 'mode': 'run_turn' if a.turns else 'guard_reply', 'package': PKG, 'pairs': len(rows), 'verdicts': dict(Counter(r['verdict'] for r in rows)),
          'holes_by_class': dict(Counter(r['class'] for r in rows if r['verdict'] == 'HOLE')),
          'overflag_by_class': dict(Counter(r['class'] for r in rows if r['verdict'] == 'OVERFLAG'))}
-    out = ROOT / 'rehearsal-set' / 'results' / f'guard.{a.label}.json'
+    out = ROOT / 'rehearsal-set' / 'results' / f"guard.{'turns.' if a.turns else ''}{a.label}.json"
     out.write_text(json.dumps({'summary': s, 'rows': rows}, indent=1, ensure_ascii=False) + '\n', encoding='utf-8')
     print(json.dumps(s, indent=1))
 

@@ -318,3 +318,132 @@ def level_from_words(text: str) -> int | None:
             return None
         return n if _level_ok(text, n, bool(gd.get('pct'))) else None
     return None
+
+
+# ---------- the SCENE and BLIND paths (cloud robustness job, 21 Oct: faster replies for the phase-2 map) ----------
+# A whole utterance naming exactly ONE enabled, reviewed scene ("good night", "run wind down", "let's wind down", "put good night on") is sent as
+# atlas_scene; a whole utterance that only moves blinds ("close the sunroom blind", "family room blinds up", "all the blinds to 30%") is sent
+# as atlas_blind, one call per handle, with the blinds taken ONLY from Coordinator._blind_scope (the which-blind rule, unchanged: unclear
+# words return None and the model asks). Never for a question, a negation, a soft or relative change, a time, a number that isn't a
+# percentage, or anything else in the turn; every coordinator check (never-list, scope, read-back, log, undo) runs as for a model call.
+_SCENE_SAY = {'good night': {'good night', 'goodnight', 'good nite', 'night night', 'nighty night'}, 'wind down': {'wind down', 'winddown'}}
+_FILL_LEAD = re.compile(r"^(?:(?:hey|ok|okay)\s+)?(?:atlas\s+)?(?:(?:ok|okay|right|alright|so)\s+)?(?:please\s+)?(?:(?:can|could|would)\s+you\s+(?:please\s+)?)?")
+_FILL_TAIL = re.compile(r"(?:\s+(?:please|thanks|thank\s+you|cheers|mate|atlas|now|for\s+me))*$")
+_SCENE_FORMS = [
+    re.compile(r"^(?:(?:run|start|activate|do|set|put\s+on|turn\s+on|switch\s+on|put|begin|trigger)\s+)?(?:the\s+)?(?P<n>[a-z ]+?)(?:\s+(?:scene|mode))?(?:\s+on)?$"),
+    re.compile(r"^(?:let\s?s|time\s+to|time\s+for)\s+(?:the\s+)?(?P<n>[a-z ]+?)(?:\s+(?:scene|mode))?$"),
+    re.compile(r"^(?P<n>[a-z ]+?)\s+time$"),
+]
+
+
+def _plain(text: str) -> str:
+    """Lower case, typed apostrophes folded, punctuation other than % dropped, "per cent"/"percent" as %, spaces collapsed."""
+    s = (text or '').translate(_CURLY).lower().strip()
+    s = re.sub(r"\s*(?:per\s*cent|percent)\b", "%", s)
+    s = re.sub(r"[^a-z0-9% ]+", " ", s)
+    return re.sub(r"\s+", " ", s).strip()
+
+
+def _scene_names(handles: dict) -> dict[str, list[str]]:
+    out: dict[str, list[str]] = {}
+    for h, t in handles.items():
+        if t.get('kind') == 'scene' and t.get('enabled', True) and t.get('expect'):       # reviewed scenes only, as tools._enum offers them
+            label = _norm(t['label'])
+            names = {label, _norm(h.replace('_', ' '))} | _SCENE_SAY.get(label, set()) | {_norm(a) for a in t.get('aliases') or []}
+            for n in names:
+                out.setdefault(n, []).append(h)
+    return out
+
+
+def parse_scene(text: str, handles: dict) -> dict | None:
+    """atlas_scene args for a whole utterance that names exactly one enabled, reviewed scene, else None (the model handles it)."""
+    raw = (text or '').translate(_CURLY).strip()
+    if not raw or len(raw) > 80 or '?' in raw or re.search(r"\d", raw) or _NEG.search(raw) or _NEG_NT.search(raw) or _WHEN_ANY.search(raw) \
+            or _TIMEWORD.search(raw) or _ASKING.search(raw):
+        return None
+    s = _FILL_TAIL.sub('', _FILL_LEAD.sub('', _plain(raw))).strip()
+    names = _scene_names(handles)
+    for rx in _SCENE_FORMS:
+        m = rx.match(s)
+        if m:
+            hs = names.get(m.group('n').strip())
+            if hs and len(set(hs)) == 1:
+                return {'recipe_handle': hs[0]}
+    return None
+
+
+_B_OBJ = (r"(?P<b>(?:(?:the|my|our|both|every|all(?:\s+of)?(?:\s+the)?|all\s+three|the\s+two)\s+)?(?:[a-z]+\s+){0,6}?(?:blinds?|ones?)"
+          r"(?:\s+in\s+the\s+[a-z]+(?:\s+room)?)?)")      # "the blind in the sunroom", "the window blind in the family room"
+_B_N = r"(?P<n>\d{1,3}|" + _NUMW + r")\s*%"
+_BLIND_FORMS = [   # (pattern, operation); position when the pattern has <n> or 'half'
+    (re.compile(r"^(?:close(?:\s+up)?|shut|lower|drop)\s+" + _B_OBJ + r"(?:\s+(?:down|closed|shut))?(?:\s+(?:fully|completely|all\s+the\s+way))?$"), 'close'),
+    (re.compile(r"^(?:pull|put|bring|roll|let)\s+" + _B_OBJ + r"\s+down(?:\s+(?:fully|completely|all\s+the\s+way))?$"), 'close'),
+    (re.compile(r"^(?:pull|put|bring|roll)\s+down\s+" + _B_OBJ + r"$"), 'close'),
+    (re.compile(r"^get\s+" + _B_OBJ + r"\s+(?:closed|shut|down)$"), 'close'),
+    (re.compile(r"^" + _B_OBJ + r"\s+(?:down|closed|shut)$"), 'close'),
+    (re.compile(r"^(?:open(?:\s+up)?|raise|lift)\s+" + _B_OBJ + r"(?:\s+up)?(?:\s+(?:fully|completely|all\s+the\s+way))?$"), 'open'),
+    (re.compile(r"^(?:pull|put|bring|roll)\s+" + _B_OBJ + r"\s+up(?:\s+(?:fully|completely|all\s+the\s+way))?$"), 'open'),
+    (re.compile(r"^(?:pull|put|bring|roll)\s+up\s+" + _B_OBJ + r"$"), 'open'),
+    (re.compile(r"^get\s+" + _B_OBJ + r"\s+open$"), 'open'),
+    (re.compile(r"^" + _B_OBJ + r"\s+(?:up|open)$"), 'open'),
+    (re.compile(r"^(?:(?:set|put|move|bring|take|open|close|lower|raise|make)\s+)?" + _B_OBJ + r"\s+(?:to|at)\s+" + _B_N + r"(?:\s+open)?$"), 'position'),
+    (re.compile(r"^(?:(?:set|put|move|bring|take|make)\s+)?" + _B_OBJ + r"\s+" + _B_N + r"\s+open$"), 'position'),
+    (re.compile(r"^(?:(?:set|put|move|bring|open|close|lower|raise)\s+)?" + _B_OBJ + r"\s+(?:to\s+)?(?P<half>half\s*way|half)(?:\s+(?:open|up|down|closed))?$"), 'position'),
+]
+_B_NOT = re.compile(r"\b(?:draw|drawn|bit|little|slightly|touch|tad|more|less|further|by|then|after|before|when|until|till|if|again|back|instead|light|lights|"
+                    r"lamp|turn|switch|on|off|closed\s+\d|\d+\s*%\s+closed)\b")
+
+
+def parse_blind(text: str, handles: dict, scope) -> list[dict] | None:
+    """atlas_blind args (one per handle) for a whole utterance that only moves blinds, else None. scope(text) is Coordinator._blind_scope:
+    the ONLY source of which blinds (None = unclear, so the model asks which). The handles are the fewest enabled blind handles covering
+    exactly that scope (the pair handle for both family-room blinds)."""
+    raw = (text or '').translate(_CURLY).strip()
+    if not raw or len(raw) > 120 or '?' in raw or _NEG.search(raw) or _NEG_NT.search(raw) or _WHEN_ANY.search(raw) or _ASKING.search(raw) \
+            or re.search(r"\bat\s+\d{1,2}\b(?!\s*(?:%|per\s*cent|percent))", raw, re.I):
+        return None
+    s = _FILL_TAIL.sub('', _FILL_LEAD.sub('', _plain(raw))).strip()
+    s = re.sub(r"^(?:hey\s+)?atlas\s+", "", s)
+    if _B_NOT.search(s) or re.search(r"\d", re.sub(_B_N, ' ', s)):
+        return None                                   # a bare number that isn't a percentage (a time?), or any word outside the grammar
+    for rx, op in _BLIND_FORMS:
+        m = rx.match(s)
+        if not m:
+            continue
+        b = m.group('b')
+        if re.search(r"\b(?:open|close|shut|raise|lower|lift|up|down|set|put|pull|roll|get|half)\b", b):
+            return None                               # a second movement inside the object: "close the sunroom and open the window blind"
+        args = {'operation': op}
+        if op == 'position':
+            if m.groupdict().get('half'):
+                n = 50
+            else:
+                n = _num(m.group('n'))
+            if n is None or not 0 <= n <= 100:
+                return None
+            if n in (0, 100):
+                args = {'operation': 'close' if n == 0 else 'open'}
+            else:
+                args['position_percent'] = n
+        sc = scope(text)
+        if not sc:
+            return None                               # unclear which blind: the model asks [the which-blind rule]
+        hs = _cover(sc, handles)
+        if not hs:
+            return None
+        return [{'target_handle': h, **args} for h in hs]
+    return None
+
+
+def _cover(scope: set, handles: dict) -> list[str]:
+    """The fewest enabled blind handles whose entities exactly cover scope (a handle never reaches outside it), else []."""
+    left, out = set(scope), []
+    blinds = sorted(((h, set(t.get('entity_ids') or [])) for h, t in handles.items() if t.get('kind') == 'blind' and t.get('enabled', True)),
+                    key=lambda x: (-len(x[1]), x[0]))
+    if left - {e for _h, es in blinds for e in es}:
+        return []                                     # the words name a blind that isn't enabled: the model says so
+    for h, es in blinds:
+        if es and es <= left:
+            out.append(h)
+            left -= es
+    return out if not left else []

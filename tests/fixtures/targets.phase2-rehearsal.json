@@ -1,0 +1,875 @@
+{
+ "version": "synthetic-rehearsal-1",
+ "note": "Rehearsal fixture (synthetic; never installable): atlas-current/targets.synthetic-phase2.json with the two enabled scenes under their live handles (good_night, wind_down) and synthetic reviewed members. Built by rehearsal/fixture.py.",
+ "restart_policy": "cancel_pending",
+ "timer_blinds": false,
+ "reviewed_covers": {
+  "cover.blind_motor": "shade",
+  "cover.blind_motor_2": "shade",
+  "cover.blind_motor_3": "shade",
+  "cover.blind_motor_4": "shade"
+ },
+ "handles": {
+  "attic_downlight_left": {
+   "kind": "light",
+   "group": "lights",
+   "entity_ids": [
+    "light.attic_downlight_left"
+   ],
+   "label": "Attic Downlight Left",
+   "risk": "R1",
+   "enabled": true,
+   "area": "Attic"
+  },
+  "attic_downlight_middle": {
+   "kind": "light",
+   "group": "lights",
+   "entity_ids": [
+    "light.attic_downlight_middle"
+   ],
+   "label": "Attic Downlight Middle",
+   "risk": "R1",
+   "enabled": true,
+   "area": "Attic"
+  },
+  "attic_downlight_right": {
+   "kind": "light",
+   "group": "lights",
+   "entity_ids": [
+    "light.attic_downlight_right"
+   ],
+   "label": "Attic Downlight Right",
+   "risk": "R1",
+   "enabled": true,
+   "area": "Attic"
+  },
+  "attic_lamp": {
+   "kind": "light",
+   "group": "lights",
+   "entity_ids": [
+    "light.attic_lamp"
+   ],
+   "label": "Attic Lamp",
+   "risk": "R1",
+   "enabled": true,
+   "area": "Attic"
+  },
+  "office_ceiling": {
+   "kind": "light",
+   "group": "lights",
+   "entity_ids": [
+    "light.office_ceiling"
+   ],
+   "label": "Office Ceiling",
+   "risk": "R1",
+   "enabled": true,
+   "area": "Office"
+  },
+  "bedroom_south_lamp": {
+   "kind": "light",
+   "group": "lights",
+   "entity_ids": [
+    "light.bedroom_south_lamp"
+   ],
+   "label": "Bedroom South Lamp",
+   "risk": "R1",
+   "enabled": true,
+   "area": "Bedroom South"
+  },
+  "family_room_lamp": {
+   "kind": "light",
+   "group": "lights",
+   "entity_ids": [
+    "light.family_room_lamp"
+   ],
+   "label": "Family Room Lamp",
+   "risk": "R1",
+   "enabled": true,
+   "area": "Family Room"
+  },
+  "family_room_downlight_front": {
+   "kind": "light",
+   "group": "lights",
+   "entity_ids": [
+    "light.family_room_downlight_front"
+   ],
+   "label": "Family Room Downlight Front",
+   "risk": "R1",
+   "enabled": true,
+   "area": "Family Room"
+  },
+  "family_room_downlight_back": {
+   "kind": "light",
+   "group": "lights",
+   "entity_ids": [
+    "light.family_room_downlight_back"
+   ],
+   "label": "Family Room Downlight Back",
+   "risk": "R1",
+   "enabled": true,
+   "area": "Family Room"
+  },
+  "mirror_glow": {
+   "kind": "light",
+   "group": "lights",
+   "entity_ids": [
+    "light.mirror_glow"
+   ],
+   "label": "Mirror Glow",
+   "risk": "R1",
+   "enabled": true,
+   "area": "Family Room"
+  },
+  "galley_ceiling": {
+   "kind": "light",
+   "group": "lights",
+   "entity_ids": [
+    "light.galley_ceiling"
+   ],
+   "label": "Galley Ceiling",
+   "risk": "R1",
+   "enabled": true,
+   "area": "Galley"
+  },
+  "galley_pendant": {
+   "kind": "light",
+   "group": "lights",
+   "entity_ids": [
+    "light.galley_pendant"
+   ],
+   "label": "Galley Pendant",
+   "risk": "R1",
+   "enabled": true,
+   "area": "Galley"
+  },
+  "corridor_downlight": {
+   "kind": "light",
+   "group": "lights",
+   "entity_ids": [
+    "light.corridor_downlight"
+   ],
+   "label": "Corridor Downlight",
+   "risk": "R1",
+   "enabled": true,
+   "area": "Corridor"
+  },
+  "sunroom_spotlight_left": {
+   "kind": "light",
+   "group": "lights",
+   "entity_ids": [
+    "light.sunroom_spotlight_left"
+   ],
+   "label": "Sunroom Spotlight Left",
+   "risk": "R1",
+   "enabled": true,
+   "area": "Sunroom"
+  },
+  "sunroom_spotlight_right": {
+   "kind": "light",
+   "group": "lights",
+   "entity_ids": [
+    "light.sunroom_spotlight_right"
+   ],
+   "label": "Sunroom Spotlight Right",
+   "risk": "R1",
+   "enabled": true,
+   "area": "Sunroom"
+  },
+  "sunroom_floor_lamp": {
+   "kind": "light",
+   "group": "lights",
+   "entity_ids": [
+    "light.sunroom_floor_lamp"
+   ],
+   "label": "Sunroom Floor Lamp",
+   "risk": "R1",
+   "enabled": true,
+   "area": "Sunroom"
+  },
+  "utility_downlight": {
+   "kind": "light",
+   "group": "lights",
+   "entity_ids": [
+    "light.utility_downlight"
+   ],
+   "label": "Utility Downlight",
+   "risk": "R1",
+   "enabled": true,
+   "area": "Utility"
+  },
+  "carport_ceiling_left": {
+   "kind": "light",
+   "group": "lights",
+   "entity_ids": [
+    "light.carport_ceiling_left"
+   ],
+   "label": "Carport Ceiling Left",
+   "risk": "R1",
+   "enabled": true,
+   "area": "Carport"
+  },
+  "carport_ceiling_right": {
+   "kind": "light",
+   "group": "lights",
+   "entity_ids": [
+    "light.carport_ceiling_right"
+   ],
+   "label": "Carport Ceiling Right",
+   "risk": "R1",
+   "enabled": true,
+   "area": "Carport"
+  },
+  "workshop_bench_light": {
+   "kind": "light",
+   "group": "lights",
+   "entity_ids": [
+    "light.workshop_bench_light"
+   ],
+   "label": "Workshop Bench Light",
+   "risk": "R1",
+   "enabled": true,
+   "area": "Workshop"
+  },
+  "yard_spot": {
+   "kind": "light",
+   "group": "lights",
+   "entity_ids": [
+    "light.yard_spot"
+   ],
+   "label": "Yard Spot",
+   "risk": "R1",
+   "enabled": true,
+   "area": "Deck"
+  },
+  "wall_lamp": {
+   "kind": "light",
+   "group": "lights",
+   "entity_ids": [
+    "light.wall_lamp"
+   ],
+   "label": "Wall Lamp",
+   "risk": "R1",
+   "enabled": true,
+   "area": "Deck"
+  },
+  "flood_lamp": {
+   "kind": "light",
+   "group": "lights",
+   "entity_ids": [
+    "light.flood_lamp"
+   ],
+   "label": "Flood Lamp",
+   "risk": "R1",
+   "enabled": true,
+   "area": "Deck"
+  },
+  "entry_downlight_1": {
+   "kind": "light",
+   "group": "lights",
+   "entity_ids": [
+    "light.entry_downlight_1"
+   ],
+   "label": "Entry Downlight 1",
+   "risk": "R1",
+   "enabled": true,
+   "area": "Entry"
+  },
+  "entry_downlight_2": {
+   "kind": "light",
+   "group": "lights",
+   "entity_ids": [
+    "light.entry_downlight_2"
+   ],
+   "label": "Entry Downlight 2",
+   "risk": "R1",
+   "enabled": true,
+   "area": "Entry"
+  },
+  "attic_lights": {
+   "kind": "light",
+   "group": "lights",
+   "entity_ids": [
+    "light.attic_downlight_left",
+    "light.attic_downlight_middle",
+    "light.attic_downlight_right",
+    "light.attic_lamp"
+   ],
+   "label": "Attic lights",
+   "risk": "R1",
+   "enabled": true,
+   "area": "Attic"
+  },
+  "office_lights": {
+   "kind": "light",
+   "group": "lights",
+   "entity_ids": [
+    "light.office_ceiling"
+   ],
+   "label": "Office lights",
+   "risk": "R1",
+   "enabled": true,
+   "area": "Office"
+  },
+  "bedroom_south_lights": {
+   "kind": "light",
+   "group": "lights",
+   "entity_ids": [
+    "light.bedroom_south_lamp"
+   ],
+   "label": "Bedroom south lights",
+   "risk": "R1",
+   "enabled": true,
+   "area": "Bedroom South"
+  },
+  "family_room_lights": {
+   "kind": "light",
+   "group": "lights",
+   "entity_ids": [
+    "light.family_room_lamp",
+    "light.family_room_downlight_front",
+    "light.family_room_downlight_back",
+    "light.mirror_glow"
+   ],
+   "label": "Family room lights",
+   "risk": "R1",
+   "enabled": true,
+   "area": "Family Room"
+  },
+  "galley_lights": {
+   "kind": "light",
+   "group": "lights",
+   "entity_ids": [
+    "light.galley_ceiling",
+    "light.galley_pendant"
+   ],
+   "label": "Galley lights",
+   "risk": "R1",
+   "enabled": true,
+   "area": "Galley"
+  },
+  "corridor_lights": {
+   "kind": "light",
+   "group": "lights",
+   "entity_ids": [
+    "light.corridor_downlight"
+   ],
+   "label": "Corridor lights",
+   "risk": "R1",
+   "enabled": true,
+   "area": "Corridor"
+  },
+  "sunroom_lights": {
+   "kind": "light",
+   "group": "lights",
+   "entity_ids": [
+    "light.sunroom_spotlight_left",
+    "light.sunroom_spotlight_right",
+    "light.sunroom_floor_lamp"
+   ],
+   "label": "Sunroom lights",
+   "risk": "R1",
+   "enabled": true,
+   "area": "Sunroom"
+  },
+  "utility_lights": {
+   "kind": "light",
+   "group": "lights",
+   "entity_ids": [
+    "light.utility_downlight"
+   ],
+   "label": "Utility lights",
+   "risk": "R1",
+   "enabled": true,
+   "area": "Utility"
+  },
+  "carport_lights": {
+   "kind": "light",
+   "group": "lights",
+   "entity_ids": [
+    "light.carport_ceiling_left",
+    "light.carport_ceiling_right"
+   ],
+   "label": "Carport lights",
+   "risk": "R1",
+   "enabled": true,
+   "area": "Carport"
+  },
+  "workshop_lights": {
+   "kind": "light",
+   "group": "lights",
+   "entity_ids": [
+    "light.workshop_bench_light"
+   ],
+   "label": "Workshop lights",
+   "risk": "R1",
+   "enabled": true,
+   "area": "Workshop"
+  },
+  "deck_lights": {
+   "kind": "light",
+   "group": "lights",
+   "entity_ids": [
+    "light.yard_spot",
+    "light.wall_lamp",
+    "light.flood_lamp"
+   ],
+   "label": "Deck lights",
+   "risk": "R1",
+   "enabled": true,
+   "area": "Deck"
+  },
+  "entry_lights": {
+   "kind": "light",
+   "group": "lights",
+   "entity_ids": [
+    "light.entry_downlight_1",
+    "light.entry_downlight_2"
+   ],
+   "label": "Entry lights",
+   "risk": "R1",
+   "enabled": true,
+   "area": "Entry"
+  },
+  "upstairs_lights": {
+   "kind": "light",
+   "group": "lights",
+   "entity_ids": [
+    "light.attic_downlight_left",
+    "light.attic_downlight_middle",
+    "light.attic_downlight_right",
+    "light.attic_lamp",
+    "light.office_ceiling",
+    "light.bedroom_south_lamp"
+   ],
+   "label": "Upstairs lights",
+   "risk": "R1",
+   "enabled": true,
+   "floor": "Upstairs"
+  },
+  "ground_floor_lights": {
+   "kind": "light",
+   "group": "lights",
+   "entity_ids": [
+    "light.family_room_lamp",
+    "light.family_room_downlight_front",
+    "light.family_room_downlight_back",
+    "light.mirror_glow",
+    "light.galley_ceiling",
+    "light.galley_pendant",
+    "light.corridor_downlight",
+    "light.sunroom_spotlight_left",
+    "light.sunroom_spotlight_right",
+    "light.sunroom_floor_lamp",
+    "light.utility_downlight",
+    "light.carport_ceiling_left",
+    "light.carport_ceiling_right",
+    "light.workshop_bench_light"
+   ],
+   "label": "Ground floor (downstairs) lights",
+   "risk": "R1",
+   "enabled": true,
+   "floor": "Ground floor"
+  },
+  "outside_lights": {
+   "kind": "light",
+   "group": "lights",
+   "entity_ids": [
+    "light.yard_spot",
+    "light.wall_lamp",
+    "light.flood_lamp",
+    "light.entry_downlight_1",
+    "light.entry_downlight_2"
+   ],
+   "label": "Outside lights (Deck and Entry)",
+   "risk": "R1",
+   "enabled": true
+  },
+  "attic_home_ambience_attic_home_ambience": {
+   "kind": "scene",
+   "group": "scenes",
+   "entity_ids": [
+    "scene.attic_home_ambience"
+   ],
+   "label": "Attic Home Ambience",
+   "risk": "R1",
+   "enabled": false,
+   "area": "Attic",
+   "disabled_reason": "not in phase 2 (synthetic mirror of the live map)"
+  },
+  "attic_home_ambience_attic_home_ambience_2": {
+   "kind": "scene",
+   "group": "scenes",
+   "entity_ids": [
+    "scene.attic_home_ambience_2"
+   ],
+   "label": "Attic Home Ambience",
+   "risk": "R1",
+   "enabled": false,
+   "area": "Attic",
+   "disabled_reason": "not in phase 2 (synthetic mirror of the live map)"
+  },
+  "bedroom_south_read": {
+   "kind": "scene",
+   "group": "scenes",
+   "entity_ids": [
+    "scene.bedroom_south_read"
+   ],
+   "label": "Bedroom South Read",
+   "risk": "R1",
+   "enabled": false,
+   "area": "Bedroom South",
+   "disabled_reason": "not in phase 2 (synthetic mirror of the live map)"
+  },
+  "galley_cooking": {
+   "kind": "scene",
+   "group": "scenes",
+   "entity_ids": [
+    "scene.galley_cooking"
+   ],
+   "label": "Galley Cooking",
+   "risk": "R1",
+   "enabled": false,
+   "area": "Galley",
+   "disabled_reason": "not in phase 2 (synthetic mirror of the live map)"
+  },
+  "sunroom_neon": {
+   "kind": "scene",
+   "group": "scenes",
+   "entity_ids": [
+    "scene.sunroom_neon"
+   ],
+   "label": "Sunroom Neon",
+   "risk": "R1",
+   "enabled": false,
+   "area": "Sunroom",
+   "disabled_reason": "not in phase 2 (synthetic mirror of the live map)"
+  },
+  "sunroom_morning": {
+   "kind": "scene",
+   "group": "scenes",
+   "entity_ids": [
+    "scene.sunroom_morning"
+   ],
+   "label": "Sunroom Morning",
+   "risk": "R1",
+   "enabled": false,
+   "area": "Sunroom",
+   "disabled_reason": "not in phase 2 (synthetic mirror of the live map)"
+  },
+  "carport_bright": {
+   "kind": "scene",
+   "group": "scenes",
+   "entity_ids": [
+    "scene.carport_bright"
+   ],
+   "label": "Carport Bright",
+   "risk": "R1",
+   "enabled": false,
+   "area": "Carport",
+   "disabled_reason": "not in phase 2 (synthetic mirror of the live map)"
+  },
+  "deck_party": {
+   "kind": "scene",
+   "group": "scenes",
+   "entity_ids": [
+    "scene.deck_party"
+   ],
+   "label": "Deck Party",
+   "risk": "R1",
+   "enabled": false,
+   "area": "Deck",
+   "disabled_reason": "not in phase 2 (synthetic mirror of the live map)"
+  },
+  "daily": {
+   "kind": "scene",
+   "group": "scenes",
+   "entity_ids": [
+    "scene.daily"
+   ],
+   "label": "Daily",
+   "risk": "R1",
+   "enabled": false,
+   "area": null,
+   "disabled_reason": "not in phase 2 (synthetic mirror of the live map)"
+  },
+  "good_night": {
+   "kind": "scene",
+   "group": "scenes",
+   "entity_ids": [
+    "scene.good_night"
+   ],
+   "label": "Good Night",
+   "risk": "R1",
+   "enabled": true,
+   "area": null,
+   "members": [
+    "light.attic_downlight_left",
+    "light.attic_downlight_middle",
+    "light.attic_downlight_right",
+    "light.attic_lamp",
+    "light.bedroom_south_lamp",
+    "light.carport_ceiling_left",
+    "light.carport_ceiling_right",
+    "light.corridor_downlight",
+    "light.entry_downlight_1",
+    "light.entry_downlight_2",
+    "light.family_room_downlight_back",
+    "light.family_room_downlight_front",
+    "light.family_room_lamp",
+    "light.flood_lamp",
+    "light.galley_ceiling",
+    "light.galley_pendant",
+    "light.mirror_glow",
+    "light.office_ceiling",
+    "light.sunroom_floor_lamp",
+    "light.sunroom_spotlight_left",
+    "light.sunroom_spotlight_right",
+    "light.utility_downlight",
+    "light.wall_lamp",
+    "light.workshop_bench_light",
+    "light.yard_spot"
+   ],
+   "expect": {
+    "light.attic_downlight_left": {
+     "state": "off"
+    },
+    "light.attic_downlight_middle": {
+     "state": "off"
+    },
+    "light.attic_downlight_right": {
+     "state": "off"
+    },
+    "light.office_ceiling": {
+     "state": "off"
+    },
+    "light.family_room_lamp": {
+     "state": "off"
+    },
+    "light.family_room_downlight_front": {
+     "state": "off"
+    },
+    "light.family_room_downlight_back": {
+     "state": "off"
+    },
+    "light.mirror_glow": {
+     "state": "off"
+    },
+    "light.galley_ceiling": {
+     "state": "off"
+    },
+    "light.galley_pendant": {
+     "state": "off"
+    },
+    "light.sunroom_spotlight_left": {
+     "state": "off"
+    },
+    "light.sunroom_spotlight_right": {
+     "state": "off"
+    },
+    "light.sunroom_floor_lamp": {
+     "state": "off"
+    },
+    "light.utility_downlight": {
+     "state": "off"
+    },
+    "light.carport_ceiling_left": {
+     "state": "off"
+    },
+    "light.carport_ceiling_right": {
+     "state": "off"
+    },
+    "light.workshop_bench_light": {
+     "state": "off"
+    },
+    "light.yard_spot": {
+     "state": "off"
+    },
+    "light.wall_lamp": {
+     "state": "off"
+    },
+    "light.flood_lamp": {
+     "state": "off"
+    },
+    "light.entry_downlight_1": {
+     "state": "off"
+    },
+    "light.entry_downlight_2": {
+     "state": "off"
+    },
+    "light.corridor_downlight": {
+     "state": "on",
+     "brightness_percent": 10
+    },
+    "light.bedroom_south_lamp": {
+     "state": "on",
+     "brightness_percent": 20
+    },
+    "light.attic_lamp": {
+     "state": "off"
+    }
+   },
+   "contents_frozen_offline": true
+  },
+  "wind_down": {
+   "kind": "scene",
+   "group": "scenes",
+   "entity_ids": [
+    "scene.wind_down"
+   ],
+   "label": "Wind Down",
+   "risk": "R1",
+   "enabled": true,
+   "area": null,
+   "members": [
+    "light.family_room_downlight_back",
+    "light.family_room_downlight_front",
+    "light.family_room_lamp",
+    "light.galley_ceiling",
+    "light.galley_pendant",
+    "light.mirror_glow",
+    "light.sunroom_floor_lamp",
+    "light.sunroom_spotlight_left",
+    "light.sunroom_spotlight_right"
+   ],
+   "expect": {
+    "light.family_room_lamp": {
+     "state": "on",
+     "brightness_percent": 35
+    },
+    "light.family_room_downlight_front": {
+     "state": "off"
+    },
+    "light.family_room_downlight_back": {
+     "state": "off"
+    },
+    "light.mirror_glow": {
+     "state": "on",
+     "brightness_percent": 25
+    },
+    "light.galley_ceiling": {
+     "state": "off"
+    },
+    "light.galley_pendant": {
+     "state": "on",
+     "brightness_percent": 30
+    },
+    "light.sunroom_floor_lamp": {
+     "state": "on",
+     "brightness_percent": 30
+    },
+    "light.sunroom_spotlight_left": {
+     "state": "off"
+    },
+    "light.sunroom_spotlight_right": {
+     "state": "off"
+    }
+   },
+   "contents_frozen_offline": true
+  },
+  "sunroom_blind": {
+   "kind": "blind",
+   "group": "blinds",
+   "entity_ids": [
+    "cover.blind_motor"
+   ],
+   "label": "Sunroom Blind",
+   "risk": "R2",
+   "enabled": true
+  },
+  "family_room_window_blind": {
+   "kind": "blind",
+   "group": "blinds",
+   "entity_ids": [
+    "cover.blind_motor_2"
+   ],
+   "label": "Family Room Window Blind",
+   "risk": "R2",
+   "enabled": true
+  },
+  "family_room_door_blind": {
+   "kind": "blind",
+   "group": "blinds",
+   "entity_ids": [
+    "cover.blind_motor_3"
+   ],
+   "label": "Family Room Door Blind",
+   "risk": "R2",
+   "enabled": true
+  },
+  "office_blind": {
+   "kind": "blind",
+   "group": "blinds",
+   "entity_ids": [
+    "cover.blind_motor_4"
+   ],
+   "label": "Office Blind",
+   "risk": "R2",
+   "enabled": false,
+   "disabled_reason": "not in phase 2 (synthetic mirror of the live map)"
+  },
+  "family_room_blinds": {
+   "kind": "blind",
+   "group": "blinds",
+   "entity_ids": [
+    "cover.blind_motor_2",
+    "cover.blind_motor_3"
+   ],
+   "label": "Family room blinds",
+   "risk": "R2",
+   "enabled": true
+  },
+  "media_tv_set_tv_set": {
+   "kind": "media",
+   "group": "media",
+   "entity_ids": [
+    "media_player.tv_set"
+   ],
+   "label": "TV Set",
+   "risk": "R1",
+   "enabled": false,
+   "disabled_reason": "not in phase 2 (synthetic mirror of the live map)"
+  },
+  "media_family_room_tv": {
+   "kind": "media",
+   "group": "media",
+   "entity_ids": [
+    "media_player.family_room_tv"
+   ],
+   "label": "Family Room TV",
+   "risk": "R1",
+   "enabled": false,
+   "disabled_reason": "not in phase 2 (synthetic mirror of the live map)"
+  },
+  "media_galley_radio": {
+   "kind": "media",
+   "group": "media",
+   "entity_ids": [
+    "media_player.galley_radio"
+   ],
+   "label": "Galley Radio",
+   "risk": "R1",
+   "enabled": false,
+   "disabled_reason": "not in phase 2 (synthetic mirror of the live map)"
+  }
+ },
+ "timer_scenes": false,
+ "blind_confirm": false,
+ "readings": {
+  "battery": {
+   "entity_id": "sensor.example_01"
+  },
+  "outside": {
+   "entity_id": "weather.example_37"
+  },
+  "inside": [
+   {
+    "entity_id": "sensor.example_11",
+    "name": "the attic"
+   },
+   {
+    "entity_id": "sensor.example_12",
+    "name": "Bedroom South"
+   }
+  ]
+ }
+}

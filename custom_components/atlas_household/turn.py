@@ -19,8 +19,10 @@ from __future__ import annotations
 
 import re
 
-from .core import _SENT, NEVER_WORDS, guard_reply
-from .fastpath import parse_level, parse_timer
+from .core import _SENT, ACTING, NEVER_WORDS, guard_reply
+from .fastpath import parse_blind, parse_level, parse_scene, parse_timer
+from .readings import answer, parse_question
+from .truth import check as truth_check
 
 NUDGE = "You didn't call a tool. If the request needs one, call the right atlas_ tool now; otherwise say plainly that you can't do it."
 _SOON = re.compile(r"\s*,?\s+\b(?:yet|for now|just yet|at the moment|right now)\b(?=\s*[.!,]|\s*$)", re.I)
@@ -85,29 +87,85 @@ def empty_reply_fallback(results: list, evidence: list) -> str:
     return EMPTY_UNSUMMARISED if evidence else EMPTY_NOTHING_RAN
 
 
+_HEADS = ("I haven't changed anything.", "I can't confirm all of that.")
+
+
+async def _states(coord) -> dict:
+    ents = {e for t in coord.handles.values() if t.get('enabled', True) for e in list(t.get('entity_ids') or []) + list(t.get('members') or [])}
+    out = {}
+    for e in ents:
+        st = await coord.backend.get_state(e)
+        if st is not None:
+            out[e] = st
+    return out
+
+
+async def _truth(coord, reply: str, text: str, results: list, ev: list, before: dict | None = None) -> tuple[str, list]:
+    """truth.check on the final reply, against the device states and the timer queue read now [cloud robustness job, G09]: a false state or
+    timer statement is dropped, whatever its wording. Starts with the guard's head when something was dropped."""
+    if not getattr(coord, 'handles', None) or not hasattr(coord, 'backend') or not (reply or '').strip():
+        return reply, []
+    states = await _states(coord)
+    new, false = truth_check(reply, coord.handles, states, coord._pending() if hasattr(coord, '_pending') else [], text, results, before)
+    if not false:
+        return reply, []
+    body = ' '.join(x for x in [new] if x).strip()
+    for hd in _HEADS:
+        if body.startswith(hd):
+            body = body[len(hd):].strip()
+    sent = {st for _t, st in ev} & _SENT
+    head = _HEADS[1] if sent else ("I can't confirm that." if not body else _HEADS[0])
+    return f"{head} {body}".strip(), false
+
+
 async def run_turn(coord, text: str, conversation_id: str, ask_model, *, other_tools=None, call_tool=None, now_local=None) -> dict:
     """Returns {'reply', 'path' ('fast' | 'model' | 'nudged'), 'claims' (unbacked claim kinds left after the guard), 'statuses', 'first',
     'tool_results'}: tool_results lists (tool, args, result) for every atlas_ call the coordinator handled in this conversation during the turn
     (the fast path's own call included), e.g. a timer's due_local and handle for the Atlas-side project's scorer."""
     t0 = coord.mono()
-    fast = parse_timer(text, coord.handles, now_local or coord.now().astimezone(coord.tz), getattr(coord, 'timer_scenes', True))
-    tool, label, sorry = 'atlas_schedule', 'fast_timer', "I didn't set that timer."
-    if fast is None:
+    paths = getattr(coord, 'fast_paths', {'timer', 'level'})
+    fast = calls = None
+    if 'timer' in paths:
+        fast = parse_timer(text, coord.handles, now_local or coord.now().astimezone(coord.tz), getattr(coord, 'timer_scenes', True))
+        tool, label, sorry = 'atlas_schedule', 'fast_timer', "I didn't set that timer."
+    if fast is None and 'level' in paths:
         fast = parse_level(text, coord.handles)
         tool, label, sorry = 'atlas_lights', 'fast_level', "I didn't change anything."
+    if fast is None and 'scene' in paths:
+        fast = parse_scene(text, coord.handles)
+        tool, label, sorry = 'atlas_scene', 'fast_scene', "I didn't run that scene."
+    if fast is None and 'blind' in paths and hasattr(coord, '_blind_scope') and not getattr(coord, 'blind_confirm', True):
+        calls = parse_blind(text, coord.handles, coord._blind_scope)      # which blinds: Coordinator._blind_scope alone [which-blind rule]
+        if calls:
+            fast, tool, label, sorry = calls[0], 'atlas_blind', 'fast_blind', "I didn't move anything."
+    if fast is None and 'read' in paths and getattr(coord, 'readings', None):
+        q = parse_question(text, coord.readings)
+        if q is not None:                         # read-only: nothing is sent, so no claim can be made (and no guard is needed)
+            try:
+                reply = await answer(q[0], q[1], coord.readings, coord.backend.get_state)
+            except Exception as ex:      # noqa: BLE001  said honestly
+                coord._log('fast_read', 'error', conversation=conversation_id, error=f'{type(ex).__name__}: {ex}')
+                reply = "Sorry, I couldn't read that just now."
+            coord._log('fast_read', q[0], conversation=conversation_id)
+            return {'reply': reply, 'path': 'fast', 'claims': [], 'statuses': ['answered'], 'first': None, 'args': {'reading': q[0], 'room': q[1]},
+                    'tool': None, 'tool_results': []}
     if fast is not None:
-        try:
-            if call_tool is None:
-                res = await coord.call_tool(tool, fast, conversation_id=conversation_id, user_text=text)
-            else:
-                res = await call_tool(tool, fast)
-        except Exception as ex:      # noqa: BLE001  [B16-06] said honestly, never HA's generic error
-            coord._log(label, 'error', conversation=conversation_id, args=fast, error=f'{type(ex).__name__}: {ex}')
-            res = {'status': 'tool_error', 'summary': f"Something went wrong, so {sorry}"}
-        reply = res.get('summary') or f"Sorry, {sorry}"
-        coord._log(label, res.get('status'), conversation=conversation_id, args=fast)
-        return {'reply': reply, 'path': 'fast', 'claims': [], 'statuses': [res.get('status')], 'first': None, 'args': fast, 'tool': tool,
-                'tool_results': coord.results_since(t0, conversation_id) or [(tool, fast, res)]}
+        said = []
+        for args in calls or [fast]:
+            try:
+                if call_tool is None:
+                    res = await coord.call_tool(tool, args, conversation_id=conversation_id, user_text=text)
+                else:
+                    res = await call_tool(tool, args)
+            except Exception as ex:      # noqa: BLE001  [B16-06] said honestly, never HA's generic error
+                coord._log(label, 'error', conversation=conversation_id, args=args, error=f'{type(ex).__name__}: {ex}')
+                res = {'status': 'tool_error', 'summary': f"Something went wrong, so {sorry}"}
+            said.append(res.get('summary') or f"Sorry, {sorry}")
+            coord._log(label, res.get('status'), conversation=conversation_id, args=args)
+        reply = ' '.join(dict.fromkeys(said))          # every call's own summary, in order (an "all the blinds" turn has two)
+        results = coord.results_since(t0, conversation_id) or [(tool, fast, res)]
+        return {'reply': reply, 'path': 'fast', 'claims': [], 'statuses': [r.get('status') for _n, _a, r in results], 'first': None, 'args': fast,
+                'tool': tool, 'tool_results': results}
 
     def evidence():
         # (tool, status) pairs, so a lights result can't back a blind claim [cloud review 1, M8]
@@ -116,6 +174,7 @@ async def run_turn(coord, text: str, conversation_id: str, ask_model, *, other_t
             ev.append((None, 'external_tool'))  # another tool ran: never say "I haven't changed anything" [R13-06]
         return ev
 
+    before = await _states(coord) if getattr(coord, 'handles', None) and hasattr(coord, 'backend') else None    # for the truth check
     scope = coord._blind_scope(text) if hasattr(coord, '_blind_scope') else None
     expect = {'blind': len(scope)} if scope else None          # how many blinds the person's words named, for "all the blinds" [GQ-01]
     first = await ask_model(text)
@@ -123,7 +182,9 @@ async def run_turn(coord, text: str, conversation_id: str, ask_model, *, other_t
     statuses = [st for _, st in ev]
     reply, bad = guard_reply(first, ev, coord.results_since(t0, conversation_id), expect)
     path = 'model'
-    if bad and not statuses and not NEVER_WORDS.search(text or ''):
+    if bad and not statuses and not NEVER_WORDS.search(text or '') and not NEVER_WORDS.search(first or ''):
+        # [cloud robustness job, G01] nor when the model's own reply names a never-list thing ("I cannot open the garage door"): the model has
+        # read part of the turn as never-list, so the person's words hid it; a nudge then only pushes the allowed half
         # never when the person's words are on the never-list: the whole turn is refused there, and a nudge could only push a partial
         # action (B16-01). The guarded reply stands.
         # C0e triage 1 (the Atlas-side project): the model claimed without calling any tool. Ask ONCE to call the tool or say it can't, then guard again.
@@ -149,8 +210,18 @@ async def run_turn(coord, text: str, conversation_id: str, ask_model, *, other_t
             if r.get('reason') == 'which_blind' and q.endswith('?'):
                 reply = f"{(reply or '').strip()} {q}".strip()
                 break
+    reply, false = await _truth(coord, reply, text, results, ev, before)
+    if false:
+        bad = sorted(set(bad) | set(false))
+        coord._log('truth_check', 'false statement dropped', conversation=conversation_id, kinds=false, original=first[:300])
     if NEVER_WORDS.search(text or ''):
         reply = plain_never_refusal(reply)
+    elif any(n in ACTING and r.get('status') in ('done', 'not_verified', 'scheduled') for n, _a, r in results) and \
+            (NEVER_WORDS.search(first or '') or NEVER_WORDS.search(reply or '')):
+        # tripwire [cloud robustness job, G01]: something changed in a turn the model itself read as touching the never-list; the person's words
+        # weren't caught. Logged for the owner, so the phrasing can be added to the never-list. Nothing is changed here.
+        coord._log('never_tripwire', 'model named a never-list subject in a turn that acted', conversation=conversation_id, text=(text or '')[:300],
+                   reply=(reply or '')[:300])
     if not (reply or '').strip():
         reply = empty_reply_fallback(results, ev)
         coord._log('empty_reply', 'fallback spoken', conversation=conversation_id, path=path, reply=reply[:300])

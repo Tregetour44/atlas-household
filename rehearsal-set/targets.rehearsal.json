@@ -853,5 +853,23 @@
   }
  },
  "timer_scenes": false,
- "blind_confirm": false
+ "blind_confirm": false,
+ "readings": {
+  "battery": {
+   "entity_id": "sensor.example_01"
+  },
+  "outside": {
+   "entity_id": "weather.example_37"
+  },
+  "inside": [
+   {
+    "entity_id": "sensor.example_11",
+    "name": "the attic"
+   },
+   {
+    "entity_id": "sensor.example_12",
+    "name": "Bedroom South"
+   }
+  ]
+ }
 }
