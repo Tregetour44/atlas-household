@@ -34,7 +34,7 @@ mkdir -p "$1"
 OUT=$(cd "$1" && pwd)
 WORK=$OUT/work
 PYTHON=${PYTHON:-python3.13}
-NAME=atlas-voicepe-hey-atlas-26.9.0-atlas.2
+NAME=atlas-voicepe-hey-atlas-26.9.0-atlas.2-c090
 
 export TZ=UTC
 export SOURCE_DATE_EPOCH=1792540800  # 2026-10-21T00:00:00Z, fixed so rebuilds match

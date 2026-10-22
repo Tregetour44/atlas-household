@@ -31,11 +31,11 @@ PIN_LINE = f"      ref: {RELEASE_SHA}  # ATLAS-PIN: was \"dev\" upstream; pinned
 XMOS_URL = "https://github.com/esphome/voice-kit-xmos-firmware/releases/download/v1.3.1/ffva_v1.3.1_upgrade.bin"
 XMOS_MD5 = "964635c5bf125529dab14a2472a15401"
 FRAMEWORK_VERSION = "5.5.5"
-PROJECT = ("Nabu Casa.Home Assistant Voice PE", "26.9.0-atlas.2")
+PROJECT = ("Nabu Casa.Home Assistant Voice PE", "26.9.0-atlas.2-c090")
 
 # Model files the image must embed (path relative to voicepe/, sha256).
 MODEL_FILES = {
-    "models/hey_atlas/hey_atlas.json": "2f2204abf0740e19ee59c85b3641d5f326d4e64d2bde0e606fa0eba5b44aeac4",
+    "models/hey_atlas/hey_atlas.json": "054461040b0fa570b73d2c3fe299bc3a44c0c23ff1bb932689e7d401e6804082",
     "models/hey_atlas/hey_atlas.tflite": "2bb30e62dd388c7b4d17cc80808b707ca65c5205a59dac958a86c645f80ffba7",
     "models/stock/okay_nabu_20241226.3/okay_nabu.json": "f8026e2ce93a0855ca23483036fd2d74ee924a2588d9ea6a6c6c7478fbf4be57",
     "models/stock/okay_nabu_20241226.3/okay_nabu.tflite": "d89128c4d16a72de429119fb2254ce46649553c2a24f5dd840175c80d7b9d094",
