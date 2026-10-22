@@ -1,21 +1,27 @@
 """Write voicepe/lock/dependency-lock.json: every fetched input of the build, with hashes.
 
-Usage (after tools/build.sh, with the ESPHome venv's python; needs network):
-  python -I voicepe/tools/make_lock.py BUILD_OUT_DIR
+Usage (needs network):
+  VOICEPE_LOCK_MODE=record KEEP_WORK=1 voicepe/tools/build.sh OUT
+  OUT/work/esphome-venv/bin/python -I voicepe/tools/make_lock.py OUT
 
 Each fetched URL is downloaded again here and hashed, and where the source
-publishes its own hash (PyPI, the PlatformIO registry, ESP-IDF tools.json, the
-ESP component registry, git object ids) that is recorded too, and compared
-where the two can be compared.
+publishes its own hash (the PlatformIO registry, ESP-IDF tools.json, the ESP
+component registry, git object ids) that is recorded too, and compared where
+the two can be compared. The Python packages come from the hashed requirement
+files in voicepe/lock/ (written by tools/pylock.py). fetch_allowlist, which
+tools/esphome_repro.py enforces, is built from OUT/fetch-log.txt: every file
+ESPHome downloaded becomes an artifact only if its SHA-256 equals the one
+recorded independently in the sections below; every other request becomes a
+metadata query.
 """
 
 import hashlib
 import json
 import os
+import re
 import subprocess
 import sys
 import urllib.request
-from importlib import metadata
 from pathlib import Path
 
 import yaml
@@ -75,32 +81,32 @@ def git(repo: Path, *args: str) -> str:
     return subprocess.run(["git", "-C", str(repo), *args], check=True, capture_output=True, text=True).stdout.strip()
 
 
-def python_env() -> list[dict]:
-    """Every installed distribution, with the PyPI sha256 of each file of that version."""
-    out = []
-    for dist in sorted(metadata.distributions(), key=lambda d: d.metadata["Name"].lower()):
-        name, version = dist.metadata["Name"], dist.version
-        entry = {"name": name, "version": version}
-        try:
-            info = json.loads(fetch(f"https://pypi.org/pypi/{name}/{version}/json"))
-            entry["files"] = {u["filename"]: u["digests"]["sha256"] for u in info["urls"]}
-        except Exception as err:  # noqa: BLE001
-            entry["files"] = f"NO DATA ({err})"
-        out.append(entry)
-    return out
+def read_req(path: Path) -> list[dict]:
+    """A hashed requirement file (format written by pylock.py) as [{url, name, version, sha256}]."""
+    pattern = r"^# (\S+)\n([A-Za-z0-9_.\-]+)==(\S+) \\\n    --hash=sha256:([0-9a-f]{64})$"
+    return [{"url": m[1], "name": m[2], "version": m[3], "sha256": m[4]}
+            for m in re.finditer(pattern, path.read_text(), re.M)]
+
+
+def python_envs() -> dict:
+    envs = {}
+    for env, stem in (("bootstrap", "bootstrap"), ("esphome", "esphome"), ("esp_idf", "esp-idf")):
+        rel = f"lock/requirements-{stem}.txt"
+        envs[env] = {"requirements": f"voicepe/{rel}", "packages": read_req(VOICEPE / rel)}
+    return envs
 
 
 def main() -> int:
     build_out = Path(sys.argv[1]).resolve()
     esphome_dir = VOICEPE / ".esphome"
-    idf_root = Path(os.environ.get("XDG_CACHE_HOME", Path.home() / ".cache")) / "esphome" / "idf"
+    idf_root = build_out / "work" / "cache" / "esphome" / "idf"
     lock: dict = {"about": __doc__.strip().splitlines()[0]}
 
     # ESPHome and its Python environment
     import esphome.const
 
     lock["esphome"] = {"version": esphome.const.__version__, "install": "pip install esphome==2026.9.1"}
-    lock["python_environment"] = python_env()
+    lock["python_environments"] = python_envs()
 
     # Base YAML and external component: a git checkout at the release commit
     ext_dirs = [p for p in (esphome_dir / "external_components").iterdir() if p.is_dir()]
@@ -161,12 +167,13 @@ def main() -> int:
             tools.append({"name": tool["name"], "version": ver["name"], "url": dl["url"],
                           "sha256_in_tools_json": dl["sha256"], "size": dl["size"]})
     lock["esp_idf_tools_linux_amd64"] = tools
-    constraints = fetch(IDF_CONSTRAINTS_URL)
-    lock["esp_idf_python_constraints"] = {"url": IDF_CONSTRAINTS_URL, "sha256": sha256_bytes(constraints),
-                                          "note": "unversioned URL; content as of this lock"}
-    penv = idf_root / "penvs" / IDF_VERSION / "bin" / "python"
-    freeze = subprocess.run([str(penv), "-m", "pip", "freeze"], check=True, capture_output=True, text=True).stdout
-    lock["esp_idf_python_env_freeze"] = freeze.splitlines()
+    vendored = (VOICEPE / "lock" / "espidf.constraints.v5.5.txt").read_bytes()
+    lock["esp_idf_python_constraints"] = {
+        "url": IDF_CONSTRAINTS_URL, "vendored": "voicepe/lock/espidf.constraints.v5.5.txt",
+        "sha256": sha256_bytes(vendored), "size": len(vendored),
+        "url_sha256_now": sha256_bytes(fetch(IDF_CONSTRAINTS_URL)),
+        "note": "the URL is unversioned; the build never fetches it and uses the vendored copy",
+    }
 
     # ESP component registry components, as resolved by this build
     deps = yaml.safe_load((build_out / "dependencies.lock").read_text())
@@ -190,9 +197,46 @@ def main() -> int:
                          "matches_registry": got["sha256"] == f["checksum"]["sha256"]})
     lock["platformio_libraries"] = libs
 
+    # What tools/esphome_repro.py lets ESPHome fetch: each downloaded file must
+    # already be hashed independently above, with the same SHA-256.
+    known = {s["url"]: s["sha256"] for s in sounds}
+    known[XMOS_URL] = lock["xmos_firmware"]["sha256"]
+    known[IDF_URL] = lock["esp_idf"]["sha256"]
+    known.update({t["url"]: t["sha256_in_tools_json"] for t in tools})
+    known.update({lib["url"]: lib["sha256"] for lib in libs})
+    log = (build_out / "fetch-log.txt").read_text().splitlines()
+    files = {}
+    for line in log:
+        if line.startswith("FILE "):
+            _, url, sha, size = line.split()
+            files[url] = {"url": url, "sha256": sha.removeprefix("sha256="), "size": int(size.removeprefix("size="))}
+    artifacts, bad_fetch = [], []
+    for url, f in sorted(files.items()):
+        if known.get(url) == f["sha256"]:
+            artifacts.append(f)
+        else:
+            bad_fetch.append(f"{url} (fetched {f['sha256']}, independent {known.get(url)})")
+    requests_made = sorted({line.split(" ", 1)[1] for line in log if line.split(" ", 1)[0] in ("GET", "HEAD", "POST")})
+    def why(url: str) -> str:
+        if url.startswith("https://api.registry.platformio.org/v3/packages/"):
+            return "PlatformIO registry metadata used to pick the library version; the archive is a locked artifact"
+        if url == "http://185.199.110.153":
+            return "PlatformIO's internet check (a GitHub IP in platformio/__init__.py); the response is not used"
+        raise SystemExit(f"unexplained request in the fetch log: {url}")
+
+    queries = [{"url": u, "why": why(u)} for u in requests_made if u not in files]
+    lock["fetch_allowlist"] = {
+        "about": "Enforced by tools/esphome_repro.py: ESPHome may request only these URLs, and every file it "
+                 "downloads must be one of the artifacts with this SHA-256. Queries are registry and "
+                 "update-check requests whose responses are not build inputs.",
+        "artifacts": artifacts, "queries": queries,
+    }
+
     out = VOICEPE / "lock" / "dependency-lock.json"
     out.write_text(json.dumps(lock, indent=1) + "\n")
-    bad = [m["path"] for m in models if m.get("matches_source") is False]
+    bad = [m["path"] for m in models if m.get("matches_source") is False] + bad_fetch
+    if lock["esp_idf_python_constraints"]["url_sha256_now"] != lock["esp_idf_python_constraints"]["sha256"]:
+        print("note: the constraints URL now serves different content than the vendored copy")
     bad += [s["url"] for s in sounds if not s["matches_git_checkout"]]
     bad += [lib["url"] for lib in libs if not lib["matches_registry"]]
     if lock["xmos_firmware"]["md5"] != lock["xmos_firmware"]["md5_in_yaml"]:

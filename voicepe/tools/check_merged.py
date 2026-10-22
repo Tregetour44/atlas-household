@@ -10,6 +10,10 @@ Proves from the merged config (output of `esphome config`) that:
   * every fetched input is pinned, and no secret is in the image config.
 Also checks the vendored base YAML against the upstream git blob at 2644f4c.
 Exits 1 if any check fails.
+
+Needs PyYAML 6.0.3 (the version in the build's ESPHome venv, used for
+build/check-report.txt). To rerun on any computer, install it with hashes from
+voicepe/lock/requirements-check.txt (instructions at the top of that file).
 """
 
 import hashlib
