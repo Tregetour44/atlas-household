@@ -1,0 +1,2445 @@
+substitutions:
+  voice_assist_idle_phase_id: '1'
+  voice_assist_waiting_for_command_phase_id: '2'
+  voice_assist_listening_for_command_phase_id: '3'
+  voice_assist_thinking_phase_id: '4'
+  voice_assist_replying_phase_id: '5'
+  voice_assist_not_ready_phase_id: '10'
+  voice_assist_error_phase_id: '11'
+  hidden_ssid: 'false'
+  jack_connected_sound_file: https://raw.githubusercontent.com/esphome/home-assistant-voice-pe/2644f4c794271d735d182ca7ebf899ed46164f4e/sounds/jack_connected.flac
+  jack_disconnected_sound_file: https://raw.githubusercontent.com/esphome/home-assistant-voice-pe/2644f4c794271d735d182ca7ebf899ed46164f4e/sounds/jack_disconnected.flac
+  mute_switch_on_sound_file: https://raw.githubusercontent.com/esphome/home-assistant-voice-pe/2644f4c794271d735d182ca7ebf899ed46164f4e/sounds/mute_switch_on.flac
+  mute_switch_off_sound_file: https://raw.githubusercontent.com/esphome/home-assistant-voice-pe/2644f4c794271d735d182ca7ebf899ed46164f4e/sounds/mute_switch_off.flac
+  timer_finished_sound_file: https://raw.githubusercontent.com/esphome/home-assistant-voice-pe/2644f4c794271d735d182ca7ebf899ed46164f4e/sounds/timer_finished.flac
+  wake_word_triggered_sound_file: https://raw.githubusercontent.com/esphome/home-assistant-voice-pe/2644f4c794271d735d182ca7ebf899ed46164f4e/sounds/wake_word_triggered.flac
+  center_button_press_sound_file: https://raw.githubusercontent.com/esphome/home-assistant-voice-pe/2644f4c794271d735d182ca7ebf899ed46164f4e/sounds/center_button_press.flac
+  center_button_double_press_sound_file: https://raw.githubusercontent.com/esphome/home-assistant-voice-pe/2644f4c794271d735d182ca7ebf899ed46164f4e/sounds/center_button_double_press.flac
+  center_button_triple_press_sound_file: https://raw.githubusercontent.com/esphome/home-assistant-voice-pe/2644f4c794271d735d182ca7ebf899ed46164f4e/sounds/center_button_triple_press.flac
+  center_button_long_press_sound_file: https://raw.githubusercontent.com/esphome/home-assistant-voice-pe/2644f4c794271d735d182ca7ebf899ed46164f4e/sounds/center_button_long_press.flac
+  factory_reset_initiated_sound_file: https://raw.githubusercontent.com/esphome/home-assistant-voice-pe/2644f4c794271d735d182ca7ebf899ed46164f4e/sounds/factory_reset_initiated.mp3
+  factory_reset_cancelled_sound_file: https://raw.githubusercontent.com/esphome/home-assistant-voice-pe/2644f4c794271d735d182ca7ebf899ed46164f4e/sounds/factory_reset_cancelled.mp3
+  factory_reset_confirmed_sound_file: https://raw.githubusercontent.com/esphome/home-assistant-voice-pe/2644f4c794271d735d182ca7ebf899ed46164f4e/sounds/factory_reset_confirmed.mp3
+  easter_egg_tick_sound_file: https://raw.githubusercontent.com/esphome/home-assistant-voice-pe/2644f4c794271d735d182ca7ebf899ed46164f4e/sounds/easter_egg_tick.mp3
+  easter_egg_tada_sound_file: https://raw.githubusercontent.com/esphome/home-assistant-voice-pe/2644f4c794271d735d182ca7ebf899ed46164f4e/sounds/easter_egg_tada.mp3
+  error_cloud_expired_sound_file: https://raw.githubusercontent.com/esphome/home-assistant-voice-pe/2644f4c794271d735d182ca7ebf899ed46164f4e/sounds/error_cloud_expired.mp3
+esphome:
+  name: home-assistant-voice
+  friendly_name: Home Assistant Voice
+  name_add_mac_suffix: true
+  min_version: 2026.6.0
+  on_boot:
+    - priority: 375.0
+      then:
+        - script.execute:
+            id: control_leds
+        - delay: 1s
+        - switch.turn_on:
+            id: internal_speaker_amp
+        - delay: 10min
+        - if:
+            condition:
+              lambda: !lambda |-
+                return id(init_in_progress);
+            then:
+              - lambda: !lambda |-
+                  id(init_in_progress) = false;
+              - script.execute:
+                  id: control_leds
+  project:
+    name: Nabu Casa.Home Assistant Voice PE
+    version: 26.9.0-atlas.2
+  build_path: build/home-assistant-voice
+  platformio_options: {}
+  build_flags: []
+  environment_variables: {}
+  includes: []
+  includes_c: []
+  libraries: []
+  merge_warnings: true
+  debug_scheduler: false
+  areas: []
+  devices: []
+esp32:
+  board: esp32-s3-devkitc-1
+  cpu_frequency: 240MHZ
+  variant: ESP32S3
+  flash_size: 16MB
+  framework:
+    type: esp-idf
+    version: 5.5.5
+    sdkconfig_options:
+      CONFIG_ESP32S3_DATA_CACHE_64KB: y
+      CONFIG_ESP32S3_DATA_CACHE_LINE_64B: y
+      CONFIG_ESP32S3_INSTRUCTION_CACHE_32KB: y
+      CONFIG_SPIRAM_RODATA: y
+      CONFIG_SPIRAM_FETCH_INSTRUCTIONS: y
+      CONFIG_BT_ALLOCATION_FROM_SPIRAM_FIRST: y
+      CONFIG_BT_BLE_DYNAMIC_ENV_MEMORY: y
+      CONFIG_MBEDTLS_EXTERNAL_MEM_ALLOC: y
+      CONFIG_MBEDTLS_SSL_PROTO_TLS1_3: y
+    log_level: ERROR
+    advanced:
+      compiler_optimization: SIZE
+      enable_idf_experimental_features: false
+      enable_lwip_assert: true
+      ignore_efuse_custom_mac: false
+      ignore_efuse_mac_crc: false
+      sram1_as_iram: false
+      enable_lwip_mdns_queries: true
+      enable_lwip_bridge_interface: false
+      enable_lwip_tcpip_core_locking: true
+      enable_lwip_check_thread_safety: true
+      disable_libc_locks_in_iram: true
+      disable_vfs_support_termios: true
+      disable_vfs_support_select: true
+      disable_vfs_support_dir: true
+      freertos_in_iram: false
+      ringbuf_in_iram: false
+      heap_in_iram: false
+      execute_from_psram: false
+      loop_task_stack_size: 8192
+      enable_ota_rollback: true
+      enable_ota_downgrade_protection: false
+      use_full_certificate_bundle: false
+      include_builtin_idf_components: []
+      enable_full_printf: false
+      disable_debug_stubs: true
+      disable_ocd_aware: true
+      disable_usb_serial_jtag_secondary: true
+      disable_dev_null_vfs: true
+      disable_mbedtls_peer_cert: true
+      disable_mbedtls_pkcs7: true
+      disable_regi2c_in_iram: true
+      adc_oneshot_in_iram: false
+      disable_fatfs: true
+    components: []
+  toolchain: esp-idf
+  watchdog_timeout: 5s
+voice_assistant:
+  on_client_connected:
+    then:
+      - wait_until:
+          condition:
+            not:
+              ble.enabled: {}
+      - delay: 2s
+      - lambda: !lambda |-
+          id(init_in_progress) = false;
+      - micro_wake_word.start: {}
+      - lambda: !lambda |-
+          id(voice_assistant_phase) = 1;
+      - script.execute:
+          id: control_leds
+  id: va
+  microphone:
+    - microphone: i2s_mics
+      channels:
+        - 0
+      bits_per_sample: 16
+      gain_factor: 1
+    - microphone: i2s_mics
+      channels:
+        - 1
+      bits_per_sample: 16
+      gain_factor: 1
+  media_player: external_media_player
+  micro_wake_word: mww
+  use_wake_word: false
+  noise_suppression_level: 0
+  auto_gain: 0
+  volume_multiplier: 1.0
+  on_client_disconnected:
+    then:
+      - voice_assistant.stop: {}
+      - lambda: !lambda |-
+          id(voice_assistant_phase) = 10;
+      - script.execute:
+          id: control_leds
+  on_error:
+    then:
+      - if:
+          condition:
+            and:
+              - lambda: !lambda |-
+                  return !id(init_in_progress);
+              - lambda: !lambda |-
+                  return code != "duplicate_wake_up_detected";
+              - lambda: !lambda |-
+                  return code != "stt-no-text-recognized";
+          then:
+            - lambda: !lambda |-
+                id(voice_assistant_phase) = 11;
+            - script.execute:
+                id: control_leds
+      - if:
+          condition:
+            and:
+              - lambda: !lambda |-
+                  return code == "cloud-auth-failed";
+          then:
+            - script.execute:
+                id: play_sound
+                priority: true
+                sound_file: error_cloud_expired
+  on_start:
+    then:
+      - mixer_speaker.apply_ducking:
+          id: media_mixing_input
+          decibel_reduction: 20
+          duration: 0s
+  on_listening:
+    then:
+      - lambda: !lambda |-
+          id(voice_assistant_phase) = 2;
+      - script.execute:
+          id: control_leds
+  on_stt_vad_start:
+    then:
+      - lambda: !lambda |-
+          id(voice_assistant_phase) = 3;
+      - script.execute:
+          id: control_leds
+  on_stt_vad_end:
+    then:
+      - lambda: !lambda |-
+          id(voice_assistant_phase) = 4;
+      - script.execute:
+          id: control_leds
+  on_intent_progress:
+    then:
+      - if:
+          condition:
+            lambda: !lambda |-
+              return !x.empty();
+          then:
+            - lambda: !lambda |-
+                id(voice_assistant_phase) = 5;
+            - script.execute:
+                id: control_leds
+            - script.execute:
+                id: activate_stop_word_once
+  on_tts_start:
+    then:
+      - if:
+          condition:
+            lambda: !lambda |-
+              return id(voice_assistant_phase) != 5;
+          then:
+            - lambda: !lambda |-
+                id(voice_assistant_phase) = 5;
+            - script.execute:
+                id: control_leds
+            - script.execute:
+                id: activate_stop_word_once
+  on_end:
+    then:
+      - wait_until:
+          condition:
+            not:
+              voice_assistant.is_running: {}
+      - mixer_speaker.apply_ducking:
+          id: media_mixing_input
+          decibel_reduction: 0
+          duration: 1s
+      - if:
+          condition:
+            lambda: !lambda |-
+              return id(voice_assistant_phase) == 11;
+          then:
+            - delay: 1s
+      - lambda: !lambda |-
+          id(voice_assistant_phase) = 1;
+      - script.execute:
+          id: control_leds
+  on_timer_finished:
+    then:
+      - switch.turn_on:
+          id: timer_ringing
+  on_timer_started:
+    then:
+      - script.execute:
+          id: control_leds
+  on_timer_cancelled:
+    then:
+      - script.execute:
+          id: control_leds
+  on_timer_updated:
+    then:
+      - script.execute:
+          id: control_leds
+  on_timer_tick:
+    then:
+      - script.execute:
+          id: control_leds
+  conversation_timeout: 300s
+wifi:
+  on_disconnect:
+    then:
+      - ble.enable: {}
+      - script.execute:
+          id: control_leds
+  id: wifi_id
+  fast_connect:
+    enabled: false
+    storage: flash
+  on_connect:
+    then:
+      - lambda: !lambda |-
+          id(improv_ble_in_progress) = false;
+      - script.execute:
+          id: control_leds
+      - if:
+          condition:
+            and:
+              - binary_sensor.is_on:
+                  id: jack_plugged
+          then:
+            - sendspin.media_source.enable_static_delay_adjustment: {}
+          else:
+            - sendspin.media_source.disable_static_delay_adjustment: {}
+      - delay: 5s
+      - ble.disable: {}
+      - script.execute:
+          id: control_leds
+  domain: .local
+  reboot_timeout: 15min
+  power_save_mode: LIGHT
+  enable_btm: false
+  enable_rrm: false
+  passive_scan: false
+  enable_on_boot: true
+  post_connect_roaming: true
+  min_auth_mode: WPA2
+  networks: []
+  use_address: home-assistant-voice.local
+network:
+  enable_ipv6: true
+  min_ipv6_addr_count: 0
+logger:
+  level: DEBUG
+  logs:
+    sensor: WARN
+  baud_rate: 115200
+  tx_buffer_size: 512
+  deassert_rts_dtr: false
+  task_log_buffer_size: 768
+  hardware_uart: USB_SERIAL_JTAG
+  runtime_tag_levels: false
+api:
+  id: api_id
+  on_client_connected:
+    then:
+      - script.execute:
+          id: control_leds
+  on_client_disconnected:
+    then:
+      - script.execute:
+          id: control_leds
+  encryption: {}
+  port: 6053
+  reboot_timeout: 15min
+  batch_delay: 100ms
+  custom_services: false
+  homeassistant_services: false
+  homeassistant_states: false
+  listen_backlog: 4
+  max_connections: 5
+  max_send_queue: 8
+ota:
+  - platform: esphome
+    id: ota_esphome
+    version: 2
+    port: 3232
+    allow_partition_access: false
+i2c:
+  - id: internal_i2c
+    sda: 5
+    scl: 6
+    frequency: 400000.0
+    sda_pullup_enabled: true
+    scl_pullup_enabled: true
+    scan: true
+psram:
+  mode: octal
+  speed: 80MHZ
+  ignore_not_found: false
+  enable_ecc: false
+  disabled: false
+globals:
+  - id: global_led_animation_index
+    type: int
+    restore_value: false
+    initial_value: '0'
+  - id: init_in_progress
+    type: bool
+    restore_value: false
+    initial_value: 'true'
+  - id: improv_ble_in_progress
+    type: bool
+    restore_value: false
+    initial_value: 'false'
+  - id: voice_assistant_phase
+    type: int
+    restore_value: false
+    initial_value: '10'
+  - id: dial_touched
+    type: bool
+    restore_value: false
+    initial_value: 'false'
+  - id: color_changed
+    type: bool
+    restore_value: false
+    initial_value: 'false'
+  - id: group_volume_changed
+    type: bool
+    restore_value: false
+    initial_value: 'false'
+  - id: jack_plugged_recently
+    type: bool
+    restore_value: false
+    initial_value: 'false'
+  - id: jack_unplugged_recently
+    type: bool
+    restore_value: false
+    initial_value: 'false'
+  - id: first_active_timer
+    type: voice_assistant::Timer
+    restore_value: false
+  - id: is_timer_active
+    type: bool
+    restore_value: false
+  - id: factory_reset_requested
+    type: bool
+    restore_value: false
+    initial_value: 'false'
+switch:
+  - platform: template
+    id: master_mute_switch
+    restore_mode: RESTORE_DEFAULT_OFF
+    icon: mdi:microphone-off
+    name: Mute
+    entity_category: config
+    lambda: !lambda |-
+      // Muted either if the hardware mute switch is on or the microphone's software mute switch is enabled
+      if (id(hardware_mute_switch).state || id(i2s_mics).get_mute_state()) {
+        return true;
+      } else {
+        return false;
+      }
+    turn_on_action:
+      then:
+        - if:
+            condition:
+              binary_sensor.is_off:
+                id: hardware_mute_switch
+            then:
+              - microphone.mute: {}
+    turn_off_action:
+      then:
+        - if:
+            condition:
+              binary_sensor.is_off:
+                id: hardware_mute_switch
+            then:
+              - microphone.unmute: {}
+    on_turn_on:
+      - then:
+          - script.execute:
+              id: control_leds
+    on_turn_off:
+      - then:
+          - script.execute:
+              id: control_leds
+    disabled_by_default: false
+    optimistic: false
+    assumed_state: false
+  - platform: template
+    id: wake_sound
+    name: Wake sound
+    icon: mdi:bullhorn
+    entity_category: config
+    optimistic: true
+    restore_mode: RESTORE_DEFAULT_ON
+    disabled_by_default: false
+    assumed_state: false
+  - platform: template
+    id: disable_buttons
+    name: Disable physical controls
+    icon: mdi:button-pointer
+    entity_category: config
+    optimistic: true
+    restore_mode: RESTORE_DEFAULT_OFF
+    disabled_by_default: true
+    assumed_state: false
+  - platform: template
+    id: timer_ringing
+    optimistic: true
+    internal: true
+    restore_mode: ALWAYS_OFF
+    on_turn_off:
+      - then:
+          - micro_wake_word.disable_model:
+              id: stop
+          - script.execute:
+              id: disable_repeat
+          - if:
+              condition:
+                media_player.is_announcing:
+                  id: external_media_player
+              then:
+                - media_player.stop:
+                    announcement: true
+                    id: external_media_player
+          - mixer_speaker.apply_ducking:
+              id: media_mixing_input
+              decibel_reduction: 0
+              duration: 1s
+          - script.execute:
+              id: control_leds
+    on_turn_on:
+      - then:
+          - mixer_speaker.apply_ducking:
+              id: media_mixing_input
+              decibel_reduction: 20
+              duration: 0s
+          - micro_wake_word.enable_model:
+              id: stop
+          - script.execute:
+              id: ring_timer
+          - script.execute:
+              id: control_leds
+          - delay: 15min
+          - switch.turn_off:
+              id: timer_ringing
+    disabled_by_default: false
+    assumed_state: false
+    name: timer_ringing
+  - platform: gpio
+    pin:
+      number: 47
+      mode:
+        output: true
+        input: false
+        open_drain: false
+        pullup: false
+        pulldown: false
+      inverted: false
+      ignore_pin_validation_error: false
+      ignore_strapping_warning: false
+      drive_strength: 20.0
+    id: internal_speaker_amp
+    name: Internal speaker amp
+    entity_category: config
+    restore_mode: ALWAYS_OFF
+    internal: true
+    disabled_by_default: false
+    interlock_wait_time: 0ms
+binary_sensor:
+  - platform: gpio
+    id: center_button
+    pin:
+      number: 0
+      inverted: true
+      mode:
+        input: true
+        output: false
+        open_drain: false
+        pullup: false
+        pulldown: false
+      ignore_pin_validation_error: false
+      ignore_strapping_warning: false
+      drive_strength: 20.0
+    on_press:
+      - then:
+          - if:
+              condition:
+                switch.is_off:
+                  id: disable_buttons
+              then:
+                - script.execute:
+                    id: control_leds
+    on_release:
+      - then:
+          - if:
+              condition:
+                switch.is_off:
+                  id: disable_buttons
+              then:
+                - script.execute:
+                    id: control_leds
+          - if:
+              condition:
+                lambda: !lambda |-
+                  return id(factory_reset_requested);
+              then:
+                - button.press:
+                    id: factory_reset_button
+    on_multi_click:
+      - timing:
+          - state: true
+            min_length: 0ms
+            max_length: 1s
+          - state: false
+            min_length: 250ms
+        then:
+          - if:
+              condition:
+                lambda: !lambda |-
+                  return !id(init_in_progress) && !id(color_changed) && !id(group_volume_changed) && !id(disable_buttons).state;
+              then:
+                - if:
+                    condition:
+                      switch.is_on:
+                        id: timer_ringing
+                    then:
+                      - switch.turn_off:
+                          id: timer_ringing
+                    else:
+                      - if:
+                          condition:
+                            voice_assistant.is_running: {}
+                          then:
+                            - voice_assistant.stop: {}
+                          else:
+                            - if:
+                                condition:
+                                  media_player.is_announcing:
+                                    id: external_media_player
+                                then:
+                                  - media_player.stop:
+                                      announcement: true
+                                      id: external_media_player
+                                else:
+                                  - if:
+                                      condition:
+                                        media_player.is_playing:
+                                          id: external_media_player
+                                      then:
+                                        - media_player.pause:
+                                            id: external_media_player
+                                            announcement: false
+                                      else:
+                                        - if:
+                                            condition:
+                                              and:
+                                                - switch.is_off:
+                                                    id: master_mute_switch
+                                                - not:
+                                                    voice_assistant.is_running: {}
+                                            then:
+                                              - script.execute:
+                                                  id: play_sound
+                                                  priority: true
+                                                  sound_file: center_button_press_sound
+                                              - delay: 300ms
+                                              - voice_assistant.start:
+                                                  silence_detection: true
+        invalid_cooldown: 1s
+      - timing:
+          - state: true
+            min_length: 0ms
+            max_length: 1s
+          - state: false
+            min_length: 0ms
+            max_length: 250ms
+          - state: true
+            min_length: 0ms
+            max_length: 1s
+          - state: false
+            min_length: 250ms
+        then:
+          - if:
+              condition:
+                lambda: !lambda |-
+                  return !id(init_in_progress) && !id(color_changed) && !id(group_volume_changed) && !id(disable_buttons).state;
+              then:
+                - script.execute:
+                    id: play_sound
+                    priority: false
+                    sound_file: center_button_double_press_sound
+                - event.trigger:
+                    id: button_press_event
+                    event_type: double_press
+        invalid_cooldown: 1s
+      - timing:
+          - state: true
+            min_length: 0ms
+            max_length: 1s
+          - state: false
+            min_length: 0ms
+            max_length: 250ms
+          - state: true
+            min_length: 0ms
+            max_length: 1s
+          - state: false
+            min_length: 0ms
+            max_length: 250ms
+          - state: true
+            min_length: 0ms
+            max_length: 1s
+          - state: false
+            min_length: 250ms
+        then:
+          - if:
+              condition:
+                lambda: !lambda |-
+                  return !id(init_in_progress) && !id(color_changed) && !id(group_volume_changed) && !id(disable_buttons).state;
+              then:
+                - script.execute:
+                    id: play_sound
+                    priority: false
+                    sound_file: center_button_triple_press_sound
+                - event.trigger:
+                    id: button_press_event
+                    event_type: triple_press
+        invalid_cooldown: 1s
+      - timing:
+          - state: true
+            min_length: 1s
+        then:
+          - if:
+              condition:
+                lambda: !lambda |-
+                  return !id(init_in_progress) && !id(color_changed) && !id(group_volume_changed) && !id(disable_buttons).state;
+              then:
+                - script.execute:
+                    id: play_sound
+                    priority: false
+                    sound_file: center_button_long_press_sound
+                - light.turn_off:
+                    id: voice_assistant_leds
+                    state: false
+                - event.trigger:
+                    id: button_press_event
+                    event_type: long_press
+        invalid_cooldown: 1s
+      - timing:
+          - state: true
+            min_length: 0ms
+            max_length: 200ms
+          - state: false
+            min_length: 0s
+            max_length: 2s
+          - state: true
+            min_length: 0ms
+            max_length: 200ms
+          - state: false
+            min_length: 0s
+            max_length: 2s
+          - state: true
+            min_length: 0ms
+            max_length: 200ms
+          - state: false
+            min_length: 0s
+            max_length: 2s
+          - state: true
+            min_length: 0ms
+            max_length: 200ms
+          - state: false
+            min_length: 500ms
+            max_length: 2s
+          - state: true
+            min_length: 0ms
+            max_length: 200ms
+          - state: false
+            min_length: 0s
+            max_length: 2s
+          - state: true
+            min_length: 200ms
+            max_length: 2s
+        then:
+          - if:
+              condition:
+                lambda: !lambda |-
+                  return !id(init_in_progress);
+              then:
+                - light.turn_on:
+                    brightness: 1.0
+                    id: voice_assistant_leds
+                    effect: Tick
+                    state: true
+                - script.execute:
+                    id: play_sound
+                    priority: true
+                    sound_file: easter_egg_tick_sound
+                - delay: 4s
+                - light.turn_off:
+                    id: voice_assistant_leds
+                    state: false
+                - script.execute:
+                    id: play_sound
+                    priority: true
+                    sound_file: easter_egg_tada_sound
+                - light.turn_on:
+                    brightness: 1.0
+                    id: voice_assistant_leds
+                    effect: Rainbow
+                    state: true
+                - event.trigger:
+                    id: button_press_event
+                    event_type: easter_egg_press
+        invalid_cooldown: 1s
+      - timing:
+          - state: true
+            min_length: 10s
+        then:
+          - if:
+              condition:
+                lambda: !lambda |-
+                  return !id(dial_touched);
+              then:
+                - light.turn_on:
+                    brightness: 1.0
+                    id: voice_assistant_leds
+                    effect: Factory Reset Coming Up
+                    state: true
+                - script.execute:
+                    id: play_sound
+                    priority: true
+                    sound_file: factory_reset_initiated_sound
+                - wait_until:
+                    condition:
+                      binary_sensor.is_off:
+                        id: center_button
+                - if:
+                    condition:
+                      lambda: !lambda |-
+                        return !id(factory_reset_requested);
+                    then:
+                      - light.turn_off:
+                          id: voice_assistant_leds
+                          state: false
+                      - script.execute:
+                          id: play_sound
+                          priority: true
+                          sound_file: factory_reset_cancelled_sound
+        invalid_cooldown: 1s
+      - timing:
+          - state: true
+            min_length: 22s
+        then:
+          - if:
+              condition:
+                lambda: !lambda |-
+                  return !id(dial_touched);
+              then:
+                - script.execute:
+                    id: play_sound
+                    priority: true
+                    sound_file: factory_reset_confirmed_sound
+                - light.turn_on:
+                    brightness: 1.0
+                    red: 1.0
+                    green: 0.0
+                    blue: 0.0
+                    id: voice_assistant_leds
+                    effect: none
+                    state: true
+                - lambda: !lambda |-
+                    id(factory_reset_requested) = true;
+        invalid_cooldown: 1s
+    disabled_by_default: false
+    use_interrupt: true
+    interrupt_type: ANY
+    name: center_button
+    internal: true
+  - platform: gpio
+    id: hardware_mute_switch
+    internal: true
+    pin:
+      number: 3
+      mode:
+        input: true
+        output: false
+        open_drain: false
+        pullup: false
+        pulldown: false
+      inverted: false
+      ignore_pin_validation_error: false
+      ignore_strapping_warning: false
+      drive_strength: 20.0
+    on_press:
+      - then:
+          - if:
+              condition:
+                and:
+                  - switch.is_off:
+                      id: master_mute_switch
+              then:
+                - script.execute:
+                    id: play_sound
+                    priority: false
+                    sound_file: mute_switch_on_sound
+    on_release:
+      - then:
+          - script.execute:
+              id: play_sound
+              priority: false
+              sound_file: mute_switch_off_sound
+          - microphone.unmute: {}
+    disabled_by_default: false
+    use_interrupt: true
+    interrupt_type: ANY
+    name: hardware_mute_switch
+  - platform: gpio
+    id: jack_plugged
+    filters:
+      - delayed_on: 200ms
+      - delayed_off: 200ms
+    pin:
+      number: 17
+      mode:
+        input: true
+        output: false
+        open_drain: false
+        pullup: false
+        pulldown: false
+      inverted: false
+      ignore_pin_validation_error: false
+      ignore_strapping_warning: false
+      drive_strength: 20.0
+    on_press:
+      - then:
+          - lambda: !lambda |-
+              id(jack_plugged_recently) = true;
+          - sendspin.media_source.enable_static_delay_adjustment: {}
+          - script.execute:
+              id: control_leds
+          - delay: 200ms
+          - script.execute:
+              id: play_sound
+              priority: false
+              sound_file: jack_connected_sound
+          - delay: 800ms
+          - lambda: !lambda |-
+              id(jack_plugged_recently) = false;
+          - script.execute:
+              id: control_leds
+    on_release:
+      - then:
+          - lambda: !lambda |-
+              id(jack_unplugged_recently) = true;
+          - script.execute:
+              id: control_leds
+          - sendspin.media_source.disable_static_delay_adjustment: {}
+          - delay: 200ms
+          - script.execute:
+              id: play_sound
+              priority: false
+              sound_file: jack_disconnected_sound
+          - delay: 800ms
+          - lambda: !lambda |-
+              id(jack_unplugged_recently) = false;
+          - script.execute:
+              id: control_leds
+    disabled_by_default: false
+    use_interrupt: true
+    interrupt_type: ANY
+    name: jack_plugged
+    internal: true
+light:
+  - platform: esp32_rmt_led_strip
+    id: leds_internal
+    pin:
+      number: 21
+      mode:
+        output: true
+        input: false
+        open_drain: false
+        pullup: false
+        pulldown: false
+      inverted: false
+      ignore_pin_validation_error: false
+      ignore_strapping_warning: false
+      drive_strength: 20.0
+    bit0_high: 300ns
+    bit0_low: 975ns
+    bit1_high: 650ns
+    bit1_low: 650ns
+    reset_low: 300us
+    reset_high: 0us
+    max_refresh_rate: 15ms
+    num_leds: 12
+    rmt_symbols: 192
+    default_transition_length: 0ms
+    power_supply: led_power
+    disabled_by_default: false
+    restore_mode: ALWAYS_OFF
+    gamma_correct: 2.8
+    flash_transition_length: 0s
+    use_psram: true
+    name: leds_internal
+    internal: true
+    channel_colors: GRB
+  - platform: partition
+    id: voice_assistant_leds
+    internal: true
+    default_transition_length: 0ms
+    segments:
+      - id: leds_internal
+        from: 7
+        to: 11
+        reversed: false
+      - id: leds_internal
+        from: 0
+        to: 6
+        reversed: false
+    effects:
+      - addressable_lambda:
+          name: Waiting for Command
+          update_interval: 100ms
+          lambda: !lambda |-
+            auto light_color = id(led_ring).current_values;
+            Color color(light_color.get_red() * 255, light_color.get_green() * 255,
+                  light_color.get_blue() * 255);
+            for (uint8_t i = 0; i < 12; i++) {
+              if (i == id(global_led_animation_index) % 12) {
+                it[i] = color;
+              } else if (i == (id(global_led_animation_index) + 11) % 12) {
+                it[i] = color * 192;
+              } else if (i == (id(global_led_animation_index) + 10) % 12) {
+                it[i] = color * 128;
+              } else if (i == (id(global_led_animation_index) + 6) % 12) {
+                it[i] = color;
+              } else if (i == (id(global_led_animation_index) + 5) % 12) {
+                it[i] = color * 192;
+              } else if (i == (id(global_led_animation_index) + 4) % 12) {
+                it[i] = color * 128;
+              } else {
+                it[i] = Color::BLACK;
+              }
+            }
+            id(global_led_animation_index) = (id(global_led_animation_index) + 1) % 12;
+      - addressable_lambda:
+          name: Listening For Command
+          update_interval: 50ms
+          lambda: !lambda |-
+            auto light_color = id(led_ring).current_values;
+            Color color(light_color.get_red() * 255, light_color.get_green() * 255,
+                  light_color.get_blue() * 255);
+            for (uint8_t i = 0; i < 12; i++) {
+              if (i == id(global_led_animation_index) % 12) {
+                it[i] = color;
+              } else if (i == (id(global_led_animation_index) + 11) % 12) {
+                it[i] = color * 192;
+              } else if (i == (id(global_led_animation_index) + 10) % 12) {
+                it[i] = color * 128;
+              } else if (i == (id(global_led_animation_index) + 6) % 12) {
+                it[i] = color;
+              } else if (i == (id(global_led_animation_index) + 5) % 12) {
+                it[i] = color * 192;
+              } else if (i == (id(global_led_animation_index) + 4) % 12) {
+                it[i] = color * 128;
+              } else {
+                it[i] = Color::BLACK;
+              }
+            }
+            id(global_led_animation_index) = (id(global_led_animation_index) + 1) % 12;
+      - addressable_lambda:
+          name: Thinking
+          update_interval: 10ms
+          lambda: !lambda |-
+            static uint8_t brightness_step = 0;
+            static bool brightness_decreasing = true;
+            static uint8_t brightness_step_number = 10;
+            if (initial_run) {
+              brightness_step = 0;
+              brightness_decreasing = true;
+            }
+            auto light_color = id(led_ring).current_values;
+            Color color(light_color.get_red() * 255, light_color.get_green() * 255,
+                  light_color.get_blue() * 255);
+            for (uint8_t i = 0; i < 12; i++) {
+              if (i == id(global_led_animation_index) % 12) {
+                it[i] = color * uint8_t(255/brightness_step_number*(brightness_step_number-brightness_step));
+              } else if (i == (id(global_led_animation_index) + 6) % 12) {
+                it[i] = color * uint8_t(255/brightness_step_number*(brightness_step_number-brightness_step));
+              } else {
+                it[i] = Color::BLACK;
+              }
+            }
+            if (brightness_decreasing) {
+              brightness_step++;
+            } else {
+              brightness_step--;
+            }
+            if (brightness_step == 0 || brightness_step == brightness_step_number) {
+              brightness_decreasing = !brightness_decreasing;
+            }
+      - addressable_lambda:
+          name: Replying
+          update_interval: 50ms
+          lambda: !lambda |-
+            id(global_led_animation_index) = (12 + id(global_led_animation_index) - 1) % 12;
+            auto light_color = id(led_ring).current_values;
+            Color color(light_color.get_red() * 255, light_color.get_green() * 255,
+                  light_color.get_blue() * 255);
+            for (uint8_t i = 0; i < 12; i++) {
+              if (i == (id(global_led_animation_index)) % 12) {
+                it[i] = color;
+              } else if (i == ( id(global_led_animation_index) + 1) % 12) {
+                it[i] = color * 192;
+              } else if (i == ( id(global_led_animation_index) + 2) % 12) {
+                it[i] = color * 128;
+              } else if (i == ( id(global_led_animation_index) + 6) % 12) {
+                it[i] = color;
+              } else if (i == ( id(global_led_animation_index) + 7) % 12) {
+                it[i] = color * 192;
+              } else if (i == ( id(global_led_animation_index) + 8) % 12) {
+                it[i] = color * 128;
+              } else {
+                it[i] = Color::BLACK;
+              }
+            }
+      - addressable_lambda:
+          name: Muted or Silent
+          update_interval: 16ms
+          lambda: !lambda |-
+            static int8_t index = 0;
+            Color muted_color(255, 0, 0);
+            auto light_color = id(led_ring).current_values;
+            Color color(light_color.get_red() * 255, light_color.get_green() * 255,
+                  light_color.get_blue() * 255);
+            for (uint8_t i = 0; i < 12; i++) {
+              if ( light_color.get_state() ) {
+                it[i] = color;
+              } else {
+                it[i] = Color::BLACK;
+              }
+            }
+            if ( id(master_mute_switch).state ) {
+              it[2] = Color::BLACK;
+              it[3] = muted_color;
+              it[4] = Color::BLACK;
+              it[8] = Color::BLACK;
+              it[9] = muted_color;
+              it[10] = Color::BLACK;
+            }
+            if ( id(external_media_player).volume == 0.0f || id(external_media_player).is_muted() ) {
+              it[5] = Color::BLACK;
+              it[6] = muted_color;
+              it[7] = Color::BLACK;
+            }
+      - addressable_lambda:
+          name: Voice kit startup failed
+          lambda: !lambda |-
+            static int8_t index = 0;
+            Color fail_color(255, 0, 0);
+            for (uint8_t i = 0; i < 12; i++) {
+              if (i % 3) {
+                it[i] = Color::BLACK;
+              } else {
+                it[i] = fail_color;
+              }
+            }
+          update_interval: 0ms
+      - addressable_lambda:
+          name: Volume Display
+          update_interval: 50ms
+          lambda: !lambda |-
+            auto light_color = id(led_ring).current_values;
+            Color color(light_color.get_red() * 255, light_color.get_green() * 255,
+                  light_color.get_blue() * 255);
+            Color silenced_color(255, 0, 0);
+            auto volume_ratio = 12.0f * id(external_media_player).volume;
+            for (uint8_t i = 0; i < 12; i++) {
+              if (i <= volume_ratio) {
+                it[(6+i)%12] = color * min( 255.0f * (volume_ratio - i) , 255.0f ) ;
+              } else {
+                it[(6+i)%12] = Color::BLACK;
+              }
+            }
+            if (id(external_media_player).volume == 0.0f) {
+              it[6] = silenced_color;
+            }
+      - addressable_lambda:
+          name: Center Button Touched
+          update_interval: 16ms
+          lambda: !lambda |-
+            if (initial_run) {
+              // set voice_assistant_leds light to colors based on led_ring
+              auto led_ring_cv = id(led_ring).current_values;
+              auto va_leds_call = id(voice_assistant_leds).make_call();
+              va_leds_call.from_light_color_values(led_ring_cv);
+              va_leds_call.set_brightness( min ( max( id(led_ring).current_values.get_brightness() , 0.2f ) + 0.1f , 1.0f ) );
+              va_leds_call.set_state(true);
+              va_leds_call.perform();
+            }
+            auto light_color = id(voice_assistant_leds).current_values;
+            Color color(light_color.get_red() * 255, light_color.get_green() * 255,
+                  light_color.get_blue() * 255);
+            for (uint8_t i = 0; i < 12; i++) {
+              it[i] = color;
+            }
+      - addressable_twinkle:
+          name: Twinkle
+          twinkle_probability: 0.5
+          progress_interval: 4ms
+      - addressable_lambda:
+          name: Error
+          update_interval: 10ms
+          lambda: !lambda |-
+            static uint8_t brightness_step = 0;
+            static bool brightness_decreasing = true;
+            static uint8_t brightness_step_number = 10;
+            if (initial_run) {
+              brightness_step = 0;
+              brightness_decreasing = true;
+            }
+            Color error_color(255, 0, 0);
+            for (uint8_t i = 0; i < 12; i++) {
+              it[i] = error_color * uint8_t(255/brightness_step_number*(brightness_step_number-brightness_step));
+            }
+            if (brightness_decreasing) {
+              brightness_step++;
+            } else {
+              brightness_step--;
+            }
+            if (brightness_step == 0 || brightness_step == brightness_step_number) {
+              brightness_decreasing = !brightness_decreasing;
+            }
+      - addressable_lambda:
+          name: Timer Ring
+          update_interval: 10ms
+          lambda: !lambda |-
+            static uint8_t brightness_step = 0;
+            static bool brightness_decreasing = true;
+            static uint8_t brightness_step_number = 10;
+            if (initial_run) {
+              brightness_step = 0;
+              brightness_decreasing = true;
+            }
+            auto light_color = id(led_ring).current_values;
+            Color color(light_color.get_red() * 255, light_color.get_green() * 255,
+                  light_color.get_blue() * 255);
+            Color muted_color(255, 0, 0);
+            for (uint8_t i = 0; i < 12; i++) {
+              it[i] = color * uint8_t(255/brightness_step_number*(brightness_step_number-brightness_step));
+            }
+            if ( id(master_mute_switch).state ) {
+              it[3] = muted_color;
+              it[9] = muted_color;
+            }
+            if (brightness_decreasing) {
+              brightness_step++;
+            } else {
+              brightness_step--;
+            }
+            if (brightness_step == 0 || brightness_step == brightness_step_number) {
+              brightness_decreasing = !brightness_decreasing;
+            }
+      - addressable_lambda:
+          name: Timer Tick
+          update_interval: 100ms
+          lambda: !lambda |-
+            auto light_color = id(led_ring).current_values;
+            Color color(light_color.get_red() * 255, light_color.get_green() * 255,
+                  light_color.get_blue() * 255);
+            Color muted_color(255, 0, 0);
+            auto timer_ratio = 12.0f * id(first_active_timer).seconds_left / max(id(first_active_timer).total_seconds , static_cast<uint32_t>(1));
+            uint8_t last_led_on = static_cast<uint8_t>(ceil(timer_ratio)) - 1;
+            for (uint8_t i = 0; i < 12; i++) {
+              float brightness_dip = ( i == id(global_led_animation_index) % 12 && i != last_led_on ) ? 0.9f : 1.0f ;
+              if (i <= timer_ratio) {
+                it[i] = color * min(255.0f * brightness_dip * (timer_ratio - i) , 255.0f * brightness_dip) ;
+              } else {
+                it[i] = Color::BLACK;
+              }
+            }
+            if (id(master_mute_switch).state) {
+              it[2] = Color::BLACK;
+              it[3] = muted_color;
+              it[4] = Color::BLACK;
+              it[8] = Color::BLACK;
+              it[9] = muted_color;
+              it[10] = Color::BLACK;
+            }
+            id(global_led_animation_index) = (12 + id(global_led_animation_index) - 1) % 12;
+      - addressable_rainbow:
+          name: Rainbow
+          width: 12
+          speed: 10
+      - addressable_lambda:
+          name: Tick
+          update_interval: 333ms
+          lambda: !lambda |-
+            static uint8_t index = 0;
+            Color color(255, 0, 0);
+            if (initial_run) {
+              index = 0;
+            }
+            for (uint8_t i = 0; i < 12; i++) {
+              if (i <= index ) {
+                it[i] = Color::BLACK;
+              } else {
+                it[i] = color;
+              }
+            }
+            index = (index + 1) % 12;
+      - addressable_lambda:
+          name: Factory Reset Coming Up
+          update_interval: 1s
+          lambda: !lambda |-
+            static uint8_t index = 0;
+            Color color(255, 0, 0);
+            if (initial_run) {
+              index = 0;
+            }
+            for (uint8_t i = 0; i < 12; i++) {
+              if (i <= index ) {
+                it[i] = color;
+              } else {
+                it[i] = Color::BLACK;
+              }
+            }
+            index = (index + 1) % 12;
+      - addressable_lambda:
+          name: Jack Plugged
+          update_interval: 40ms
+          lambda: !lambda |-
+            static uint8_t index = 0;
+            if (initial_run) {
+              index = 0;
+            }
+            auto light_color = id(led_ring).current_values;
+            Color color(light_color.get_red() * 255, light_color.get_green() * 255,
+                  light_color.get_blue() * 255);
+            if (index <= 6) {
+              for (uint8_t i = 0; i < 12; i++) {
+                if (i == index) {
+                  it[i] = color;
+                } else if (i == (12 - index) % 12) {
+                  it[i] = color;
+                } else {
+                  it[i] = Color::BLACK;
+                }
+              }
+            }
+            index = (index + 1);
+      - addressable_lambda:
+          name: Jack Unplugged
+          update_interval: 40ms
+          lambda: !lambda |-
+            static uint8_t index = 0;
+            if (initial_run) {
+              index = 0;
+            }
+            auto light_color = id(led_ring).current_values;
+            Color color(light_color.get_red() * 255, light_color.get_green() * 255,
+                  light_color.get_blue() * 255);
+            if (index <= 6) {
+              for (uint8_t i = 0; i < 12; i++) {
+                if (i == 6 - index) {
+                  it[i] = color;
+                } else if (i == (6 + index) % 12) {
+                  it[i] = color;
+                } else {
+                  it[i] = Color::BLACK;
+                }
+              }
+            }
+            index = (index + 1);
+    disabled_by_default: false
+    restore_mode: ALWAYS_OFF
+    gamma_correct: 2.8
+    flash_transition_length: 0s
+    name: voice_assistant_leds
+  - platform: partition
+    id: led_ring
+    name: LED Ring
+    entity_category: config
+    icon: mdi:circle-outline
+    default_transition_length: 0ms
+    restore_mode: RESTORE_DEFAULT_OFF
+    initial_state:
+      color_mode: RGB
+      brightness: 0.66
+      red: 0.094
+      green: 0.733
+      blue: 0.9490000000000001
+    segments:
+      - id: leds_internal
+        from: 7
+        to: 11
+        reversed: false
+      - id: leds_internal
+        from: 0
+        to: 6
+        reversed: false
+    disabled_by_default: false
+    gamma_correct: 2.8
+    flash_transition_length: 0s
+power_supply:
+  - id: led_power
+    pin:
+      number: 45
+      mode:
+        output: true
+        input: false
+        open_drain: false
+        pullup: false
+        pulldown: false
+      inverted: false
+      ignore_pin_validation_error: false
+      ignore_strapping_warning: false
+      drive_strength: 20.0
+    enable_time: 20ms
+    keep_on_time: 10s
+    enable_on_boot: false
+sensor:
+  - platform: rotary_encoder
+    id: dial
+    pin_a:
+      number: 16
+      mode:
+        input: true
+        output: false
+        open_drain: false
+        pullup: false
+        pulldown: false
+      inverted: false
+      ignore_pin_validation_error: false
+      ignore_strapping_warning: false
+      drive_strength: 20.0
+    pin_b:
+      number: 18
+      mode:
+        input: true
+        output: false
+        open_drain: false
+        pullup: false
+        pulldown: false
+      inverted: false
+      ignore_pin_validation_error: false
+      ignore_strapping_warning: false
+      drive_strength: 20.0
+    resolution: 2
+    on_clockwise:
+      - then:
+          - lambda: !lambda |-
+              id(dial_touched) = true;
+          - if:
+              condition:
+                and:
+                  - binary_sensor.is_off:
+                      id: center_button
+                  - switch.is_off:
+                      id: disable_buttons
+              then:
+                - script.execute:
+                    id: control_volume
+                    increase_volume: true
+              else:
+                - if:
+                    condition:
+                      media_player.is_playing:
+                        id: sendspin_group_media_player
+                    then:
+                      - script.execute:
+                          id: control_group_volume
+                          increase_volume: true
+                    else:
+                      - script.execute:
+                          id: control_hue
+                          increase_hue: true
+    on_anticlockwise:
+      - then:
+          - lambda: !lambda |-
+              id(dial_touched) = true;
+          - if:
+              condition:
+                and:
+                  - binary_sensor.is_off:
+                      id: center_button
+                  - switch.is_off:
+                      id: disable_buttons
+              then:
+                - script.execute:
+                    id: control_volume
+                    increase_volume: false
+              else:
+                - if:
+                    condition:
+                      media_player.is_playing:
+                        id: sendspin_group_media_player
+                    then:
+                      - script.execute:
+                          id: control_group_volume
+                          increase_volume: false
+                    else:
+                      - script.execute:
+                          id: control_hue
+                          increase_hue: false
+    disabled_by_default: false
+    force_update: false
+    unit_of_measurement: steps
+    icon: mdi:rotate-right
+    accuracy_decimals: 0
+    state_class: measurement
+    publish_initial_value: false
+    restore_mode: RESTORE_DEFAULT_ZERO
+    name: dial
+    internal: true
+event:
+  - platform: template
+    id: button_press_event
+    name: Button press
+    icon: mdi:button-pointer
+    device_class: button
+    event_types:
+      - double_press
+      - triple_press
+      - long_press
+      - easter_egg_press
+    disabled_by_default: false
+script:
+  - id: control_leds
+    then:
+      - lambda: !lambda |
+          if (id(voice_kit_component).is_failed()) {
+            id(control_leds_voice_kit_startup_failed).execute();
+            return;
+          }
+          id(check_if_timers_active).execute();
+          if (id(is_timer_active)){
+            id(fetch_first_active_timer).execute();
+          }
+          if (id(improv_ble_in_progress)) {
+            id(control_leds_improv_ble_state).execute();
+          } else if (id(init_in_progress)) {
+            id(control_leds_init_state).execute();
+          } else if (!id(wifi_id).is_connected() || !id(api_id).is_connected()){
+            id(control_leds_no_ha_connection_state).execute();
+          } else if (id(center_button).state) {
+            id(control_leds_center_button_touched).execute();
+          } else if (id(jack_plugged_recently)) {
+            id(control_leds_jack_plugged_recently).execute();
+          } else if (id(jack_unplugged_recently)) {
+            id(control_leds_jack_unplugged_recently).execute();
+          } else if (id(dial_touched)) {
+            id(control_leds_dial_touched).execute();
+          } else if (id(timer_ringing).state) {
+            id(control_leds_timer_ringing).execute();
+          } else if (id(voice_assistant_phase) == 2) {
+            id(control_leds_voice_assistant_waiting_for_command_phase).execute();
+          } else if (id(voice_assistant_phase) == 3) {
+            id(control_leds_voice_assistant_listening_for_command_phase).execute();
+          } else if (id(voice_assistant_phase) == 4) {
+            id(control_leds_voice_assistant_thinking_phase).execute();
+          } else if (id(voice_assistant_phase) == 5) {
+            id(control_leds_voice_assistant_replying_phase).execute();
+          } else if (id(voice_assistant_phase) == 11) {
+            id(control_leds_voice_assistant_error_phase).execute();
+          } else if (id(voice_assistant_phase) == 10) {
+            id(control_leds_voice_assistant_not_ready_phase).execute();
+          } else if (id(is_timer_active)) {
+            id(control_leds_timer_ticking).execute();
+          } else if (id(master_mute_switch).state) {
+            id(control_leds_muted_or_silent).execute();
+          } else if (id(external_media_player).volume == 0.0f || id(external_media_player).is_muted()) {
+            id(control_leds_muted_or_silent).execute();
+          } else if (id(voice_assistant_phase) == 1) {
+            id(control_leds_voice_assistant_idle_phase).execute();
+          }
+    mode: single
+    parameters: {}
+  - id: control_leds_voice_kit_startup_failed
+    then:
+      - light.turn_on:
+          brightness: 0.4
+          red: 0.0
+          green: 0.0
+          blue: 0.0
+          id: voice_assistant_leds
+          effect: Voice kit startup failed
+          state: true
+    mode: single
+    parameters: {}
+  - id: control_leds_improv_ble_state
+    then:
+      - light.turn_on:
+          brightness: 0.66
+          red: 1.0
+          green: 0.89
+          blue: 0.71
+          id: voice_assistant_leds
+          effect: Twinkle
+          state: true
+    mode: single
+    parameters: {}
+  - id: control_leds_init_state
+    then:
+      - if:
+          condition:
+            wifi.connected: {}
+          then:
+            - light.turn_on:
+                brightness: 0.66
+                red: 0.094
+                green: 0.733
+                blue: 0.9490000000000001
+                id: voice_assistant_leds
+                effect: Twinkle
+                state: true
+          else:
+            - light.turn_on:
+                brightness: 0.66
+                red: 1.0
+                green: 0.89
+                blue: 0.71
+                id: voice_assistant_leds
+                effect: none
+                state: true
+    mode: single
+    parameters: {}
+  - id: control_leds_no_ha_connection_state
+    then:
+      - light.turn_on:
+          brightness: 0.66
+          red: 1.0
+          green: 0.0
+          blue: 0.0
+          id: voice_assistant_leds
+          effect: Twinkle
+          state: true
+    mode: single
+    parameters: {}
+  - id: control_leds_voice_assistant_idle_phase
+    then:
+      - light.turn_off:
+          id: voice_assistant_leds
+          state: false
+      - if:
+          condition:
+            light.is_on:
+              id: led_ring
+          then:
+            - light.turn_on:
+                id: led_ring
+                state: true
+    mode: single
+    parameters: {}
+  - id: control_leds_voice_assistant_waiting_for_command_phase
+    then:
+      - light.turn_on:
+          brightness: !lambda |-
+            return max( id(led_ring).current_values.get_brightness() , 0.2f );
+          id: voice_assistant_leds
+          effect: Waiting for Command
+          state: true
+    mode: single
+    parameters: {}
+  - id: control_leds_voice_assistant_listening_for_command_phase
+    then:
+      - light.turn_on:
+          brightness: !lambda |-
+            return max( id(led_ring).current_values.get_brightness() , 0.2f );
+          id: voice_assistant_leds
+          effect: Listening For Command
+          state: true
+    mode: single
+    parameters: {}
+  - id: control_leds_voice_assistant_thinking_phase
+    then:
+      - light.turn_on:
+          brightness: !lambda |-
+            return max( id(led_ring).current_values.get_brightness() , 0.2f );
+          id: voice_assistant_leds
+          effect: Thinking
+          state: true
+    mode: single
+    parameters: {}
+  - id: control_leds_voice_assistant_replying_phase
+    then:
+      - light.turn_on:
+          brightness: !lambda |-
+            return max( id(led_ring).current_values.get_brightness() , 0.2f );
+          id: voice_assistant_leds
+          effect: Replying
+          state: true
+    mode: single
+    parameters: {}
+  - id: control_leds_voice_assistant_error_phase
+    then:
+      - light.turn_on:
+          brightness: !lambda |-
+            return min ( max( id(led_ring).current_values.get_brightness() , 0.2f ) + 0.1f , 1.0f );
+          red: 1.0
+          green: 0.0
+          blue: 0.0
+          id: voice_assistant_leds
+          effect: Error
+          state: true
+    mode: single
+    parameters: {}
+  - id: control_leds_muted_or_silent
+    then:
+      - light.turn_on:
+          brightness: !lambda |-
+            return max( id(led_ring).current_values.get_brightness() , 0.2f );
+          id: voice_assistant_leds
+          effect: Muted or Silent
+          state: true
+    mode: single
+    parameters: {}
+  - id: control_leds_voice_assistant_not_ready_phase
+    then:
+      - light.turn_on:
+          brightness: 0.66
+          red: 1.0
+          green: 0.0
+          blue: 0.0
+          id: voice_assistant_leds
+          effect: Twinkle
+          state: true
+    mode: single
+    parameters: {}
+  - id: control_leds_dial_touched
+    then:
+      - light.turn_on:
+          brightness: !lambda |-
+            return max( id(led_ring).current_values.get_brightness() , 0.2f );
+          id: voice_assistant_leds
+          effect: Volume Display
+          state: true
+    mode: single
+    parameters: {}
+  - id: control_leds_jack_unplugged_recently
+    then:
+      - light.turn_on:
+          brightness: !lambda |-
+            return max( id(led_ring).current_values.get_brightness() , 0.2f );
+          id: voice_assistant_leds
+          effect: Jack Unplugged
+          state: true
+    mode: single
+    parameters: {}
+  - id: control_leds_jack_plugged_recently
+    then:
+      - light.turn_on:
+          brightness: !lambda |-
+            return max( id(led_ring).current_values.get_brightness() , 0.2f );
+          id: voice_assistant_leds
+          effect: Jack Plugged
+          state: true
+    mode: single
+    parameters: {}
+  - id: control_leds_center_button_touched
+    then:
+      - light.turn_on:
+          brightness: !lambda |-
+            return min ( max( id(led_ring).current_values.get_brightness() , 0.2f ) + 0.1f , 1.0f );
+          id: voice_assistant_leds
+          effect: Center Button Touched
+          state: true
+    mode: single
+    parameters: {}
+  - id: control_leds_timer_ringing
+    then:
+      - light.turn_on:
+          brightness: !lambda |-
+            return min ( max( id(led_ring).current_values.get_brightness() , 0.2f ) + 0.1f , 1.0f );
+          id: voice_assistant_leds
+          effect: Timer Ring
+          state: true
+    mode: single
+    parameters: {}
+  - id: control_leds_timer_ticking
+    then:
+      - light.turn_on:
+          brightness: !lambda |-
+            return max( id(led_ring).current_values.get_brightness() , 0.2f );
+          id: voice_assistant_leds
+          effect: Timer tick
+          state: true
+    mode: single
+    parameters: {}
+  - id: control_volume
+    mode: restart
+    parameters:
+      increase_volume: bool
+    then:
+      - delay: 16ms
+      - if:
+          condition:
+            lambda: !lambda |-
+              return increase_volume;
+          then:
+            - media_player.volume_up:
+                id: external_media_player
+                announcement: false
+          else:
+            - media_player.volume_down:
+                id: external_media_player
+                announcement: false
+      - script.execute:
+          id: control_leds
+      - delay: 1s
+      - lambda: !lambda |-
+          id(dial_touched) = false;
+      - sensor.rotary_encoder.set_value:
+          id: dial
+          value: 0
+      - script.execute:
+          id: control_leds
+  - id: control_group_volume
+    mode: restart
+    parameters:
+      increase_volume: bool
+    then:
+      - delay: 16ms
+      - if:
+          condition:
+            lambda: !lambda |-
+              return increase_volume;
+          then:
+            - lambda: !lambda |-
+                id(group_volume_changed) = true;
+            - media_player.volume_up:
+                id: sendspin_group_media_player
+                announcement: false
+          else:
+            - lambda: !lambda |-
+                id(group_volume_changed) = true;
+            - media_player.volume_down:
+                id: sendspin_group_media_player
+                announcement: false
+      - script.execute:
+          id: control_leds
+      - delay: 1s
+      - lambda: !lambda |-
+          id(dial_touched) = false;
+      - lambda: !lambda |-
+          id(group_volume_changed) = false;
+      - sensor.rotary_encoder.set_value:
+          id: dial
+          value: 0
+      - script.execute:
+          id: control_leds
+  - id: control_hue
+    mode: restart
+    parameters:
+      increase_hue: bool
+    then:
+      - delay: 16ms
+      - if:
+          condition:
+            lambda: !lambda |-
+              return(abs(int(id(dial).state)) > 3 || id(color_changed));
+          then:
+            - lambda: !lambda |
+                id(color_changed) = true;
+                auto light_color = id(voice_assistant_leds).current_values;
+                int hue = 0;
+                float saturation = 0;
+                float value = 0;
+                rgb_to_hsv( light_color.get_red(),
+                            light_color.get_green(),
+                            light_color.get_blue(),
+                            hue,
+                            saturation,
+                            value);
+                if (increase_hue) {
+                  hue = (hue + 10) % 360;
+                } else {
+                  hue = (hue + 350) % 360;
+                }
+                if (saturation < 0.05) {
+                  saturation = 1;
+                }
+                float red = 0;
+                float green = 0;
+                float blue = 0;
+                hsv_to_rgb( hue,
+                            saturation,
+                            value,
+                            red,
+                            green,
+                            blue);
+                id(voice_assistant_leds).make_call().set_rgb(red, green, blue).perform();
+      - wait_until:
+          condition:
+            binary_sensor.is_off:
+              id: center_button
+      - lambda: !lambda |
+          id(dial_touched) = false;
+          // now we "save" the new LED color/state to led_ring, maintaining its brightness and state
+          auto led_ring_call = id(led_ring).make_call();
+          auto va_leds_cv = id(voice_assistant_leds).current_values;
+          led_ring_call.from_light_color_values(va_leds_cv);
+          led_ring_call.set_brightness(id(led_ring).current_values.get_brightness());
+          led_ring_call.set_state(id(led_ring).current_values.is_on());
+          led_ring_call.perform();
+      - sensor.rotary_encoder.set_value:
+          id: dial
+          value: 0
+      - script.execute:
+          id: control_leds
+      - delay: 500ms
+      - lambda: !lambda |-
+          id(color_changed) = false;
+  - id: ring_timer
+    then:
+      - script.execute:
+          id: enable_repeat_one
+      - script.execute:
+          id: play_sound
+          priority: true
+          sound_file: timer_finished_sound
+    mode: single
+    parameters: {}
+  - id: enable_repeat_one
+    then:
+      - media_player.repeat_one:
+          id: external_media_player
+          announcement: true
+      - speaker_source.set_playlist_delay:
+          id: external_media_player
+          pipeline: announcement
+          delay: 500ms
+    mode: single
+    parameters: {}
+  - id: disable_repeat
+    then:
+      - media_player.repeat_off:
+          id: external_media_player
+          announcement: true
+      - speaker_source.set_playlist_delay:
+          id: external_media_player
+          pipeline: announcement
+          delay: 0ms
+    mode: single
+    parameters: {}
+  - id: play_sound
+    parameters:
+      priority: bool
+      sound_file: string
+    then:
+      - if:
+          condition:
+            lambda: !lambda |-
+              return priority;
+          then:
+            - media_player.stop:
+                id: external_media_player
+                announcement: true
+      - lambda: !lambda |-
+          if ( (id(external_media_player).state != media_player::MediaPlayerState::MEDIA_PLAYER_STATE_ANNOUNCING ) || priority) {
+            id(external_media_player)
+              ->make_call()
+              .set_media_url("audio-file://" + sound_file)
+              .set_announcement(true)
+              .perform();
+          }
+    mode: single
+  - id: fetch_first_active_timer
+    then:
+      - lambda: !lambda |
+          const auto &timers = id(va).get_timers();
+          auto output_timer = *timers.begin();
+          for (const auto &timer : timers) {
+            if (timer.is_active && timer.seconds_left <= output_timer.seconds_left) {
+              output_timer = timer;
+            }
+          }
+          id(first_active_timer) = output_timer;
+    mode: single
+    parameters: {}
+  - id: check_if_timers_active
+    then:
+      - lambda: !lambda |
+          const auto &timers = id(va).get_timers();
+          bool output = false;
+          for (const auto &timer : timers) {
+            if (timer.is_active) {
+              output = true;
+            }
+          }
+          id(is_timer_active) = output;
+    mode: single
+    parameters: {}
+  - id: activate_stop_word_once
+    then:
+      - wait_until:
+          condition:
+            media_player.is_announcing:
+              id: external_media_player
+          timeout: 5s
+      - delay: 1s
+      - if:
+          condition:
+            switch.is_off:
+              id: timer_ringing
+          then:
+            - micro_wake_word.enable_model:
+                id: stop
+            - wait_until:
+                condition:
+                  not:
+                    media_player.is_announcing:
+                      id: external_media_player
+            - if:
+                condition:
+                  switch.is_off:
+                    id: timer_ringing
+                then:
+                  - micro_wake_word.disable_model:
+                      id: stop
+    mode: single
+    parameters: {}
+i2s_audio:
+  - id: i2s_output
+    i2s_lrclk_pin: 7
+    i2s_bclk_pin: 8
+  - id: i2s_input
+    i2s_lrclk_pin: 14
+    i2s_bclk_pin: 13
+microphone:
+  - platform: i2s_audio
+    id: i2s_mics
+    i2s_din_pin: 15
+    pdm: false
+    sample_rate: 16000
+    bits_per_sample: 32
+    i2s_mode: secondary
+    i2s_audio_id: i2s_input
+    channel: stereo
+    use_apll: false
+    mclk_multiple: 256
+    correct_dc_offset: false
+    pdm_dsr: 8
+    adc_type: external
+    num_channels: 2
+    min_bits_per_sample: 32
+    max_bits_per_sample: 32
+    min_channels: 2
+    max_channels: 2
+    min_sample_rate: 16000
+    max_sample_rate: 16000
+speaker:
+  - platform: i2s_audio
+    id: i2s_audio_speaker
+    sample_rate: 48000
+    i2s_mode: secondary
+    i2s_dout_pin: 10
+    bits_per_sample: 32
+    i2s_audio_id: i2s_output
+    channel: stereo
+    timeout: never
+    buffer_duration: 100ms
+    audio_dac: aic3204_dac
+    use_apll: false
+    mclk_multiple: 256
+    i2s_comm_fmt: stand_i2s
+    spdif_mode: false
+    dac_type: external
+    num_channels: 2
+    min_bits_per_sample: 8
+    max_bits_per_sample: 32
+    min_channels: 1
+    max_channels: 2
+    min_sample_rate: 48000
+    max_sample_rate: 48000
+  - platform: mixer
+    id: mixing_speaker
+    output_speaker: &id001 i2s_audio_speaker
+    num_channels: 2
+    task_stack_in_psram: true
+    source_speakers:
+      - id: announcement_mixing_input
+        timeout: never
+        buffer_duration: 100ms
+        output_speaker: *id001
+        bits_per_sample: 32
+        num_channels: 2
+        sample_rate: 48000
+      - id: media_mixing_input
+        timeout: never
+        buffer_duration: 100ms
+        output_speaker: *id001
+        bits_per_sample: 32
+        num_channels: 2
+        sample_rate: 48000
+    queue_mode: false
+    bits_per_sample: 32
+  - platform: resampler
+    id: announcement_resampling_speaker
+    output_speaker: announcement_mixing_input
+    sample_rate: 48000
+    bits_per_sample: 16
+    buffer_duration: 100ms
+    filters: 16
+    taps: 16
+    min_bits_per_sample: 16
+    max_bits_per_sample: 32
+    num_channels: 2
+  - platform: resampler
+    id: media_resampling_speaker
+    output_speaker: media_mixing_input
+    sample_rate: 48000
+    bits_per_sample: 16
+    buffer_duration: 100ms
+    filters: 16
+    taps: 16
+    min_bits_per_sample: 16
+    max_bits_per_sample: 32
+    num_channels: 2
+sendspin:
+  id: sendspin_hub
+  task_stack_in_psram: false
+audio_file:
+  - id: center_button_press_sound
+    file:
+      url: https://raw.githubusercontent.com/esphome/home-assistant-voice-pe/2644f4c794271d735d182ca7ebf899ed46164f4e/sounds/center_button_press.flac
+      type: web
+  - id: center_button_double_press_sound
+    file:
+      url: https://raw.githubusercontent.com/esphome/home-assistant-voice-pe/2644f4c794271d735d182ca7ebf899ed46164f4e/sounds/center_button_double_press.flac
+      type: web
+  - id: center_button_triple_press_sound
+    file:
+      url: https://raw.githubusercontent.com/esphome/home-assistant-voice-pe/2644f4c794271d735d182ca7ebf899ed46164f4e/sounds/center_button_triple_press.flac
+      type: web
+  - id: center_button_long_press_sound
+    file:
+      url: https://raw.githubusercontent.com/esphome/home-assistant-voice-pe/2644f4c794271d735d182ca7ebf899ed46164f4e/sounds/center_button_long_press.flac
+      type: web
+  - id: factory_reset_initiated_sound
+    file:
+      url: https://raw.githubusercontent.com/esphome/home-assistant-voice-pe/2644f4c794271d735d182ca7ebf899ed46164f4e/sounds/factory_reset_initiated.mp3
+      type: web
+  - id: factory_reset_cancelled_sound
+    file:
+      url: https://raw.githubusercontent.com/esphome/home-assistant-voice-pe/2644f4c794271d735d182ca7ebf899ed46164f4e/sounds/factory_reset_cancelled.mp3
+      type: web
+  - id: factory_reset_confirmed_sound
+    file:
+      url: https://raw.githubusercontent.com/esphome/home-assistant-voice-pe/2644f4c794271d735d182ca7ebf899ed46164f4e/sounds/factory_reset_confirmed.mp3
+      type: web
+  - id: jack_connected_sound
+    file:
+      url: https://raw.githubusercontent.com/esphome/home-assistant-voice-pe/2644f4c794271d735d182ca7ebf899ed46164f4e/sounds/jack_connected.flac
+      type: web
+  - id: jack_disconnected_sound
+    file:
+      url: https://raw.githubusercontent.com/esphome/home-assistant-voice-pe/2644f4c794271d735d182ca7ebf899ed46164f4e/sounds/jack_disconnected.flac
+      type: web
+  - id: mute_switch_on_sound
+    file:
+      url: https://raw.githubusercontent.com/esphome/home-assistant-voice-pe/2644f4c794271d735d182ca7ebf899ed46164f4e/sounds/mute_switch_on.flac
+      type: web
+  - id: mute_switch_off_sound
+    file:
+      url: https://raw.githubusercontent.com/esphome/home-assistant-voice-pe/2644f4c794271d735d182ca7ebf899ed46164f4e/sounds/mute_switch_off.flac
+      type: web
+  - id: timer_finished_sound
+    file:
+      url: https://raw.githubusercontent.com/esphome/home-assistant-voice-pe/2644f4c794271d735d182ca7ebf899ed46164f4e/sounds/timer_finished.flac
+      type: web
+  - id: wake_word_triggered_sound
+    file:
+      url: https://raw.githubusercontent.com/esphome/home-assistant-voice-pe/2644f4c794271d735d182ca7ebf899ed46164f4e/sounds/wake_word_triggered.flac
+      type: web
+  - id: easter_egg_tick_sound
+    file:
+      url: https://raw.githubusercontent.com/esphome/home-assistant-voice-pe/2644f4c794271d735d182ca7ebf899ed46164f4e/sounds/easter_egg_tick.mp3
+      type: web
+  - id: easter_egg_tada_sound
+    file:
+      url: https://raw.githubusercontent.com/esphome/home-assistant-voice-pe/2644f4c794271d735d182ca7ebf899ed46164f4e/sounds/easter_egg_tada.mp3
+      type: web
+  - id: error_cloud_expired
+    file:
+      url: https://raw.githubusercontent.com/esphome/home-assistant-voice-pe/2644f4c794271d735d182ca7ebf899ed46164f4e/sounds/error_cloud_expired.mp3
+      type: web
+media_source:
+  - platform: audio_file
+    id: audio_file_announcement_source
+  - platform: audio_http
+    id: http_announcement_source
+    buffer_size: 250000
+    persistent_ring_buffer: false
+  - platform: audio_http
+    id: http_media_source
+    buffer_size: 500000
+    persistent_ring_buffer: false
+  - platform: sendspin
+    id: sendspin_media_source
+    fixed_delay: 480us
+    buffer_size: 1000000
+    initial_static_delay: 0ms
+    static_delay_adjustable: false
+    sample_rate: 48000
+    codecs:
+      - flac
+      - opus
+      - pcm
+media_player:
+  - platform: sendspin
+    id: sendspin_group_media_player
+    disabled_by_default: false
+    volume_increment: 0.05
+    name: sendspin_group_media_player
+    internal: true
+  - platform: speaker_source
+    id: external_media_player
+    name: Media Player
+    announcement_pipeline:
+      format: FLAC
+      num_channels: 1
+      sample_rate: 48000
+      speaker: announcement_resampling_speaker
+      sources:
+        - audio_file_announcement_source
+        - http_announcement_source
+    media_pipeline:
+      format: FLAC
+      num_channels: 2
+      sample_rate: 48000
+      speaker: media_resampling_speaker
+      sources:
+        - http_media_source
+        - sendspin_media_source
+    volume_increment: 0.05
+    volume_min: 0.4
+    volume_max: 0.85
+    on_mute:
+      then:
+        - script.execute:
+            id: control_leds
+    on_unmute:
+      then:
+        - script.execute:
+            id: control_leds
+    on_volume:
+      then:
+        - script.execute:
+            id: control_leds
+    on_announcement:
+      - then:
+          - mixer_speaker.apply_ducking:
+              id: media_mixing_input
+              decibel_reduction: 20
+              duration: 0s
+    on_state:
+      - then:
+          - if:
+              condition:
+                and:
+                  - switch.is_off:
+                      id: timer_ringing
+                  - not:
+                      voice_assistant.is_running: {}
+                  - not:
+                      media_player.is_announcing:
+                        id: external_media_player
+              then:
+                - mixer_speaker.apply_ducking:
+                    id: media_mixing_input
+                    decibel_reduction: 0
+                    duration: 1s
+    volume_initial: 0.5
+    disabled_by_default: false
+voice_kit:
+  id: voice_kit_component
+  i2c_id: internal_i2c
+  reset_pin:
+    number: 4
+    mode:
+      output: true
+      input: false
+      open_drain: false
+      pullup: false
+      pulldown: false
+    inverted: false
+    ignore_pin_validation_error: false
+    ignore_strapping_warning: false
+    drive_strength: 20.0
+  firmware:
+    url: https://github.com/esphome/voice-kit-xmos-firmware/releases/download/v1.3.1/ffva_v1.3.1_upgrade.bin
+    version: 1.3.1
+    md5: 964635c5bf125529dab14a2472a15401
+  channel_0_stage: AGC
+  channel_1_stage: NS
+  address: 0x42
+external_components:
+  - source:
+      url: https://github.com/esphome/home-assistant-voice-pe
+      ref: 2644f4c794271d735d182ca7ebf899ed46164f4e
+      type: git
+    components:
+      - voice_kit
+    refresh: 0s
+audio_dac:
+  - platform: aic3204
+    id: aic3204_dac
+    i2c_id: internal_i2c
+    address: 0x18
+micro_wake_word:
+  id: mww
+  microphone:
+    microphone: i2s_mics
+    channels:
+      - 1
+    gain_factor: 4
+    bits_per_sample: 16
+  stop_after_detection: false
+  models:
+    - model:
+        path: /home/user/atlas-household/voicepe/models/stock/okay_nabu_20241226.3/okay_nabu.json
+        type: local
+      id: okay_nabu
+      internal: false
+    - model:
+        path: /home/user/atlas-household/voicepe/models/stock/micro-wake-word-models/hey_jarvis.json
+        type: local
+      id: hey_jarvis
+      internal: false
+    - model:
+        path: /home/user/atlas-household/voicepe/models/stock/micro-wake-word-models/hey_mycroft.json
+        type: local
+      id: hey_mycroft
+      internal: false
+    - model:
+        path: /home/user/atlas-household/voicepe/models/stock/stop/stop.json
+        type: local
+      id: stop
+      internal: true
+    - model:
+        path: /home/user/atlas-household/voicepe/models/hey_atlas/hey_atlas.json
+        type: local
+      id: hey_atlas
+      internal: false
+  vad:
+    model:
+      path: /home/user/atlas-household/voicepe/models/stock/micro-wake-word-models/vad.json
+      type: local
+    internal: false
+  on_wake_word_detected:
+    then:
+      - if:
+          condition:
+            switch.is_off:
+              id: master_mute_switch
+          then:
+            - if:
+                condition:
+                  switch.is_on:
+                    id: timer_ringing
+                then:
+                  - switch.turn_off:
+                      id: timer_ringing
+                else:
+                  - if:
+                      condition:
+                        voice_assistant.is_running: {}
+                      then:
+                        - voice_assistant.stop: {}
+                      else:
+                        - if:
+                            condition:
+                              media_player.is_announcing:
+                                id: external_media_player
+                            then:
+                              - media_player.stop:
+                                  announcement: true
+                                  id: external_media_player
+                            else:
+                              - if:
+                                  condition:
+                                    switch.is_on:
+                                      id: wake_sound
+                                  then:
+                                    - script.execute:
+                                        id: play_sound
+                                        priority: true
+                                        sound_file: wake_word_triggered_sound
+                                    - delay: 300ms
+                              - voice_assistant.start:
+                                  wake_word: !lambda |-
+                                    return wake_word;
+                                  silence_detection: true
+select:
+  - platform: template
+    name: Wake word sensitivity
+    id: wake_word_sensitivity
+    optimistic: true
+    initial_option: Slightly sensitive
+    restore_value: true
+    entity_category: config
+    options:
+      - Slightly sensitive
+      - Moderately sensitive
+      - Very sensitive
+    on_value:
+      - then:
+          - lambda: !lambda |-
+              if (x == "Slightly sensitive") {
+                id(okay_nabu).set_probability_cutoff(217);    // 0.85 -> 0.000 FAPH on DipCo (Manifest's default)
+                id(hey_jarvis).set_probability_cutoff(247);   // 0.97 -> 0.563 FAPH on DipCo (Manifest's default)
+                id(hey_mycroft).set_probability_cutoff(253);  // 0.99 -> 0.567 FAPH on DipCo
+              } else if (x == "Moderately sensitive") {
+                id(okay_nabu).set_probability_cutoff(176);    // 0.69 -> 0.376 FAPH on DipCo
+                id(hey_jarvis).set_probability_cutoff(235);   // 0.92 -> 0.939 FAPH on DipCo
+                id(hey_mycroft).set_probability_cutoff(242);  // 0.95 -> 1.502 FAPH on DipCo (Manifest's default)
+              } else if (x == "Very sensitive") {
+                id(okay_nabu).set_probability_cutoff(143);    // 0.56 -> 0.751 FAPH on DipCo
+                id(hey_jarvis).set_probability_cutoff(212);   // 0.83 -> 1.502 FAPH on DipCo
+                id(hey_mycroft).set_probability_cutoff(237);  // 0.93 -> 1.878 FAPH on DipCo
+              }
+    disabled_by_default: false
+    update_interval: 60s
+button:
+  - platform: factory_reset
+    id: factory_reset_button
+    name: Factory Reset
+    entity_category: diagnostic
+    internal: true
+    disabled_by_default: false
+    icon: mdi:restart-alert
+    device_class: restart
+  - platform: restart
+    id: restart_button
+    name: Restart
+    entity_category: config
+    disabled_by_default: true
+    icon: mdi:restart
+    device_class: restart
+debug:
+  update_interval: 5s
+improv_serial: {}
+esp32_ble:
+  name: ha-voice-pe
+  io_capability: none
+  enable_on_boot: true
+  advertising: false
+  advertising_cycle_time: 10s
+  disable_bt_logs: true
+  connection_timeout: 20s
+  max_notifications: 12
+  max_connections: 3
+esp32_improv:
+  authorizer: center_button
+  on_start:
+    - then:
+        - lambda: !lambda |-
+            id(improv_ble_in_progress) = true;
+        - script.execute:
+            id: control_leds
+  on_provisioned:
+    - then:
+        - lambda: !lambda |-
+            id(improv_ble_in_progress) = false;
+        - script.execute:
+            id: control_leds
+  on_stop:
+    - then:
+        - lambda: !lambda |-
+            id(improv_ble_in_progress) = false;
+        - script.execute:
+            id: control_leds
+  identify_duration: 10s
+  authorized_duration: 1min
+  wifi_timeout: 90s
+

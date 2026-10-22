@@ -1,0 +1,52 @@
+# merged config: 26.9.0-atlas.1 (branch voicepe-hey-atlas, build/merged-config.yaml) against 26.9.0-atlas.2 (build A)
+## plain diff
+51c51
+<     version: 26.9.0-atlas.1
+---
+>     version: 26.9.0-atlas.2
+139d138
+<       gain_factor: 1
+140a140
+>       gain_factor: 1
+144d143
+<       gain_factor: 1
+145a145
+>       gain_factor: 1
+## diff of the sorted lines (removes the gain_factor / bits_per_sample key-order swap, which varies from run to run)
+2165c2165
+<     version: 26.9.0-atlas.1
+---
+>     version: 26.9.0-atlas.2
+## build A against build B merged config
+139d138
+<       bits_per_sample: 16
+140a140
+>       bits_per_sample: 16
+144d143
+<       bits_per_sample: 16
+145a145
+>       bits_per_sample: 16
+2290c2290
+<         path: /home/user/atlas-household/voicepe/models/stock/okay_nabu_20241226.3/okay_nabu.json
+---
+>         path: /home/user/ww/cloneB/voicepe/models/stock/okay_nabu_20241226.3/okay_nabu.json
+2295c2295
+<         path: /home/user/atlas-household/voicepe/models/stock/micro-wake-word-models/hey_jarvis.json
+---
+>         path: /home/user/ww/cloneB/voicepe/models/stock/micro-wake-word-models/hey_jarvis.json
+2300c2300
+<         path: /home/user/atlas-household/voicepe/models/stock/micro-wake-word-models/hey_mycroft.json
+---
+>         path: /home/user/ww/cloneB/voicepe/models/stock/micro-wake-word-models/hey_mycroft.json
+2305c2305
+<         path: /home/user/atlas-household/voicepe/models/stock/stop/stop.json
+---
+>         path: /home/user/ww/cloneB/voicepe/models/stock/stop/stop.json
+2310c2310
+<         path: /home/user/atlas-household/voicepe/models/hey_atlas/hey_atlas.json
+---
+>         path: /home/user/ww/cloneB/voicepe/models/hey_atlas/hey_atlas.json
+2316c2316
+<       path: /home/user/atlas-household/voicepe/models/stock/micro-wake-word-models/vad.json
+---
+>       path: /home/user/ww/cloneB/voicepe/models/stock/micro-wake-word-models/vad.json
