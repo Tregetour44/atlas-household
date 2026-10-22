@@ -136,13 +136,13 @@ voice_assistant:
     - microphone: i2s_mics
       channels:
         - 0
-      bits_per_sample: 16
       gain_factor: 1
+      bits_per_sample: 16
     - microphone: i2s_mics
       channels:
         - 1
-      bits_per_sample: 16
       gain_factor: 1
+      bits_per_sample: 16
   media_player: external_media_player
   micro_wake_word: mww
   use_wake_word: false

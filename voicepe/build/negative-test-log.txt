@@ -1,0 +1,51 @@
+######## test pip-hash: branch commit bbcea96e67d6, one hash changed in voicepe/lock/requirements-esp-idf.txt
+ voicepe/lock/requirements-esp-idf.txt | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+-    --hash=sha256:d797f6529d582173508baf0572542ddadf53aae8c92c84ea9f420f242464103c
++    --hash=sha256:d797f6529d582173508baf0572542ddadf53aae8c92c84ea9f420f2424641030
+-- build.sh exit status 1 after 96 s; images written to OUT: 0
+-- where it stopped (last step and the refusal):
+== ESP-IDF 5.5.5 Python env from lock/requirements-esp-idf.txt
+ERROR: THESE PACKAGES DO NOT MATCH THE HASHES FROM THE REQUIREMENTS FILE. If you have updated the package versions, please update the hashes. Otherwise, examine the package contents carefully; someone may have tampered with them.
+    esptool==4.12.0 from https://files.pythonhosted.org/packages/84/19/f68b27fd43564d69277e956d13b8c2b352e7f1af4fb5d6e5c43e5419e61c/esptool-4.12.0.tar.gz (from -r /tmp/claude-0/-home-user-atlas-household/8adc6c46-cb2d-5ed3-aa7b-0ccda2535d93/scratchpad/neg/pip-hash/src/voicepe/lock/requirements-esp-idf.txt (line 67)):
+        Expected sha256 d797f6529d582173508baf0572542ddadf53aae8c92c84ea9f420f2424641030
+             Got        d797f6529d582173508baf0572542ddadf53aae8c92c84ea9f420f242464103c
+PASS  pip-hash: the build refused
+
+######## test framework-hash: branch commit bbcea96e67d6, one hash changed in voicepe/lock/dependency-lock.json
+ voicepe/lock/dependency-lock.json | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+-  "sha256": "d8696df2173146775ac4e5c00cf63ee86c7e04c231530db40f34a4362cbe769a",
++  "sha256": "d8696df2173146775ac4e5c00cf63ee86c7e04c231530db40f34a4362cbe7690",
+-    "sha256": "d8696df2173146775ac4e5c00cf63ee86c7e04c231530db40f34a4362cbe769a",
++    "sha256": "d8696df2173146775ac4e5c00cf63ee86c7e04c231530db40f34a4362cbe7690",
+-- build.sh exit status 1 after 199 s; images written to OUT: 0
+-- where it stopped (last step and the refusal):
+== compile
+LOCK VIOLATION: https://github.com/esphome-libs/esp-idf/releases/download/v5.5.5/esp-idf-v5.5.5.tar.xz has SHA-256 d8696df2173146775ac4e5c00cf63ee86c7e04c231530db40f34a4362cbe769a, the lock says d8696df2173146775ac4e5c00cf63ee86c7e04c231530db40f34a4362cbe7690
+LOCK VIOLATION: https://github.com/esphome-libs/esp-idf/releases/download/v5.5.5/esp-idf-v5.5.5.tar.xz has SHA-256 d8696df2173146775ac4e5c00cf63ee86c7e04c231530db40f34a4362cbe769a, the lock says d8696df2173146775ac4e5c00cf63ee86c7e04c231530db40f34a4362cbe7690
+PASS  framework-hash: the build refused
+
+######## test component-hash: branch commit bbcea96e67d6, one hash changed in voicepe/lock/dependency-lock.json
+ voicepe/lock/dependency-lock.json | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+-    "component_hash": "f4633a02f05fef53b80de65ade1f733ebdef637e4c8b8be4eb11f5e27f6d9f3e",
++    "component_hash": "f4633a02f05fef53b80de65ade1f733ebdef637e4c8b8be4eb11f5e27f6d9f30",
+-- build.sh exit status 1 after 1619 s; images written to OUT: 0
+-- where it stopped (last step and the refusal):
+== built inputs against the lock
+LOCK VIOLATION: 2 check(s) failed
+ok    dependencies.lock bblanchon/arduinojson 7.4.3 as locked
+ok    dependencies.lock esphome/esp-audio-libs 3.2.1 as locked
+ok    dependencies.lock esphome/esp-micro-speech-features 1.2.3 as locked
+FAIL  dependencies.lock espressif/esp-nn 1.1.2 as locked
+ok    dependencies.lock espressif/esp-tflite-micro 1.3.3~1 as locked
+ok    dependencies.lock espressif/esp_websocket_client 1.8.0 as locked
+ok    dependencies.lock espressif/mdns 1.12.0 as locked
+FAIL  espressif/esp-nn files hash to the locked f4633a02f05f (differs: HashNotEqualError)
+ok    espressif/esp-tflite-micro files hash to the locked 78502e833b22 (match)
+ok    espressif/esp_websocket_client files hash to the locked dc00233af846 (match)
+ok    espressif/mdns files hash to the locked 3ba256ac95e0 (match)
+PASS  component-hash: the build refused
+
+EXIT 0
