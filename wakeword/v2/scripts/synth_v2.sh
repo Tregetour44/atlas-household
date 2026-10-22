@@ -35,5 +35,7 @@ onnx neg_alba alba negative 500,0,0 4100 $NEGW
 onnx neg_nem nem negative 500,0,0 4101 $NEGW
 onnx neg_cori cori negative 0,150,0 4102 $NEGW
 onnx neg_sef sef negative 0,0,150 4103 $NEGW
-xargs -P 4 -I{} sh -c '{}' < "$jobs"
+# GNU xargs -d '\n': one job per line, quotes kept (plain xargs strips the
+# quotes around the probe phrase list; the three probe jobs were rerun by hand)
+xargs -P 4 -d '\n' -I{} sh -c '{}' < "$jobs"
 echo "synth v2 done"

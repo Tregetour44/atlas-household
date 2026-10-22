@@ -16,14 +16,19 @@ for sp in validation:222 test:333; do s=${sp%:*}; sd=${sp#*:}
     "$V2_PY" -I $HERE/gen_farfield_assets.py --out $FF --split $s --seed $sd --rooms 60 --long-tv 12 --musan $MUSAN --speech-clips $(negdirs $s) --part $p/2 > $D/ff_${s}_$p.log 2>&1 &
   done
 done; wait
-echo "features $(date -u +%T)"
-POS=$(ls -d $SY/pos_*); NEGS=$(ls -d $SY/neg_*); PROBES=$(ls -d $SY/probe_*)
+# MUSAN is no longer needed once the rooms and scenes are rendered (disk)
+rm -rf "$MUSAN"/speech "$MUSAN"/music "$MUSAN"/noise
+echo "features $(date -u +%T) $(df -h / | tail -1)"
+POS=$(ls -d $SY/pos_*/); NEGS=$(ls -d $SY/neg_*/); PROBES=$(ls -d $SY/probe_*/)
 for s in 0 1 2 3; do
   "$MWW_PY" -I $HERE/make_features_v2.py $(syn $POS) --aug $AUG --ff $FF --out $F/pos --kind positive --duration 4.0 --splits train,validation --shard $s/4 --seed 17 > $D/f_pos_$s.log 2>&1 &
 done; wait
+for x in $POS; do rm -rf "$x/train"; done  # train WAVs done with (disk); meta.csv kept
 for s in 0 1 2 3; do
   "$MWW_PY" -I $HERE/make_features_v2.py $(syn $NEGS) --aug $AUG --ff $FF --out $F/neg --kind negative --duration 4.6 --splits train,validation --shard $s/4 --seed 27 > $D/f_neg_$s.log 2>&1 &
 done; wait
+for x in $NEGS; do rm -rf "$x/train"; done
+echo "train features $(date -u +%T) $(df -h / | tail -1)"
 for s in 0 1 2 3; do
   "$MWW_PY" -I $HERE/make_features_v2.py $(syn $POS) --ff $FF --out $SE --kind positive --kind-name ffpos --duration 5.6 --far-prob 1.0 --stream-eval --splits validation,test --shard $s/4 --seed 37 > $D/se_pos_$s.log 2>&1 &
 done; wait

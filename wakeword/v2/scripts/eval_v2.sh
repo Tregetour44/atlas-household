@@ -16,7 +16,7 @@ for spec in "$@"; do
     --set "test_probe=$SE1/testing/probe_*_mmap" --set "test_probe_rhyme=$SE1/testing/probeB_*_mmap" \
     --set "val_ffpos=$SE2/validation/ffpos_*_mmap" --set "val_ffneg=$SE2/validation/ffneg_*_mmap" \
     --set "test_ffpos=$SE2/testing/ffpos_*_mmap" --set "test_ffneg=$SE2/testing/ffneg_*_mmap" \
-    --set "test_weak=$SE2/testing/weak_*_mmap" \
+    --set "test_weak=$SE2/testing/weak_*_mmap" --set "test_weak_near=$SE2/testing/weaknear_*_mmap" \
     --ambient "val_ambient=$NEG/dinner_party_eval/validation_ambient/*_mmap" \
     --ambient "test_ambient=$NEG/dinner_party_eval/testing_ambient/*_mmap" \
     --ambient "val_tv_ambient=$SE2/validation/tv_*_mmap" \

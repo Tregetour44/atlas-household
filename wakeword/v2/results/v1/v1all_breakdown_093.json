@@ -1,0 +1,718 @@
+{
+ "window": 3,
+ "cutoff": 0.93,
+ "threshold_u8": 237,
+ "test_ffpos_by_engine": {
+  "aru": {
+   "accepts": 56,
+   "n": 250,
+   "rate": 0.224
+  },
+  "kokoro": {
+   "accepts": 97,
+   "n": 400,
+   "rate": 0.2425
+  },
+  "libritts_r": {
+   "accepts": 164,
+   "n": 400,
+   "rate": 0.41
+  },
+  "sef": {
+   "accepts": 79,
+   "n": 300,
+   "rate": 0.2633
+  },
+  "vctk": {
+   "accepts": 106,
+   "n": 500,
+   "rate": 0.212
+  }
+ },
+ "test_ffpos_by_family": {
+  "au": {
+   "accepts": 84,
+   "n": 303,
+   "rate": 0.2772
+  },
+  "au2": {
+   "accepts": 60,
+   "n": 390,
+   "rate": 0.1538
+  },
+  "casual": {
+   "accepts": 85,
+   "n": 264,
+   "rate": 0.322
+  },
+  "gb": {
+   "accepts": 74,
+   "n": 219,
+   "rate": 0.3379
+  },
+  "gb2": {
+   "accepts": 48,
+   "n": 247,
+   "rate": 0.1943
+  },
+  "nz": {
+   "accepts": 79,
+   "n": 228,
+   "rate": 0.3465
+  },
+  "other": {
+   "accepts": 26,
+   "n": 80,
+   "rate": 0.325
+  },
+  "us": {
+   "accepts": 46,
+   "n": 119,
+   "rate": 0.3866
+  }
+ },
+ "test_ffpos_au_speaker_p326": {
+  "other": {
+   "accepts": 466,
+   "n": 1639,
+   "rate": 0.2843
+  },
+  "p326 in voice": {
+   "accepts": 36,
+   "n": 211,
+   "rate": 0.1706
+  }
+ },
+ "test_ffneg_by_group": {
+  "ask_atlas": {
+   "accepts": 0,
+   "n": 16,
+   "rate": 0.0
+  },
+  "at_last": {
+   "accepts": 6,
+   "n": 200,
+   "rate": 0.03
+  },
+  "atlas": {
+   "accepts": 7,
+   "n": 144,
+   "rate": 0.0486
+  },
+  "hey": {
+   "accepts": 1,
+   "n": 41,
+   "rate": 0.0244
+  },
+  "hey_alex": {
+   "accepts": 2,
+   "n": 148,
+   "rate": 0.0135
+  },
+  "hey_alice": {
+   "accepts": 1,
+   "n": 82,
+   "rate": 0.0122
+  },
+  "hey_name": {
+   "accepts": 1,
+   "n": 103,
+   "rate": 0.0097
+  },
+  "hi_atlas": {
+   "accepts": 66,
+   "n": 180,
+   "rate": 0.3667
+  },
+  "mid_atlas": {
+   "accepts": 1,
+   "n": 484,
+   "rate": 0.0021
+  },
+  "okay_nabu": {
+   "accepts": 0,
+   "n": 14,
+   "rate": 0.0
+  },
+  "other": {
+   "accepts": 0,
+   "n": 25,
+   "rate": 0.0
+  },
+  "pay_atlas": {
+   "accepts": 17,
+   "n": 136,
+   "rate": 0.125
+  },
+  "rocket": {
+   "accepts": 2,
+   "n": 50,
+   "rate": 0.04
+  },
+  "z_rhyme": {
+   "accepts": 11,
+   "n": 127,
+   "rate": 0.0866
+  }
+ },
+ "weak_far_new_voices": {
+  "at last": {
+   "accepts": 1,
+   "n": 124,
+   "rate": 0.0081
+  },
+  "hey Alex": {
+   "accepts": 8,
+   "n": 93,
+   "rate": 0.086
+  },
+  "hey Alice": {
+   "accepts": 13,
+   "n": 117,
+   "rate": 0.1111
+  },
+  "hi Atlas": {
+   "accepts": 21,
+   "n": 109,
+   "rate": 0.1927
+  },
+  "pay Atlas": {
+   "accepts": 31,
+   "n": 117,
+   "rate": 0.265
+  }
+ },
+ "weak_near_new_voices": {
+  "at last": {
+   "accepts": 0,
+   "n": 124,
+   "rate": 0.0
+  },
+  "hey Alex": {
+   "accepts": 7,
+   "n": 93,
+   "rate": 0.0753
+  },
+  "hey Alice": {
+   "accepts": 20,
+   "n": 117,
+   "rate": 0.1709
+  },
+  "hi Atlas": {
+   "accepts": 54,
+   "n": 109,
+   "rate": 0.4954
+  },
+  "pay Atlas": {
+   "accepts": 68,
+   "n": 117,
+   "rate": 0.5812
+  }
+ },
+ "v1_probe_near_v1_test_voices": {
+  "Atlas V lifted off": {
+   "accepts": 0,
+   "n": 16,
+   "rate": 0.0
+  },
+  "Atlas was a titan": {
+   "accepts": 0,
+   "n": 16,
+   "rate": 0.0
+  },
+  "Atlas.": {
+   "accepts": 0,
+   "n": 16,
+   "rate": 0.0
+  },
+  "Atlas?": {
+   "accepts": 4,
+   "n": 32,
+   "rate": 0.125
+  },
+  "Atlassian": {
+   "accepts": 0,
+   "n": 32,
+   "rate": 0.0
+  },
+  "Dallas": {
+   "accepts": 1,
+   "n": 16,
+   "rate": 0.0625
+  },
+  "I'll ask Atlas tomorrow": {
+   "accepts": 0,
+   "n": 48,
+   "rate": 0.0
+  },
+  "a cutlass": {
+   "accepts": 1,
+   "n": 16,
+   "rate": 0.0625
+  },
+  "a road atlas": {
+   "accepts": 0,
+   "n": 16,
+   "rate": 0.0
+  },
+  "a tassel": {
+   "accepts": 0,
+   "n": 16,
+   "rate": 0.0
+  },
+  "add less": {
+   "accepts": 0,
+   "n": 16,
+   "rate": 0.0
+  },
+  "an atlas": {
+   "accepts": 1,
+   "n": 16,
+   "rate": 0.0625
+  },
+  "an old atlas of Europe": {
+   "accepts": 1,
+   "n": 16,
+   "rate": 0.0625
+  },
+  "and at last": {
+   "accepts": 2,
+   "n": 32,
+   "rate": 0.0625
+  },
+  "ask Atlas": {
+   "accepts": 0,
+   "n": 16,
+   "rate": 0.0
+  },
+  "ask Atlas about it": {
+   "accepts": 0,
+   "n": 32,
+   "rate": 0.0
+  },
+  "at last it's here": {
+   "accepts": 0,
+   "n": 16,
+   "rate": 0.0
+  },
+  "at least": {
+   "accepts": 0,
+   "n": 16,
+   "rate": 0.0
+  },
+  "atlases": {
+   "accepts": 0,
+   "n": 32,
+   "rate": 0.0
+  },
+  "battle us": {
+   "accepts": 0,
+   "n": 16,
+   "rate": 0.0
+  },
+  "check the atlas": {
+   "accepts": 3,
+   "n": 32,
+   "rate": 0.0938
+  },
+  "eight lasses": {
+   "accepts": 0,
+   "n": 16,
+   "rate": 0.0
+  },
+  "free at last": {
+   "accepts": 2,
+   "n": 32,
+   "rate": 0.0625
+  },
+  "hat lace": {
+   "accepts": 0,
+   "n": 32,
+   "rate": 0.0
+  },
+  "hate less": {
+   "accepts": 0,
+   "n": 16,
+   "rate": 0.0
+  },
+  "haystack": {
+   "accepts": 0,
+   "n": 16,
+   "rate": 0.0
+  },
+  "hey Alessa": {
+   "accepts": 2,
+   "n": 32,
+   "rate": 0.0625
+  },
+  "hey Alex!": {
+   "accepts": 0,
+   "n": 16,
+   "rate": 0.0
+  },
+  "hey Alex, what's up": {
+   "accepts": 0,
+   "n": 16,
+   "rate": 0.0
+  },
+  "hey Alexa": {
+   "accepts": 0,
+   "n": 16,
+   "rate": 0.0
+  },
+  "hey Alexa!": {
+   "accepts": 0,
+   "n": 16,
+   "rate": 0.0
+  },
+  "hey Alexa, turn on the lights": {
+   "accepts": 1,
+   "n": 32,
+   "rate": 0.0312
+  },
+  "hey Alice": {
+   "accepts": 2,
+   "n": 16,
+   "rate": 0.125
+  },
+  "hey Alice and Atlas": {
+   "accepts": 0,
+   "n": 16,
+   "rate": 0.0
+  },
+  "hey Alice!": {
+   "accepts": 2,
+   "n": 32,
+   "rate": 0.0625
+  },
+  "hey Alice, come here": {
+   "accepts": 0,
+   "n": 16,
+   "rate": 0.0
+  },
+  "hey Alison": {
+   "accepts": 0,
+   "n": 16,
+   "rate": 0.0
+  },
+  "hey Annabel": {
+   "accepts": 0,
+   "n": 16,
+   "rate": 0.0
+  },
+  "hey Atlantis": {
+   "accepts": 2,
+   "n": 16,
+   "rate": 0.125
+  },
+  "hey Atticus": {
+   "accepts": 6,
+   "n": 16,
+   "rate": 0.375
+  },
+  "hey Callum": {
+   "accepts": 0,
+   "n": 32,
+   "rate": 0.0
+  },
+  "hey Dallas": {
+   "accepts": 2,
+   "n": 16,
+   "rate": 0.125
+  },
+  "hey Google": {
+   "accepts": 0,
+   "n": 32,
+   "rate": 0.0
+  },
+  "hey Jarvis": {
+   "accepts": 1,
+   "n": 32,
+   "rate": 0.0312
+  },
+  "hey Jarvis, what's the time": {
+   "accepts": 0,
+   "n": 16,
+   "rate": 0.0
+  },
+  "hey Matilda": {
+   "accepts": 0,
+   "n": 16,
+   "rate": 0.0
+  },
+  "hey Mycroft": {
+   "accepts": 0,
+   "n": 16,
+   "rate": 0.0
+  },
+  "hey Siri": {
+   "accepts": 0,
+   "n": 16,
+   "rate": 0.0
+  },
+  "hey Talia": {
+   "accepts": 0,
+   "n": 32,
+   "rate": 0.0
+  },
+  "hey guys": {
+   "accepts": 1,
+   "n": 16,
+   "rate": 0.0625
+  },
+  "hey hey": {
+   "accepts": 0,
+   "n": 16,
+   "rate": 0.0
+  },
+  "hey there": {
+   "accepts": 0,
+   "n": 48,
+   "rate": 0.0
+  },
+  "hey!": {
+   "accepts": 0,
+   "n": 16,
+   "rate": 0.0
+  },
+  "hey, Alex": {
+   "accepts": 1,
+   "n": 32,
+   "rate": 0.0312
+  },
+  "hey, Alexa": {
+   "accepts": 0,
+   "n": 16,
+   "rate": 0.0
+  },
+  "hey, Alice": {
+   "accepts": 1,
+   "n": 32,
+   "rate": 0.0312
+  },
+  "hey, I'm home": {
+   "accepts": 0,
+   "n": 16,
+   "rate": 0.0
+  },
+  "hey, at the shops": {
+   "accepts": 0,
+   "n": 32,
+   "rate": 0.0
+  },
+  "hey, have a look": {
+   "accepts": 0,
+   "n": 32,
+   "rate": 0.0
+  },
+  "hey, how are you": {
+   "accepts": 0,
+   "n": 32,
+   "rate": 0.0
+  },
+  "hey, last one": {
+   "accepts": 0,
+   "n": 16,
+   "rate": 0.0
+  },
+  "hey, listen": {
+   "accepts": 0,
+   "n": 16,
+   "rate": 0.0
+  },
+  "hey, look at this": {
+   "accepts": 0,
+   "n": 16,
+   "rate": 0.0
+  },
+  "hey, that's lovely": {
+   "accepts": 1,
+   "n": 32,
+   "rate": 0.0312
+  },
+  "hey, what's up": {
+   "accepts": 0,
+   "n": 48,
+   "rate": 0.0
+  },
+  "hey.": {
+   "accepts": 0,
+   "n": 16,
+   "rate": 0.0
+  },
+  "oh hey": {
+   "accepts": 0,
+   "n": 32,
+   "rate": 0.0
+  },
+  "ok Nabu": {
+   "accepts": 0,
+   "n": 16,
+   "rate": 0.0
+  },
+  "okay Atlas": {
+   "accepts": 2,
+   "n": 16,
+   "rate": 0.125
+  },
+  "okay Nabu": {
+   "accepts": 0,
+   "n": 16,
+   "rate": 0.0
+  },
+  "okay Nabu, turn off the kitchen lights": {
+   "accepts": 0,
+   "n": 32,
+   "rate": 0.0
+  },
+  "okay, Nabu": {
+   "accepts": 1,
+   "n": 32,
+   "rate": 0.0312
+  },
+  "open the atlas": {
+   "accepts": 1,
+   "n": 16,
+   "rate": 0.0625
+  },
+  "say Atlas": {
+   "accepts": 5,
+   "n": 32,
+   "rate": 0.1562
+  },
+  "tell Atlas": {
+   "accepts": 6,
+   "n": 32,
+   "rate": 0.1875
+  },
+  "that last": {
+   "accepts": 1,
+   "n": 32,
+   "rate": 0.0312
+  },
+  "the Atlas five rocket": {
+   "accepts": 0,
+   "n": 16,
+   "rate": 0.0
+  },
+  "the Atlas rocket": {
+   "accepts": 0,
+   "n": 32,
+   "rate": 0.0
+  },
+  "the atlas": {
+   "accepts": 10,
+   "n": 16,
+   "rate": 0.625
+  },
+  "the world atlas": {
+   "accepts": 0,
+   "n": 16,
+   "rate": 0.0
+  },
+  "they had less": {
+   "accepts": 8,
+   "n": 48,
+   "rate": 0.1667
+  },
+  "watch the Atlas rocket": {
+   "accepts": 0,
+   "n": 32,
+   "rate": 0.0
+  },
+  "we can ask Atlas later": {
+   "accepts": 0,
+   "n": 16,
+   "rate": 0.0
+  }
+ },
+ "v1_probe_weak_and_named": {
+  "an atlas": {
+   "accepts": 1,
+   "n": 16,
+   "rate": 0.0625
+  },
+  "hey Alice": {
+   "accepts": 2,
+   "n": 16,
+   "rate": 0.125
+  },
+  "say Atlas": {
+   "accepts": 5,
+   "n": 32,
+   "rate": 0.1562
+  },
+  "the atlas": {
+   "accepts": 10,
+   "n": 16,
+   "rate": 0.625
+  }
+ },
+ "v1_probe_rhyme": {
+  "day Atlas": {
+   "accepts": 11,
+   "n": 48,
+   "rate": 0.2292
+  },
+  "grey atlas": {
+   "accepts": 0,
+   "n": 32,
+   "rate": 0.0
+  },
+  "hey Atlantic": {
+   "accepts": 0,
+   "n": 48,
+   "rate": 0.0
+  },
+  "hey Atlassian": {
+   "accepts": 3,
+   "n": 32,
+   "rate": 0.0938
+  },
+  "hey, a tassel": {
+   "accepts": 0,
+   "n": 32,
+   "rate": 0.0
+  },
+  "may Atlas": {
+   "accepts": 5,
+   "n": 32,
+   "rate": 0.1562
+  },
+  "okay, Atlas": {
+   "accepts": 2,
+   "n": 48,
+   "rate": 0.0417
+  },
+  "pay Atlas": {
+   "accepts": 26,
+   "n": 32,
+   "rate": 0.8125
+  },
+  "play Atlas": {
+   "accepts": 0,
+   "n": 32,
+   "rate": 0.0
+  },
+  "relay Atlas": {
+   "accepts": 1,
+   "n": 32,
+   "rate": 0.0312
+  },
+  "stay, Atlas": {
+   "accepts": 1,
+   "n": 32,
+   "rate": 0.0312
+  },
+  "they, Atlas": {
+   "accepts": 8,
+   "n": 16,
+   "rate": 0.5
+  },
+  "weigh the atlas": {
+   "accepts": 1,
+   "n": 32,
+   "rate": 0.0312
+  }
+ }
+}
