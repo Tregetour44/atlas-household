@@ -1,0 +1,26 @@
+{
+ "engine": "piper",
+ "model": "TTS/en_GB-aru-medium.onnx",
+ "mix_prob": 0.6,
+ "voices": {
+  "train": [
+   "01",
+   "02",
+   "03",
+   "04",
+   "05",
+   "06",
+   "07",
+   "08",
+   "09",
+   "10"
+  ],
+  "validation": [
+   "11"
+  ],
+  "test": [
+   "12"
+  ]
+ },
+ "name": "aru"
+}

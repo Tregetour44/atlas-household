@@ -4,9 +4,9 @@ Updated 2026-10-22 (UTC). No access to the house; nothing is flashed.
 
 | Stage | State |
 | --- | --- |
-| 0. Set-up | **done**: branch made from `voicepe-hey-atlas` (`be50b3d`), with `wakeword/` from `wakeword-hey-atlas` (`fde5323`) beside it. Pinned v1 toolchain being rebuilt; negative feature sets (same Hugging Face revision as v1) downloading |
-| 1. v1 at cut-offs 0.93 / 0.90 / 0.85 / 0.80 | pending |
-| 2. v2 data (accented, far-field, hard negatives) | pending |
+| 0. Set-up | **done**: branch made from `voicepe-hey-atlas` (`be50b3d`), with `wakeword/` from `wakeword-hey-atlas` (`fde5323`) beside it. v1's pinned toolchain rebuilt (generator checkpoint and config hashes match v1's record); negative feature sets fetched (same revision and zip hashes as v1). Disk allows only VOiCES *far* for speech negatives (v1 used far + mid) |
+| 1. v1 at cut-offs 0.93 / 0.90 / 0.85 / 0.80 | **running**: v1's validation/test sets regenerated (v1 voices, templates and splits; new seeds), stream features being made |
+| 2. v2 data (accented, far-field, hard negatives) | **running**: scripts in `wakeword/v2/scripts/`; synthesis queued (LibriTTS-R, Piper VCTK incl. the Australian and NZ speakers, Piper ARU and GB voices, Kokoro), simulated living rooms, MUSAN (CC BY 4.0) streaming |
 | 3. v2 training (one run) and validation-only choice | pending |
 | 4. v1 against v2 tables, cut-off recommendation | pending |
 | 5. Images 26.9.0-atlas.2 (two clean builds each), config diff, 84 checks | pending |

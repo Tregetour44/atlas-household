@@ -1,0 +1,46 @@
+{
+ "engine": "kokoro",
+ "model": "TTS/kokoro-v1.0.onnx",
+ "mix_prob": 0.6,
+ "voices": {
+  "train": [
+   "af_alloy",
+   "af_aoede",
+   "af_bella",
+   "af_heart",
+   "af_jessica",
+   "af_kore",
+   "af_nicole",
+   "af_river",
+   "af_sarah",
+   "am_adam",
+   "am_eric",
+   "am_fenrir",
+   "am_liam",
+   "am_michael",
+   "am_puck",
+   "am_santa",
+   "bf_alice",
+   "bf_emma",
+   "bm_fable",
+   "bm_lewis",
+   "bf_alice",
+   "bf_emma",
+   "bm_fable",
+   "bm_lewis"
+  ],
+  "validation": [
+   "af_sky",
+   "am_echo",
+   "bf_isabella",
+   "bm_george"
+  ],
+  "test": [
+   "af_nova",
+   "am_onyx",
+   "bf_lily",
+   "bm_daniel"
+  ]
+ },
+ "name": "kokoro"
+}

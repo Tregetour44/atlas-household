@@ -1,0 +1,10 @@
+{
+ "engine": "piper",
+ "model": "TTS/en_GB-alba-medium.onnx",
+ "voices": {
+  "train": [
+   "alba"
+  ]
+ },
+ "name": "alba"
+}

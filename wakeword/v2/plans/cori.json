@@ -1,0 +1,10 @@
+{
+ "engine": "piper",
+ "model": "TTS/en_GB-cori-high.onnx",
+ "voices": {
+  "validation": [
+   "cori"
+  ]
+ },
+ "name": "cori"
+}
