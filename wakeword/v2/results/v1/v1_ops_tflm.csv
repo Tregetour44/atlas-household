@@ -1,0 +1,5 @@
+model,window,cutoff,threshold_u8,val_pos_accept,val_pos_n,val_neg_accept,val_neg_n,test_pos_accept,test_pos_n,test_neg_accept,test_neg_n,test_probe_accept,test_probe_n,test_probe_rhyme_accept,test_probe_rhyme_n,val_ambient_fa,val_ambient_hours,val_ambient_fa_per_h,test_ambient_fa,test_ambient_hours,test_ambient_fa_per_h
+v1,3,0.93,237,0.91,3600,0.0575,800,0.9006,3600,0.055,800,0.0359,1920,0.1317,448,0,9.67,0.0,1,5.33,0.187
+v1,3,0.9,229,0.9261,3600,0.0638,800,0.9183,3600,0.0688,800,0.0406,1920,0.1473,448,2,9.67,0.207,1,5.33,0.187
+v1,3,0.85,216,0.94,3600,0.0813,800,0.9356,3600,0.085,800,0.0479,1920,0.1652,448,4,9.67,0.414,1,5.33,0.187
+v1,3,0.8,204,0.9497,3600,0.0925,800,0.9453,3600,0.1013,800,0.0563,1920,0.1964,448,6,9.67,0.62,4,5.33,0.75

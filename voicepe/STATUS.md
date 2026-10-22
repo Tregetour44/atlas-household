@@ -5,7 +5,7 @@ Updated 2026-10-22 (UTC). No access to the house; nothing is flashed.
 | Stage | State |
 | --- | --- |
 | 0. Set-up | **done**: branch made from `voicepe-hey-atlas` (`be50b3d`), with `wakeword/` from `wakeword-hey-atlas` (`fde5323`) beside it. v1's pinned toolchain rebuilt (generator checkpoint and config hashes match v1's record); negative feature sets fetched (same revision and zip hashes as v1). Disk allows only VOiCES *far* for speech negatives (v1 used far + mid) |
-| 1. v1 at cut-offs 0.93 / 0.90 / 0.85 / 0.80 | **running**: v1's validation/test sets regenerated (v1 voices, templates and splits; new seeds), stream features being made |
+| 1. v1 at cut-offs 0.93 / 0.90 / 0.85 / 0.80 | **done on v1's own (regenerated) sets**, TFLite Micro, W=3 (`wakeword/v2/results/v1/v1_ops_tflm.csv`). Recall val/test: 91.0/90.1% at 0.93, 92.6/91.8% at 0.90, 94.0/93.6% at 0.85, 95.0/94.5% at 0.80. False accepts, CHiME-6 val 9.67 h / DiPCo 5.33 h: 0/1, 2/1, 4/1, 6/4. v1's recorded figures reproduce (90.4% test recall, 1 DiPCo FA at 0.93). Far-field accented and TV sets: after v2 data |
 | 2. v2 data (accented, far-field, hard negatives) | **running**: scripts in `wakeword/v2/scripts/`; synthesis queued (LibriTTS-R, Piper VCTK incl. the Australian and NZ speakers, Piper ARU and GB voices, Kokoro), simulated living rooms, MUSAN (CC BY 4.0) streaming |
 | 3. v2 training (one run) and validation-only choice | pending |
 | 4. v1 against v2 tables, cut-off recommendation | pending |
