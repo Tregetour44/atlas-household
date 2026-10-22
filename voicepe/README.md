@@ -1,5 +1,27 @@
 # Voice PE with an on-device "Hey Atlas" wake word
 
+## Lock fix round (2026-10-22): images unchanged
+
+**Images unchanged. The reviewed image stands.** Two clean rebuilds with the now complete and enforced lock give byte-for-byte the reviewed images:
+
+| Image | Size (bytes) | SHA-256, reviewed | SHA-256, enforced build A | SHA-256, enforced build B |
+| --- | --- | --- | --- | --- |
+| `FACTORY-usb-offset-0x0` | 3,322,192 | `694a8948fc44b47731e596922936d6e0845435f8058015d0a97164cf1b4f6de9` | same | same |
+| `OTA-app-only` | 3,256,656 | `698f55d9acc103e015cc2437856359d32547290c946870d03239629c0d55c6a0` | same | same |
+
+The files in `images/` are not touched by this round.
+
+What the review found and what changed (details: `build/README.md`, "Lock enforcement"):
+* **Every Python package now has an artifact hash.** That covers both environments, including esptool 4.12.0 in the ESP-IDF one: one SHA-256 per package, of the exact wheel or sdist used (`lock/requirements-esphome.txt`, 83 + pip; `lock/requirements-esp-idf.txt`, 60 + pip; `lock/requirements-bootstrap.txt`, pip and setuptools).
+* **The constraints file is vendored** (`lock/espidf.constraints.v5.5.txt`, SHA-256 `6b53b365…7aa1`, unchanged at the URL on 2026-10-22). The build never fetches the URL; idf.py reads the vendored copy.
+* **`tools/build.sh` enforces the lock before compiling.** It builds both venvs from nothing with `pip install --require-hashes --no-deps --no-build-isolation`, and each env must then hold exactly the locked packages. ESPHome runs under `tools/esphome_repro.py`, which stops the build on any request or download that is not in the lock or has another SHA-256, and which uses the locked ESP-IDF env instead of ESPHome's own pip/uv install. The git commit, the models, the framework, the tools and the registry components are checked against the lock before any image is written.
+* **Negative tests** (`build/negative-test-log.txt`, `tools/negative_test.sh`), each changing one hash by one digit. Every one refuses with exit status 1 and no image:
+  * esptool 4.12.0's hash: pip refuses ("THESE PACKAGES DO NOT MATCH THE HASHES");
+  * the ESP-IDF tarball's hash: the guard refuses the download ("LOCK VIOLATION");
+  * espressif/esp-nn's component hash: the post-compile check refuses.
+* **Manual download mode** is added to the [steps](#steps-recommended-route): hold the centre button while plugging in USB.
+* **PyYAML 6.0.3** is recorded, with hashes for every platform (`lock/requirements-check.txt`), so the 84-check script reruns on any computer.
+
 ## Verdict
 
 **Image to flash:** `images/atlas-voicepe-hey-atlas-26.9.0-atlas.1.FACTORY-usb-offset-0x0.bin`
@@ -20,7 +42,7 @@ Exact steps: [below](#steps-recommended-route).
 * Hey Atlas recall and false accepts with real voices, the household's accents, TV and radio, through the Voice PE's microphones and XMOS front end (all training and test speech was synthetic).
 * Run-time memory: the real tensor-arena use and free PSRAM and heap with five models loaded.
 * CPU load and wake latency.
-* Whether this unit enters download mode through esptool-js without pressing a button.
+* Whether this unit enters download mode through esptool-js without pressing a button. If it does not, the manual steps (hold the centre button while plugging in USB) are in [Steps](#steps-recommended-route).
 * Whether ESPHome 2026.9.1, rather than the 2026.6.0 that built stock 26.9.0, changes any stock behaviour on this hardware.
 * The household's Home Assistant version (it matters only after an erase).
 
@@ -116,7 +138,16 @@ Build facts (`build/README.md`):
 6. Click **Program**. Do **not** click "Erase Flash". Wait for the write and verify to finish.
 7. Unplug the USB cable, then plug the device back into its normal power. Go through day-one checks 2–6.
 
-If step 4 cannot connect or does not reach the ESP32-S3 (NO DATA for this unit), stop. Do not try ESPHome Web unless a full wipe is acceptable. Use route C instead:
+**If step 4 cannot connect or does not reach the ESP32-S3** (automatic entry into download mode is NO DATA for this unit), put the device into download mode by hand and try again:
+
+a. Unplug the USB-C cable from the Voice PE. The device has no other power, so it is now off.
+b. Press and hold the **centre button** (the button in the middle of the dial on top). It is wired to GPIO0, the ESP32-S3's boot-mode strap pin (`base/home-assistant-voice.yaml`, `center_button`: `number: GPIO0`, inverted). Held down at power-up, it starts the chip's ROM bootloader instead of the firmware.
+c. Still holding it, plug the USB-C cable from the PC back into the Voice PE. Keep holding for about 2–3 seconds, then release. In download mode the LED ring stays dark and there is no start-up sound, because the firmware is not running.
+d. Repeat step 4 (**Connect**). In download mode the port may appear under a different COM number; pick the USB serial / JTAG device again. Then continue with steps 5–7. Step 7 (unplug and replug **without** holding the button) leaves download mode and starts the new firmware.
+
+Safe because: holding the button at power-up erases nothing; it only selects the boot mode. The firmware's factory reset needs the button held for **22 seconds while the firmware is running**, with a warning sound and LED effect at 10 seconds (`base/home-assistant-voice.yaml`, `on_multi_click`: "ON for at least 10s", then "ON for at least 22s"). So if the LED ring lights up and the "factory reset coming up" sound plays, the device booted normally instead: **release the button at once** (releasing before 22 s cancels the reset), unplug, and try steps a–c again.
+
+If it still cannot connect after the manual steps, stop. Do not try ESPHome Web unless a full wipe is acceptable. Use route C instead:
 
 ```
 py -3.13 -m venv %USERPROFILE%\esphome-2026.9.1
@@ -124,6 +155,8 @@ py -3.13 -m venv %USERPROFILE%\esphome-2026.9.1
 cd atlas-household\voicepe
 %USERPROFILE%\esphome-2026.9.1\Scripts\esphome upload hey-atlas-voice-pe.yaml --device <device IP from Home Assistant> --file images\atlas-voicepe-hey-atlas-26.9.0-atlas.1.OTA-app-only.bin
 ```
+
+Here the CLI only uploads the prebuilt, hash-checked OTA image; it compiles nothing, so its own packages cannot change the image bytes. The hashed lock in `lock/requirements-esphome.txt` is for the Linux x86_64 build and its wheels do not install on Windows, which is why this step uses a plain `pip install`.
 
 ## Recovery
 
@@ -151,13 +184,18 @@ The plan for a later session, unchanged from the brief:
 | `models/` | hey_atlas (from branch `wakeword-hey-atlas`, `fde5323`) and the vendored stock models (Apache-2.0, `LICENSE`) |
 | `build/merged-config.yaml` | the full merged config |
 | `build/check-report.txt`, `build/check-selftest.txt` | the check script's results |
-| `build/build-log.txt`, `build/build-log-repro.txt` | logs of the two clean builds |
+| `build/build-log.txt`, `build/build-log-repro.txt` | ESPHome compile logs of the two clean, lock-enforced builds (A in the working tree, B in a fresh clone) |
+| `build/lock-enforced-build-A.txt`, `-B.txt` | the whole `tools/build.sh` output of each: hash-checked pip installs, every lock check, image hashes |
+| `build/fetch-log-A.txt`, `-B.txt` | every request ESPHome made and every file it downloaded, with SHA-256 |
+| `build/negative-test-log.txt` | the three negative tests (one changed hash each; the build refuses) |
 | `build/README.md` | sizes, memory, partitions and reproducibility |
 | `build/memory-report.txt`, `partitions.csv`, `dependencies.lock`, `sdkconfig.txt`, `build_info.json` | build outputs |
 | `images/` | the two images, `SHA256SUMS`, `SIZES` |
-| `lock/dependency-lock.json` | every fetched input with its hash |
+| `lock/dependency-lock.json` | every fetched input with its hash, and the fetch allowlist the build enforces |
+| `lock/requirements-*.txt` | hashed Python packages: `esphome`, `esp-idf`, `bootstrap` (all used by the build), `check` (PyYAML 6.0.3 for the check script) |
+| `lock/espidf.constraints.v5.5.txt` | ESP-IDF's Python constraints file, vendored |
 | `recovery/` | the official 26.9.0 factory image's pinned URL, size and hashes |
-| `tools/build.sh`, `esphome_repro.py`, `check_merged.py`, `selftest_check.py`, `make_lock.py` | how all of the above was made |
+| `tools/build.sh`, `esphome_repro.py`, `verify_lock.py`, `pylock.py`, `check_merged.py`, `selftest_check.py`, `make_lock.py`, `negative_test.sh` | how all of the above was made and checked |
 | `STATUS.md` | stage status |
 
 Nothing was flashed or installed anywhere. The branch holds no secrets, household data or recordings.
