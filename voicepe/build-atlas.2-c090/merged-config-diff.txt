@@ -1,0 +1,11 @@
+# merged config: 26.9.0-atlas.1 against 26.9.0-atlas.2-c090 (build A)
+## diff of the sorted lines
+2165c2165
+<     version: 26.9.0-atlas.1
+---
+>     version: 26.9.0-atlas.2-c090
+## against 26.9.0-atlas.2 (sorted)
+2165c2165
+<     version: 26.9.0-atlas.2
+---
+>     version: 26.9.0-atlas.2-c090

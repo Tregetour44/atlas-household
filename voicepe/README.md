@@ -1,5 +1,82 @@
 # Voice PE with an on-device "Hey Atlas" wake word
 
+## 26.9.0-atlas.2 (2026-10-22): verdict
+
+**Flash `images/atlas-voicepe-hey-atlas-26.9.0-atlas.2.FACTORY-usb-offset-0x0.bin`**
+(3,322,192 bytes, SHA-256 `73b876824c06ba32eea82e4c7e142641247ef84cf745923eb5548bb6aebf4fe2`), with the same route as before: USB, esptool-js, **factory image at offset 0x0, no erase** ([steps](#steps-for-2690-atlas2)). Wi-Fi, the Home Assistant pairing, the area and the pipeline stay.
+
+* **v1 against v2: v1 wins, so the model is unchanged.** The new v2 model (more accents, far-field rooms, TV/music/kitchen noise, 2,000 "Atlas" mid-sentence negatives) is worse at its validation-only choice. It detects 54% of v1's test "Hey Atlas" clips against v1's 90%, and 28% against 27% on the new far-field set. It only gets fewer hard-negative accepts by being deaf. Details: `../wakeword/v2/TRAINING.md`.
+* **Chosen cut-off: 0.85** (from 0.93), for v1. The image is atlas.1 with only the Hey Atlas manifest's `probability_cutoff` changed and the version bumped. In the app image that is one byte (threshold 237 → 216), the version string, ESPHome's config hash and the image's own checksums: 73 bytes in all (`build-atlas.2/image-diff-OTA-vs-atlas.1.txt`).
+* **Expected trade-off (synthetic speech, simulated rooms; real-device numbers are NO DATA):**
+  * Misses drop from about **1 in 10 to 1 in 15** when spoken near the device (test recall 90.1% → 93.6%).
+  * Across a noisy room it still misses most attempts. On the new simulated far-field set (2–5 m, TV/music/kitchen at 0–20 dB, accented held-out voices), recall goes from **27% to 32%**. The cut-off helps a little; it does not fix far-field. Speaking up, facing the device or lowering the TV will matter more than any cut-off.
+  * **Extra false wakes: about one more per 4 hours of lively conversation in the room.** Over 15 h of recorded dinner-party audio (CHiME-6 and DiPCo) there are 5 false accepts at 0.85 against 1 at 0.93 (0.33 /h against 0.07 /h). DiPCo alone stays at 1 in 5.33 h (0.19 /h). There were none in 4 h of simulated TV.
+  * Saying the name in passing wakes it a bit more often (new test voices, near field): "hi Atlas" 59% (was 50%), "pay Atlas" 62% (58%), "hey Alice" 22% (17%), "hey Alex" 14% (8%). Far field, "Atlas" mid-sentence: 5 of 484 sentences (2).
+* **Fallback, one step back towards today:** `images/atlas-voicepe-hey-atlas-26.9.0-atlas.2-c090.FACTORY-usb-offset-0x0.bin` (cut-off 0.90, SHA-256 `a67397f3f5c770ad37429449802d2b5442f67740f17cea642aed81bc7271238d`). It gives 91.8% / 29% recall, with 3 false accepts in 15 h of dinner-party audio. To go back fully, flash atlas.1 (`images/…atlas.1.FACTORY…`, `694a8948…4f6de9`) the same way.
+* **Builds:** two clean builds each on branch `voicepe-hey-atlas`'s enforced lock (`tools/build.sh`, `pip --require-hashes`, every fetch hash-checked), with identical SHA-256s (A in the working tree, B in a fresh clone). The 84-check script passes 84/84, and its self-test still fails all nine broken variants. The merged config differs from atlas.1's only in the version line (`build-atlas.2/merged-config-diff.txt`).
+
+### v1 operating points (TFLite Micro, ESPHome's runtime; W = 3)
+
+| Cut-off (device threshold) | Recall, near (v1 test, 3,600) | Recall, far-field accented (1,850) | False accepts, CHiME-6 val 9.67 h | False accepts, DiPCo test 5.33 h | False accepts, TV 4 h | Hard-negative accepts (v1 test / far-field) |
+| --- | --- | --- | --- | --- | --- | --- |
+| 0.93 (237), atlas.1 | 90.1% | 27.2% | 0 | 1 (0.19 /h) | 0 | 5.5% / 6.6% |
+| 0.90 (229), fallback | 91.8% | 29.0% | 2 (0.21 /h) | 1 (0.19 /h) | 0 | 6.9% / 7.4% |
+| **0.85 (216), atlas.2** | **93.6%** | **31.7%** | 4 (0.41 /h) | 1 (0.19 /h) | 0 | 8.5% / 8.3% |
+| 0.80 (204) | 94.5% | 34.2% | 6 (0.62 /h) | 4 (0.75 /h) | 1 | 10.1% / 9.1% |
+
+Why 0.85 and not 0.80: from 0.85 to 0.80, DiPCo false accepts go from 1 to 4 and the first TV false accept appears, for about one more point of recall. The threshold is `int(cutoff × 255)`, read from ESPHome 2026.9.1's source (the wheel hash in the lock), so 0.85 is exactly 216 on the device. v1's own recorded figures reproduce on the regenerated sets (90.1% against 90.5% test recall; the same single DiPCo false accept at 0.93).
+
+### v1 against v2 (same test sets, each at its validation-only choice, LiteRT)
+
+| | v1 (W 3, 0.93) | v2 (checkpoint 24000, W 5, 0.95) |
+| --- | --- | --- |
+| Recall, v1 test (near) | **90.1%** | 54.2% |
+| Recall, far-field accented test | 27.1% | 28.2% |
+| … the held-out Australian voice (VCTK p326) | **17.1%** (36/211) | 11.8% (25/211) |
+| Hard-negative accepts, v1 test / far-field test | 5.6% / 6.6% | **0.9% / 3.9%** |
+| False accepts, DiPCo 5.33 h / TV 2 h | 0 / 0 | 0 / 0 |
+
+v2's choice rule was fixed before any v2 checkpoint was scored. With a looser cap matching v1's own hard-negative rate, its best validation recall is still only 70% near-field against v1's 91% (`../wakeword/v2/TRAINING.md`). Per-accent, per-engine and per-phrase tables: `../wakeword/v2/results/`.
+
+### Steps for 26.9.0-atlas.2
+
+The device is on 26.9.0-atlas.1 today. The route and the safety facts are unchanged: USB at 0x0 without erase keeps NVS (Wi-Fi, API key, settings) at 0xF90000, and the partition table is identical (`build-atlas.2/partitions.csv`, byte-identical to atlas.1's and to stock's).
+
+1. On the PC, download `voicepe/images/atlas-voicepe-hey-atlas-26.9.0-atlas.2.FACTORY-usb-offset-0x0.bin` from branch `voicepe-hey-atlas-v2`. In PowerShell run `Get-FileHash <file> -Algorithm SHA256`. It must print `73B876824C06BA32EEA82E4C7E142641247EF84CF745923EB5548BB6AEBF4FE2`. Use the file whose name contains **FACTORY**, never **OTA-app-only**.
+2. Check that the device is online in Home Assistant.
+3. Connect it to the PC with a USB-C **data** cable.
+4. In Chrome or Edge, open https://espressif.github.io/esptool-js/, leave the baud rate, click **Connect**, and pick the USB serial / JTAG device. The log shows an ESP32-S3. If it cannot connect, use the manual download mode below (hold the centre button while plugging in).
+5. Keep one row in the flash table: **Flash Address `0x0`** (it defaults to 0x1000; change it), with the FACTORY file.
+6. Click **Program**. Do **not** click "Erase Flash". Wait for the write and verify.
+7. Unplug, then power it normally. Within about a minute it should come back online in Home Assistant by itself, showing firmware **26.9.0-atlas.2 (ESPHome 2026.9.1)**. The Wake word setting should still be **Hey Atlas**. If it shows Okay Nabu, set it to Hey Atlas again. The log line `Enabled wake word: Hey Atlas` appears, and the model's start-up dump prints `Probability cutoff: 0.85` (216/255).
+8. Then the earlier day-one checks 3–5 below (area and pipeline kept, stock features work, no allocation errors or reboots in 10 minutes of logs). Try "Hey Atlas" near the device and from across the room.
+
+Manual download mode, the route-C fallback (OTA with the ESPHome CLI, which must use `images\atlas-voicepe-hey-atlas-26.9.0-atlas.2.OTA-app-only.bin`, SHA-256 `23085856bba25dd34f601c7b76e33343612d614421a4e3a1162b8acc8b8830b0`) and recovery are as described for atlas.1 below. They apply unchanged. The Home Assistant "Wake word sensitivity" select still changes only the stock models; Hey Atlas uses its manifest cut-off.
+
+### Build record (26.9.0-atlas.2)
+
+| Image | Size | SHA-256, build A | SHA-256, build B |
+| --- | --- | --- | --- |
+| `atlas-voicepe-hey-atlas-26.9.0-atlas.2.FACTORY-usb-offset-0x0.bin` | 3,322,192 | `73b876824c06ba32eea82e4c7e142641247ef84cf745923eb5548bb6aebf4fe2` | same |
+| `atlas-voicepe-hey-atlas-26.9.0-atlas.2.OTA-app-only.bin` | 3,256,656 | `23085856bba25dd34f601c7b76e33343612d614421a4e3a1162b8acc8b8830b0` | same |
+| `atlas-voicepe-hey-atlas-26.9.0-atlas.2-c090.FACTORY-usb-offset-0x0.bin` (fallback) | 3,322,224 | `a67397f3f5c770ad37429449802d2b5442f67740f17cea642aed81bc7271238d` | same |
+| `atlas-voicepe-hey-atlas-26.9.0-atlas.2-c090.OTA-app-only.bin` (fallback) | 3,256,688 | `4017abae77e20d94859a099c8fbe4739e9fbf61ede570e47ef92e95fb56851c0` | same |
+
+* Inputs: atlas.2 at commit `1971793`, fallback at commit `5ef499d`. The only input changes from atlas.1 (`tools/set_model.py`): `models/hey_atlas/hey_atlas.json` (`probability_cutoff` only; SHA-256 `2f2204ab…aeac4` for atlas.2, `05446104…04082` for the fallback), the version in `hey-atlas-voice-pe.yaml`, and the matching lock entries, expected hashes and image name in `lock/dependency-lock.json`, `tools/check_merged.py`, `tools/make_lock.py` and `tools/build.sh`. `hey_atlas.tflite` is byte-identical (`2bb30e62…0ffba7`).
+* Build A ran in the working tree, build B in a fresh clone of that commit, both from nothing (`tools/build.sh`: new venvs from hashed requirements, empty caches). Each took about 10 minutes. Fetch logs: 84 entries, no lock violation.
+* `partitions.csv`, `sdkconfig.txt` and `dependencies.lock` are identical to atlas.1's. `build_info.json` differs only in `config_hash`.
+* Records: `build-atlas.2/` (atlas.2) and `build-atlas.2-c090/` (fallback). Each holds `lock-enforced-build-{A,B}.txt`, `build-log-{A,B}.txt`, `fetch-log-{A,B}.txt`, `SHA256SUMS-{A,B}`, `check-report.txt`, `check-selftest.txt`, `merged-config.yaml`, `merged-config-diff.txt`, `partitions.csv`, `sdkconfig.txt`, `dependencies.lock`, `build_info.json` and `memory-report.txt`. `build-atlas.2/` also has `image-diff-OTA-vs-atlas.1.txt` (from `tools/image_diff.py`). The fallback image is 32 bytes longer than atlas.2 because of its longer version string, so it has no byte-for-byte diff. Its merged config differs from atlas.1's and atlas.2's only in the version line, and its 84 checks and self-test pass too. The atlas.1 records in `build/` are untouched.
+
+### Budget, and what was not done
+
+* No paid cloud service was used; everything ran in this session's 4-core container with no GPU. Cloud spend cannot be measured from inside the session. Wall clock was about 5¼ h (11:10–16:30 UTC), less than v1's 6¾ h: v2 data and one kept training run plus one aborted attempt, v1 rescoring, and four image builds.
+* v2 was not retrained a second time (the brief allows one run). Its likely problems (a 2.4 s window, heavy far-field noise in 65% of positives, and only one VOiCES speech-negative set because of disk) are listed in `../wakeword/v2/TRAINING.md` for a later session.
+* **NO DATA:** real voices, the owner's accent, the real room, the TV, and the Voice PE's microphones and XMOS front end (beamforming, echo cancellation, gain). The far-field set is a simulation without that front end. Nothing was flashed, and the house was not accessed.
+
+# Earlier record: 26.9.0-atlas.1 (superseded by 26.9.0-atlas.2 above; kept for reference)
+
+Everything below describes 26.9.0-atlas.1. Its pairing, route, recovery and lock facts still hold for 26.9.0-atlas.2, which differs only in the Hey Atlas manifest's cut-off and the version. **To flash, use the atlas.2 file and steps above, not the atlas.1 file named below.**
+
 ## Lock fix round (2026-10-22): images unchanged
 
 **Images unchanged. The reviewed image stands.** Two clean rebuilds with the now complete and enforced lock give byte-for-byte the reviewed images:

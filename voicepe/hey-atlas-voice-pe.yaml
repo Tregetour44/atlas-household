@@ -60,7 +60,7 @@ esphome:
     # Same project name as the stock firmware, so Home Assistant keeps showing the
     # device as "Nabu Casa / Home Assistant Voice PE". The version marks the custom build.
     name: Nabu Casa.Home Assistant Voice PE
-    version: 26.9.0-atlas.2-c090
+    version: 26.9.0-atlas.2
 
 esp32:
   toolchain: esp-idf

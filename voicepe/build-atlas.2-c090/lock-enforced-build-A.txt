@@ -1,0 +1,475 @@
+== host tools (not fetched): python 3.13.16, git version 2.43.0, cmake version 3.28.3, ninja 1.11.1
+== ESPHome venv from lock/requirements-esphome.txt
+Collecting pip==26.2.1 (from -r /home/user/atlas-household/voicepe/lock/requirements-bootstrap.txt (line 7))
+  Downloading pip-26.2.1-py3-none-any.whl (1.8 MB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 1.8/1.8 MB 1.2 MB/s  0:00:01
+Collecting setuptools==84.2.1 (from -r /home/user/atlas-household/voicepe/lock/requirements-bootstrap.txt (line 10))
+  Downloading setuptools-84.2.1-py3-none-any.whl (876 kB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 876.3/876.3 kB 394.4 kB/s  0:00:02
+Installing collected packages: setuptools, pip
+  Attempting uninstall: pip
+    Found existing installation: pip 26.2.1
+    Uninstalling pip-26.2.1:
+      Successfully uninstalled pip-26.2.1
+
+Successfully installed pip-26.2.1 setuptools-84.2.1
+Collecting aioesphomeapi==46.3.0 (from -r /home/user/atlas-household/voicepe/lock/requirements-esphome.txt (line 7))
+  Downloading aioesphomeapi-46.3.0-cp313-cp313-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (741 kB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 741.6/741.6 kB 495.3 kB/s  0:00:01
+Collecting aiohappyeyeballs==2.7.1 (from -r /home/user/atlas-household/voicepe/lock/requirements-esphome.txt (line 10))
+  Downloading aiohappyeyeballs-2.7.1-py3-none-any.whl (15 kB)
+Collecting ajsonrpc==1.2.0 (from -r /home/user/atlas-household/voicepe/lock/requirements-esphome.txt (line 13))
+  Downloading ajsonrpc-1.2.0-py3-none-any.whl (22 kB)
+Collecting annotated-types==0.8.0 (from -r /home/user/atlas-household/voicepe/lock/requirements-esphome.txt (line 16))
+  Downloading annotated_types-0.8.0-py3-none-any.whl (13 kB)
+Collecting anyio==4.15.1 (from -r /home/user/atlas-household/voicepe/lock/requirements-esphome.txt (line 19))
+  Downloading anyio-4.15.1-py3-none-any.whl (132 kB)
+Collecting argcomplete==3.7.2 (from -r /home/user/atlas-household/voicepe/lock/requirements-esphome.txt (line 22))
+  Downloading argcomplete-3.7.2-py3-none-any.whl (43 kB)
+Collecting async_interrupt==1.2.2 (from -r /home/user/atlas-household/voicepe/lock/requirements-esphome.txt (line 25))
+  Downloading async_interrupt-1.2.2-py3-none-any.whl (8.9 kB)
+Collecting backports.zstd==1.8.0 (from -r /home/user/atlas-household/voicepe/lock/requirements-esphome.txt (line 28))
+  Downloading backports_zstd-1.8.0-cp313-cp313-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (493 kB)
+Collecting bitstring==5.0.0 (from -r /home/user/atlas-household/voicepe/lock/requirements-esphome.txt (line 31))
+  Downloading bitstring-5.0.0-py3-none-any.whl (72 kB)
+Collecting bleak==3.0.2 (from -r /home/user/atlas-household/voicepe/lock/requirements-esphome.txt (line 34))
+  Downloading bleak-3.0.2-py3-none-any.whl (146 kB)
+Collecting bottle==0.13.4 (from -r /home/user/atlas-household/voicepe/lock/requirements-esphome.txt (line 37))
+  Downloading bottle-0.13.4-py2.py3-none-any.whl (103 kB)
+Collecting brotli==1.2.0 (from -r /home/user/atlas-household/voicepe/lock/requirements-esphome.txt (line 40))
+  Downloading brotli-1.2.0-cp313-cp313-manylinux2014_x86_64.manylinux_2_17_x86_64.whl (1.4 MB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 1.4/1.4 MB 1.5 MB/s  0:00:00
+Collecting cbor2==6.1.5 (from -r /home/user/atlas-household/voicepe/lock/requirements-esphome.txt (line 43))
+  Downloading cbor2-6.1.5-cp313-cp313-manylinux_2_28_x86_64.whl (462 kB)
+Collecting certifi==2026.10.19 (from -r /home/user/atlas-household/voicepe/lock/requirements-esphome.txt (line 46))
+  Downloading certifi-2026.10.19-py3-none-any.whl (136 kB)
+Collecting cffi==2.1.1 (from -r /home/user/atlas-household/voicepe/lock/requirements-esphome.txt (line 49))
+  Downloading cffi-2.1.1-cp313-cp313-manylinux2014_x86_64.manylinux_2_17_x86_64.whl (221 kB)
+Collecting chacha20poly1305-reuseable==0.13.2 (from -r /home/user/atlas-household/voicepe/lock/requirements-esphome.txt (line 52))
+  Downloading chacha20poly1305_reuseable-0.13.2-py3-none-any.whl (8.6 kB)
+Collecting charset-normalizer==3.5.2 (from -r /home/user/atlas-household/voicepe/lock/requirements-esphome.txt (line 55))
+  Downloading charset_normalizer-3.5.2-cp313-cp313-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (254 kB)
+Collecting click==8.3.3 (from -r /home/user/atlas-household/voicepe/lock/requirements-esphome.txt (line 58))
+  Downloading click-8.3.3-py3-none-any.whl (110 kB)
+Collecting colorama==0.4.6 (from -r /home/user/atlas-household/voicepe/lock/requirements-esphome.txt (line 61))
+  Downloading colorama-0.4.6-py2.py3-none-any.whl (25 kB)
+Collecting crcmod==1.7 (from -r /home/user/atlas-household/voicepe/lock/requirements-esphome.txt (line 64))
+  Downloading crcmod-1.7.tar.gz (89 kB)
+  Preparing metadata (pyproject.toml): started
+  Preparing metadata (pyproject.toml): finished with status 'done'
+Collecting cryptography==50.0.1 (from -r /home/user/atlas-household/voicepe/lock/requirements-esphome.txt (line 67))
+  Downloading cryptography-50.0.1-cp311-abi3-manylinux_2_34_x86_64.whl (4.7 MB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 4.7/4.7 MB 860.5 kB/s  0:00:05
+Collecting dbus-fast==5.2.0 (from -r /home/user/atlas-household/voicepe/lock/requirements-esphome.txt (line 70))
+  Downloading dbus_fast-5.2.0-cp313-cp313-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (896 kB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 896.5/896.5 kB 898.3 kB/s  0:00:01
+Collecting esphome==2026.9.1 (from -r /home/user/atlas-household/voicepe/lock/requirements-esphome.txt (line 73))
+  Downloading esphome-2026.9.1-py3-none-any.whl (7.1 MB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 7.1/7.1 MB 1.7 MB/s  0:00:04
+Collecting esphome-glyphsets==0.2.0 (from -r /home/user/atlas-household/voicepe/lock/requirements-esphome.txt (line 76))
+  Downloading esphome_glyphsets-0.2.0-py3-none-any.whl (159 kB)
+Collecting esptool==5.3.1 (from -r /home/user/atlas-household/voicepe/lock/requirements-esphome.txt (line 79))
+  Downloading esptool-5.3.1.tar.gz (488 kB)
+  Preparing metadata (pyproject.toml): started
+  Preparing metadata (pyproject.toml): finished with status 'done'
+Collecting filelock==3.32.4 (from -r /home/user/atlas-household/voicepe/lock/requirements-esphome.txt (line 82))
+  Downloading filelock-3.32.4-py3-none-any.whl (99 kB)
+Collecting freetype-py==2.5.1 (from -r /home/user/atlas-household/voicepe/lock/requirements-esphome.txt (line 85))
+  Downloading freetype_py-2.5.1-py3-none-manylinux_2_5_x86_64.manylinux1_x86_64.manylinux_2_12_x86_64.manylinux2010_x86_64.whl (1.0 MB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 1.0/1.0 MB 952.5 kB/s  0:00:01
+Collecting h11==0.16.0 (from -r /home/user/atlas-household/voicepe/lock/requirements-esphome.txt (line 88))
+  Downloading h11-0.16.0-py3-none-any.whl (37 kB)
+Collecting idna==3.20 (from -r /home/user/atlas-household/voicepe/lock/requirements-esphome.txt (line 91))
+  Downloading idna-3.20-py3-none-any.whl (69 kB)
+Collecting ifaddr==0.2.0 (from -r /home/user/atlas-household/voicepe/lock/requirements-esphome.txt (line 94))
+  Downloading ifaddr-0.2.0-py3-none-any.whl (12 kB)
+Collecting inflate64==1.0.4 (from -r /home/user/atlas-household/voicepe/lock/requirements-esphome.txt (line 97))
+  Downloading inflate64-1.0.4-cp313-cp313-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (100 kB)
+Collecting intelhex==2.3.0 (from -r /home/user/atlas-household/voicepe/lock/requirements-esphome.txt (line 100))
+  Downloading intelhex-2.3.0-py2.py3-none-any.whl (50 kB)
+Collecting Jinja2==3.1.6 (from -r /home/user/atlas-household/voicepe/lock/requirements-esphome.txt (line 103))
+  Downloading jinja2-3.1.6-py3-none-any.whl (134 kB)
+Collecting markdown-it-py==4.2.0 (from -r /home/user/atlas-household/voicepe/lock/requirements-esphome.txt (line 106))
+  Downloading markdown_it_py-4.2.0-py3-none-any.whl (91 kB)
+Collecting MarkupSafe==3.0.4 (from -r /home/user/atlas-household/voicepe/lock/requirements-esphome.txt (line 109))
+  Downloading markupsafe-3.0.4-cp313-cp313-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (23 kB)
+Collecting marshmallow==3.26.2 (from -r /home/user/atlas-household/voicepe/lock/requirements-esphome.txt (line 112))
+  Downloading marshmallow-3.26.2-py3-none-any.whl (50 kB)
+Collecting mdurl==0.1.2 (from -r /home/user/atlas-household/voicepe/lock/requirements-esphome.txt (line 115))
+  Downloading mdurl-0.1.2-py3-none-any.whl (10.0 kB)
+Collecting multivolumefile==0.2.3 (from -r /home/user/atlas-household/voicepe/lock/requirements-esphome.txt (line 118))
+  Downloading multivolumefile-0.2.3-py3-none-any.whl (17 kB)
+Collecting ninja==1.13.0 (from -r /home/user/atlas-household/voicepe/lock/requirements-esphome.txt (line 121))
+  Downloading ninja-1.13.0-py3-none-manylinux2014_x86_64.manylinux_2_17_x86_64.whl (180 kB)
+Collecting noiseprotocol==0.3.1 (from -r /home/user/atlas-household/voicepe/lock/requirements-esphome.txt (line 124))
+  Downloading noiseprotocol-0.3.1-py3-none-any.whl (20 kB)
+Collecting packaging==26.3 (from -r /home/user/atlas-household/voicepe/lock/requirements-esphome.txt (line 127))
+  Downloading packaging-26.3-py3-none-any.whl (129 kB)
+Collecting paho-mqtt==1.6.1 (from -r /home/user/atlas-household/voicepe/lock/requirements-esphome.txt (line 130))
+  Downloading paho-mqtt-1.6.1.tar.gz (99 kB)
+  Preparing metadata (pyproject.toml): started
+  Preparing metadata (pyproject.toml): finished with status 'done'
+Collecting pillow==12.3.0 (from -r /home/user/atlas-household/voicepe/lock/requirements-esphome.txt (line 133))
+  Downloading pillow-12.3.0-cp313-cp313-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl (6.9 MB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 6.9/6.9 MB 1.9 MB/s  0:00:03
+Collecting platformdirs==4.11.5 (from -r /home/user/atlas-household/voicepe/lock/requirements-esphome.txt (line 136))
+  Downloading platformdirs-4.11.5-py3-none-any.whl (23 kB)
+Collecting platformio==6.1.19 (from -r /home/user/atlas-household/voicepe/lock/requirements-esphome.txt (line 139))
+  Downloading platformio-6.1.19-py3-none-any.whl (421 kB)
+Collecting protobuf==7.36.2 (from -r /home/user/atlas-household/voicepe/lock/requirements-esphome.txt (line 142))
+  Downloading protobuf-7.36.2-cp310-abi3-manylinux2014_x86_64.whl (343 kB)
+Collecting psutil==7.2.2 (from -r /home/user/atlas-household/voicepe/lock/requirements-esphome.txt (line 145))
+  Downloading psutil-7.2.2-cp36-abi3-manylinux2010_x86_64.manylinux_2_12_x86_64.manylinux_2_28_x86_64.whl (155 kB)
+Collecting puremagic==2.2.0 (from -r /home/user/atlas-household/voicepe/lock/requirements-esphome.txt (line 148))
+  Downloading puremagic-2.2.0-py3-none-any.whl (71 kB)
+Collecting py7zr==1.1.3 (from -r /home/user/atlas-household/voicepe/lock/requirements-esphome.txt (line 151))
+  Downloading py7zr-1.1.3-py3-none-any.whl (72 kB)
+Collecting pybcj==1.0.8 (from -r /home/user/atlas-household/voicepe/lock/requirements-esphome.txt (line 154))
+  Downloading pybcj-1.0.8-cp313-cp313-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (52 kB)
+Collecting pycparser==3.11 (from -r /home/user/atlas-household/voicepe/lock/requirements-esphome.txt (line 157))
+  Downloading pycparser-3.11-py3-none-any.whl (51 kB)
+Collecting pycryptodomex==3.24.1 (from -r /home/user/atlas-household/voicepe/lock/requirements-esphome.txt (line 160))
+  Downloading pycryptodomex-3.24.1-cp37-abi3-manylinux2014_x86_64.manylinux_2_17_x86_64.whl (2.3 MB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 2.3/2.3 MB 724.6 kB/s  0:00:03
+Collecting pydantic==2.14.1 (from -r /home/user/atlas-household/voicepe/lock/requirements-esphome.txt (line 163))
+  Downloading pydantic-2.14.1-py3-none-any.whl (488 kB)
+Collecting pydantic_core==2.50.1 (from -r /home/user/atlas-household/voicepe/lock/requirements-esphome.txt (line 166))
+  Downloading pydantic_core-2.50.1-cp313-cp313-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (2.2 MB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 2.2/2.2 MB 2.4 MB/s  0:00:00
+Collecting pyelftools==0.33 (from -r /home/user/atlas-household/voicepe/lock/requirements-esphome.txt (line 169))
+  Downloading pyelftools-0.33-py3-none-any.whl (201 kB)
+Collecting Pygments==2.21.0 (from -r /home/user/atlas-household/voicepe/lock/requirements-esphome.txt (line 172))
+  Downloading pygments-2.21.0-py3-none-any.whl (1.3 MB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 1.3/1.3 MB 693.1 kB/s  0:00:01
+Collecting pyparsing==3.3.3 (from -r /home/user/atlas-household/voicepe/lock/requirements-esphome.txt (line 175))
+  Downloading pyparsing-3.3.3-py3-none-any.whl (126 kB)
+Collecting pyppmd==1.3.1 (from -r /home/user/atlas-household/voicepe/lock/requirements-esphome.txt (line 178))
+  Downloading pyppmd-1.3.1-cp313-cp313-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (144 kB)
+Collecting pyserial==3.5 (from -r /home/user/atlas-household/voicepe/lock/requirements-esphome.txt (line 181))
+  Downloading pyserial-3.5-py2.py3-none-any.whl (90 kB)
+Collecting PyYAML==6.0.3 (from -r /home/user/atlas-household/voicepe/lock/requirements-esphome.txt (line 184))
+  Downloading pyyaml-6.0.3-cp313-cp313-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (801 kB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 801.6/801.6 kB 1.5 MB/s  0:00:00
+Collecting reedsolo==1.7.0 (from -r /home/user/atlas-household/voicepe/lock/requirements-esphome.txt (line 187))
+  Downloading reedsolo-1.7.0-py3-none-any.whl (32 kB)
+Collecting requests==2.34.2 (from -r /home/user/atlas-household/voicepe/lock/requirements-esphome.txt (line 190))
+  Downloading requests-2.34.2-py3-none-any.whl (73 kB)
+Collecting resvg_py==0.5.0 (from -r /home/user/atlas-household/voicepe/lock/requirements-esphome.txt (line 193))
+  Downloading resvg_py-0.5.0-cp310-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (1.4 MB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 1.4/1.4 MB 2.1 MB/s  0:00:00
+Collecting rich==15.0.0 (from -r /home/user/atlas-household/voicepe/lock/requirements-esphome.txt (line 196))
+  Downloading rich-15.0.0-py3-none-any.whl (310 kB)
+Collecting rich-click==1.9.9 (from -r /home/user/atlas-household/voicepe/lock/requirements-esphome.txt (line 199))
+  Downloading rich_click-1.9.9-py3-none-any.whl (71 kB)
+Collecting ruamel.yaml==0.19.1 (from -r /home/user/atlas-household/voicepe/lock/requirements-esphome.txt (line 202))
+  Downloading ruamel_yaml-0.19.1-py3-none-any.whl (118 kB)
+Collecting ruamel.yaml.clib==0.2.15 (from -r /home/user/atlas-household/voicepe/lock/requirements-esphome.txt (line 205))
+  Downloading ruamel_yaml_clib-0.2.15-cp313-cp313-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (782 kB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 782.1/782.1 kB 2.2 MB/s  0:00:00
+Collecting semantic-version==2.10.0 (from -r /home/user/atlas-household/voicepe/lock/requirements-esphome.txt (line 208))
+  Downloading semantic_version-2.10.0-py2.py3-none-any.whl (15 kB)
+Collecting smp==4.2.0 (from -r /home/user/atlas-household/voicepe/lock/requirements-esphome.txt (line 211))
+  Downloading smp-4.2.0-py3-none-any.whl (35 kB)
+Collecting smpclient==7.2.0 (from -r /home/user/atlas-household/voicepe/lock/requirements-esphome.txt (line 214))
+  Downloading smpclient-7.2.0-py3-none-any.whl (51 kB)
+Collecting starlette==0.52.1 (from -r /home/user/atlas-household/voicepe/lock/requirements-esphome.txt (line 217))
+  Downloading starlette-0.52.1-py3-none-any.whl (74 kB)
+Collecting tabulate==0.10.0 (from -r /home/user/atlas-household/voicepe/lock/requirements-esphome.txt (line 220))
+  Downloading tabulate-0.10.0-py3-none-any.whl (39 kB)
+Collecting texttable==1.7.2 (from -r /home/user/atlas-household/voicepe/lock/requirements-esphome.txt (line 223))
+  Downloading texttable-1.7.2-py2.py3-none-any.whl (10 kB)
+Collecting tibs==2.0.2 (from -r /home/user/atlas-household/voicepe/lock/requirements-esphome.txt (line 226))
+  Downloading tibs-2.0.2-cp311-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (1.2 MB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 1.2/1.2 MB 986.6 kB/s  0:00:01
+Collecting typing_extensions==4.16.0 (from -r /home/user/atlas-household/voicepe/lock/requirements-esphome.txt (line 229))
+  Downloading typing_extensions-4.16.0-py3-none-any.whl (45 kB)
+Collecting typing-inspection==0.4.4 (from -r /home/user/atlas-household/voicepe/lock/requirements-esphome.txt (line 232))
+  Downloading typing_inspection-0.4.4-py3-none-any.whl (14 kB)
+Collecting tzdata==2026.5 (from -r /home/user/atlas-household/voicepe/lock/requirements-esphome.txt (line 235))
+  Downloading tzdata-2026.5-py2.py3-none-any.whl (347 kB)
+Collecting tzlocal==5.4.4 (from -r /home/user/atlas-household/voicepe/lock/requirements-esphome.txt (line 238))
+  Downloading tzlocal-5.4.4-py3-none-any.whl (18 kB)
+Collecting urllib3==2.8.0 (from -r /home/user/atlas-household/voicepe/lock/requirements-esphome.txt (line 241))
+  Downloading urllib3-2.8.0-py3-none-any.whl (135 kB)
+Collecting uvicorn==0.40.0 (from -r /home/user/atlas-household/voicepe/lock/requirements-esphome.txt (line 244))
+  Downloading uvicorn-0.40.0-py3-none-any.whl (68 kB)
+Collecting voluptuous==0.16.0 (from -r /home/user/atlas-household/voicepe/lock/requirements-esphome.txt (line 247))
+  Downloading voluptuous-0.16.0-py3-none-any.whl (31 kB)
+Collecting wsproto==1.3.2 (from -r /home/user/atlas-household/voicepe/lock/requirements-esphome.txt (line 250))
+  Downloading wsproto-1.3.2-py3-none-any.whl (24 kB)
+Collecting zeroconf==0.151.2 (from -r /home/user/atlas-household/voicepe/lock/requirements-esphome.txt (line 253))
+  Downloading zeroconf-0.151.2-cp313-cp313-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (1.4 MB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 1.4/1.4 MB 850.3 kB/s  0:00:01
+Building wheels for collected packages: crcmod, esptool, paho-mqtt
+  Building wheel for crcmod (pyproject.toml): started
+  Building wheel for crcmod (pyproject.toml): finished with status 'done'
+  Created wheel for crcmod: filename=crcmod-1.7-cp313-cp313-linux_x86_64.whl size=31964 sha256=429d27b5a1eb69875e0e61fd50161766d46393984877d799777ea60ac4cd4335
+  Stored in directory: /tmp/pip-ephem-wheel-cache-joqrbgah/wheels/c5/b4/7d/51d3485a8022501c7f7dba78b6c945088ff93d40142c9a96f4
+  Building wheel for esptool (pyproject.toml): started
+  Building wheel for esptool (pyproject.toml): finished with status 'done'
+  Created wheel for esptool: filename=esptool-5.3.1-py3-none-any.whl size=614163 sha256=cd9d19cca1edc70b54aebfc7ff1e0f6eb56ced43df38b12f95edd46b02c83cf6
+  Stored in directory: /tmp/pip-ephem-wheel-cache-joqrbgah/wheels/b8/69/fc/4808425af290116540697e2f88119fecdc95728982fd3d3935
+  Building wheel for paho-mqtt (pyproject.toml): started
+  Building wheel for paho-mqtt (pyproject.toml): finished with status 'done'
+  Created wheel for paho-mqtt: filename=paho_mqtt-1.6.1-py3-none-any.whl size=62199 sha256=ae98d4feb1f7787b7d5df3993f56402e7a94311a50802f3418da390a05ed2d0c
+  Stored in directory: /tmp/pip-ephem-wheel-cache-joqrbgah/wheels/f9/58/b1/af83cc69fc3ea9dcfafeb61e26c7fa7bcfca4fdf276791c6dc
+Successfully built crcmod esptool paho-mqtt
+Installing collected packages: texttable, reedsolo, pyserial, paho-mqtt, intelhex, ifaddr, crcmod, brotli, bottle, zeroconf, wsproto, voluptuous, uvicorn, urllib3, tzlocal, tzdata, typing-inspection, typing_extensions, tibs, tabulate, starlette, smpclient, smp, semantic-version, ruamel.yaml.clib, ruamel.yaml, rich-click, rich, resvg_py, requests, PyYAML, pyppmd, pyparsing, Pygments, pyelftools, pydantic_core, pydantic, pycryptodomex, pycparser, pybcj, py7zr, puremagic, psutil, protobuf, platformio, platformdirs, pillow, packaging, noiseprotocol, ninja, multivolumefile, mdurl, marshmallow, MarkupSafe, markdown-it-py, Jinja2, inflate64, idna, h11, freetype-py, filelock, esptool, esphome-glyphsets, esphome, dbus-fast, cryptography, colorama, click, charset-normalizer, chacha20poly1305-reuseable, cffi, certifi, cbor2, bleak, bitstring, backports.zstd, async_interrupt, argcomplete, anyio, annotated-types, ajsonrpc, aiohappyeyeballs, aioesphomeapi
+
+Successfully installed Jinja2-3.1.6 MarkupSafe-3.0.4 PyYAML-6.0.3 Pygments-2.21.0 aioesphomeapi-46.3.0 aiohappyeyeballs-2.7.1 ajsonrpc-1.2.0 annotated-types-0.8.0 anyio-4.15.1 argcomplete-3.7.2 async_interrupt-1.2.2 backports.zstd-1.8.0 bitstring-5.0.0 bleak-3.0.2 bottle-0.13.4 brotli-1.2.0 cbor2-6.1.5 certifi-2026.10.19 cffi-2.1.1 chacha20poly1305-reuseable-0.13.2 charset-normalizer-3.5.2 click-8.3.3 colorama-0.4.6 crcmod-1.7 cryptography-50.0.1 dbus-fast-5.2.0 esphome-2026.9.1 esphome-glyphsets-0.2.0 esptool-5.3.1 filelock-3.32.4 freetype-py-2.5.1 h11-0.16.0 idna-3.20 ifaddr-0.2.0 inflate64-1.0.4 intelhex-2.3.0 markdown-it-py-4.2.0 marshmallow-3.26.2 mdurl-0.1.2 multivolumefile-0.2.3 ninja-1.13.0 noiseprotocol-0.3.1 packaging-26.3 paho-mqtt-1.6.1 pillow-12.3.0 platformdirs-4.11.5 platformio-6.1.19 protobuf-7.36.2 psutil-7.2.2 puremagic-2.2.0 py7zr-1.1.3 pybcj-1.0.8 pycparser-3.11 pycryptodomex-3.24.1 pydantic-2.14.1 pydantic_core-2.50.1 pyelftools-0.33 pyparsing-3.3.3 pyppmd-1.3.1 pyserial-3.5 reedsolo-1.7.0 requests-2.34.2 resvg_py-0.5.0 rich-15.0.0 rich-click-1.9.9 ruamel.yaml-0.19.1 ruamel.yaml.clib-0.2.15 semantic-version-2.10.0 smp-4.2.0 smpclient-7.2.0 starlette-0.52.1 tabulate-0.10.0 texttable-1.7.2 tibs-2.0.2 typing-inspection-0.4.4 typing_extensions-4.16.0 tzdata-2026.5 tzlocal-5.4.4 urllib3-2.8.0 uvicorn-0.40.0 voluptuous-0.16.0 wsproto-1.3.2 zeroconf-0.151.2
+Found existing installation: setuptools 84.2.1
+Uninstalling setuptools-84.2.1:
+  Successfully uninstalled setuptools-84.2.1
+/home/user/ww/build_090_A/work/esphome-venv/bin/python: 84 packages, matches the lock
+== ESP-IDF 5.5.5 Python env from lock/requirements-esp-idf.txt
+Collecting pip==26.2.1 (from -r /home/user/atlas-household/voicepe/lock/requirements-bootstrap.txt (line 7))
+  Downloading pip-26.2.1-py3-none-any.whl (1.8 MB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 1.8/1.8 MB 31.8 MB/s  0:00:00
+Collecting setuptools==84.2.1 (from -r /home/user/atlas-household/voicepe/lock/requirements-bootstrap.txt (line 10))
+  Downloading setuptools-84.2.1-py3-none-any.whl (876 kB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 876.3/876.3 kB 15.8 MB/s  0:00:00
+Installing collected packages: setuptools, pip
+  Attempting uninstall: pip
+    Found existing installation: pip 26.2.1
+    Uninstalling pip-26.2.1:
+      Successfully uninstalled pip-26.2.1
+
+Successfully installed pip-26.2.1 setuptools-84.2.1
+Collecting annotated-types==0.8.0 (from -r /home/user/atlas-household/voicepe/lock/requirements-esp-idf.txt (line 7))
+  Downloading annotated_types-0.8.0-py3-none-any.whl (13 kB)
+Collecting argcomplete==3.7.2 (from -r /home/user/atlas-household/voicepe/lock/requirements-esp-idf.txt (line 10))
+  Downloading argcomplete-3.7.2-py3-none-any.whl (43 kB)
+Collecting bitarray==3.12.3 (from -r /home/user/atlas-household/voicepe/lock/requirements-esp-idf.txt (line 13))
+  Downloading bitarray-3.12.3-cp313-cp313-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (402 kB)
+Collecting bitstring==4.4.0 (from -r /home/user/atlas-household/voicepe/lock/requirements-esp-idf.txt (line 16))
+  Downloading bitstring-4.4.0-py3-none-any.whl (76 kB)
+Collecting certifi==2026.10.19 (from -r /home/user/atlas-household/voicepe/lock/requirements-esp-idf.txt (line 19))
+  Downloading certifi-2026.10.19-py3-none-any.whl (136 kB)
+Collecting cffi==2.1.1 (from -r /home/user/atlas-household/voicepe/lock/requirements-esp-idf.txt (line 22))
+  Downloading cffi-2.1.1-cp313-cp313-manylinux2014_x86_64.manylinux_2_17_x86_64.whl (221 kB)
+Collecting charset-normalizer==3.5.2 (from -r /home/user/atlas-household/voicepe/lock/requirements-esp-idf.txt (line 25))
+  Downloading charset_normalizer-3.5.2-cp313-cp313-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (254 kB)
+Collecting click==8.1.8 (from -r /home/user/atlas-household/voicepe/lock/requirements-esp-idf.txt (line 28))
+  Downloading click-8.1.8-py3-none-any.whl (98 kB)
+Collecting colorama==0.4.6 (from -r /home/user/atlas-household/voicepe/lock/requirements-esp-idf.txt (line 31))
+  Downloading colorama-0.4.6-py2.py3-none-any.whl (25 kB)
+Collecting construct==2.10.70 (from -r /home/user/atlas-household/voicepe/lock/requirements-esp-idf.txt (line 34))
+  Downloading construct-2.10.70-py3-none-any.whl (63 kB)
+Collecting cryptography==44.0.3 (from -r /home/user/atlas-household/voicepe/lock/requirements-esp-idf.txt (line 37))
+  Downloading cryptography-44.0.3-cp39-abi3-manylinux_2_34_x86_64.whl (4.2 MB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 4.2/4.2 MB 1.4 MB/s  0:00:03
+Collecting ecdsa==0.19.2 (from -r /home/user/atlas-household/voicepe/lock/requirements-esp-idf.txt (line 40))
+  Downloading ecdsa-0.19.2-py2.py3-none-any.whl (150 kB)
+Collecting esp-coredump==1.17.2 (from -r /home/user/atlas-household/voicepe/lock/requirements-esp-idf.txt (line 43))
+  Downloading esp_coredump-1.17.2-py3-none-any.whl (42 kB)
+Collecting esp-idf-diag==0.2.0 (from -r /home/user/atlas-household/voicepe/lock/requirements-esp-idf.txt (line 46))
+  Downloading esp_idf_diag-0.2.0-py3-none-any.whl (23 kB)
+Collecting esp-idf-kconfig==2.5.4 (from -r /home/user/atlas-household/voicepe/lock/requirements-esp-idf.txt (line 49))
+  Downloading esp_idf_kconfig-2.5.4-py3-none-any.whl (146 kB)
+Collecting esp-idf-monitor==1.10.0 (from -r /home/user/atlas-household/voicepe/lock/requirements-esp-idf.txt (line 52))
+  Downloading esp_idf_monitor-1.10.0-py3-none-any.whl (73 kB)
+Collecting esp_idf_nvs_partition_gen==0.1.9 (from -r /home/user/atlas-household/voicepe/lock/requirements-esp-idf.txt (line 55))
+  Downloading esp_idf_nvs_partition_gen-0.1.9-py3-none-any.whl (22 kB)
+Collecting esp_idf_panic_decoder==1.5.0 (from -r /home/user/atlas-household/voicepe/lock/requirements-esp-idf.txt (line 58))
+  Downloading esp_idf_panic_decoder-1.5.0-py3-none-any.whl (21 kB)
+Collecting esp-idf-size==1.7.1 (from -r /home/user/atlas-household/voicepe/lock/requirements-esp-idf.txt (line 61))
+  Downloading esp_idf_size-1.7.1-py3-none-any.whl (82 kB)
+Collecting esp-pylib==1.2.0 (from -r /home/user/atlas-household/voicepe/lock/requirements-esp-idf.txt (line 64))
+  Downloading esp_pylib-1.2.0-py3-none-any.whl (59 kB)
+Collecting esptool==4.12.0 (from -r /home/user/atlas-household/voicepe/lock/requirements-esp-idf.txt (line 67))
+  Downloading esptool-4.12.0.tar.gz (463 kB)
+  Preparing metadata (pyproject.toml): started
+  Preparing metadata (pyproject.toml): finished with status 'done'
+Collecting freertos-gdb==1.0.4 (from -r /home/user/atlas-household/voicepe/lock/requirements-esp-idf.txt (line 70))
+  Downloading freertos_gdb-1.0.4-py3-none-any.whl (14 kB)
+Collecting idf-component-manager==2.5.2 (from -r /home/user/atlas-household/voicepe/lock/requirements-esp-idf.txt (line 73))
+  Downloading idf_component_manager-2.5.2-py3-none-any.whl (184 kB)
+Collecting idna==3.20 (from -r /home/user/atlas-household/voicepe/lock/requirements-esp-idf.txt (line 76))
+  Downloading idna-3.20-py3-none-any.whl (69 kB)
+Collecting intelhex==2.3.0 (from -r /home/user/atlas-household/voicepe/lock/requirements-esp-idf.txt (line 79))
+  Downloading intelhex-2.3.0-py2.py3-none-any.whl (50 kB)
+Collecting jsonref==1.1.0 (from -r /home/user/atlas-household/voicepe/lock/requirements-esp-idf.txt (line 82))
+  Downloading jsonref-1.1.0-py3-none-any.whl (9.4 kB)
+Collecting markdown-it-py==4.2.0 (from -r /home/user/atlas-household/voicepe/lock/requirements-esp-idf.txt (line 85))
+  Downloading markdown_it_py-4.2.0-py3-none-any.whl (91 kB)
+Collecting mdurl==0.1.2 (from -r /home/user/atlas-household/voicepe/lock/requirements-esp-idf.txt (line 88))
+  Downloading mdurl-0.1.2-py3-none-any.whl (10.0 kB)
+Collecting packaging==26.3 (from -r /home/user/atlas-household/voicepe/lock/requirements-esp-idf.txt (line 91))
+  Downloading packaging-26.3-py3-none-any.whl (129 kB)
+Collecting pathvalidate==3.3.1 (from -r /home/user/atlas-household/voicepe/lock/requirements-esp-idf.txt (line 94))
+  Downloading pathvalidate-3.3.1-py3-none-any.whl (24 kB)
+Collecting psutil==7.2.2 (from -r /home/user/atlas-household/voicepe/lock/requirements-esp-idf.txt (line 97))
+  Downloading psutil-7.2.2-cp36-abi3-manylinux2010_x86_64.manylinux_2_12_x86_64.manylinux_2_28_x86_64.whl (155 kB)
+Collecting pyclang==0.7.0 (from -r /home/user/atlas-household/voicepe/lock/requirements-esp-idf.txt (line 100))
+  Downloading pyclang-0.7.0-py3-none-any.whl (13 kB)
+Collecting pycparser==3.11 (from -r /home/user/atlas-household/voicepe/lock/requirements-esp-idf.txt (line 103))
+  Downloading pycparser-3.11-py3-none-any.whl (51 kB)
+Collecting pydantic==2.14.1 (from -r /home/user/atlas-household/voicepe/lock/requirements-esp-idf.txt (line 106))
+  Downloading pydantic-2.14.1-py3-none-any.whl (488 kB)
+Collecting pydantic_core==2.50.1 (from -r /home/user/atlas-household/voicepe/lock/requirements-esp-idf.txt (line 109))
+  Downloading pydantic_core-2.50.1-cp313-cp313-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (2.2 MB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 2.2/2.2 MB 1.4 MB/s  0:00:01
+Collecting pydantic-settings==2.16.1 (from -r /home/user/atlas-household/voicepe/lock/requirements-esp-idf.txt (line 112))
+  Downloading pydantic_settings-2.16.1-py3-none-any.whl (80 kB)
+Collecting pyelftools==0.33 (from -r /home/user/atlas-household/voicepe/lock/requirements-esp-idf.txt (line 115))
+  Downloading pyelftools-0.33-py3-none-any.whl (201 kB)
+Collecting pygdbmi==0.11.0.0 (from -r /home/user/atlas-household/voicepe/lock/requirements-esp-idf.txt (line 118))
+  Downloading pygdbmi-0.11.0.0-py3-none-any.whl (21 kB)
+Collecting Pygments==2.21.0 (from -r /home/user/atlas-household/voicepe/lock/requirements-esp-idf.txt (line 121))
+  Downloading pygments-2.21.0-py3-none-any.whl (1.3 MB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 1.3/1.3 MB 3.0 MB/s  0:00:00
+Collecting pyparsing==3.2.5 (from -r /home/user/atlas-household/voicepe/lock/requirements-esp-idf.txt (line 124))
+  Downloading pyparsing-3.2.5-py3-none-any.whl (113 kB)
+Collecting pyserial==3.5 (from -r /home/user/atlas-household/voicepe/lock/requirements-esp-idf.txt (line 127))
+  Downloading pyserial-3.5-py2.py3-none-any.whl (90 kB)
+Collecting python-dotenv==1.2.4 (from -r /home/user/atlas-household/voicepe/lock/requirements-esp-idf.txt (line 130))
+  Downloading python_dotenv-1.2.4-py3-none-any.whl (23 kB)
+Collecting PyYAML==6.0.3 (from -r /home/user/atlas-household/voicepe/lock/requirements-esp-idf.txt (line 133))
+  Downloading pyyaml-6.0.3-cp313-cp313-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (801 kB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 801.6/801.6 kB 1.4 MB/s  0:00:00
+Collecting reedsolo==1.7.0 (from -r /home/user/atlas-household/voicepe/lock/requirements-esp-idf.txt (line 136))
+  Downloading reedsolo-1.7.0-py3-none-any.whl (32 kB)
+Collecting requests==2.34.2 (from -r /home/user/atlas-household/voicepe/lock/requirements-esp-idf.txt (line 139))
+  Downloading requests-2.34.2-py3-none-any.whl (73 kB)
+Collecting requests-file==3.0.1 (from -r /home/user/atlas-household/voicepe/lock/requirements-esp-idf.txt (line 142))
+  Downloading requests_file-3.0.1-py2.py3-none-any.whl (4.5 kB)
+Collecting requests-toolbelt==1.0.0 (from -r /home/user/atlas-household/voicepe/lock/requirements-esp-idf.txt (line 145))
+  Downloading requests_toolbelt-1.0.0-py2.py3-none-any.whl (54 kB)
+Collecting rich==15.0.0 (from -r /home/user/atlas-household/voicepe/lock/requirements-esp-idf.txt (line 148))
+  Downloading rich-15.0.0-py3-none-any.whl (310 kB)
+Collecting rich-click==1.9.9 (from -r /home/user/atlas-household/voicepe/lock/requirements-esp-idf.txt (line 151))
+  Downloading rich_click-1.9.9-py3-none-any.whl (71 kB)
+Collecting ruamel.yaml==0.19.1 (from -r /home/user/atlas-household/voicepe/lock/requirements-esp-idf.txt (line 154))
+  Downloading ruamel_yaml-0.19.1-py3-none-any.whl (118 kB)
+Requirement already satisfied: setuptools==84.2.1 in /home/user/ww/build_090_A/work/cache/esphome/idf/penvs/5.5.5/lib/python3.13/site-packages (from -r /home/user/atlas-household/voicepe/lock/requirements-esp-idf.txt (line 157)) (84.2.1)
+Collecting six==1.17.0 (from -r /home/user/atlas-household/voicepe/lock/requirements-esp-idf.txt (line 160))
+  Downloading six-1.17.0-py2.py3-none-any.whl (11 kB)
+Collecting tibs==0.5.7 (from -r /home/user/atlas-household/voicepe/lock/requirements-esp-idf.txt (line 163))
+  Downloading tibs-0.5.7-cp38-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (423 kB)
+Collecting tqdm==4.70.1 (from -r /home/user/atlas-household/voicepe/lock/requirements-esp-idf.txt (line 166))
+  Downloading tqdm-4.70.1-py3-none-any.whl (80 kB)
+Collecting tree-sitter==0.26.0 (from -r /home/user/atlas-household/voicepe/lock/requirements-esp-idf.txt (line 169))
+  Downloading tree_sitter-0.26.0-cp313-cp313-manylinux2014_x86_64.manylinux_2_17_x86_64.manylinux_2_28_x86_64.whl (668 kB)
+     ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━ 668.1/668.1 kB 105.5 kB/s  0:00:06
+Collecting tree-sitter-c==0.24.2 (from -r /home/user/atlas-household/voicepe/lock/requirements-esp-idf.txt (line 172))
+  Downloading tree_sitter_c-0.24.2-cp310-abi3-manylinux1_x86_64.manylinux_2_28_x86_64.manylinux_2_5_x86_64.whl (94 kB)
+Collecting truststore==0.10.5 (from -r /home/user/atlas-household/voicepe/lock/requirements-esp-idf.txt (line 175))
+  Downloading truststore-0.10.5-py3-none-any.whl (19 kB)
+Collecting typing_extensions==4.16.0 (from -r /home/user/atlas-household/voicepe/lock/requirements-esp-idf.txt (line 178))
+  Downloading typing_extensions-4.16.0-py3-none-any.whl (45 kB)
+Collecting typing-inspection==0.4.4 (from -r /home/user/atlas-household/voicepe/lock/requirements-esp-idf.txt (line 181))
+  Downloading typing_inspection-0.4.4-py3-none-any.whl (14 kB)
+Collecting urllib3==1.26.20 (from -r /home/user/atlas-household/voicepe/lock/requirements-esp-idf.txt (line 184))
+  Downloading urllib3-1.26.20-py2.py3-none-any.whl (144 kB)
+Building wheels for collected packages: esptool
+  Building wheel for esptool (pyproject.toml): started
+  Building wheel for esptool (pyproject.toml): finished with status 'done'
+  Created wheel for esptool: filename=esptool-4.12.0-py3-none-any.whl size=616538 sha256=cb0fffdc7a39371856efe71582db8fae42903e0c7761b192f97f54cca5602c0e
+  Stored in directory: /tmp/pip-ephem-wheel-cache-3rp02szx/wheels/c7/e3/f1/e1301379bcb023fd2f4e6b05951a28fbf328b5194e9511cdc9
+Successfully built esptool
+Installing collected packages: requests-file, reedsolo, pyserial, pygdbmi, intelhex, urllib3, typing-inspection, typing_extensions, truststore, tree-sitter-c, tree-sitter, tqdm, tibs, six, ruamel.yaml, rich-click, rich, requests-toolbelt, requests, PyYAML, python-dotenv, pyparsing, Pygments, pyelftools, pydantic-settings, pydantic_core, pydantic, pycparser, pyclang, psutil, pathvalidate, packaging, mdurl, markdown-it-py, jsonref, idna, idf-component-manager, freertos-gdb, esptool, esp-pylib, esp-idf-size, esp_idf_panic_decoder, esp_idf_nvs_partition_gen, esp-idf-monitor, esp-idf-kconfig, esp-idf-diag, esp-coredump, ecdsa, cryptography, construct, colorama, click, charset-normalizer, cffi, certifi, bitstring, bitarray, argcomplete, annotated-types
+
+Successfully installed PyYAML-6.0.3 Pygments-2.21.0 annotated-types-0.8.0 argcomplete-3.7.2 bitarray-3.12.3 bitstring-4.4.0 certifi-2026.10.19 cffi-2.1.1 charset-normalizer-3.5.2 click-8.1.8 colorama-0.4.6 construct-2.10.70 cryptography-44.0.3 ecdsa-0.19.2 esp-coredump-1.17.2 esp-idf-diag-0.2.0 esp-idf-kconfig-2.5.4 esp-idf-monitor-1.10.0 esp-idf-size-1.7.1 esp-pylib-1.2.0 esp_idf_nvs_partition_gen-0.1.9 esp_idf_panic_decoder-1.5.0 esptool-4.12.0 freertos-gdb-1.0.4 idf-component-manager-2.5.2 idna-3.20 intelhex-2.3.0 jsonref-1.1.0 markdown-it-py-4.2.0 mdurl-0.1.2 packaging-26.3 pathvalidate-3.3.1 psutil-7.2.2 pyclang-0.7.0 pycparser-3.11 pydantic-2.14.1 pydantic-settings-2.16.1 pydantic_core-2.50.1 pyelftools-0.33 pygdbmi-0.11.0.0 pyparsing-3.2.5 pyserial-3.5 python-dotenv-1.2.4 reedsolo-1.7.0 requests-2.34.2 requests-file-3.0.1 requests-toolbelt-1.0.0 rich-15.0.0 rich-click-1.9.9 ruamel.yaml-0.19.1 six-1.17.0 tibs-0.5.7 tqdm-4.70.1 tree-sitter-0.26.0 tree-sitter-c-0.24.2 truststore-0.10.5 typing-inspection-0.4.4 typing_extensions-4.16.0 urllib3-1.26.20
+/home/user/ww/build_090_A/work/cache/esphome/idf/penvs/5.5.5/bin/python: 61 packages, matches the lock
+== vendored inputs and constraints against the lock
+ok    model voicepe/models/stock/okay_nabu_20241226.3/okay_nabu.json sha256 f8026e2ce93a
+ok    model voicepe/models/stock/okay_nabu_20241226.3/okay_nabu.tflite sha256 d89128c4d16a
+ok    model voicepe/models/stock/stop/stop.json sha256 bd13aeb1b838
+ok    model voicepe/models/stock/stop/stop.tflite sha256 b5a18c4ad681
+ok    model voicepe/models/stock/micro-wake-word-models/hey_jarvis.json sha256 b153867d8186
+ok    model voicepe/models/stock/micro-wake-word-models/hey_jarvis.tflite sha256 21a7976add39
+ok    model voicepe/models/stock/micro-wake-word-models/hey_mycroft.json sha256 57b2b06fe5fd
+ok    model voicepe/models/stock/micro-wake-word-models/hey_mycroft.tflite sha256 c2a9b6ed5118
+ok    model voicepe/models/stock/micro-wake-word-models/vad.json sha256 bd8c9cd43508
+ok    model voicepe/models/stock/micro-wake-word-models/vad.tflite sha256 7aa4db6d5fb7
+ok    model voicepe/models/hey_atlas/hey_atlas.json sha256 054461040b0f
+ok    model voicepe/models/hey_atlas/hey_atlas.tflite sha256 2bb30e62dd38
+ok    base YAML voicepe/base/home-assistant-voice.yaml sha256 7da2f2d13ad5
+ok    vendored constraints voicepe/lock/espidf.constraints.v5.5.txt sha256 6b53b3657a92
+ok    lock python_environments.bootstrap equals voicepe/lock/requirements-bootstrap.txt (2 hashed artifacts)
+ok    lock python_environments.esphome equals voicepe/lock/requirements-esphome.txt (83 hashed artifacts)
+ok    lock python_environments.esp_idf equals voicepe/lock/requirements-esp-idf.txt (60 hashed artifacts)
+ok    fetch_allowlist has the same 23 artifacts and hashes as the lock sections
+ok    ESP-IDF pins satisfy the vendored constraints (16 constrained packages checked)
+== config
+INFO ESPHome 2026.9.1
+INFO Reading configuration hey-atlas-voice-pe.yaml...
+INFO Cloning https://github.com/esphome/home-assistant-voice-pe@2644f4c794271d735d182ca7ebf899ed46164f4e
+INFO Fetching 2644f4c794271d735d182ca7ebf899ed46164f4e
+WARNING register_action('voice_kit.flash', ...) is missing the synchronous= parameter. Defaulting to synchronous=False (safe but prevents StringRef optimization). Check the C++ class: use synchronous=False if play_next_() is deferred to a callback, timer, or loop(); use synchronous=True if play_next_() always runs before the initial play/play_complex call returns
+WARNING GPIO0 is a strapping PIN and should only be used for I/O with care.
+Attaching external pullup/down resistors to strapping pins can cause unexpected failures.
+See https://esphome.io/guides/faq/#why-am-i-getting-a-warning-about-strapping-pins
+WARNING GPIO3 is a strapping PIN and should only be used for I/O with care.
+Attaching external pullup/down resistors to strapping pins can cause unexpected failures.
+See https://esphome.io/guides/faq/#why-am-i-getting-a-warning-about-strapping-pins
+WARNING [esp32_rmt_led_strip] 'rgb_order' is deprecated, use 'channel_colors: GRB'. Will be removed in 2027.3.0
+WARNING GPIO45 is a strapping PIN and should only be used for I/O with care.
+Attaching external pullup/down resistors to strapping pins can cause unexpected failures.
+See https://esphome.io/guides/faq/#why-am-i-getting-a-warning-about-strapping-pins
+INFO Checking 16 remote file(s) for updates
+INFO Downloading https://raw.githubusercontent.com/esphome/home-assistant-voice-pe/2644f4c794271d735d182ca7ebf899ed46164f4e/sounds/center_button_press.flac
+INFO Downloading https://raw.githubusercontent.com/esphome/home-assistant-voice-pe/2644f4c794271d735d182ca7ebf899ed46164f4e/sounds/center_button_double_press.flac
+INFO Downloading https://raw.githubusercontent.com/esphome/home-assistant-voice-pe/2644f4c794271d735d182ca7ebf899ed46164f4e/sounds/center_button_triple_press.flac
+INFO Downloading https://raw.githubusercontent.com/esphome/home-assistant-voice-pe/2644f4c794271d735d182ca7ebf899ed46164f4e/sounds/center_button_long_press.flac
+INFO Downloading https://raw.githubusercontent.com/esphome/home-assistant-voice-pe/2644f4c794271d735d182ca7ebf899ed46164f4e/sounds/factory_reset_initiated.mp3
+INFO Downloading https://raw.githubusercontent.com/esphome/home-assistant-voice-pe/2644f4c794271d735d182ca7ebf899ed46164f4e/sounds/factory_reset_cancelled.mp3
+INFO Downloading https://raw.githubusercontent.com/esphome/home-assistant-voice-pe/2644f4c794271d735d182ca7ebf899ed46164f4e/sounds/factory_reset_confirmed.mp3
+INFO Downloading https://raw.githubusercontent.com/esphome/home-assistant-voice-pe/2644f4c794271d735d182ca7ebf899ed46164f4e/sounds/jack_connected.flac
+INFO Downloading https://raw.githubusercontent.com/esphome/home-assistant-voice-pe/2644f4c794271d735d182ca7ebf899ed46164f4e/sounds/jack_disconnected.flac
+INFO Downloading https://raw.githubusercontent.com/esphome/home-assistant-voice-pe/2644f4c794271d735d182ca7ebf899ed46164f4e/sounds/mute_switch_on.flac
+INFO Downloading https://raw.githubusercontent.com/esphome/home-assistant-voice-pe/2644f4c794271d735d182ca7ebf899ed46164f4e/sounds/mute_switch_off.flac
+INFO Downloading https://raw.githubusercontent.com/esphome/home-assistant-voice-pe/2644f4c794271d735d182ca7ebf899ed46164f4e/sounds/timer_finished.flac
+INFO Downloading https://raw.githubusercontent.com/esphome/home-assistant-voice-pe/2644f4c794271d735d182ca7ebf899ed46164f4e/sounds/wake_word_triggered.flac
+INFO Downloading https://raw.githubusercontent.com/esphome/home-assistant-voice-pe/2644f4c794271d735d182ca7ebf899ed46164f4e/sounds/easter_egg_tick.mp3
+INFO Downloading https://raw.githubusercontent.com/esphome/home-assistant-voice-pe/2644f4c794271d735d182ca7ebf899ed46164f4e/sounds/easter_egg_tada.mp3
+INFO Downloading https://raw.githubusercontent.com/esphome/home-assistant-voice-pe/2644f4c794271d735d182ca7ebf899ed46164f4e/sounds/error_cloud_expired.mp3
+INFO Downloading https://github.com/esphome/voice-kit-xmos-firmware/releases/download/v1.3.1/ffva_v1.3.1_upgrade.bin
+INFO Configuration is valid!
+ok    one external component checkout (['12dc570b'])
+ok    external component from https://github.com/esphome/home-assistant-voice-pe
+ok    external component at commit 2644f4c79427
+ok    voice_kit tree b6b682836fa4
+ok    external component checkout has no local change
+== compile
+== built inputs against the lock
+ok    dependencies.lock bblanchon/arduinojson 7.4.3 as locked
+ok    dependencies.lock esphome/esp-audio-libs 3.2.1 as locked
+ok    dependencies.lock esphome/esp-micro-speech-features 1.2.3 as locked
+ok    dependencies.lock esphome/libsodium * as locked
+ok    dependencies.lock esphome/micro-decoder 0.4.0 as locked
+ok    dependencies.lock esphome/micro-flac 0.2.0 as locked
+ok    dependencies.lock esphome/micro-mp3 0.4.0 as locked
+ok    dependencies.lock esphome/micro-opus 0.4.1 as locked
+ok    dependencies.lock esphome/noise-c * as locked
+ok    dependencies.lock espressif/esp-nn 1.1.2 as locked
+ok    dependencies.lock espressif/esp-tflite-micro 1.3.3~1 as locked
+ok    dependencies.lock espressif/esp_websocket_client 1.8.0 as locked
+ok    dependencies.lock espressif/mdns 1.12.0 as locked
+ok    dependencies.lock idf 5.5.5 as locked
+ok    dependencies.lock improv/Improv * as locked
+ok    dependencies.lock sendspin/sendspin-cpp 0.7.2 as locked
+ok    managed_components holds exactly the 12 locked registry components
+ok    bblanchon/arduinojson files hash to the locked 5e6aff2bc5bc (match)
+ok    esphome/esp-audio-libs files hash to the locked 7e554555cce1 (match)
+ok    esphome/esp-micro-speech-features files hash to the locked 2b720b4ed49f (match)
+ok    esphome/micro-decoder files hash to the locked 003c9bc4b235 (match)
+ok    esphome/micro-flac files hash to the locked d2e75ea77eaa (match)
+ok    esphome/micro-mp3 files hash to the locked 51106d6a6ef1 (match)
+ok    esphome/micro-opus files hash to the locked c4cec51b6e45 (match)
+ok    espressif/esp-nn files hash to the locked f4633a02f05f (match)
+ok    espressif/esp-tflite-micro files hash to the locked 78502e833b22 (match)
+ok    espressif/esp_websocket_client files hash to the locked dc00233af846 (match)
+ok    espressif/mdns files hash to the locked 3ba256ac95e0 (match)
+ok    sendspin/sendspin-cpp files hash to the locked 79310684d51a (match)
+ok    tools.json xtensa-esp-elf esp-14.2.0_20260121 as locked
+ok    tools.json esp-rom-elfs 20241011 as locked
+ok    installed IDF tools ['esp-rom-elfs', 'xtensa-esp-elf']
+ok    fetch log: 84 entries, 40 files hashed, no violation
+note  lock artifacts not fetched by this build: none
+/home/user/ww/build_090_A/work/esphome-venv/bin/python: 84 packages, matches the lock
+/home/user/ww/build_090_A/work/cache/esphome/idf/penvs/5.5.5/bin/python: 61 packages, matches the lock
+a67397f3f5c770ad37429449802d2b5442f67740f17cea642aed81bc7271238d  atlas-voicepe-hey-atlas-26.9.0-atlas.2-c090.FACTORY-usb-offset-0x0.bin
+4017abae77e20d94859a099c8fbe4739e9fbf61ede570e47ef92e95fb56851c0  atlas-voicepe-hey-atlas-26.9.0-atlas.2-c090.OTA-app-only.bin
+3322224 atlas-voicepe-hey-atlas-26.9.0-atlas.2-c090.FACTORY-usb-offset-0x0.bin
+3256688 atlas-voicepe-hey-atlas-26.9.0-atlas.2-c090.OTA-app-only.bin

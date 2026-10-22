@@ -1,6 +1,6 @@
 # Status: Hey Atlas v2 and 26.9.0-atlas.2 (branch voicepe-hey-atlas-v2)
 
-Updated 2026-10-22 (UTC). No access to the house; nothing is flashed.
+Updated 2026-10-22 16:30 UTC. **All stages done.** No access to the house; nothing is flashed. Verdict and steps: `voicepe/README.md`; training and evaluation: `wakeword/v2/TRAINING.md`.
 
 | Stage | State |
 | --- | --- |
@@ -9,7 +9,7 @@ Updated 2026-10-22 (UTC). No access to the house; nothing is flashed.
 | 2. v2 data (accented, far-field, hard negatives) | **done**: 38,000 training positives (LibriTTS-R 20,000; Piper VCTK 9,000 incl. Australian p374 and NZ p335; Kokoro 4,000; Piper ARU 3,000; Piper alba and northern-English 2,000), 21,500 hard negatives (2,050 'Atlas' mid-sentence sentences, hi/pay Atlas, hey Alice/Alex, at last, v1's confusables), 100 simulated living rooms (2-5 m talker, TV/music/kitchen/babble scenes from MUSAN CC BY 4.0 and synthetic sources), new far-field accented validation/test sets (1,850 positives each, held-out voices incl. Australian p326), 2 h simulated-TV ambient streams for validation and test |
 | 3. v2 training (one run) and validation-only choice | **done: v2 is worse than v1.** Kept run: 40,000 steps, 83 min; validation-only choice checkpoint 24000, W=5, cut-off 0.95: 61.8% / 29.9% validation recall (v1 set / far-field) against v1's 91.1% / 31.7%. A first attempt was aborted at step 14,000 (window inside the frontend's start-up transient; `wakeword/v2/TRAINING.md`) |
 | 4. v1 against v2 tables, cut-off recommendation | **done**: `wakeword/v2/TRAINING.md`. Recommendation: **v1 at cut-off 0.85** (test recall 90.1% -> 93.6% near-field, 27% -> 32% far-field; dinner-party false accepts 1 -> 5 in 15 h, TV 0 in 4 h) |
-| 5. Images 26.9.0-atlas.2 (two clean builds each), config diff, 84 checks | **running**: build A of 26.9.0-atlas.2 (v1 model, cut-off 0.85) compiling on the enforced lock; config checks 84/84 passed in build A |
+| 5. Images 26.9.0-atlas.2 (two clean builds each), config diff, 84 checks | **done**: `voicepe/images/atlas-voicepe-hey-atlas-26.9.0-atlas.2.FACTORY-usb-offset-0x0.bin` (3,322,192 B, SHA-256 `73b876824c06ba32eea82e4c7e142641247ef84cf745923eb5548bb6aebf4fe2`), v1 model at cut-off 0.85. Two clean lock-enforced builds (working tree; fresh clone at `1971793`) give identical SHA-256s. Merged config differs from atlas.1 only in the version line; 84/84 checks; self-test 9/9. App image differs from atlas.1 in 73 bytes (cut-off byte 237->216, version, config hash, checksums). Fallback `26.9.0-atlas.2-c090` (cut-off 0.90, `a67397f3…238d`) built twice from `5ef499d`, identical too. Flash route unchanged (factory image at 0x0, no erase). Nothing flashed |
 
 ---
 

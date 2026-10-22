@@ -1,0 +1,10 @@
+FAIL  unmodified merged config passes
+PASS  check fails when: stock HTTP update channel added
+PASS  check fails when: HTTP OTA platform added
+PASS  check fails when: hey_atlas listed twice
+PASS  check fails when: stock okay_nabu dropped
+PASS  check fails when: second Assist start in the wake handler
+PASS  check fails when: voice_kit back on dev
+PASS  check fails when: sound back on dev
+PASS  check fails when: API key in the image
+PASS  check fails when: mute gate removed

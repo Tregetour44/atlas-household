@@ -53,8 +53,8 @@ for _m in ("hey_jarvis", "hey_mycroft", "vad"):
         MODEL_SOURCES[f"models/stock/micro-wake-word-models/{_m}.{_ext}"] = (
             f"https://raw.githubusercontent.com/esphome/micro-wake-word-models/{MWW_MODELS_SHA}/models/v2/{_m}.{_ext}"
         )
-MODEL_SOURCES["models/hey_atlas/hey_atlas.json"] = "git: Tregetour44/atlas-household branch wakeword-hey-atlas (commit fde53232dd583cfc64c727adfd40a2c0e679e511) with probability_cutoff 0.93 -> 0.90 (branch voicepe-hey-atlas-v2), hey_atlas.json"
-MODEL_SOURCES["models/hey_atlas/hey_atlas.tflite"] = "git: Tregetour44/atlas-household branch wakeword-hey-atlas (commit fde53232dd583cfc64c727adfd40a2c0e679e511) with probability_cutoff 0.93 -> 0.90 (branch voicepe-hey-atlas-v2), hey_atlas.tflite"
+MODEL_SOURCES["models/hey_atlas/hey_atlas.json"] = "git: Tregetour44/atlas-household branch wakeword-hey-atlas (commit fde53232dd583cfc64c727adfd40a2c0e679e511) with probability_cutoff 0.93 -> 0.85 (branch voicepe-hey-atlas-v2), hey_atlas.json"
+MODEL_SOURCES["models/hey_atlas/hey_atlas.tflite"] = "git: Tregetour44/atlas-household branch wakeword-hey-atlas (commit fde53232dd583cfc64c727adfd40a2c0e679e511) with probability_cutoff 0.93 -> 0.85 (branch voicepe-hey-atlas-v2), hey_atlas.tflite"
 
 
 def sha256_bytes(data: bytes) -> str:
