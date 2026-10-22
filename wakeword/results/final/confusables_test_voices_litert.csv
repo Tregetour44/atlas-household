@@ -1,0 +1,133 @@
+text,n,accepts,rate,template_split
+hi Atlas,16,13,0.812,probe-only
+pay Atlas,32,22,0.688,train
+an atlas,16,7,0.438,train
+say Atlas,16,6,0.375,validation
+they atlas,16,6,0.375,train
+"they, Atlas",32,12,0.375,train
+the atlas,20,7,0.35,train
+day Atlas,32,11,0.344,train
+"hey, at last",16,5,0.312,probe-only
+hey Ellis,16,4,0.25,train
+home at last,16,4,0.25,validation
+and at last,16,3,0.188,train
+free at last,16,3,0.188,test
+hey Atlantis,16,3,0.188,train
+hey Atticus,16,3,0.188,train
+hey at last,16,3,0.188,probe-only
+hey at least,32,5,0.156,train
+may Atlas,32,5,0.156,train
+play Atlas,32,5,0.156,train
+Atlas?,16,2,0.125,train
+an old atlas of Europe,16,2,0.125,test
+my atlas,16,2,0.125,train
+hey Atlassian,32,3,0.094,validation
+"okay, Atlas",32,3,0.094,test
+a road atlas,16,1,0.062,train
+hey Alex,16,1,0.062,train
+hey Alexa,16,1,0.062,train
+hey Alice!,16,1,0.062,train
+"hey, Jarvis",16,1,0.062,train
+relay Atlas,32,2,0.062,train
+that last,16,1,0.062,train
+the Atlas five rocket,16,1,0.062,validation
+they had less,16,1,0.062,probe-only
+"stay, Atlas",32,1,0.031,train
+Atlas,16,0,0.0,validation
+Atlas V lifted off,16,0,0.0,train
+Atlas was a titan,16,0,0.0,train
+Atlas.,16,0,0.0,train
+Atlassian,16,0,0.0,validation
+Dallas,16,0,0.0,train
+I bought an atlas,16,0,0.0,train
+I'll ask Atlas tomorrow,16,0,0.0,train
+a cutlass,16,0,0.0,train
+a tassel,16,0,0.0,train
+add less,16,0,0.0,train
+an Atlas rocket launch,16,0,0.0,train
+ask Atlas,16,0,0.0,train
+ask Atlas about it,16,0,0.0,validation
+ask Atlas tomorrow,16,0,0.0,train
+at last,16,0,0.0,train
+at last it's here,16,0,0.0,train
+at last we're done,16,0,0.0,train
+at last!,16,0,0.0,train
+at least,16,0,0.0,train
+at long last,16,0,0.0,train
+atlases,16,0,0.0,train
+battle us,16,0,0.0,train
+check the atlas,16,0,0.0,train
+eight lasses,16,0,0.0,train
+grey atlas,32,0,0.0,train
+hat lace,16,0,0.0,train
+hate less,16,0,0.0,train
+haystack,16,0,0.0,train
+hey,16,0,0.0,train
+hey Adam,16,0,0.0,train
+hey Alan,16,0,0.0,test
+hey Alessa,16,0,0.0,train
+hey Alex!,16,0,0.0,train
+"hey Alex, what's up",16,0,0.0,train
+hey Alexa!,16,0,0.0,train
+"hey Alexa, turn on the lights",16,0,0.0,train
+hey Alfie,16,0,0.0,train
+hey Alice,16,0,0.0,validation
+hey Alice and Atlas,16,0,0.0,probe-only
+"hey Alice, come here",16,0,0.0,train
+hey Alison,16,0,0.0,train
+hey Annabel,20,0,0.0,train
+hey Athena,16,0,0.0,test
+hey Atlanta,16,0,0.0,train
+hey Atlantic,32,0,0.0,train
+hey Callum,16,0,0.0,validation
+hey Dallas,16,0,0.0,train
+hey Google,16,0,0.0,train
+hey Jarvis,20,0,0.0,validation
+hey Jarvis!,16,0,0.0,train
+"hey Jarvis, what's the time",16,0,0.0,train
+hey Matilda,20,0,0.0,train
+hey Mycroft,16,0,0.0,train
+hey Siri,16,0,0.0,train
+hey Talia,16,0,0.0,train
+hey guys,16,0,0.0,train
+hey hey,16,0,0.0,train
+hey mate,16,0,0.0,train
+hey there,16,0,0.0,test
+hey you,16,0,0.0,train
+hey!,16,0,0.0,train
+"hey, Alex",16,0,0.0,test
+"hey, Alexa",16,0,0.0,train
+"hey, Alice",16,0,0.0,train
+"hey, I'm home",16,0,0.0,train
+"hey, a tassel",32,0,0.0,train
+"hey, at the shops",16,0,0.0,train
+"hey, have a look",16,0,0.0,validation
+"hey, hello",16,0,0.0,validation
+"hey, how are you",16,0,0.0,train
+"hey, last one",16,0,0.0,train
+"hey, listen",16,0,0.0,train
+"hey, look at this",16,0,0.0,train
+"hey, thanks",16,0,0.0,test
+"hey, that's lovely",16,0,0.0,train
+"hey, what's up",16,0,0.0,train
+hey.,16,0,0.0,train
+oh hey,16,0,0.0,train
+ok Nabu,16,0,0.0,test
+okay Atlas,16,0,0.0,train
+okay Nabu,16,0,0.0,train
+okay Nabu!,16,0,0.0,validation
+"okay Nabu, turn off the kitchen lights",16,0,0.0,train
+"okay, Nabu",16,0,0.0,train
+open the atlas,16,0,0.0,train
+pass me that atlas,16,0,0.0,train
+tell Atlas,16,0,0.0,test
+the Atlas Mountains,16,0,0.0,train
+the Atlas rocket,16,0,0.0,test
+the Atlas rocket is ready,16,0,0.0,train
+the atlas is on the shelf,16,0,0.0,test
+the lattice,16,0,0.0,test
+the world atlas,16,0,0.0,train
+watch the Atlas rocket,16,0,0.0,train
+we can ask Atlas later,16,0,0.0,train
+weigh the atlas,32,0,0.0,train
+where's the atlas,16,0,0.0,train

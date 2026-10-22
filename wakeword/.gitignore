@@ -1,0 +1,23 @@
+# Never commit audio, datasets, feature archives or training intermediates.
+*.wav
+*.flac
+*.mp3
+*.zip
+*.tar
+*.npz
+*.npy
+*.ninja
+*_mmap/
+*.h5
+*.pb
+*.pt
+*.onnx
+*.ckpt*
+variables/
+data/
+runs/
+evals/
+__pycache__/
+# Only the delivered model may be committed
+*.tflite
+!hey_atlas.tflite

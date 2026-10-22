@@ -1,3 +1,20 @@
+# Status: Hey Atlas v2 and 26.9.0-atlas.2 (branch voicepe-hey-atlas-v2)
+
+Updated 2026-10-22 (UTC). No access to the house; nothing is flashed.
+
+| Stage | State |
+| --- | --- |
+| 0. Set-up | **done**: branch made from `voicepe-hey-atlas` (`be50b3d`), with `wakeword/` from `wakeword-hey-atlas` (`fde5323`) beside it. Pinned v1 toolchain being rebuilt; negative feature sets (same Hugging Face revision as v1) downloading |
+| 1. v1 at cut-offs 0.93 / 0.90 / 0.85 / 0.80 | pending |
+| 2. v2 data (accented, far-field, hard negatives) | pending |
+| 3. v2 training (one run) and validation-only choice | pending |
+| 4. v1 against v2 tables, cut-off recommendation | pending |
+| 5. Images 26.9.0-atlas.2 (two clean builds each), config diff, 84 checks | pending |
+
+---
+
+# Earlier status (26.9.0-atlas.1, branch voicepe-hey-atlas)
+
 # Status: Voice PE "Hey Atlas" firmware
 
 | Stage | State |
