@@ -1,0 +1,5 @@
+archive sha256 86d1061c7e15b5c9e906777685c519701df51bfde3001e1070dcc9ffac955ee1
+musan/speech/us-gov/ seen 253 kept hours 3.98
+musan/speech/librivox/ seen 173 kept hours 0.99
+musan/music/ seen 660 kept hours 5.99
+musan/noise/ seen 930 kept hours 3.0
