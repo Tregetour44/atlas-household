@@ -1116,15 +1116,15 @@
   },
   {
    "path": "voicepe/models/hey_atlas/hey_atlas.json",
-   "sha256": "1816e66391b95a4920b774e3222d1804ef9d5acd72918f6720e53620cd7ecbbf",
+   "sha256": "2f2204abf0740e19ee59c85b3641d5f326d4e64d2bde0e606fa0eba5b44aeac4",
    "size": 436,
-   "source": "git: Tregetour44/atlas-household branch wakeword-hey-atlas, wakeword/hey_atlas.json (commit fde53232dd583cfc64c727adfd40a2c0e679e511)"
+   "source": "git: Tregetour44/atlas-household branch wakeword-hey-atlas (commit fde53232dd583cfc64c727adfd40a2c0e679e511) with probability_cutoff 0.93 -> 0.85 (branch voicepe-hey-atlas-v2), hey_atlas.json"
   },
   {
    "path": "voicepe/models/hey_atlas/hey_atlas.tflite",
    "sha256": "2bb30e62dd388c7b4d17cc80808b707ca65c5205a59dac958a86c645f80ffba7",
    "size": 69624,
-   "source": "git: Tregetour44/atlas-household branch wakeword-hey-atlas, wakeword/hey_atlas.tflite (commit fde53232dd583cfc64c727adfd40a2c0e679e511)"
+   "source": "git: Tregetour44/atlas-household branch wakeword-hey-atlas (commit fde53232dd583cfc64c727adfd40a2c0e679e511) with probability_cutoff 0.93 -> 0.85 (branch voicepe-hey-atlas-v2), hey_atlas.tflite"
   }
  ],
  "esp_idf": {

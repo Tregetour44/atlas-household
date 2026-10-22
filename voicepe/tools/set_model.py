@@ -57,7 +57,7 @@ for base in new:
     sub("tools/make_lock.py",
         r'MODEL_SOURCES\["models/hey_atlas/' + re.escape(base) + r'"\] = "[^"]*"',
         f'MODEL_SOURCES["models/hey_atlas/{base}"] = "{source}, {base}"')
-sub("hey-atlas-voice-pe.yaml", r"version: 26\.9\.0-atlas\.\d+", f"version: {version}")
-sub("tools/build.sh", r"NAME=atlas-voicepe-hey-atlas-26\.9\.0-atlas\.\d+", f"NAME=atlas-voicepe-hey-atlas-{version}")
-sub("tools/check_merged.py", r'"26\.9\.0-atlas\.\d+"\)', f'"{version}")')
+sub("hey-atlas-voice-pe.yaml", r"version: 26\.9\.0-atlas\.[0-9A-Za-z.-]+", f"version: {version}")
+sub("tools/build.sh", r"NAME=atlas-voicepe-hey-atlas-26\.9\.0-atlas\.[0-9A-Za-z.-]+", f"NAME=atlas-voicepe-hey-atlas-{version}")
+sub("tools/check_merged.py", r'"26\.9\.0-atlas\.[0-9A-Za-z.-]+"\)', f'"{version}")')
 print(json.dumps({k: {"sha256": v[0], "size": v[1]} for k, v in new.items()}, indent=1))
